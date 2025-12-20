@@ -1,0 +1,102 @@
+---
+title: "An Excellent Problem!"
+author: "Aleksandra"
+date: "2024-12-19"
+categories: [AI, chemistry, protein folding]
+image: "seed_storage_protein.png"
+description: "Catchy subtitle - to be invented."
+---
+
+## An excellent problem!
+
+The day started early. Actually, the day started in the middle of a dark, freezing night. Stockholm in December is not a place where you come for sunbathing. A man had a more pragmatic reason for his visit: at a humble age of 48, he was about to deliver a Nobel lecture. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YtPaZsasmNA" frameborder="0" allowfullscreen></iframe>
+
+This is how it might look for most of the Nobel laureates, I believe. This particular prize was awarded in the field near and dear to my heart, chemistry. However, a sentence which particularly sticked to me from the lecture is "playing chess seriously at such young age is a very formative experience". Demis Hassabis received 2024 Nobel Prize in Chemistry[^1] for artificial intelligence algorithm Alphafold. Let's focus for a moment on the name. "Alpha" is first letter of Greek alphabet; "fold" is a part of the name that makes a link to chemistry. Proteins fold, to be able to fulfill their function, let it be muscle contraction, food digestion or human cells penetration (by a bacterial protein). Most biological processes depend on proteins being properly shaped. Proteins acquire their unique shape/3D structure/fold, as a result of folding process. Alphafold is an algorithm that delivers 3D structure predictions of astonishing accuracy. And to give you a glimpse of an idea what a protein shape can be, here are few exemplary PDB entries:
+
+::: {#fig1-pdb-entries}
+![](seed_storage_protein.png)
+
+Fig. 1 from Jain, A. Allergies 2023, 3, 25–38. [doi](https://doi.org/10.3390/allergies3010003)
+:::
+
+Yes, Mother Nature's imagination is always way beyond our own.
+
+Have you ever heard about AlphaGO? Another AI algorithm, that in 2016 infamously beaten world champion Ke Jie in Go, an ancient board game with an estimated 10^360 possible moves in a typical match. Way more moves than atoms in the Universe. Hassabis is also a man behind AlphaGO. And he used to be a competitive chess player. So what chess, chemistry and GO have in common, besides the person of Hassabis?
+
+I had a conversation on this Nobel prize with my PhD supervisor, years after I left academia. While for both of us having reliable structure predictions of all proteins ever seen in nature at the tips of our fingers is mind blowing, my former promoter put it in an interesting context. The genius behind Alphafold lies not in its output, but in its input. Also, it lies in selection of protein folding as a problem to be tackled. "That's an excellent problem! And they started from the most accurate, most scrutinized dataset one can imagine". My promoter referred to PDB, the protein data bank, a public repository of protein structures. It stores experimentally determined proteins' shapes. When deposited to the PDB, a structure is given its quality passport. The passport is composed of a few metrices, well defined and widely accepted (think of it as of game score). After deposition itself, the structure usually goes under an extra round of surveillance, in the process of publishing a scientific article. It is not far fetched to say that careers of multiple scholars depend on quality of structures they deposited in the PDB. Have you ever encountered more scrutinized data? 
+
+And then protein folding itself: atoms of proteins have to occupy space, and connections between these atoms are constrained by lengths of chemical bonds. Similarly, chess have to move on the chess board and knight is constrained in its moves by L-shape. As such, solutions to both, have to be a matter of finding such combination of moves in the space that do not violate the constrains and maximize the score. They are so called combinatorial problems. Here we come to the point when I can say what a suitable AI problem is.
+
+If you can frame a problem as a combinatorial problem, it can potentially benefit from AI. Next, you need data. If high quality data from the solution space of your problem are available or can be easily generated, it makes an excellent problem for AI. This is what my promoter meant by protein folding being an excellent problem. Protein folding has another feature which I think makes it worthy to be tackled: it is important. Knowledge of protein's shapes is crucial to understand diseases, develop effective therapies and predict how mutations might affect function. So here is a recipe for a problem that in my mind is a truly excellent problem for AI:
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(plotly)
+
+plot_ly() %>%
+  # Circle 1 - high quality data
+  add_trace(
+    type = "scatter",
+    mode = "text",
+    x = 0.2, y = 0.3,
+    text = "high quality\ndata\navailable",
+    textfont = list(size = 18, color = "darkorange"),
+    showlegend = TRUE
+  ) %>%
+  # Circle 2 - important
+  add_trace(
+    type = "scatter",
+    mode = "text",
+    x = 0.85, y = 0.3,
+    text = "important",
+    textfont = list(size = 18, color = "purple"),
+    showlegend = TRUE
+  ) %>%
+  # Circle 3 - combinatorial
+  add_trace(
+    type = "scatter",
+    mode = "text",
+    x = 0.5, y = 0.8,
+    text = "combinatorial",
+    textfont = list(size = 18, color = "green"),
+    showlegend = TRUE
+  ) %>%
+  layout(
+    shapes = list(
+      # Circle 1
+      list(type = "circle", xref = "x", yref = "y",
+           x0 = 0, y0 = 0, x1 = 0.6, y1 = 0.6,
+           line = list(color = "darkorange", width = 3),
+           fillcolor = "rgba(255,165,0,0.2)"),
+      # Circle 2
+      list(type = "circle", xref = "x", yref = "y",
+           x0 = 0.4, y0 = 0, x1 = 1, y1 = 0.6,
+           line = list(color = "purple", width = 3),
+           fillcolor = "rgba(128,0,128,0.2)"),
+      # Circle 3
+      list(type = "circle", xref = "x", yref = "y",
+           x0 = 0.2, y0 = 0.35, x1 = 0.8, y1 = 0.95,
+           line = list(color = "green", width = 3),
+           fillcolor = "rgba(144,238,144,0.2)")
+    ),
+     xaxis = list(
+      visible = FALSE, 
+      range = c(0, 1),
+      scaleanchor = "y",  # Lock x-axis to y-axis
+      scaleratio = 1      # 1:1 aspect ratio
+    ),
+    yaxis = list(
+      visible = FALSE, 
+      range = c(0, 1)
+    ),
+    plot_bgcolor = "white",
+    paper_bgcolor = "white"
+  )
+```
+
+[^1]: Hassabis received the prize jointly with John Jumper, and the 2nd half of the 2024 prize was awarded to David Baker. For the sake of correctness, and for the disturbance of reading flow.  

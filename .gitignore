@@ -1,0 +1,12 @@
+/.quarto/
+/_site/
+/_freeze/
+/*_files/
+/.Rproj.user/
+*.Rproj
+.Rhistory
+.RData
+.DS_Store
+Thumbs.db
+
+**/*.quarto_ipynb

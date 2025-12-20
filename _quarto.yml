@@ -1,0 +1,21 @@
+project:
+  type: website
+
+website:
+  title: "Excellent Problem"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "About"
+        href: about.qmd
+  page-footer:
+    center: "© 2025 Aleksandra. All rights reserved."
+
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    css: styles.css
