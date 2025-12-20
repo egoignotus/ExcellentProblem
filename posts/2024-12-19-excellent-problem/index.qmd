@@ -1,7 +1,7 @@
 ---
 title: "An Excellent Problem!"
 author: "Aleksandra"
-date: "2024-12-19"
+date: "2025-12-19"
 categories: [AI, chemistry, protein folding]
 image: "seed_storage_protein.png"
 description: "Catchy subtitle - to be invented."
