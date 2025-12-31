@@ -3,15 +3,14 @@ title: "An Excellent Problem!"
 author: "Aleksandra"
 date: "2025-12-19"
 categories: [AI, chemistry, protein folding]
-image: "seed_storage_protein.png"
+image: "thumb.png"
 description: "The day started early. Actually, the day started in the middle of a dark, freezing night."
+title-block-banner: true
 ---
-
-## An Excellent Problem!
 
 The day started early. Actually, the day started in the middle of a dark, freezing night. Stockholm in December is not a place where you come for sunbathing. A man had a more pragmatic reason for his visit: at a humble age of 48, he was about to deliver a Nobel lecture. 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YtPaZsasmNA" frameborder="0" allowfullscreen></iframe>
+{{< video https://www.youtube.com/embed/YtPaZsasmNA >}}
 
 This is how it might look like for the most of Nobel laureates, I believe. This particular prize was awarded in the field near and dear to my heart, chemistry. However, a sentence which particularly sticked to me from the lecture is "playing chess seriously at such young age is a very formative experience". Demis Hassabis received 2024 Nobel Prize in Chemistry[^1] for artificial intelligence algorithm Alphafold. Let's focus for a moment on the name. "Alpha" is first letter of Greek alphabet; "fold" is a part of the name that makes a link to chemistry. Proteins fold, to be able to fulfill their function, let it be muscle contraction, food digestion or human cells penetration (by a bacterial protein). Most biological processes depend on proteins being properly shaped. Proteins acquire their unique shape/3D structure/fold, as a result of folding process. Alphafold is an algorithm that delivers 3D structure predictions of astonishing accuracy. And to give you a glimpse of an idea what a protein shape can be, here are few exemplary PDB entries:
 
@@ -31,67 +30,6 @@ And then protein folding itself: atoms of proteins have to occupy space, and con
 
 If you can frame a problem as a combinatorial problem, it can potentially benefit from AI. Next, you need data. If high quality data from the solution space of your problem are available or can be easily generated, it makes an excellent problem for AI. This is what my promoter meant by protein folding being an excellent problem. Protein folding has another feature which I think makes it worthy to be tackled: it is important. Knowledge of protein's shapes is crucial to understand diseases, develop effective therapies and predict how mutations might affect function. So here is a recipe for a problem that in my mind is a truly excellent problem for AI:
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig-width: 7
-#| fig-height: 6
-
-library(plotly)
-
-plot_ly() %>%
-  # Circle 1 - high quality data
-  add_trace(
-    type = "scatter",
-    mode = "markers",
-    x = 0.35, y = 0.4,
-    name = "high quality data available",
-    marker = list(size = 220, color = "rgba(255,165,0,0.2)", line = list(color = "darkorange", width = 2)),
-    showlegend = TRUE
-  ) %>%
-  # Circle 2 - important
-  add_trace(
-    type = "scatter",
-    mode = "markers",
-    x = 0.65, y = 0.44,
-    name = "important",
-    marker = list(size = 320, color = "rgba(128,0,128,0.2)", line = list(color = "purple", width = 2)),
-    showlegend = TRUE
-  ) %>%
-  # Circle 3 - combinatorial
-  add_trace(
-    type = "scatter",
-    mode = "markers",
-    x = 0.5, y = 0.6,
-    name = "combinatorial",
-    marker = list(size = 260, color = "rgba(144,238,144,0.2)", line = list(color = "green", width = 2)),
-    showlegend = TRUE
-  ) %>%
-  layout(
-    autosize = TRUE,
-    xaxis = list(
-      visible = FALSE, 
-      range = c(0.15, 0.85),
-      scaleanchor = "y",  # Lock x-axis to y-axis
-      scaleratio = 1      # 1:1 aspect ratio
-    ),
-    yaxis = list(
-      visible = FALSE, 
-      range = c(0.2, 0.8)
-    ),
-    legend = list(
-      orientation = "h",  # Horizontal legend for mobile
-      yanchor = "top",
-      y = -0.15,
-      xanchor = "center",
-      x = 0.5
-    ),
-    plot_bgcolor = "white",
-    paper_bgcolor = "white",
-    margin = list(l = 20, r = 20, t = 20, b = 80)
-  ) %>%
-  config(responsive = TRUE, displayModeBar = FALSE)
-```
+![](circles.png)
 
 [^1]: Hassabis received the prize jointly with John Jumper, and the 2nd half of the 2024 prize was awarded to David Baker. For the sake of correctness, and for the disturbance of reading flow.  

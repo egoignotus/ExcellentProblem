@@ -1,1 +1,19 @@
-/* placeholder for Custom styles */
+/* Custom styles for Aleksandra's Blog */
+
+/* Remove right ToC margin on mobile devices */
+@media (max-width: 991.98px) {
+  /* Target Quarto's column layout */
+  body.quarto-layout-article .page-columns .page-column-body {
+    grid-column: page-start/page-end !important;
+  }
+  
+  /* Remove right padding */
+  .quarto-layout-panel {
+    padding-right: 0 !important;
+  }
+  
+  /* Full width on mobile */
+  article {
+    max-width: 100% !important;
+  }
+}
