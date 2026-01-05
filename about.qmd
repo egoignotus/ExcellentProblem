@@ -2,13 +2,8 @@
 title: "About Me"
 ---
 
-## Hi, I'm Aleksandra!
+## Hi, I'm Aleksandra
 
-This is a placeholder for my about page. Here I'll share:
-
-- My background in chemistry and computational science
-- My research interests
-- Why I started this blog
-- How to get in touch
+This is a placeholder for my about page.
 
 *More details coming soon!*
