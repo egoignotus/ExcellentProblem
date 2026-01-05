@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "posts/2025-12-19-excellent-problem/index.html",
+    "href": "posts/2025-12-19-excellent-problem/index.html",
+    "title": "An Excellent Problem!",
+    "section": "",
+    "text": "The day started early. Actually, the day started in the middle of a dark, freezing night. Stockholm in December is not a place where you come for sunbathing. A man had a more pragmatic reason for his visit: at a humble age of 48, he was about to deliver a Nobel lecture.\nThis is how it might look like for the most of Nobel laureates, I believe. This particular prize was awarded in the field near and dear to my heart, chemistry. However, a sentence which particularly sticked to me from the lecture is “playing chess seriously at such young age is a very formative experience”. Demis Hassabis received 2024 Nobel Prize in Chemistry1 for artificial intelligence algorithm Alphafold. Let’s focus for a moment on the name. “Alpha” is first letter of Greek alphabet; “fold” is a part of the name that makes a link to chemistry. Proteins fold, to be able to fulfill their function, let it be muscle contraction, food digestion or human cells penetration (by a bacterial protein). Most biological processes depend on proteins being properly shaped. Proteins acquire their unique shape/3D structure/fold, as a result of folding process. Alphafold is an algorithm that delivers 3D structure predictions of astonishing accuracy. And to give you a glimpse of an idea what a protein shape can be, here are few exemplary PDB entries:\nYes, Mother Nature’s imagination is always way beyond our own.\nHave you ever heard about AlphaGO? Another AI algorithm, that in 2016 infamously beaten world champion Ke Jie in Go, an ancient board game with an estimated 10^170 possible moves in a typical match. Way more moves than atoms in the Universe. Hassabis is also a man behind AlphaGO. And he used to be a competitive chess player. So what chess, chemistry and GO have in common, besides the person of Hassabis?\nI had a conversation on this Nobel prize with my PhD supervisor, years after I left academia. While for both of us having reliable structure predictions of all proteins ever seen in nature at the tips of our fingers is mind blowing, my former promoter put it in an interesting context. The genius behind Alphafold lies not in its output, but in its input. Also, it lies in selection of protein folding as a problem to be tackled. “That’s an excellent problem! And they started from the most accurate, most scrutinized dataset one can imagine”. My promoter referred to PDB, the protein data bank, a public repository of protein structures. It stores experimentally determined proteins’ shapes. When deposited to PDB, a structure is given its quality passport. The passport is composed of a few metrices, well defined and widely accepted (think of it as of game score). After deposition itself, the structure usually goes under an extra round of surveillance, in the process of publishing a scientific article. It is not far fetched to say that careers of multiple scholars depend on quality of structures they deposited in the PDB. Have you ever encountered more scrutinized data?\nAnd then protein folding itself: atoms of proteins have to occupy space, and connections between these atoms are constrained by lengths of chemical bonds. Similarly, chess have to move on the chess board and knight is constrained in its moves by L-shape. As such, solutions to both, have to be a matter of finding such combination of moves in the space that do not violate the constrains and maximize the score. They are so called combinatorial problems. Here we come to the point when I can say what a suitable AI problem is.\nIf you can frame a problem as a combinatorial problem, it can potentially benefit from AI. Next, you need data. If high quality data from the solution space of your problem are available or can be easily generated, it makes an excellent problem for AI. This is what my promoter meant by protein folding being an excellent problem. Protein folding has another feature which I think makes it worthy to be tackled: it is important. Knowledge of protein’s shapes is crucial to understand diseases, develop effective therapies and predict how mutations might affect function. So here is a recipe for a problem that in my mind is a truly remarkable one for AI: it is important, it can be framed as combinatorial and relevant high quality data are avaialable. As the plot below emphasizes, only a fraction of combinatorial problems are important. In hindsight, there was a reason why AlphaGo was retired after winning against Go world chempion. Still, it is data availability that remains the bottleneck, separating problem from awaited solution."
+  },
+  {
+    "objectID": "posts/2025-12-19-excellent-problem/index.html#footnotes",
+    "href": "posts/2025-12-19-excellent-problem/index.html#footnotes",
+    "title": "An Excellent Problem!",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nHassabis received the prize jointly with John Jumper, and the 2nd half of the 2024 prize was awarded to David Baker. For the sake of correctness, and for the disturbance of reading flow.↩︎"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "This is a placeholder for my about page. Here I’ll share:\n\nMy background in chemistry and computational science\nMy research interests\nWhy I started this blog\nHow to get in touch\n\nMore details coming soon!"
+  },
+  {
+    "objectID": "about.html#hi-im-aleksandra",
+    "href": "about.html#hi-im-aleksandra",
+    "title": "About Me",
+    "section": "",
+    "text": "This is a placeholder for my about page. Here I’ll share:\n\nMy background in chemistry and computational science\nMy research interests\nWhy I started this blog\nHow to get in touch\n\nMore details coming soon!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Excellent Problem Blog",
+    "section": "",
+    "text": "Welcome! In this blog I share my thoughts on things that absorb me in some way: things I find intersting, important or frustrating. Topic-wise it will be mostly about data, science and maybe parenting. We will see.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAn Excellent Problem!\n\n\n\nAI\n\nchemistry\n\nprotein folding\n\n\n\nThe day started early. Actually, the day started in the middle of a dark, freezing night.\n\n\n\n\n\nDec 19, 2025\n\n\nAleksandra\n\n\n\n\n\nNo matching items"
+  }
+]
