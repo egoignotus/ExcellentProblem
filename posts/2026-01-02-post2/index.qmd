@@ -1,0 +1,17 @@
+---
+title: "What Investors Can Learn From Thermodynamics"
+author: "Aleksandra"
+date: "2026-01-02"
+categories: [chemistry, finance]
+image: "thumb.png"
+description: "Rewrite 1st sentence until it grabs attention."
+title-block-banner: true
+---
+
+I learned how to interpret plots at the second year of my bachelor. When you think I am playing you now, you are only partially true. In the second year of my bachelor I had  thermodynamics course and it was the 1st time I anticipated the breadth of information that a curve can pass. It was mesmerizing for me that derivatives and integrals, so enigmatic in the mathematics course a year earlier, can have physical interpretation. That with a blink of an eye you can have an idea on a state of a system, without solving any equation. I felt like I got a new lens to interpret any information I am given in a plot form.
+
+Those of you who were better students at physics classes in high school could say, well done, you could have reached that reflection at least few years earlier. True. However, there is a unique lesson I drew from my thermodynamics classes that makes me a better/more resilient investor now. It is a lesson on state functions.
+
+I will explain it with a plain chemical reaction, that your body is carrying out right now. Chemists are always interested in energetic balance of the reaction, namely whether reaction releases or requires energy to proceed, and how much. It is an important consideration in the lab set-up: whether you have to prep a heater to heat up the beaker or you can burn yourself if touching the beaker with reactants. The whole complication is that chemistry is a science of different paths. Often there are multiple ways to get from A to B (eg. via C, via D or directly, to name just a few). So it is a natural question to ask, which way can you get the most energy of the system? While you are reading these sentences, your brain runs on glucose. Glucose is a simple sugar. It is burned in the cells of your body to release energy for more interesting stuff downstream, like eg. interpreting sentences in this post. Burning glucose is a such fundamental process, that it is done by all organisms throughout evolutionary tree. Bacteria do it and chimpanzee do it*. In addition, monkey in a lab coat can do it also in full stream of oxygen:
+
+$$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
