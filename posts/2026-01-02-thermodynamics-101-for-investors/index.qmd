@@ -1,20 +1,22 @@
 ---
-title: "Thermodynamics 101 for Investors"
+title: "Thermodynamics 101 For Investors"
 author: "Aleksandra"
 date: "2026-01-02"
 categories: [chemistry, finance]
 image: "thumb.png"
-description: "I am laying just a tiny bit by saying I learned how to read plots at the second year bachelor."
+description: "I am lying just a tiny bit by saying I learned how to read plots at the second year bachelor."
 title-block-banner: true
 ---
 
-I am laying just a tiny bit by saying I learned how to read plots at the second year of the university. In winter semester 2008/09 I had thermodynamics course and it was the 1st time I anticipated the breadth of information that a curve can pass. It was mesmerizing that derivatives and integrals, so enigmatic in the mathematics course a year earlier, can have physical interpretation. That with a blink of an eye you can have an idea on a state of a system, without solving any equation. I felt like I got a new lens to interpret any information I am given in a plot form.
+I am lying just a tiny bit by saying I learned how to read plots at the second year bachelor. In winter semester 2008/09 I had thermodynamics class and it was the first time I anticipated the breadth of information that a curve can pass. It was mesmerizing that derivatives and integrals, so enigmatic in the mathematics course a year earlier, can have physical interpretation. That with a blink of an eye you can have an idea on a state of a system, without solving any equation. I felt like I got a new lens to interpret any information I am given in a plot form.
 
-Those of you who were better students at physics classes in high school could say, "well done, you could have reached that reflection at least few years earlier". True. However, there is a unique lesson I drew from my thermodynamics classes that makes me a better/more resilient investor now. It is a lesson on state functions.
+Those of you who were better students at physics classes in high school could say, "well done, you could have reached that reflection at least few years earlier". True. However, there is a unique lesson I drew from my thermodynamics classes that makes me more resilient investor now. It is a lesson on state functions.
 
-I will explain it with a plain chemical reaction, that your body is carrying out right now. Chemists are always interested in energetic balance of the reaction, namely whether reaction releases or requires energy to proceed, and how much. It is an important consideration in the lab set-up: whether you have to prep a heater to heat up the beaker or you can burn yourself if touching the beaker with reactants. The whole complication is that chemistry is a science of different paths. Often there are multiple ways to get from A to B (eg. via C, via D or directly, to name just a few). So it is a natural question to ask, which way can you get the most energy of the system? While you are reading these sentences, your brain runs on glucose. Glucose is a simple sugar. It is burned in the cells of your body to release energy for more interesting stuff downstream, like eg. interpreting sentences in this post. Burning glucose is a such fundamental process, that it is done by all organisms throughout evolutionary tree. Bacteria do it and chimpanzee do it*. In addition, monkey in a lab coat can do it also in a full stream of oxygen.
+Chemists are always interested in energetic balance of the reaction. Whether reaction releases energy or requires energy to proceed, and how much. It is an important consideration in the lab set-up: whether you have to prep a heater to heat up the beaker or you can burn yourself if touching the beaker with reactants. The whole complication is that chemistry is a science of different paths. Often there are multiple ways to get from A to B (eg. via C, via D and E, or directly, to name just a few). It is an obvious question to ask, which path allows you to release most energy of the system? While you are reading these sentences, your brain runs on glucose. Glucose is a plain nutrient, a sugar. It is burned in the cells of your body to release energy for more interesting stuff downstream, like eg. interpreting sentences in this post. Burning glucose is a such fundamental process, that it is done by all organisms throughout evolutionary tree. Bacteria can do it and chimpanzee can do it*. In addition, monkey in a lab coat can do it also in a full stream of oxygen.
 
 $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
+
+![](monkey_labcoat.jpeg)
 
 The later however, is a single step reaction. You go from glucose immediately to carbon dioxide and water. Game over, nothing more to oxidize. It is quite brute force approach in comparison to elegant biological oxidation of glucose, that involves more than dozen intermediate reactions, multiple enzymes, different cellular locations and ends with a cycle (sic!): 
 
