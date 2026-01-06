@@ -3,7 +3,7 @@ title: "Thermodynamics 101 For Investors"
 author: "Aleksandra"
 date: "2026-01-02"
 categories: [chemistry, finance]
-image: "thumb.png"
+image: "thumb.jpeg"
 description: "I am lying just a tiny bit by saying I learned how to read plots at the second year bachelor."
 title-block-banner: true
 ---
@@ -29,7 +29,7 @@ So here we are, ~500 words further, and back to the original question: which pat
 
 In short, “path does not matter” is the definition of function state. 
 
-If one would like to represent it on a plot, it would look like:
+On a plot, it looks like:
 
 ```{r}
 #| label: fig-energy-profile
@@ -46,13 +46,16 @@ y_single <- energy_profile(x, n_stages = 1, E_total = 80, delta_G = 40)
 y_multi <- energy_profile(x, n_stages = 11, E_total = 80, delta_G = 40)
 
 # Create plot
+start_energy <- 0
+end_energy <- 40  # delta_G value
+
 plot_ly() %>%
   add_trace(
     x = x,
     y = y_single,
     type = 'scatter',
     mode = 'lines',
-    name = 'Single Stage aka oxygen stream',
+    name = 'single stage reaction',
     line = list(color = 'black', width = 3)
   ) %>%
   add_trace(
@@ -60,15 +63,146 @@ plot_ly() %>%
     y = y_multi,
     type = 'scatter',
     mode = 'lines',
-    name = 'Multi-stage aka biological oxidation',
+    name = 'multi-stage reaction',
     line = list(color = 'red', width = 3)
   ) %>%
   layout(
     xaxis = list(title = "Reaction Progress", showgrid = FALSE),
     yaxis = list(title = "Energy", showgrid = TRUE),
+    shapes = list(
+      # Vertical line for single stage (black)
+      list(
+        type = "line",
+        x0 = 0.97,
+        x1 = 0.97,
+        y0 = start_energy,
+        y1 = end_energy,
+        line = list(color = "black", width = 2)
+      ),
+      # Vertical line for multi-stage (red)
+      list(
+        type = "line",
+        x0 = 1.03,
+        x1 = 1.03,
+        y0 = start_energy,
+        y1 = end_energy,
+        line = list(color = "red", width = 2)
+      )
+    ),
+    annotations = list(
+      # Delta annotation
+      list(
+        x = 1.0,
+        y = end_energy / 2,
+        text = "Energy Difference",
+        showarrow = FALSE,
+        font = list(size = 16, color = "darkgreen", weight = "bold"),
+        xanchor = "center"
+      )
+    ),
     plot_bgcolor = 'white',
     paper_bgcolor = 'white',
     legend = list(orientation = 'h', x = 0.5, xanchor = 'center', y = -0.2)
   )
 
 ```  
+
+Given the plot represents value (of energy) in time (of reaction), there is a striking similarity to plots of stock value in time:
+
+```{r}
+#| label: fig-stock-simulation
+#| fig-cap: "Simulated stock price with volatility and growth trend"
+#| echo: false
+#| warning: false
+
+library(plotly)
+
+# Set seed for reproducibility
+set.seed(456)
+
+# Generate stock price simulation
+days <- 1:500
+initial_price <- 100
+
+# Parameters
+annual_return <- 0.1  # 10% annual growth
+daily_return <- annual_return / 252  # Convert to daily
+volatility <- 0.02  # 2% daily volatility
+
+# Generate random returns with drift (trend)
+returns <- rnorm(length(days), mean = daily_return, sd = volatility)
+
+# Calculate cumulative price
+price <- initial_price * cumprod(1 + returns)
+
+# Create normalized timeline (0 to 1)
+timeline <- seq(0, 1, length.out = length(days))
+
+# Plot
+final_price <- tail(price, 1)
+plot_ly() %>%
+  add_trace(
+    x = timeline,
+    y = price,
+    type = 'scatter',
+    mode = 'lines',
+    name = 'Stock Price',
+    line = list(color = '#1f77b4', width = 3)
+  ) %>%
+  # Add start marker
+  add_trace(
+    x = 0,
+    y = initial_price,
+    type = 'scatter',
+    mode = 'markers+text',
+    marker = list(size = 12, color = "red", symbol = 'x'),
+    text = sprintf("$%.0f", initial_price),
+    textposition = 'bottom right',
+    textfont = list(size = 14, color = "red"),
+    showlegend = FALSE,
+    hoverinfo = 'skip'
+  ) %>%
+  # Add end marker
+  add_trace(
+    x = 1,
+    y = final_price,
+    type = 'scatter',
+    mode = 'markers+text',
+    marker = list(size = 12, color = "red", symbol = 'x'),
+    text = sprintf("$%.0f", final_price),
+    textposition = 'top right',
+    textfont = list(size = 14, color = "red"),
+    showlegend = FALSE,
+    hoverinfo = 'skip'
+  ) %>%
+  layout(
+    title = "Volatile Stock with Growth Trend",
+    xaxis = list(title = "Investment Progress, time", showgrid = FALSE),
+    yaxis = list(title = "Stock Price ($)"),
+    plot_bgcolor = 'white',
+    paper_bgcolor = 'white',
+    shapes = list(
+      # Vertical bracket/ruler showing total change
+      list(
+        type = "line",
+        x0 = 1,
+        x1 = 1,
+        y0 = initial_price,
+        y1 = final_price,
+        line = list(color = '#1f77b4', width = 3)
+      )
+    ),
+    annotations = list(
+      # Total change
+      list(
+        x = 1,
+        y = (initial_price + final_price) / 2,
+        text = sprintf("Price Difference = $%.0f", final_price - initial_price),
+        xanchor = "left",
+        xshift = 50,
+        showarrow = FALSE,
+        font = list(size = 14, color = '#1f77b4', weight = "bold")
+      )
+    )
+  )
+```

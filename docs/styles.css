@@ -1,5 +1,19 @@
 /* Custom styles for the blog*/
 
+/* Yellowish background for better reading */
+body {
+  background-color: #fffef8; /* Soft cream */
+}
+
+.quarto-title-block {
+  background-color: #fffef8 !important;
+}
+
+/* Keep content areas readable */
+.quarto-post, article {
+  background-color: #fffef8;
+}
+
 /* Remove right ToC margin on mobile devices */
 @media (max-width: 991.98px) {
   /* Target Quarto's column layout */
