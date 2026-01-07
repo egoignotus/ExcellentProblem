@@ -4,28 +4,28 @@ author: "Aleksandra"
 date: "2026-01-02"
 categories: [chemistry, finance]
 image: "thumb.jpeg"
-description: "I am lying just a tiny bit by saying I learned how to read plots at the second year bachelor."
+description: "I am lying just a tiny bit when saying I learned to read plots at the second year bachelor."
 title-block-banner: true
 ---
 
-I am lying just a tiny bit by saying I learned how to read plots at the second year bachelor. In winter semester 2008/09 I had thermodynamics class and it was the first time I anticipated the breadth of information that a curve can pass. It was mesmerizing that derivatives and integrals, so enigmatic in the mathematics course a year earlier, can have physical interpretation. That with a blink of an eye you can have an idea on a state of a system, without solving any equation. I felt like I got a new lens to interpret any information I am given in a plot form.
+I am lying just a tiny bit when saying I learned to read plots at the second year bachelor. In winter semester 2008/09 I had thermodynamics class. It was the first time I anticipated the breadth of information that a curve can pass. It was mesmerizing that derivatives and integrals, enigmatic in the mathematics course a year earlier, might have physical interpretation. That with a blink of an eye you can have an idea on a state of a system, without solving any equation. I felt like I got a new lens to interpret any information given in a plot form.
 
-Those of you who were better students at physics classes in high school could say, "well done, you could have reached that reflection at least few years earlier". True. However, there is a unique lesson I drew from my thermodynamics classes that makes me more resilient investor now. It is a lesson on state functions.
+These of you who were better students at physics classes could say, "well done, you could have reached that reflection at least few years earlier". True. However, there is a unique lesson I drew from my thermodynamics classes that makes me more resilient investor now. It is a lesson on state functions.
 
-Chemists are always interested in energetic balance of the reaction. Whether reaction releases energy or requires energy to proceed, and how much. It is an important consideration in the lab set-up: whether you have to prep a heater to heat up the beaker or you can burn yourself if touching the beaker with reactants. The whole complication is that chemistry is a science of different paths. Often there are multiple ways to get from A to B (eg. via C, via D and E, or directly, to name just a few). It is an obvious question to ask, which path allows you to release most energy of the system? While you are reading these sentences, your brain runs on glucose. Glucose is a plain nutrient, a sugar. It is burned in the cells of your body to release energy for more interesting stuff downstream, like eg. interpreting sentences in this post. Burning glucose is a such fundamental process, that it is done by all organisms throughout evolutionary tree. Bacteria can do it and chimpanzee can do it*. In addition, monkey in a lab coat can do it also in a full stream of oxygen.
+Chemists are always interested in energetic balance of reaction. Whether reaction releases energy or requires energy to proceed, and how much. It is an important consideration in the lab set-up: whether you have to prepare a heater to warm up a beaker or you can burn yourself when touching the beaker with reactants. The whole complication is that chemistry is a science of different paths. Quite often there are multiple ways to get from A to B (eg. via C, via D and E, or directly, to name just a few). As such, there is an obvious question to ask: which path releases most energy of the system? While you are reading these sentences, your brain runs on glucose. Glucose is a plain nutrient. It is burned in the cells of your body to energize more interesting stuff downstream, like eg. interpreting sentences in this post. Burning glucose is a such fundamental process, that it is done by all organisms throughout evolutionary tree. Bacteria can do it and chimpanzee can do it*. As a bonus, monkey in a lab coat can burn it also in a full stream of oxygen. The latter transition is described by a reaction below:
 
 $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
 
 ![](monkey_labcoat.jpeg)
 
-The later however, is a single step reaction. You go from glucose immediately to carbon dioxide and water. Game over, nothing more to oxidize. It is quite brute force approach in comparison to elegant biological oxidation of glucose, that involves more than dozen intermediate reactions, multiple enzymes, different cellular locations and ends with a cycle (sic!): 
+Burning glucose in full stram of oxygen is a single step reaction. You go from glucose immediately to carbon dioxide and water. Game over, nothing more to oxidize. It is quite brute force approach in comparison to elegant biological oxidation of glucose, that involves more than dozen intermediate reactions, multiple enzymes, different cellular locations and ends with a cycle (sic!): 
 
 ::: {#fig1-krebs-cycle}
 ![](krebs_cycle.png)
 Fig.1. Schematic representation of Krebs cycle, a pinnacle of biochemistry. Find at least one molecule of $\ce{CO2}$ and one molecule of $\ce{H2O}$.
 :::
 
-So here we are, ~500 words further, and back to the original question: which path will release more energy? And the answer is... they both release same energy. It is because start (glucose and oxygen) and end (water and carbon dioxide) are in both cases the same. For energy calculations, the path taken from substrates to products is irrelevant.
+So here we are, ~500 words further, and back to the original question: which path releases more energy? And the answer is... they both release same amount of energy. It is because start (glucose and oxygen) and end (water and carbon dioxide) are the same. For energy calculations, the path taken from substrates to products is irrelevant.
 
 In short, “path does not matter” is the definition of function state. 
 
@@ -66,38 +66,45 @@ plot_ly() %>%
     name = 'multi-stage reaction',
     line = list(color = 'red', width = 3)
   ) %>%
+  # Add initial state marker
+  add_trace(
+    x = 0,
+    y = start_energy,
+    type = 'scatter',
+    mode = 'markers+text',
+    marker = list(size = 12, color = "black", symbol = 'x'),
+    text = "Initial",
+    textposition = 'bottom right',
+    textfont = list(size = 14, color = "black"),
+    showlegend = FALSE,
+    hoverinfo = 'skip'
+  ) %>%
+  # Add final state marker
+  add_trace(
+    x = 1,
+    y = end_energy,
+    type = 'scatter',
+    mode = 'markers+text',
+    marker = list(size = 12, color = "black", symbol = 'x'),
+    text = "Final",
+    textposition = 'top right',
+    textfont = list(size = 14, color = "black"),
+    showlegend = FALSE,
+    hoverinfo = 'skip'
+  ) %>%
   layout(
-    xaxis = list(title = "Reaction Progress", showgrid = FALSE),
-    yaxis = list(title = "Energy", showgrid = TRUE),
+    title = "",
+    xaxis = list(title = "Reaction Progress, time", showgrid = FALSE),
+    yaxis = list(title = "Energy", showgrid = FALSE),
     shapes = list(
-      # Vertical line for single stage (black)
+      # Horizontal dashed line projecting final value to y-axis
       list(
         type = "line",
-        x0 = 0.97,
-        x1 = 0.97,
-        y0 = start_energy,
+        x0 = 0,
+        x1 = 1,
+        y0 = end_energy,
         y1 = end_energy,
-        line = list(color = "black", width = 2)
-      ),
-      # Vertical line for multi-stage (red)
-      list(
-        type = "line",
-        x0 = 1.03,
-        x1 = 1.03,
-        y0 = start_energy,
-        y1 = end_energy,
-        line = list(color = "red", width = 2)
-      )
-    ),
-    annotations = list(
-      # Delta annotation
-      list(
-        x = 1.0,
-        y = end_energy / 2,
-        text = "Energy Difference",
-        showarrow = FALSE,
-        font = list(size = 16, color = "darkgreen", weight = "bold"),
-        xanchor = "center"
+        line = list(color = "gray", width = 1, dash = "dash")
       )
     ),
     plot_bgcolor = 'white',
@@ -107,11 +114,10 @@ plot_ly() %>%
 
 ```  
 
-Given the plot represents value (of energy) in time (of reaction), there is a striking similarity to plots of stock value in time:
+And now let's compare it to a plot of a stock price: 
 
 ```{r}
 #| label: fig-stock-simulation
-#| fig-cap: "Simulated stock price with volatility and growth trend"
 #| echo: false
 #| warning: false
 
@@ -176,33 +182,22 @@ plot_ly() %>%
     hoverinfo = 'skip'
   ) %>%
   layout(
-    title = "Volatile Stock with Growth Trend",
     xaxis = list(title = "Investment Progress, time", showgrid = FALSE),
-    yaxis = list(title = "Stock Price ($)"),
-    plot_bgcolor = 'white',
-    paper_bgcolor = 'white',
+    yaxis = list(title = "Stock Price ($)", showgrid = FALSE),
     shapes = list(
-      # Vertical bracket/ruler showing total change
+      # Horizontal dashed line projecting final value to y-axis
       list(
         type = "line",
-        x0 = 1,
+        x0 = 0,
         x1 = 1,
-        y0 = initial_price,
+        y0 = final_price,
         y1 = final_price,
-        line = list(color = '#1f77b4', width = 3)
+        line = list(color = "gray", width = 1, dash = "dash")
       )
     ),
-    annotations = list(
-      # Total change
-      list(
-        x = 1,
-        y = (initial_price + final_price) / 2,
-        text = sprintf("Price Difference = $%.0f", final_price - initial_price),
-        xanchor = "left",
-        xshift = 50,
-        showarrow = FALSE,
-        font = list(size = 14, color = '#1f77b4', weight = "bold")
-      )
-    )
+    plot_bgcolor = 'white',
+    paper_bgcolor = 'white'
   )
 ```
+
+Do you see this striking similarity? Your investment result is a state function, too. It depends only on the starting point and the end point. It does not depend on the path. Thank you for reading. 
