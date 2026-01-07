@@ -14,6 +14,11 @@ body {
   background-color: #fffef8;
 }
 
+/* Footnotes background matching blog */
+.footnotes, .footnotes ol, .footnotes li {
+  background-color: #fffef8 !important;
+}
+
 /* Remove right ToC margin on mobile devices */
 @media (max-width: 991.98px) {
   /* Target Quarto's column layout */

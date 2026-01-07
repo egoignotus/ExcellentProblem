@@ -12,7 +12,7 @@ I am lying just a tiny bit when saying I learned to read plots at the second yea
 
 These of you who were better students at physics classes could say, "well done, you could have reached that reflection at least few years earlier". True. However, there is a unique lesson I drew from my thermodynamics classes that makes me more resilient investor now. It is a lesson on state functions.
 
-Chemists are always interested in energetic balance of reaction. Whether reaction releases energy or requires energy to proceed, and how much. It is an important consideration in the lab set-up: whether you have to prepare a heater to warm up a beaker or you can burn yourself when touching the beaker with reactants. The whole complication is that chemistry is a science of different paths. Quite often there are multiple ways to get from A to B (eg. via C, via D and E, or directly, to name just a few). As such, there is an obvious question to ask: which path releases most energy of the system? While you are reading these sentences, your brain runs on glucose. Glucose is a plain nutrient. It is burned in the cells of your body to energize more interesting stuff downstream, like eg. interpreting sentences in this post. Burning glucose is a such fundamental process, that it is done by all organisms throughout evolutionary tree. Bacteria can do it and chimpanzee can do it*. As a bonus, monkey in a lab coat can burn it also in a full stream of oxygen. The latter transition is described by a reaction below:
+Chemists are always interested in energetic balance of reaction. Whether reaction releases energy or requires energy to proceed, and how much. It is an important consideration in the lab set-up: whether you have to prepare a heater to warm up a beaker or you can burn yourself when touching the beaker with reactants. The whole complication is that chemistry is a science of different paths. Quite often there are multiple ways to get from A to B (eg. via C, via D and E, or directly, to name just a few). As such, there is an obvious question to ask: which path releases most energy of the system? While you are reading these sentences, your brain runs on glucose. Glucose is a plain nutrient. It is burned in the cells of your body to energize more interesting stuff downstream, like eg. interpreting sentences in this post. Burning glucose is a such fundamental process, that it is done by all organisms throughout evolutionary tree. Bacteria can do it and chimpanzee can do it[^1]. As a bonus, monkey in a lab coat can burn it also in a full stream of oxygen. The latter transition is described by a reaction below:
 
 $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
 
@@ -32,8 +32,6 @@ In short, “path does not matter” is the definition of function state.
 On a plot, it looks like:
 
 ```{r}
-#| label: fig-energy-profile
-#| fig-cap: "Energy profiles for single vs. multi-stage reactions"
 #| echo: false
 #| warning: false
 
@@ -117,7 +115,6 @@ plot_ly() %>%
 And now let's compare it to a plot of a stock price: 
 
 ```{r}
-#| label: fig-stock-simulation
 #| echo: false
 #| warning: false
 
@@ -201,3 +198,5 @@ plot_ly() %>%
 ```
 
 Do you see this striking similarity? Your investment result is a state function, too. It depends only on the starting point and the end point. It does not depend on the path. Thank you for reading. 
+
+[^1]: It is probably my favourite argument for evolution.
