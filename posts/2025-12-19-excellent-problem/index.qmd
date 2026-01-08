@@ -30,6 +30,6 @@ And then protein folding itself: atoms of proteins have to occupy space, and con
 
 If you can frame a problem as a combinatorial problem, it can potentially benefit from AI. Next, you need data. If high quality data from the solution space of your problem are available or can be easily generated, it makes an excellent problem for AI. This is what my promoter meant by protein folding being an excellent problem. Protein folding has another feature which I think makes it worthy to be tackled: it is important. Knowledge of protein's shapes is crucial to understand diseases, develop effective therapies and predict how mutations might affect function. So here is a recipe for a problem that in my mind is a truly remarkable one for AI: it is important, it can be framed as combinatorial and relevant high quality data are avaialable. As the plot below emphasizes, only a fraction of combinatorial problems are important. In hindsight, there was a reason why AlphaGo was retired after winning against Go world chempion. Still, it is data availability that remains the bottleneck, separating problem from awaited solution. If you want to have a chance for an excellent solution, aim for this sweet spot. And thank you for reading. 
 
-![](circles.png)
+![](circles2.png)
 
 [^1]: Hassabis received the prize jointly with John Jumper, and the 2nd half of the 2024 prize was awarded to David Baker. For the sake of correctness, and for the disturbance of reading flow.  
