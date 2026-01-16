@@ -1,0 +1,29 @@
+---
+title: "Caveman Baby"
+author: "Aleksandra"
+date: "2026-01-15"
+categories: [parenting, evolution]
+image: "thumb.jpg"
+description: "Sleeping preferences of babies is something that make many parents sleepless."
+title-block-banner: true
+---
+
+Winter 2020/21 was the timing of my maternity leave. The world was spinning after surreal 2020 spring but with numbers on infections and hospitalisations order of magnitude higher, and with no vaccine in sight. Meeting people outdoors was the only possible form of socializing. Having data from my first child who was much better sleeper outside than inside, I had already two reasons for long daily walks. Luckily, a friend of mine had a baby in the same time, so that I had someone to socialize with. Together with Carmen we spent hours in crispy air, strolling, eating cakes from Julie's house and talking. One day I remember convincing her to make one extra round in the park, because I knew the moment I return home my son will wake up and claim, lound and clear, his milk. 'Caveman baby.' she said, and I gazed at her. 'When you reach home it is a sign that the walk for today is over. In the place where air is stagnated everyone is safe. So he can remind you of his existance and "ask" for feeding'. 
+
+She was outlaying analogies to the lifestyle of hunter gatherers - nomadic movement, cave, predators at bay. Despite the fact how well researched is this particular claim (Carmen, go for it!), Homo sapiens spent only a tiny fraction of its existence as non-nomads. Aproximately 10%. Evolutionary luggage is the heavier the longer it was carried. As such we are genetically shaped more by hunter gatherers than by any lifestyle that followed (sedentary, with artificial light or with artificial intelligence - pick up one for this lost competition). It makes perfect sense that babies are naturally wired to sleep outdoors and to start crying when you enter home. Or stop on a red light, if you are a car person. 
+
+Sleeping preferences of babies is something that make many parents sleepless. Co-sleeping or not co-sleeping? How old is too old for milk at night? Should you comfort when it cries or let it cry-it-out? Or something in between and if yes, after how much time? When to move a baby to their room? Every parent was confronted with these questions, and every future parent will be. Cultural pressures. Timeline of a newborn can be viewed as a recency example, too. A few month old baby is exposed to cultural pressures regarding sleep, feeding and comfort seekeing for a relatively short time. These in-borne bahaviours are gene-driven perfectly, otherwise. In other words, babies are least spoiled by the culture, and give a sh** about cultural pressures. On the other hand, the shorther time parents [^1] stay with a newborn, the more vulnerable to the cultural pressures they are. A decent proxy for this time can be reflected with the data [^2] on length of maternity leave per country, as from [doi](https://doi.org/10.1186/s40985-017-0067-2): 
+
+::: {#fig1-maternity-map}
+![](maternity_map.jpeg)
+
+Fig. 1 from [doi](https://doi.org/10.1186/s40985-017-0067-2)
+:::
+
+A quiet smile crosses my face whenever I hear "my 2 mo son is unable to get used to the bottle" or "my 4 mo daughter finally likes sleeping in her own room". You are challenging evolution, you expect measurable outcomes in weeks? I am not saying you should not try, your edge is that Homo sapiens brain is amazingly plastic and diverse. As one of my beloved Nobel prize winners, Frances H. Arnold, put it: "PhD students are selected to work long hours for shitty pay, but maybe they can also play piano?". Know your opponent, however. And if sth is not working as described on a parenting blog or in an Instagram reel, do not blame yourself as a non-mighty parent. Remember: we are all heirs of the victors. Babies that cried outside were eaten by predators. Thank you for reading.
+
+{{< video https://www.youtube.com/embed/6hOZ5e0g9Uo >}}
+
+
+[^1]: In great majority of cases mother, but let me be inclusive.
+[^2]: The paper was published in 2017 and I know that at that time in many Western Europe countries the leave was ~15 weeks, which means these countries (Belgium, France, Great Britain) should be yellow on the map. However, I am still showing this map, to make a minimal conclusion that there are differences arround the world. And based on that I hypothesize that people's strictness or progressiveness on newborn's behavior is strongly affected by the situation they are in (me including).
