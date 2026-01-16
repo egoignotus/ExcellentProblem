@@ -14,9 +14,87 @@ body {
   background-color: #fffef8;
 }
 
+/* Footer styling to match blog background */
+.nav-footer {
+  background-color: #fffef8 !important;
+  border-top: 1px solid #e8e6e0;
+}
+
+.nav-footer-center {
+  color: #666;
+}
+
 /* Footnotes background matching blog */
 .footnotes, .footnotes ol, .footnotes li {
   background-color: #fffef8 !important;
+}
+
+/* Share buttons styling */
+.share-buttons {
+  margin: 2.5rem 0 2rem 0;
+  padding: 1.2rem 0;
+  border-top: 1px solid #e8e6e0;
+  background-color: #fffef8;
+}
+
+.share-buttons h4 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.share-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  color: #666;
+  background-color: #f5f4ef;
+  border: 1px solid #e0ddd5;
+}
+
+.share-btn:hover {
+  background-color: #eae8df;
+  border-color: #d0cdc5;
+  text-decoration: none;
+  color: #333;
+}
+
+.share-btn svg {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.share-btn.twitter:hover svg,
+.share-btn.linkedin:hover svg,
+.share-btn.facebook:hover svg,
+.share-btn.email:hover svg {
+  opacity: 1;
+}
+
+@media (max-width: 576px) {
+  .share-links {
+    flex-direction: column;
+  }
+  
+  .share-btn {
+    justify-content: center;
+  }
 }
 
 /* Remove right ToC margin on mobile devices */

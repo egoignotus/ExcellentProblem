@@ -1,2 +1,5 @@
 # Shared metadata for all posts
 freeze: auto
+
+# Include share buttons in all posts
+include-after-body: ../share-buttons.html
