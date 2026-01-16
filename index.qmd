@@ -1,5 +1,5 @@
 ---
-title: "Excellent Problem Blog"
+title: "Welcome to Excellent Problem blog!"
 listing:
   contents: posts
   sort: "date desc"
@@ -11,4 +11,4 @@ page-layout: full
 title-block-banner: true
 ---
 
-Welcome! In this blog I share my thoughts on things that absorb me in some way: things I find intersting, important or frustrating. Topic-wise it will be mostly about data, science and maybe parenting. We will see.
+In this blog I share my thoughts on things that absorb me in some way: things I find intersting, important or frustrating. Topic-wise it will be mostly about data, science and maybe parenting. We will see.

@@ -6,8 +6,6 @@ website:
   title: "Excellent Problem"
   navbar:
     left:
-      - text: "Home"
-        href: index.qmd
       - text: "About"
         href: about.qmd
   page-footer:
