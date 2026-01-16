@@ -197,6 +197,7 @@ plot_ly() %>%
   )
 ```
 
+
 Do you see this striking similarity? Your investment result is a state function, too. It depends only on the starting point and the end point. It does not depend on the path. Thank you for reading. 
 
 [^1]: It is probably my favourite argument for evolution.
