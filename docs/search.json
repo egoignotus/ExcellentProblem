@@ -74,7 +74,7 @@
     "href": "posts/2026-01-27-path-dependency/index.html",
     "title": "Path Dependency Risk",
     "section": "",
-    "text": "lorem ipsum\nAnd now let’s compare it to a plot of a stock price:"
+    "text": "And now let’s compare it to a plot of a stock price:"
   },
   {
     "objectID": "posts/2026-01-27-path-dependency/index.html#static-plot-full-historical-view",
@@ -88,6 +88,6 @@
     "href": "posts/2026-01-27-path-dependency/index.html#interactive-plot-adjustable-time-range",
     "title": "Path Dependency Risk",
     "section": "Interactive Plot: Adjustable Time Range",
-    "text": "Interactive Plot: Adjustable Time Range\nSelect a time range to see how the cumulative average changes when calculated from different starting points:\n\n\n\n\nStart Year: \n\n\n\nEnd Year: \n\n\nUpdate Plot\n\n\n\n\n\nThank you for reading."
+    "text": "Interactive Plot: Adjustable Time Range\nSelect a time range to see how the cumulative average changes when calculated from different starting points:\nMind that the value of year x1 (selected as starting year) builds on the Jan value from year x0, eg.\n\n\n\n\nStart Year: \n\n\n\nEnd Year: \n\n\nUpdate Plot\n\n\n\n\n\nThank you for reading."
   }
 ]

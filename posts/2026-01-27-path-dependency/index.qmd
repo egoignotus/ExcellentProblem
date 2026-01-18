@@ -8,8 +8,6 @@ description: "nice correpsondence to function states - or a contradiction thereo
 title-block-banner: true
 ---
 
-lorem ipsum
-
 And now let's compare it to a plot of a stock price:
 
 ## Static Plot: Full Historical View
@@ -47,19 +45,24 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     mode = 'lines+markers',
     name = '% Change',
     line = list(color = 'orange', width = 2),
-    marker = list(size = 3)
+    marker = list(size = 3),
+    hovertemplate = '%{y:.1f}%<extra></extra>'
   ) %>%
   add_trace(
     y = ~cum_avg_pct_change,
     type = 'scatter',
     mode = 'lines',
     name = 'Cumulative Avg % Change',
-    line = list(color = 'blue', width = 3, dash = 'dash')
+    line = list(color = 'blue', width = 3, dash = 'dash'),
+    hovertemplate = '%{y:.1f}%<extra></extra>'
   ) %>%
   layout(
     title = "Yearly % Change and Cumulative Avg % Change (1872-2024)",
     xaxis = list(title = "Year"),
-    yaxis = list(title = "Percent Change"),
+    yaxis = list(
+      title = "Percent Change",
+      tickformat = '.1f'
+    ),
     plot_bgcolor = "white",
     paper_bgcolor = "white",
     margin = list(l = 60, r = 60, t = 60, b = 60),
@@ -73,6 +76,7 @@ fig_static
 
 Select a time range to see how the cumulative average changes when calculated from different starting points:
 
+Mind that the value of year x1 (selected as starting year) builds on the Jan value from year x0, eg.  
 ```{r}
 #| echo: false
 #| warning: false
@@ -80,13 +84,15 @@ Select a time range to see how the cumulative average changes when calculated fr
 library(htmlwidgets)
 
 # Prepare data for JavaScript (using df_cumul from previous chunk)
-# The first row will have NA for pct_change (no previous year to compare)
-# This is handled properly in JavaScript as null
 years_list <- df_cumul$year
 pct_change_list <- df_cumul$pct_change
 jan_price_list <- df_cumul$jan_price
 
-# Create interactive plot with custom JavaScript for recalculation
+# Read external JavaScript file
+js_code <- readLines("plot_interactive.js", warn = FALSE)
+js_code <- paste(js_code, collapse = "\n")
+
+# Create interactive plot
 fig_interactive <- plot_ly() %>%
   layout(
     title = "Yearly % Change and Cumulative Avg (Adjustable Range)",
@@ -96,7 +102,7 @@ fig_interactive <- plot_ly() %>%
     paper_bgcolor = "white"
   )
 
-# Add custom HTML controls and JavaScript for dynamic recalculation
+# Add HTML controls
 fig_interactive <- fig_interactive %>%
   htmlwidgets::prependContent(
     htmltools::tags$div(
@@ -131,117 +137,18 @@ fig_interactive <- fig_interactive %>%
     )
   )
 
-# Add JavaScript for dynamic recalculation
+# Attach JavaScript from external file
 fig_interactive <- fig_interactive %>%
   htmlwidgets::onRender(
-    sprintf("
-    function(el, x) {
-      var fullData = {
-        years: %s,
-        pctChange: %s,
-        janPrice: %s
-      };
-      
-      function calculateCumulativeAvg(startYear, endYear) {
-        var startIdx = fullData.years.findIndex(y => y >= startYear);
-        var endIdx = fullData.years.findIndex(y => y > endYear);
-        
-        if (startIdx === -1) startIdx = 0;
-        if (endIdx === -1) endIdx = fullData.years.length;
-        
-        var visibleYears = fullData.years.slice(startIdx, endIdx);
-        var visiblePctChange = fullData.pctChange.slice(startIdx, endIdx);
-        var visibleJanPrice = fullData.janPrice.slice(startIdx, endIdx);
-        
-        // Calculate cumulative average for visible range
-        var cumAvg = [];
-        var sum = 0;
-        var count = 0;
-        
-        for (var i = 0; i < visiblePctChange.length; i++) {
-          var val = visiblePctChange[i];
-          
-          if (val === null || val === undefined || isNaN(val)) {
-            cumAvg.push(null);
-          } else {
-            sum += val;
-            count++;
-            cumAvg.push(sum / count);
-          }
-        }
-        
-        return {
-          years: visibleYears,
-          pctChange: visiblePctChange,
-          cumAvg: cumAvg,
-          janPrice: visibleJanPrice
-        };
-      }
-      
-      window.updatePlot = function() {
-        var startYear = parseInt(document.getElementById('startYear').value);
-        var endYear = parseInt(document.getElementById('endYear').value);
-        
-        if (startYear >= endYear) {
-          alert('Start year must be less than end year');
-          return;
-        }
-        
-        var data = calculateCumulativeAvg(startYear, endYear);
-        
-        if (data.years.length === 0) {
-          alert('No data available for this range');
-          return;
-        }
-        
-        var zeros = Array(data.years.length).fill(0);
-        
-        var trace1 = {
-          x: data.years,
-          y: data.pctChange,
-          mode: 'lines+markers',
-          name: '%% Change',
-          line: {color: 'orange', width: 2},
-          marker: {size: 3}
-        };
-        
-        var trace2 = {
-          x: data.years,
-          y: data.cumAvg,
-          mode: 'lines',
-          name: 'Cumulative Avg %% Change',
-          line: {color: 'blue', width: 2, dash: 'dot'}
-        };
-        
-        var trace3 = {
-          x: data.years,
-          y: zeros,
-          mode: 'lines',
-          name: 'Zero Line',
-          line: {color: 'gray', width: 1, dash: 'dash'},
-          showlegend: false
-        };
-        
-        var layout = {
-          title: 'Yearly %% Change and Cumulative Avg (' + startYear + '-' + endYear + ')',
-          xaxis: {title: 'Year'},
-          yaxis: {title: 'Percent Change'},
-          plot_bgcolor: 'white',
-          paper_bgcolor: 'white',
-          margin: {l: 60, r: 60, t: 80, b: 60},
-          legend: {orientation: 'h', x: 0.5, xanchor: 'center', y: -0.2}
-        };
-        
-        Plotly.newPlot(el, [trace1, trace2, trace3], layout);
-      };
-      
-      // Initial plot with default range
-      updatePlot();
-    }
-    ",
-    jsonlite::toJSON(years_list, auto_unbox = TRUE),
-    jsonlite::toJSON(pct_change_list, auto_unbox = TRUE, null = "null"),
-    jsonlite::toJSON(jan_price_list, auto_unbox = TRUE)
+    sprintf(
+      "function(el, x) {
+        %s
+        initInteractivePlot(el, {years: %s, pctChange: %s, janPrice: %s});
+      }",
+      js_code,
+      jsonlite::toJSON(years_list, auto_unbox = TRUE),
+      jsonlite::toJSON(pct_change_list, auto_unbox = TRUE, null = "null"),
+      jsonlite::toJSON(jan_price_list, auto_unbox = TRUE)
     )
   )
 
