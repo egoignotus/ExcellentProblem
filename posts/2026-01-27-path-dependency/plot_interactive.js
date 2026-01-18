@@ -60,7 +60,7 @@ function initInteractivePlot(el, fullData) {
       name: '% Change',
       line: {color: 'orange', width: 2},
       marker: {size: 3},
-      hovertemplate: '%{y:.1f}%<extra></extra>'
+      hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
     };
     
     var trace2 = {
@@ -69,7 +69,7 @@ function initInteractivePlot(el, fullData) {
       mode: 'lines',
       name: 'Cumulative Avg % Change',
       line: {color: 'blue', width: 3, dash: 'dash'},
-      hovertemplate: '%{y:.1f}%<extra></extra>'
+      hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
     };
     
     var trace3 = {

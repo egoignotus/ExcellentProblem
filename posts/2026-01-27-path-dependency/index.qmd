@@ -46,7 +46,7 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     name = '% Change',
     line = list(color = 'orange', width = 2),
     marker = list(size = 3),
-    hovertemplate = '%{y:.1f}%<extra></extra>'
+    hovertemplate = 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
   ) %>%
   add_trace(
     y = ~cum_avg_pct_change,
@@ -54,7 +54,7 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     mode = 'lines',
     name = 'Cumulative Avg % Change',
     line = list(color = 'blue', width = 3, dash = 'dash'),
-    hovertemplate = '%{y:.1f}%<extra></extra>'
+    hovertemplate = 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
   ) %>%
   layout(
     title = "Yearly % Change and Cumulative Avg % Change (1872-2024)",
@@ -83,6 +83,9 @@ Mind that the value of year x1 (selected as starting year) builds on the Jan val
 
 library(htmlwidgets)
 
+# Load helper functions
+source("plot_helpers.R")
+
 # Prepare data for JavaScript (using df_cumul from previous chunk)
 years_list <- df_cumul$year
 pct_change_list <- df_cumul$pct_change
@@ -102,38 +105,14 @@ fig_interactive <- plot_ly() %>%
     paper_bgcolor = "white"
   )
 
-# Add HTML controls
+# Add HTML controls using helper function
 fig_interactive <- fig_interactive %>%
   htmlwidgets::prependContent(
-    htmltools::tags$div(
-      style = "margin-bottom: 20px; padding: 15px; background-color: #f0f0f0; border-radius: 5px;",
-      htmltools::tags$label(
-        "Start Year: ",
-        htmltools::tags$input(
-          type = "number",
-          id = "startYear",
-          value = 1880,
-          min = 1872,
-          max = 2024,
-          style = "padding: 5px; margin: 0 10px; width: 80px;"
-        )
-      ),
-      htmltools::tags$label(
-        "End Year: ",
-        htmltools::tags$input(
-          type = "number",
-          id = "endYear",
-          value = 1910,
-          min = 1872,
-          max = 2024,
-          style = "padding: 5px; margin: 0 10px; width: 80px;"
-        )
-      ),
-      htmltools::tags$button(
-        "Update Plot",
-        onclick = "updatePlot()",
-        style = "padding: 5px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;"
-      )
+    create_year_controls(
+      default_start = 1880,
+      default_end = 1910,
+      min_year = 1872,
+      max_year = 2024
     )
   )
 
