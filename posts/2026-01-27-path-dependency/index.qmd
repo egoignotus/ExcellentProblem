@@ -32,7 +32,10 @@ df_cumul <- df %>%
   distinct(year, .keep_all = TRUE) %>%
   arrange(year) %>%
   mutate(
-    pct_change = (jan_price / lag(jan_price) - 1) * 100,
+    pct_change = (jan_price / lag(jan_price) - 1) * 100
+  ) %>%
+  filter(!is.na(pct_change)) %>%  # Remove 1871 (no previous year, so no yearly data for averaging)
+  mutate(
     cum_avg_pct_change = cummean(pct_change)
   )
 
@@ -54,7 +57,7 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     line = list(color = 'blue', width = 3, dash = 'dash')
   ) %>%
   layout(
-    title = "Yearly % Change and Cumulative Avg % Change (1871-2024)",
+    title = "Yearly % Change and Cumulative Avg % Change (1872-2024)",
     xaxis = list(title = "Year"),
     yaxis = list(title = "Percent Change"),
     plot_bgcolor = "white",
