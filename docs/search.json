@@ -32,7 +32,7 @@
     "href": "index.html",
     "title": "Welcome to the Excellent Problem blog!",
     "section": "",
-    "text": "In this blog I share my thoughts on things that absorb me in some way: things I find intersting, important or frustrating. Topic-wise it will be mostly about data, science and maybe parenting. We will see.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCaveman Baby\n\n\n\nparenting\n\nevolution\n\n\n\nSleeping preferences of babies is something that make many parents sleepless.\n\n\n\n\n\nJan 15, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nThermodynamics 101 For Investors\n\n\n\nchemistry\n\nfinance\n\n\n\nI am lying just a tiny bit when saying I learned to read plots at the second year bachelor.\n\n\n\n\n\nJan 2, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nAn Excellent Problem!\n\n\n\nAI\n\nchemistry\n\n\n\nThe day started early. Actually, the day started in the middle of a dark, freezing night.\n\n\n\n\n\nDec 19, 2025\n\n\nAleksandra\n\n\n\n\n\nNo matching items"
+    "text": "In this blog I share my thoughts on things that absorb me in some way: things I find intersting, important or frustrating. Topic-wise it will be mostly about data, science and maybe parenting. We will see.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPath Dependency Risk\n\n\n\nfinance\n\n\n\nnice correpsondence to function states - or a contradiction thereof\n\n\n\n\n\nJan 27, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nCaveman Baby\n\n\n\nparenting\n\nevolution\n\n\n\nSleeping preferences of babies is something that make many parents sleepless.\n\n\n\n\n\nJan 15, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nThermodynamics 101 For Investors\n\n\n\nchemistry\n\nfinance\n\n\n\nI am lying just a tiny bit when saying I learned to read plots at the second year bachelor.\n\n\n\n\n\nJan 2, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nAn Excellent Problem!\n\n\n\nAI\n\nchemistry\n\n\n\nThe day started early. Actually, the day started in the middle of a dark, freezing night.\n\n\n\n\n\nDec 19, 2025\n\n\nAleksandra\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/2026-01-02-post2/index.html",
@@ -68,5 +68,26 @@
     "title": "Caveman Baby",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nIn great majority of cases mother, I do not dare to touch on the topic of time fathers are offered to spend with a newborn.↩︎\nThe paper was published in 2017 and I know that at that time in many Western Europe countries the leave was ~15 weeks, which means these countries (Belgium, France, Great Britain, Protugal) should be yellow on the map. However, I am still showing this map, to make a minimal conclusion that there are differences arround the world. And based on that I hypothesize that people’s strictness or progressiveness on newborn’s behavior is strongly affected by the situation they are in (me including).↩︎\n“they” were in this case enzymes, functional proteins that are naturally competent to be selected for performing a new wild tasks if a new pressure is present. The process is called directed evolution and earned Arnold a 2018 Chemistry Nobel Prize. Teaching newborn anything is by no means an example of directed evolution, but an analogy she drew is also useful here.↩︎"
+  },
+  {
+    "objectID": "posts/2026-01-27-path-dependency/index.html",
+    "href": "posts/2026-01-27-path-dependency/index.html",
+    "title": "Path Dependency Risk",
+    "section": "",
+    "text": "lorem ipsum\nAnd now let’s compare it to a plot of a stock price:"
+  },
+  {
+    "objectID": "posts/2026-01-27-path-dependency/index.html#static-plot-full-historical-view",
+    "href": "posts/2026-01-27-path-dependency/index.html#static-plot-full-historical-view",
+    "title": "Path Dependency Risk",
+    "section": "Static Plot: Full Historical View",
+    "text": "Static Plot: Full Historical View"
+  },
+  {
+    "objectID": "posts/2026-01-27-path-dependency/index.html#interactive-plot-adjustable-time-range",
+    "href": "posts/2026-01-27-path-dependency/index.html#interactive-plot-adjustable-time-range",
+    "title": "Path Dependency Risk",
+    "section": "Interactive Plot: Adjustable Time Range",
+    "text": "Interactive Plot: Adjustable Time Range\nSelect a time range to see how the cumulative average changes when calculated from different starting points:\n\n\n\n\nStart Year: \n\n\n\nEnd Year: \n\n\nUpdate Plot\n\n\n\n\n\nThank you for reading."
   }
 ]
