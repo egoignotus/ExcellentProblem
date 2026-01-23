@@ -4,7 +4,7 @@ author: "Aleksandra"
 date: "2026-01-27"
 categories: [finance]
 image: "thumb.jpeg"
-description: "nice correpsondence to function states - or a contradiction thereof"
+description: "what a delicious contradiction it is: to be and not to be path dependent"
 title-block-banner: true
 ---
 
@@ -44,7 +44,7 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     type = 'scatter',
     mode = 'lines+markers',
     name = '% Change',
-    line = list(color = 'orange', width = 2),
+    line = list(color = 'green', width = 2),
     marker = list(size = 3),
     hovertemplate = 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
   ) %>%

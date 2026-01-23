@@ -58,7 +58,7 @@ function initInteractivePlot(el, fullData) {
       y: data.pctChange,
       mode: 'lines+markers',
       name: '% Change',
-      line: {color: 'orange', width: 2},
+      line: {color: 'green', width: 2},
       marker: {size: 3},
       hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
     };
