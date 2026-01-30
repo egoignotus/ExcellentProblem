@@ -57,7 +57,7 @@ function initInteractivePlot(el, fullData) {
       x: data.years,
       y: data.pctChange,
       mode: 'lines+markers',
-      name: '% Change',
+      name: '% Return',
       line: {color: 'green', width: 2},
       marker: {size: 3},
       hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
@@ -67,7 +67,7 @@ function initInteractivePlot(el, fullData) {
       x: data.years,
       y: data.cumAvg,
       mode: 'lines',
-      name: 'Cumulative Avg % Change',
+      name: 'Cumulative Average Return',
       line: {color: 'blue', width: 3, dash: 'dash'},
       hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
     };
@@ -83,10 +83,10 @@ function initInteractivePlot(el, fullData) {
     };
     
     var layout = {
-      title: 'Yearly % Change and Cumulative Avg (' + startYear + '-' + endYear + ')',
+      title: 'Annual % Return and Cumulative Average Return (' + startYear + '-' + endYear + ')',
       xaxis: {title: 'Year'},
       yaxis: {
-        title: 'Percent Change',
+        title: 'Return, %',
         tickformat: '.1f'
       },
       plot_bgcolor: 'white',

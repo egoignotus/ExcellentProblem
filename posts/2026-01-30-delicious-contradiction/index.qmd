@@ -3,7 +3,7 @@ title: "A Delicious Contradiction"
 author: "Aleksandra"
 date: "2026-01-30"
 categories: [finance, interactive]
-image: "thumb.jpeg"
+image: "thumb.png"
 description: "To be and not to be path dependent"
 title-block-banner: true
 ---
@@ -52,7 +52,7 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     y = ~pct_change,
     type = 'scatter',
     mode = 'lines+markers',
-    name = 'Last Year % Return',
+    name = '% Return',
     line = list(color = 'green', width = 2),
     marker = list(size = 3),
     hovertemplate = 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
