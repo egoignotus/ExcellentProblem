@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Aleksandra">
+<meta name="dcterms.date" content="2026-01-27">
+<meta name="description" content="To be and not to be path dependent">
+
+<title>A Delicious Contradiction – Excellent Problem</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../../site_libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="../../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="../../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="../../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Excellent Problem</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">A Delicious Contradiction</h1>
+                  <div>
+        <div class="description">
+          To be and not to be path dependent
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">finance</div>
+                <div class="quarto-category">interactive</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Aleksandra </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 27, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#zoom-out-full-historical-view" id="toc-zoom-out-full-historical-view" class="nav-link active" data-scroll-target="#zoom-out-full-historical-view">Zoom Out: Full Historical View</a></li>
+  <li><a href="#zoom-in-check-different-historical-time-ranges" id="toc-zoom-in-check-different-historical-time-ranges" class="nav-link" data-scroll-target="#zoom-in-check-different-historical-time-ranges">Zoom in: Check Different Historical Time Ranges</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>What a delicious contradiction it is: to be and not to be path dependent at the same time. In <a href="https://excellentproblem.com/posts/2026-01-02-thermodynamics-101-for-investors/">the post</a> “Thermodynamics 101 for Investors” I drew an analogy between function state, in thermodynamical sense, and investment outcomes. I claimed that the financial result you harvest does not depend on the ups and downs the stock price makes on a way. I claimed that these results solely depend on the price at start and the price at end points. It might sound counter-intuitive, but it is so. If you haven’t read the mentioned post yet, it is worth giving a try!</p>
+<p>Funny enough, in economy there is a notion of path dependence. Even funnier, path dependence is related to the investment outcome. You can read <a href="https://bestinterest.blog/path-dependence/">a great article</a> on this topic on the Best Interest blog, where Jesse Cramer illustrates path dependence with plausible investment of NASA researcher, Sally Ride. Spoiler alert: path of each investor is bumpy and different. It can be averaged, but it is never the average.</p>
+<p>The seemingly contradictory ways in which investment relates to the path have left me with a sort of Schrödinger’s cat situation, which I am going to wrestle a bit in the paragraphs below.</p>
+<p><img src="cat.png" class="img-fluid"></p>
+<p>Just as our macroscopic intuitions fall short in helping us grasp quantum physics phenomena <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, financial shortcuts are often unhelpful as well. As such faulty financial intuition, I mean here the 7% return rule. The rule is widely used among index fund investors to estimate yearly return from stock investment. Looking at different historical paths, we will see how (surprisingly often) the 7% rule is far from the truth. Ok, but let’s start by saying what the 7% return rule is. It is an assumption that many investors make that in the long term, investment in broad stocks market returns 7% per year. As a careful reader might notice, “long term” is vaguely defined, or, being honest, not defined at all. For my 5-year-old son summer holidays is long term. For Warren Buffett “indefinitely” is long term. Recently I listened to a podcast, which described research about romantic relationships among university students. When asked about “long term relationship” the working definition was “lasting more than 3 months”. Writing these words in January, long-term meter of a 5-year-old is more conservative than the one of gen-Z. In this post, when I refer to “long term” I mean a decade or more - a span that represents a major part of a person’s life. Down the road I will make claims and conclusions based on data on US stock market returns compiled by Yale economist Robert Shiller, known as Shiller data <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>I feel a sort of an imperative to give more details on what this data is and what it is not <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Still, all what matter for this post is that Shiller data are consistent, available and cover relatively long time, and as such they are good to draw some plots. And conclusions. However, they are not representative for any other than American market. Also, history rhymes but does not repeat, and as such past performance is not a prognosis of future returns. Yet, studying history is to avoid mistakes of the past. All that said, let’s have a look at the first plot.</p>
+<section id="zoom-out-full-historical-view" class="level2">
+<h2 class="anchored" data-anchor-id="zoom-out-full-historical-view">Zoom Out: Full Historical View</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-c4c42fa92dbf32b5efed" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c4c42fa92dbf32b5efed">{"x":{"visdat":{"a2c81fa06ba5":["function () ","plotlyVisDat"]},"cur_data":"a2c81fa06ba5","attrs":{"a2c81fa06ba5":{"x":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"y":{},"type":"scatter","mode":"lines+markers","name":"Last Year % Return","line":{"color":"green","width":2},"marker":{"size":3},"hovertemplate":"Year: %{x}<br>%{y:.1f}%<extra><\/extra>","inherit":true},"a2c81fa06ba5.1":{"x":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"y":{},"type":"scatter","mode":"lines","name":"Cumulative Average Return","line":{"color":"blue","width":3,"dash":"dash"},"hovertemplate":"Year: %{x}<br>%{y:.1f}%<extra><\/extra>","inherit":true}},"layout":{"margin":{"b":60,"l":60,"t":60,"r":60},"title":"Annual % Return and Cumulative Average Return (1872-2024)","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Return, %","tickformat":".1f"},"plot_bgcolor":"white","paper_bgcolor":"white","legend":{"orientation":"h","x":0.5,"xanchor":"center","y":-0.20000000000000001},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1872,1873,1874,1875,1876,1877,1878,1879,1880,1881,1882,1883,1884,1885,1886,1887,1888,1889,1890,1891,1892,1893,1894,1895,1896,1897,1898,1899,1900,1901,1902,1903,1904,1905,1906,1907,1908,1909,1910,1911,1912,1913,1914,1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],"y":[9.4594594594594525,5.1440329218106928,-8.8062622309197707,-2.5751072961373467,-1.7621145374449365,-20.403587443946194,-8.4507042253521121,10.153846153846157,42.737430167597765,21.135029354207436,-4.3618739903069521,-1.8581081081081141,-10.843373493975905,-18.146718146718133,22.641509433962259,7.3076923076923039,-4.8387096774193612,-1.3182674199623268,2.6717557251908275,-10.03717472118959,13.842975206611573,1.8148820326678861,-22.994652406417117,-1.620370370370372,0.47058823529411153,-1.1709601873536313,15.639810426540279,24.590163934426236,0.32894736842103978,15.901639344262296,14.851485148514843,4.1871921182266236,-21.040189125295516,26.19760479041917,17.081850533807817,-3.1408308004052587,-28.34728033472804,32.262773722627756,11.258278145695355,-8.03571428571429,-1.6181229773462813,1.9736842105263275,-10.00000000000002,-10.633213859020296,24.732620320855613,2.5723472668810254,-24.660397074190175,8.8765603328710085,12.484076433121016,-19.479048697621735,2.6722925457102642,21.917808219178081,-0.78651685393258397,19.818799546998878,19.565217391304344,5.9288537549407216,30.820895522388071,41.814033086138046,-12.670957361222845,-26.39336711192999,-48.060075093867326,-14.578313253012054,48.660084626234124,-12.144212523719155,48.596112311015126,27.834302325581394,-35.702103467879475,10.521662245800179,-1.5999999999999903,-14.227642276422758,-15.355450236966828,12.989921612541998,17.443012884043597,13.839662447257384,33.580429948109703,-15.593784683684786,-2.4983563445101997,3.5738368172623103,9.895833333333325,25.651658767772535,14.049976426214062,8.2265398925175592,-2.7501909854851014,39.827179890023558,24.016853932584258,2.8992072480181319,-9.48712304644509,35.262645914396899,4.3329737504494759,2.9122867482336723,15.656396517079706,-5.805704357897767,17.506916692284037,12.648790058862014,8.3604273107291895,-9.5049292756107953,12.539964476021325,7.3232323232323093,-11.460784313725492,3.5212047392315204,10.493100866402827,14.617618586640857,-18.826013513513516,-24.503173447091875,33.489525909592068,7.1649803840594606,-13.053949903660889,10.4819944598338,11.222545381606675,19.927862939585197,-11.804511278195495,23.017902813299251,15.315315315315313,3.125,21.328671328671334,27.041306436119129,-5.2930056710775002,13.932135728542905,19.120532585844451,-4.259199341118336,27.831884236074835,4.6024802922514985,8.6758725271695489,-1.6363982325207749,32.062332079527131,24.706227010839509,25.728902926052566,29.626515528981901,14.159532980452759,-6.3103697416508115,-14.631297589901404,-21.432016909165853,26.419896410073228,4.3169215554692331,8.2376143760421794,11.373002901316154,-3.1878440624648952,-37.22040093997505,29.806603664594821,14.154755335623626,1.4002588451762721,13.82613910716759,23.099162388543615,11.294146052371667,-5.4028735122129241,18.582299593453566,22.622103449488385,-6.538461538461549,25.72725982687669,15.726618266121651,20.56197693574957,-13.405862058410689,21.586048789848157,24.169523694817507],"type":"scatter","mode":"lines+markers","name":"Last Year % Return","line":{"color":"green","width":2},"marker":{"color":"rgba(31,119,180,1)","size":3,"line":{"color":"rgba(31,119,180,1)"}},"hovertemplate":["Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>"],"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1872,1873,1874,1875,1876,1877,1878,1879,1880,1881,1882,1883,1884,1885,1886,1887,1888,1889,1890,1891,1892,1893,1894,1895,1896,1897,1898,1899,1900,1901,1902,1903,1904,1905,1906,1907,1908,1909,1910,1911,1912,1913,1914,1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],"y":[9.4594594594594525,7.3017461906350727,1.9324100501167916,0.80553071355325701,0.29200166335361832,-3.1572631878630166,-3.9134690503614591,-2.155054649835507,2.8329992187681898,4.6632022323121145,3.842740757528563,3.3676700187255069,2.2745128254407829,0.81585347028657473,2.2708972011982871,2.5856968953541632,2.1489670969557206,1.9563429571269404,1.9939962607092503,1.3924377116143083,1.9853204494713208,1.9775732487075286,0.89182430718036998,0.78714952894908896,0.7744870772028899,0.69966218241225442,1.2530010062688479,2.0864711108458978,2.0258668438657299,2.4883925938789488,2.887202031125268,2.9278267213471851,2.2015232108428608,2.9072903161245174,3.3122777509154688,3.1330247356010044,2.2822056796461654,3.0711679965667336,3.2810938978264419,2.9981736932379235,2.8855810915163578,2.8638692610165952,2.564709510760395,2.2647567069017427,2.7640425649896065,2.7598752759002894,2.1764652258983648,2.3160505406269616,2.5235612731268402,2.0835090737118689,2.0950538476726215,2.4762606625092647,2.4146988225763999,2.736996984139779,3.0429646279064073,3.0944983623177342,3.5809263826698454,4.2401178775572284,3.9534894836796002,3.4477085404194403,2.6033186447753947,2.3261955496497908,3.0616541064209706,2.8240624403250312,3.5282478229510326,3.8965213760211901,3.3054971246196874,3.4116171999311651,3.3389850665988292,3.0880332474128069,2.8282658743933755,2.969399981867662,3.1676686517604824,3.3118847841320624,3.7154653863184306,3.4613963064499678,3.3839969213725625,3.3864307661916619,3.4688282670415562,3.7461136483006934,3.8733218307440684,3.9264098558876475,3.8459688818952045,4.2743166319919705,4.5065817767048211,4.4878913752084637,4.3272590255342847,4.6787975129077237,4.6749118526553834,4.6553271292729201,4.7762180016664013,4.6611971064537476,4.7993231235056859,4.8828280909030939,4.9194343984802105,4.7691806102084291,4.8492917840827889,4.8745360752986011,4.7095328390458322,4.6976495580476891,4.7550302640710074,4.851722306449143,4.621841376158244,4.3417931567039156,4.6193906114933272,4.6434056093477247,4.4780097634317562,4.5336022143243673,4.5949686654003514,4.7343586133474869,4.5853597854957489,4.7499360625297076,4.8434349939702876,4.82836100279511,4.9718419621505561,5.1620959662364916,5.0727361231825263,5.1478157808550717,5.2652335691322936,5.185863294880205,5.3730204927413174,5.3667045894586138,5.3936083938302479,5.336914792004837,5.5507181303050146,5.7027459785632244,5.8604322537403064,6.0461047793281315,6.1089995715849117,6.0134659614830985,5.8558723465870344,5.6491459128313304,5.80531696920157,5.7942095407408809,5.8123088358171868,5.8531962921811491,5.7872032968917617,5.4755539908275095,5.6505975136603679,5.7113414981029624,5.6807664438268866,5.7381282231461865,5.8595340564706442,5.8972744175532901,5.819342362865247,5.9067598781432489,6.0204696983564805,5.9356120548644666,6.0684419056833407,6.1328297480862632,6.2283870142297291,6.0992143229623581,6.2004354632688017,6.3171178543827535],"type":"scatter","mode":"lines","name":"Cumulative Average Return","line":{"color":"blue","width":3,"dash":"dash"},"hovertemplate":["Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>","Year: %{x}<br>%{y:.1f}%<extra><\/extra>"],"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>It shows a set of data on US stock market returns from 1871 to 2025. This plot has two traces, green solid trace and blue dashed trace. Green solid trace represents yearly nominal returns, expressed in percentages, %. The line helps to guide your sight from datapoint to datapoint. If you hover your finger over green trace, you can see returns for a particular year. Eg. it was -24.5% in 1975, 33.5% in 1976 and 7.5% in 1977. Overall, when you look at the green trace you see many ups and downs. It is hard to answer the question “what typically the US stock market returns?” On the other hand, blue dashed line shows what happens when you cumulatively average yearly returns. The trace starts bumpy but smoothens out the further from the start you are. You see that from ~ year 2000 the returns average to 6% yearly. With this trace you can immediately answer the question: what did the stock market return on average from 1871 to 1950? (and now hover over blue dashed line for 1950). A bonus: if you made it that far in the post, you can isolate the blue trace by clicking on it in the plot legend.</p>
+</section>
+<section id="zoom-in-check-different-historical-time-ranges" class="level2">
+<h2 class="anchored" data-anchor-id="zoom-in-check-different-historical-time-ranges">Zoom in: Check Different Historical Time Ranges</h2>
+<p>In the second plot, you can play by yourself. It is built on the same data, but it recalculates average returns depending on the chosen start year. You can test how average returns look like for different periods of time, because they are highly dependent on the starting year. If you examine the post-war prosperity period, you will see that the returns average to ~9% yearly. Subtract 2% for inflation and you have a 7% yearly return. Now let’s check 2000 -2010: 1%. Not fun, yeah? Shifting whole decade by 2 years 2002-2012 gives 1.7%, 70% more but still far from 7% yearly. Waiting till 2015 yielded 4.8% yearly. How strikingly different it is from 16.4% of nineties. You can explore what was the most fortunate and the most unfortunate period to invest in US stocks, and play with its length <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div style="margin-bottom: 20px; padding: 15px; background-color: #f0f0f0; border-radius: 5px;">
+<label>
+Start Year: 
+<input type="number" id="startYear" value="1872" min="1872" max="2024" style="padding: 5px; margin: 0 10px; width: 80px;">
+</label>
+<label>
+End Year: 
+<input type="number" id="endYear" value="2024" min="1872" max="2024" style="padding: 5px; margin: 0 10px; width: 80px;">
+</label>
+<button onclick="updatePlot()" style="padding: 5px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;">Update Plot</button>
+</div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-09da72e50bcf6a20e388" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-09da72e50bcf6a20e388">{"x":{"visdat":{"a2c87fe7526":["function () ","plotlyVisDat"]},"cur_data":"a2c87fe7526","attrs":{"a2c87fe7526":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Annual % Return and Cumulative Average of Returns","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Return, %"},"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"type":"scatter","mode":"markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n        function initInteractivePlot(el, fullData) {\n  function calculateCumulativeAvg(startYear, endYear) {\n    var startIdx = fullData.years.findIndex(y => y >= startYear);\n    var endIdx = fullData.years.findIndex(y => y > endYear);\n    \n    if (startIdx === -1) startIdx = 0;\n    if (endIdx === -1) endIdx = fullData.years.length;\n    \n    var visibleYears = fullData.years.slice(startIdx, endIdx);\n    var visiblePctChange = fullData.pctChange.slice(startIdx, endIdx);\n    var visibleJanPrice = fullData.janPrice.slice(startIdx, endIdx);\n    \n    // Calculate cumulative average for visible range\n    var cumAvg = [];\n    var sum = 0;\n    var count = 0;\n    \n    for (var i = 0; i < visiblePctChange.length; i++) {\n      var val = visiblePctChange[i];\n      \n      if (val === null || val === undefined || isNaN(val)) {\n        cumAvg.push(null);\n      } else {\n        sum += val;\n        count++;\n        cumAvg.push(sum / count);\n      }\n    }\n    \n    return {\n      years: visibleYears,\n      pctChange: visiblePctChange,\n      cumAvg: cumAvg,\n      janPrice: visibleJanPrice\n    };\n  }\n  \n  window.updatePlot = function() {\n    var startYear = parseInt(document.getElementById('startYear').value);\n    var endYear = parseInt(document.getElementById('endYear').value);\n    \n    if (startYear >= endYear) {\n      alert('Start year must be less than end year');\n      return;\n    }\n    \n    var data = calculateCumulativeAvg(startYear, endYear);\n    \n    if (data.years.length === 0) {\n      alert('No data available for this range');\n      return;\n    }\n    \n    var zeros = Array(data.years.length).fill(0);\n    \n    var trace1 = {\n      x: data.years,\n      y: data.pctChange,\n      mode: 'lines+markers',\n      name: '% Change',\n      line: {color: 'green', width: 2},\n      marker: {size: 3},\n      hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra><\/extra>'\n    };\n    \n    var trace2 = {\n      x: data.years,\n      y: data.cumAvg,\n      mode: 'lines',\n      name: 'Cumulative Avg % Change',\n      line: {color: 'blue', width: 3, dash: 'dash'},\n      hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra><\/extra>'\n    };\n    \n    var trace3 = {\n      x: data.years,\n      y: zeros,\n      mode: 'lines',\n      name: 'Zero Line',\n      line: {color: 'gray', width: 1, dash: 'dash'},\n      showlegend: false,\n      hoverinfo: 'skip'\n    };\n    \n    var layout = {\n      title: 'Yearly % Change and Cumulative Avg (' + startYear + '-' + endYear + ')',\n      xaxis: {title: 'Year'},\n      yaxis: {\n        title: 'Percent Change',\n        tickformat: '.1f'\n      },\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 60, r: 60, t: 80, b: 60},\n      legend: {orientation: 'h', x: 0.5, xanchor: 'center', y: -0.2}\n    };\n    \n    Plotly.newPlot(el, [trace1, trace2, trace3], layout);\n  };\n  \n  // Initial plot with default range\n  updatePlot();\n}\n        initInteractivePlot(el, {years: [1872,1873,1874,1875,1876,1877,1878,1879,1880,1881,1882,1883,1884,1885,1886,1887,1888,1889,1890,1891,1892,1893,1894,1895,1896,1897,1898,1899,1900,1901,1902,1903,1904,1905,1906,1907,1908,1909,1910,1911,1912,1913,1914,1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025], pctChange: [9.4595,5.144,-8.8063,-2.5751,-1.7621,-20.4036,-8.4507,10.1538,42.7374,21.135,-4.3619,-1.8581,-10.8434,-18.1467,22.6415,7.3077,-4.8387,-1.3183,2.6718,-10.0372,13.843,1.8149,-22.9947,-1.6204,0.4706,-1.171,15.6398,24.5902,0.3289,15.9016,14.8515,4.1872,-21.0402,26.1976,17.0819,-3.1408,-28.3473,32.2628,11.2583,-8.0357,-1.6181,1.9737,-10,-10.6332,24.7326,2.5723,-24.6604,8.8766,12.4841,-19.479,2.6723,21.9178,-0.7865,19.8188,19.5652,5.9289,30.8209,41.814,-12.671,-26.3934,-48.0601,-14.5783,48.6601,-12.1442,48.5961,27.8343,-35.7021,10.5217,-1.6,-14.2276,-15.3555,12.9899,17.443,13.8397,33.5804,-15.5938,-2.4984,3.5738,9.8958,25.6517,14.05,8.2265,-2.7502,39.8272,24.0169,2.8992,-9.4871,35.2626,4.333,2.9123,15.6564,-5.8057,17.5069,12.6488,8.3604,-9.5049,12.54,7.3232,-11.4608,3.5212,10.4931,14.6176,-18.826,-24.5032,33.4895,7.165,-13.0539,10.482,11.2225,19.9279,-11.8045,23.0179,15.3153,3.125,21.3287,27.0413,-5.293,13.9321,19.1205,-4.2592,27.8319,4.6025,8.6759,-1.6364,32.0623,24.7062,25.7289,29.6265,14.1595,-6.3104,-14.6313,-21.432,26.4199,4.3169,8.2376,11.373,-3.1878,-37.2204,29.8066,14.1548,1.4003,13.8261,23.0992,11.2941,-5.4029,18.5823,22.6221,-6.5385,25.7273,15.7266,20.562,-13.4059,21.586,24.1695], janPrice: [4.86,5.11,4.66,4.54,4.46,3.55,3.25,3.58,5.11,6.19,5.92,5.81,5.18,4.24,5.2,5.58,5.31,5.24,5.38,4.84,5.51,5.61,4.32,4.25,4.27,4.22,4.88,6.08,6.1,7.07,8.12,8.46,6.68,8.43,9.87,9.56,6.85,9.06,10.08,9.27,9.12,9.3,8.37,7.48,9.33,9.57,7.21,7.85,8.83,7.11,7.3,8.9,8.83,10.58,12.65,13.4,17.53,24.86,21.71,15.98,8.3,7.09,10.54,9.26,13.76,17.59,11.31,12.5,12.3,10.55,8.93,10.09,11.85,13.49,18.02,15.21,14.83,15.36,16.88,21.21,24.19,26.18,25.46,35.6,44.15,45.43,41.12,55.62,58.03,59.72,69.07,65.06,76.45,86.12,93.32,84.45,95.04,102,90.31,93.49,103.3,118.4,96.11,72.56,96.86,103.8,90.25,99.71,110.9,133,117.3,144.3,166.4,171.6,208.2,264.5,250.5,285.4,339.97,325.49,416.08,435.23,472.99,465.25,614.42,766.22,963.36,1248.77,1425.59,1335.63,1140.21,895.84,1132.52,1181.41,1278.73,1424.16,1378.76,865.58,1123.58,1282.62,1300.58,1480.4,1822.36,2028.18,1918.6,2275.12,2789.8,2607.39,3278.2,3793.75,4573.82,3960.66,4815.61,5979.52]});\n      }","data":null}]}}</script>
+</div>
+</div>
+<p>If you tried multiple ranges, have you noticed how the blue line wiggles at the beginning, regardless of when you start? And then, after ~20 years the average gets stable. The further from the start you go, the harder it is to move the needle. So here is a question, should anybody care about average returns? If all goes well, you should have more money as the time progress. It means that return in the 20th year of investment mean nominally much more than return in the 3rd year. Is there any occasion when the value of average returns is useful? I think it is useful on at least two occasions: if you want to compare asset classes. It is meaningful to say, by average stocks return 3% more than bonds. Also, the 7% return rule provides a very useful mental model to think about exponential growth: if something grows 7% a year, it doubles the initial capital after a decade <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<p>It brings me back to the original contradiction. Is investment result path dependent and path independent at the same time? Well, it is, if we stick to the existing naming convention. As you just saw by playing with the time ranges for average cumulative return calculations, the trace wiggles at the beginning and averages after decade or two. In this way I think a better name for the effect should have initial conditions, not path, in name. Initial conditions dependency. Similar like for weather forecast models. It is not only about the destination, but also about the journey. Thank you for reading.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>lack of these intuitions makes us surprised when studying the matter. As Niehls Bohr said, “Those who are not shocked when they first come across quantum theory cannot possibly have understood it.”<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>What most people think when they talk about Shiller data, are values of CAPE Ratio, Cyclically Adjusted Price-to-Earnings ratio. I am using here source data used for CAPE calculation, but not CAPE itself.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>I know it is not “Materials and Methods” section but paragraph in a blog post. Yet, in a blog dedicated to representing data and emphasizing the importance of data quality, I owe my readers some details on what input I use and why: - it is extrapolated back to 1871, which makes 150+ years of market data. 15 decades for a single human being is a decent background to talk about long term returns. - to put it in perspective, year 1871 was way earlier than conception of the S&amp;P500 index, waaay earlier than conception of any stock index, and waaaaaay earlier than it was possible to invest in broad stock market.<br>
+- overall, this data originates from a single country, which is a significant factor in maintaining consistency. It is considerably more feasible to ensure uniformity over an extended period when concerning the same currency and the same political entity. It would be extremely hard if not impossible to have comparable data from Europe. - importantly, the USA is not any country in the world, but the one with the most prosperous stock market for 75+ years. Therefore this data is not a good proxy to make assumptions on stock returns in general (look at the indices of a few European countries and see how long did it took them to recover from 2008 crisis. USA was brisk and growing back in 2012, whereas some EU markets still have not reached 2008 levels. OMG, footnote in a footnote, I need to stop.)<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Mind that the value of year x1 (selected as starting year) builds on the January value from year x0.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Try it: 1.07<sup>10</sup><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<div class="share-buttons">
+
+  <h4>Share this post:</h4>
+
+  <div class="share-links">
+
+    <a href="#" class="share-btn twitter" onclick="shareOnTwitter(); return false;" title="Share on Twitter">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+
+      </svg>
+
+      Twitter
+
+    </a>
+
+    <a href="#" class="share-btn linkedin" onclick="shareOnLinkedIn(); return false;" title="Share on LinkedIn">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+
+      </svg>
+
+      LinkedIn
+
+    </a>
+
+    <a href="#" class="share-btn facebook" onclick="shareOnFacebook(); return false;" title="Share on Facebook">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+
+      </svg>
+
+      Facebook
+
+    </a>
+
+    <a href="#" class="share-btn email" onclick="shareViaEmail(); return false;" title="Share via Email">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+
+        <polyline points="22,6 12,13 2,6"></polyline>
+
+      </svg>
+
+      Email
+
+    </a>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+  function shareOnTwitter() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    const title = encodeURIComponent(document.title);
+
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
+
+  }
+
+  
+
+  function shareOnLinkedIn() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=600');
+
+  }
+
+  
+
+  function shareOnFacebook() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+
+  }
+
+  
+
+  function shareViaEmail() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    const title = encodeURIComponent(document.title);
+
+    const body = encodeURIComponent(`I thought you might find this interesting: ${window.location.href}`);
+
+    window.location.href = `mailto:?subject=${title}&body=${body}`;
+
+  }
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2025 Aleksandra. All rights reserved.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

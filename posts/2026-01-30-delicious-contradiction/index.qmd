@@ -1,7 +1,7 @@
 ---
 title: "A Delicious Contradiction"
 author: "Aleksandra"
-date: "2026-01-27"
+date: "2026-01-30"
 categories: [finance, interactive]
 image: "thumb.jpeg"
 description: "To be and not to be path dependent"
