@@ -4,7 +4,7 @@ author: "Aleksandra"
 date: "2026-01-30"
 categories: [finance, interactive]
 image: "thumb.png"
-description: "To be and not to be path dependent"
+description: "To be and not to be path dependentat the same time."
 title-block-banner: true
 ---
 
@@ -151,9 +151,10 @@ It brings me back to the original contradiction. Is investment result path depen
 [^1]: lack of these intuitions makes us surprised when studying the matter. As Niehls Bohr said, “Those who are not shocked when they first come across quantum theory cannot possibly have understood it.”
 [^2]: What most people think when they talk about Shiller data, are values of CAPE Ratio, Cyclically Adjusted Price-to-Earnings ratio. I am using here source data used for CAPE calculation, but not CAPE itself. 
 [^3]: I know it is not “Materials and Methods” section but paragraph in a blog post. Yet, in a blog dedicated to representing data and emphasizing the importance of data quality, I owe my readers some details on what input I use and why:
-- it is extrapolated back to 1871, which makes 150+ years of market data. 15 decades for a single human being is a decent background to talk about long term returns.
-- to put it in perspective, year 1871 was way earlier than conception of the S&P500 index, waaay earlier than conception of any stock index, and waaaaaay earlier than it was possible to invest in broad stock market.  
-- overall, this data originates from a single country, which is a significant factor in maintaining consistency. It is considerably more feasible to ensure uniformity over an extended period when concerning the same currency and the same political entity. It would be extremely hard if not impossible to have comparable data from Europe. 
-- importantly, the USA is not any country in the world, but the one with the most prosperous stock market for 75+ years. Therefore this data is not a good proxy to make assumptions on stock returns in general (look at the indices of a few European countries and see how long did it took them to recover from 2008 crisis. USA was brisk and growing back in 2012, whereas some EU markets still have not reached 2008 levels. OMG, footnote in a footnote, I need to stop.)
+
+    - it is extrapolated back to 1871, which makes 150+ years of market data. 15 decades for a single human being is a decent background to talk about long term returns.
+    - to put it in perspective, year 1871 was way earlier than conception of the S&P500 index, waaay earlier than conception of any stock index, and waaaaaay earlier than it was possible to invest in broad stock market.
+    - overall, this data originates from a single country, which is a significant factor in maintaining consistency. It is considerably more feasible to ensure uniformity over an extended period when concerning the same currency and the same political entity. It would be extremely hard if not impossible to have comparable data from Europe.
+    - importantly, the USA is not any country in the world, but the one with the most prosperous stock market for 75+ years. Therefore this data is not a good proxy to make assumptions on stock returns in general (look at the indices of a few European countries and see how long did it took them to recover from 2008 crisis. USA was brisk and growing back in 2012, whereas some EU markets still have not reached 2008 levels. OMG, footnote in a footnote, I need to stop.)
 [^4]: Mind that the value of year x1 (selected as starting year) builds on the January value from year x0. 
 [^5]: Try it: 1.07^10^
