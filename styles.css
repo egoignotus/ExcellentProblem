@@ -29,6 +29,22 @@ body {
   background-color: #fffef8 !important;
 }
 
+/* Fix white bar/divider before footnotes */
+.footnotes hr, 
+hr.footnotes-sep,
+section.footnotes::before {
+  background-color: #e8e6e0 !important;
+  border-color: #e8e6e0 !important;
+}
+
+/* General hr styling to match theme */
+article hr,
+.quarto-article hr {
+  background-color: #e8e6e0;
+  border: none;
+  height: 1px;
+}
+
 /* Share buttons styling */
 .share-buttons {
   margin: 2.5rem 0 2rem 0;
@@ -83,8 +99,16 @@ body {
 .share-btn.twitter:hover svg,
 .share-btn.linkedin:hover svg,
 .share-btn.facebook:hover svg,
-.share-btn.email:hover svg {
+.share-btn.email:hover svg,
+.share-btn.copy-link:hover svg {
   opacity: 1;
+}
+
+/* Copy link button specific styles */
+.share-btn.copy-link.copied {
+  background-color: #d4edda;
+  border-color: #a8d5ae;
+  color: #155724;
 }
 
 @media (max-width: 576px) {

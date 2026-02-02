@@ -26,6 +26,13 @@
       </svg>
       Email
     </a>
+    <a href="#" class="share-btn copy-link" onclick="copyLink(this); return false;" title="Copy link to clipboard">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+      </svg>
+      <span class="copy-text">Copy Link</span>
+    </a>
   </div>
 </div>
 
@@ -51,5 +58,24 @@
     const title = encodeURIComponent(document.title);
     const body = encodeURIComponent(`I thought you might find this interesting: ${window.location.href}`);
     window.location.href = `mailto:?subject=${title}&body=${body}`;
+  }
+  
+  function copyLink(button) {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+      // Change button text to show success
+      const textSpan = button.querySelector('.copy-text');
+      const originalText = textSpan.textContent;
+      textSpan.textContent = 'Copied!';
+      button.classList.add('copied');
+      
+      // Reset after 2 seconds
+      setTimeout(function() {
+        textSpan.textContent = originalText;
+        button.classList.remove('copied');
+      }, 2000);
+    }).catch(function(err) {
+      console.error('Failed to copy link: ', err);
+      alert('Failed to copy link. Please copy it manually from the address bar.');
+    });
   }
 </script>

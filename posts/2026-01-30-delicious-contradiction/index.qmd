@@ -4,7 +4,7 @@ author: "Aleksandra"
 date: "2026-01-30"
 categories: [finance, interactive]
 image: "thumb.png"
-description: "To be and not to be path dependentat the same time."
+description: "To be and not to be path dependent at the same time."
 title-block-banner: true
 ---
 
