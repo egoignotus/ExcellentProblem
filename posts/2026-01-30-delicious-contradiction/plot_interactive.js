@@ -95,7 +95,9 @@ function initInteractivePlot(el, fullData) {
       legend: {orientation: 'h', x: 0.5, xanchor: 'center', y: -0.2}
     };
     
-    Plotly.newPlot(el, [trace1, trace2, trace3], layout);
+    var config = {scrollZoom: false};
+    
+    Plotly.newPlot(el, [trace1, trace2, trace3], layout, config);
   };
   
   // Initial plot with default range

@@ -84,7 +84,8 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     margin = list(l = 50, r = 20, t = 50, b = 60, pad = 4),
     legend = list(orientation = 'h', x = 0.5, xanchor = 'center', y = -0.2),
     autosize = TRUE
-  )
+  ) %>%
+  config(scrollZoom = FALSE)
 
 fig_static
 ```
@@ -164,7 +165,7 @@ If you tried multiple ranges, have you noticed how the blue line wiggles at the 
 
 It brings me back to the original contradiction. Is investment result path dependent and path independent at the same time? Well, it is, if we stick to the existing naming convention.  As you just saw by playing with the time ranges for average cumulative return calculations, the trace wiggles at the beginning and averages after decade or two. In this way I think a better name for the effect should have initial conditions, not path, in name. Initial conditions dependency. Similar like for weather forecast models. It is not only about the destination, but also about the journey. Thank you for reading.
 
-[^1]: lack of these intuitions makes us surprised when studying the matter. As Niehls Bohr said, “Those who are not shocked when they first come across quantum theory cannot possibly have understood it.”
+[^1]: Lack of these intuitions makes us surprised when studying the matter. As Niehls Bohr said, “Those who are not shocked when they first come across quantum theory cannot possibly have understood it.”
 [^2]: What most people think when they talk about Shiller data, are values of CAPE Ratio, Cyclically Adjusted Price-to-Earnings ratio. I am using here source data used for CAPE calculation, but not CAPE itself. 
 [^3]: I know it is not “Materials and Methods” section but paragraph in a blog post. Yet, in a blog dedicated to representing data and emphasizing the importance of data quality, I owe my readers some details on what input I use and why:
 
