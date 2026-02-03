@@ -83,7 +83,7 @@ function initInteractivePlot(el, fullData) {
     };
     
     var layout = {
-      title: 'Annual % Return and Cumulative Average Return (' + startYear + '-' + endYear + ')',
+      title: 'Returns by Time Period (' + startYear + '-' + endYear + ')',
       xaxis: {title: 'Year'},
       yaxis: {
         title: 'Return, %',

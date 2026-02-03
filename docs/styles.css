@@ -24,25 +24,19 @@ body {
   color: #666;
 }
 
-/* Footnotes background matching blog */
-.footnotes, .footnotes ol, .footnotes li {
+/* Footnotes and appendix styling */
+.footnotes, 
+.footnotes ol, 
+.footnotes li,
+#quarto-appendix.default {
   background-color: #fffef8 !important;
 }
 
-/* Fix white bar/divider before footnotes */
-.footnotes hr, 
-hr.footnotes-sep,
-section.footnotes::before {
+/* Horizontal rules */
+hr {
   background-color: #e8e6e0 !important;
-  border-color: #e8e6e0 !important;
-}
-
-/* General hr styling to match theme */
-article hr,
-.quarto-article hr {
-  background-color: #e8e6e0;
-  border: none;
-  height: 1px;
+  border: none !important;
+  height: 1px !important;
 }
 
 /* Share buttons styling */

@@ -67,7 +67,7 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
   ) %>%
   layout(
     title = list(
-      text = "Annual % Return and Cumulative Average Return (1872-2024)",
+      text = "Annual Returns and Cumulative Average",
       font = list(size = 14),
       xref = "paper",
       x = 0.5,
@@ -117,7 +117,7 @@ js_code <- paste(js_code, collapse = "\n")
 fig_interactive <- plot_ly() %>%
   layout(
     title = list(
-      text = "Annual % Return and Cumulative Average of Returns",
+      text = "Returns by Time Period",
       font = list(size = 14),
       xref = "paper",
       x = 0.5,
