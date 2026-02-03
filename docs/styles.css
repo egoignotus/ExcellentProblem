@@ -138,3 +138,22 @@ article hr,
     max-width: 100% !important;
   }
 }
+
+/* Plotly chart title wrapping on mobile */
+@media (max-width: 768px) {
+  /* Allow plotly container to resize properly */
+  .js-plotly-plot, .plotly, .plot-container {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  /* Ensure SVG scales properly */
+  .js-plotly-plot .main-svg {
+    max-width: 100% !important;
+  }
+  
+  /* Reduce plotly title font size on mobile */
+  .js-plotly-plot .g-gtitle text {
+    font-size: 12px !important;
+  }
+}

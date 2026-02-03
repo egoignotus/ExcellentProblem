@@ -66,16 +66,24 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     hovertemplate = 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
   ) %>%
   layout(
-    title = "Annual % Return and Cumulative Average Return (1872-2024)",
-    xaxis = list(title = "Year"),
+    title = list(
+      text = "Annual % Return and Cumulative Average Return (1872-2024)",
+      font = list(size = 14),
+      xref = "paper",
+      x = 0.5,
+      xanchor = "center"
+    ),
+    xaxis = list(title = "Year", automargin = TRUE),
     yaxis = list(
       title = "Return, %",
-      tickformat = '.1f'
+      tickformat = '.1f',
+      automargin = TRUE
     ),
     plot_bgcolor = "white",
     paper_bgcolor = "white",
-    margin = list(l = 60, r = 60, t = 60, b = 60),
-    legend = list(orientation = 'h', x = 0.5, xanchor = 'center', y = -0.2)
+    margin = list(l = 50, r = 20, t = 50, b = 60, pad = 4),
+    legend = list(orientation = 'h', x = 0.5, xanchor = 'center', y = -0.2),
+    autosize = TRUE
   )
 
 fig_static
@@ -108,11 +116,19 @@ js_code <- paste(js_code, collapse = "\n")
 # Create interactive plot
 fig_interactive <- plot_ly() %>%
   layout(
-    title = "Annual % Return and Cumulative Average of Returns",
-    xaxis = list(title = "Year"),
-    yaxis = list(title = "Return, %"),
+    title = list(
+      text = "Annual % Return and Cumulative Average of Returns",
+      font = list(size = 14),
+      xref = "paper",
+      x = 0.5,
+      xanchor = "center"
+    ),
+    xaxis = list(title = "Year", automargin = TRUE),
+    yaxis = list(title = "Return, %", automargin = TRUE),
     plot_bgcolor = "white",
-    paper_bgcolor = "white"
+    paper_bgcolor = "white",
+    margin = list(l = 50, r = 20, t = 50, b = 60, pad = 4),
+    autosize = TRUE
   )
 
 # Add HTML controls using helper function
