@@ -4,14 +4,14 @@
     "href": "posts/2026-02-07-integrals/index.html",
     "title": "Integrals",
     "section": "",
-    "text": "Use the slider below to change the upper limit of integration. The left plot shows the function \\(f(t) = t\\) with the area under the curve shaded. The dashed outline shows the maximum possible area. The right plot shows the value of the integral \\(\\int_0^t \\tau \\, d\\tau = \\frac{t^2}{2}\\).\n\n\n\n\nLower limit:\n\n0.0\n\n\nUpper limit:\n\n5.0\n\n\nIntegral: \n0.00"
+    "text": "Use the slider below to change the upper limit of integration. The left plot shows the function \\(f(t) = t\\) with the area under the curve shaded. The dashed outline shows the maximum possible area. The right plot shows the value of the integral \\(\\int_0^t \\tau \\, d\\tau = \\frac{t^2}{2}\\).\n\n\n\n\n\n\nIntegration limits:\n[0.0, 5.0]\n\n\n\nIntegral: \n0.00\n\n(\n0\n% of max)"
   },
   {
     "objectID": "posts/2026-02-07-integrals/index.html#interactive-integral-visualization",
     "href": "posts/2026-02-07-integrals/index.html#interactive-integral-visualization",
     "title": "Integrals",
     "section": "",
-    "text": "Use the slider below to change the upper limit of integration. The left plot shows the function \\(f(t) = t\\) with the area under the curve shaded. The dashed outline shows the maximum possible area. The right plot shows the value of the integral \\(\\int_0^t \\tau \\, d\\tau = \\frac{t^2}{2}\\).\n\n\n\n\nLower limit:\n\n0.0\n\n\nUpper limit:\n\n5.0\n\n\nIntegral: \n0.00"
+    "text": "Use the slider below to change the upper limit of integration. The left plot shows the function \\(f(t) = t\\) with the area under the curve shaded. The dashed outline shows the maximum possible area. The right plot shows the value of the integral \\(\\int_0^t \\tau \\, d\\tau = \\frac{t^2}{2}\\).\n\n\n\n\n\n\nIntegration limits:\n[0.0, 5.0]\n\n\n\nIntegral: \n0.00\n\n(\n0\n% of max)"
   },
   {
     "objectID": "posts/2026-01-15-caveman-baby/index.html",
@@ -109,13 +109,20 @@
     "href": "posts/2026-02-07-integrals/index.html#logarithmic-function",
     "title": "Integrals",
     "section": "Logarithmic Function",
-    "text": "Logarithmic Function\nNow let’s look at \\(f(t) = \\ln(t)\\). The integral \\(\\int_1^t \\ln(\\tau) \\, d\\tau = t \\cdot \\ln(t) - t + 1\\).\n\n\n\n\nLower limit:\n\n1.0\n\n\nUpper limit:\n\n5.0\n\n\nIntegral: \n0.00"
+    "text": "Logarithmic Function\nNow let’s look at \\(f(t) = \\ln(t)\\). The integral \\(\\int_1^t \\ln(\\tau) \\, d\\tau = t \\cdot \\ln(t) - t + 1\\).\n\n\n\n\n\n\nIntegration limits:\n[1.0, 5.0]\n\n\n\nIntegral: \n0.00\n\n(\n0\n% of max)"
   },
   {
     "objectID": "posts/2026-02-07-integrals/index.html#exponential-function",
     "href": "posts/2026-02-07-integrals/index.html#exponential-function",
     "title": "Integrals",
     "section": "Exponential Function",
-    "text": "Exponential Function\nNow let’s look at \\(f(t) = e^t\\). The integral \\(\\int_0^t e^\\tau \\, d\\tau = e^t - 1\\).\n\n\n\n\nLower limit:\n\n0.0\n\n\nUpper limit:\n\n2.5\n\n\nIntegral: \n0.00"
+    "text": "Exponential Function\nNow let’s look at \\(f(t) = e^t\\). The integral \\(\\int_0^t e^\\tau \\, d\\tau = e^t - 1\\).\n\n\n\n\n\n\nIntegration limits:\n[0.0, 2.5]\n\n\n\nIntegral: \n0.00\n\n(\n0\n% of max)"
+  },
+  {
+    "objectID": "posts/2026-02-07-integrals/index.html#sigmoid-function",
+    "href": "posts/2026-02-07-integrals/index.html#sigmoid-function",
+    "title": "Integrals",
+    "section": "Sigmoid Function",
+    "text": "Sigmoid Function\nThe sigmoid function \\(\\sigma(t) = \\frac{1}{1+e^{-t}}\\) is widely used in machine learning. Its integral is \\(\\int_a^b \\sigma(\\tau) \\, d\\tau = \\ln(1+e^b) - \\ln(1+e^a)\\).\n\n\n\n\n\n\nIntegration limits:\n[-2.0, 2.0]\n\n\n\nIntegral: \n0.00\n\n(\n0\n% of max)"
   }
 ]

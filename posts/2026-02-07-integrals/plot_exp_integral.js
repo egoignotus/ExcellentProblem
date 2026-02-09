@@ -26,6 +26,7 @@ function initExpIntegralPlot(el) {
     
     // Integral of exp(t) from tLower to tUpper = exp(tUpper) - exp(tLower)
     var integralValue = Math.exp(tUpper) - Math.exp(tLower);
+    var integralPercent = (integralValue / maxIntegral) * 100;
     
     return {
       lineT: lineT,
@@ -33,26 +34,21 @@ function initExpIntegralPlot(el) {
       fillT: fillT,
       fillY: fillY,
       integralValue: integralValue,
+      integralPercent: integralPercent,
       tLower: tLower,
       tUpper: tUpper
     };
   }
   
   window.updateExpIntegralPlot = function() {
-    var tLower = parseFloat(document.getElementById('tSliderExpLower').value);
-    var tUpper = parseFloat(document.getElementById('tSliderExpUpper').value);
-    
-    // Ensure lower <= upper
-    if (tLower > tUpper) {
-      tLower = tUpper;
-      document.getElementById('tSliderExpLower').value = tLower;
-    }
-    
-    document.getElementById('tValueExpLower').textContent = tLower.toFixed(1);
-    document.getElementById('tValueExpUpper').textContent = tUpper.toFixed(1);
+    var slider = document.getElementById('rangeSliderExp');
+    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [0, 2.5];
+    var tLower = parseFloat(values[0]);
+    var tUpper = parseFloat(values[1]);
     
     var data = generateData(tLower, tUpper);
     document.getElementById('integralValueExp').textContent = data.integralValue.toFixed(2);
+    document.getElementById('integralPercentExp').textContent = data.integralPercent.toFixed(0);
     
     // Left plot traces
     var traceLine = {
@@ -92,14 +88,14 @@ function initExpIntegralPlot(el) {
       hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra></extra>'
     };
     
-    // Right plot traces
+    // Right plot traces - using percentage
     var traceIntegralBar = {
       x: ['Integral'],
-      y: [data.integralValue],
+      y: [data.integralPercent],
       type: 'bar',
       marker: {color: 'rgba(186, 85, 211, 0.7)'},
       name: '∫ₐᵇ exp(τ) dτ',
-      hovertemplate: 'Value: %{y:.2f}<extra></extra>',
+      hovertemplate: '%{y:.1f}%<extra></extra>',
       width: 0.5
     };
     
@@ -116,7 +112,7 @@ function initExpIntegralPlot(el) {
     var layoutRight = {
       title: {text: '∫ₐᵇ exp(τ) dτ', font: {size: 14}},
       xaxis: {showticklabels: false},
-      yaxis: {title: 'Area', range: [0, maxIntegral * 1.1]},
+      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},
       plot_bgcolor: 'white',
       paper_bgcolor: 'white',
       margin: {l: 50, r: 20, t: 50, b: 50},
@@ -126,8 +122,8 @@ function initExpIntegralPlot(el) {
         xref: 'paper',
         x0: 0.1,
         x1: 0.9,
-        y0: maxIntegral,
-        y1: maxIntegral,
+        y0: 100,
+        y1: 100,
         line: {color: 'gray', width: 2, dash: 'dash'}
       }]
     };

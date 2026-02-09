@@ -25,6 +25,7 @@ function initIntegralPlot(el) {
     
     // Integral of t from tLower to tUpper = (tUpper^2 - tLower^2) / 2
     var integralValue = (tUpper * tUpper - tLower * tLower) / 2;
+    var integralPercent = (integralValue / maxIntegral) * 100;
     
     return {
       lineT: lineT,
@@ -32,26 +33,21 @@ function initIntegralPlot(el) {
       fillT: fillT,
       fillY: fillY,
       integralValue: integralValue,
+      integralPercent: integralPercent,
       tLower: tLower,
       tUpper: tUpper
     };
   }
   
   window.updateIntegralPlot = function() {
-    var tLower = parseFloat(document.getElementById('tSliderLower').value);
-    var tUpper = parseFloat(document.getElementById('tSliderUpper').value);
-    
-    // Ensure lower <= upper
-    if (tLower > tUpper) {
-      tLower = tUpper;
-      document.getElementById('tSliderLower').value = tLower;
-    }
-    
-    document.getElementById('tValueLower').textContent = tLower.toFixed(1);
-    document.getElementById('tValueUpper').textContent = tUpper.toFixed(1);
+    var slider = document.getElementById('rangeSlider');
+    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [0, 5];
+    var tLower = parseFloat(values[0]);
+    var tUpper = parseFloat(values[1]);
     
     var data = generateData(tLower, tUpper);
     document.getElementById('integralValue').textContent = data.integralValue.toFixed(2);
+    document.getElementById('integralPercent').textContent = data.integralPercent.toFixed(0);
     
     // Left plot traces
     var traceLine = {
@@ -91,14 +87,14 @@ function initIntegralPlot(el) {
       hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra></extra>'
     };
     
-    // Right plot traces
+    // Right plot traces - using percentage
     var traceIntegralBar = {
       x: ['Integral'],
-      y: [data.integralValue],
+      y: [data.integralPercent],
       type: 'bar',
       marker: {color: 'rgba(100, 149, 237, 0.7)'},
       name: '∫ₐᵇ τ dτ',
-      hovertemplate: 'Value: %{y:.2f}<extra></extra>',
+      hovertemplate: '%{y:.1f}%<extra></extra>',
       width: 0.5
     };
     
@@ -113,9 +109,9 @@ function initIntegralPlot(el) {
     };
     
     var layoutRight = {
-      title: {text: '∫₀ᵗ f(τ) dτ = t²/2', font: {size: 14}},
+      title: {text: '∫ₐᵇ f(τ) dτ', font: {size: 14}},
       xaxis: {showticklabels: false},
-      yaxis: {title: 'Area', range: [0, maxIntegral * 1.1]},
+      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},
       plot_bgcolor: 'white',
       paper_bgcolor: 'white',
       margin: {l: 50, r: 20, t: 50, b: 50},
@@ -125,8 +121,8 @@ function initIntegralPlot(el) {
         xref: 'paper',
         x0: 0.1,
         x1: 0.9,
-        y0: maxIntegral,
-        y1: maxIntegral,
+        y0: 100,
+        y1: 100,
         line: {color: 'gray', width: 2, dash: 'dash'}
       }]
     };
