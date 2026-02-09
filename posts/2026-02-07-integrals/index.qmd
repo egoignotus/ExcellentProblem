@@ -1,0 +1,159 @@
+---
+title: "Integrals"
+author: "Aleksandra"
+date: "2026-02-07"
+categories: [math, interactive]
+image: ""
+description: ""
+title-block-banner: true
+---
+
+## Interactive Integral Visualization
+
+Use the slider below to change the upper limit of integration. The left plot shows the function $f(t) = t$ with the area under the curve shaded. The dashed outline shows the maximum possible area. The right plot shows the value of the integral $\int_0^t \tau \, d\tau = \frac{t^2}{2}$.
+
+```{r}
+#| echo: false
+#| warning: false
+
+library(plotly)
+library(htmlwidgets)
+
+# Load helper functions
+source("plot_helpers.R")
+
+# Read external JavaScript file
+js_code <- readLines("plot_integral.js", warn = FALSE)
+js_code <- paste(js_code, collapse = "\n")
+
+# Create controls and plot containers using helper functions
+controls_html <- create_integral_controls(
+  id_prefix = "",
+  lower_min = 0, lower_max = 10, lower_default = 0,
+  upper_min = 0, upper_max = 10, upper_default = 5,
+  update_function = "updateIntegralPlot",
+  bg_color = "#f8f9fa"
+)
+plot_containers <- create_plot_containers(id_prefix = "")
+
+# Create minimal plotly widget just to load Plotly.js and run our code
+fig <- plot_ly() %>%
+  layout(
+    xaxis = list(visible = FALSE),
+    yaxis = list(visible = FALSE),
+    plot_bgcolor = "white",
+    paper_bgcolor = "white",
+    height = 1,
+    margin = list(l = 0, r = 0, t = 0, b = 0)
+  ) %>%
+  htmlwidgets::prependContent(htmltools::tagList(controls_html, plot_containers)) %>%
+  htmlwidgets::onRender(
+    sprintf(
+      "function(el, x) {
+        el.style.height = '0px';
+        el.style.overflow = 'hidden';
+        %s
+        initIntegralPlot(el);
+      }",
+      js_code
+    )
+  )
+
+fig
+```
+
+## Logarithmic Function
+
+Now let's look at $f(t) = \ln(t)$. The integral $\int_1^t \ln(\tau) \, d\tau = t \cdot \ln(t) - t + 1$.
+
+```{r}
+#| echo: false
+#| warning: false
+
+# Read external JavaScript file for log plot
+js_code_log <- readLines("plot_log_integral.js", warn = FALSE)
+js_code_log <- paste(js_code_log, collapse = "\n")
+
+# Create controls and plot containers using helper functions
+controls_html_log <- create_integral_controls(
+  id_prefix = "Log",
+  lower_min = 0.1, lower_max = 10, lower_default = 1,
+  upper_min = 0.1, upper_max = 10, upper_default = 5,
+  update_function = "updateLogIntegralPlot",
+  bg_color = "#f0fff0"
+)
+plot_containers_log <- create_plot_containers(id_prefix = "Log")
+
+# Create minimal plotly widget just to load Plotly.js and run our code
+fig_log <- plot_ly() %>%
+  layout(
+    xaxis = list(visible = FALSE),
+    yaxis = list(visible = FALSE),
+    plot_bgcolor = "white",
+    paper_bgcolor = "white",
+    height = 1,
+    margin = list(l = 0, r = 0, t = 0, b = 0)
+  ) %>%
+  htmlwidgets::prependContent(htmltools::tagList(controls_html_log, plot_containers_log)) %>%
+  htmlwidgets::onRender(
+    sprintf(
+      "function(el, x) {
+        el.style.height = '0px';
+        el.style.overflow = 'hidden';
+        %s
+        initLogIntegralPlot(el);
+      }",
+      js_code_log
+    )
+  )
+
+fig_log
+```
+
+## Exponential Function
+
+Now let's look at $f(t) = e^t$. The integral $\int_0^t e^\tau \, d\tau = e^t - 1$.
+
+```{r}
+#| echo: false
+#| warning: false
+
+# Read external JavaScript file for exp plot
+js_code_exp <- readLines("plot_exp_integral.js", warn = FALSE)
+js_code_exp <- paste(js_code_exp, collapse = "\n")
+
+# Create controls and plot containers using helper functions
+controls_html_exp <- create_integral_controls(
+  id_prefix = "Exp",
+  lower_min = 0, lower_max = 5, lower_default = 0,
+  upper_min = 0, upper_max = 5, upper_default = 2.5,
+  update_function = "updateExpIntegralPlot",
+  bg_color = "#f5f0ff"
+)
+plot_containers_exp <- create_plot_containers(id_prefix = "Exp")
+
+# Create minimal plotly widget just to load Plotly.js and run our code
+fig_exp <- plot_ly() %>%
+  layout(
+    xaxis = list(visible = FALSE),
+    yaxis = list(visible = FALSE),
+    plot_bgcolor = "white",
+    paper_bgcolor = "white",
+    height = 1,
+    margin = list(l = 0, r = 0, t = 0, b = 0)
+  ) %>%
+  htmlwidgets::prependContent(htmltools::tagList(controls_html_exp, plot_containers_exp)) %>%
+  htmlwidgets::onRender(
+    sprintf(
+      "function(el, x) {
+        el.style.height = '0px';
+        el.style.overflow = 'hidden';
+        %s
+        initExpIntegralPlot(el);
+      }",
+      js_code_exp
+    )
+  )
+
+fig_exp
+```
