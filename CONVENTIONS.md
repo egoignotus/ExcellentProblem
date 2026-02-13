@@ -19,7 +19,9 @@ ExcellentProblem/
 │   └── YYYY-MM-DD-slug/
 │       ├── index.qmd         # Post content
 │       ├── plot_helpers.R    # R helpers for HTML controls (when applicable)
-│       ├── plot_*.js         # External JS for interactive plots (when applicable)
+│       ├── integral_engine.js # Shared JS engine (when post has multiple similar plots)
+│       ├── plot_*.js         # Per-plot config wrappers for the shared engine
+│       ├── libs.html         # Per-post CDN deps (e.g., Plotly, noUiSlider)
 │       └── ...               # Data files, images, etc.
 ├── styles.css                # Global CSS overrides
 └── share-buttons.html        # Included after every post body
@@ -72,10 +74,12 @@ line: { color: R.lineA, width: 2 }
 ## 4. Code Organization Rules
 
 1. **No inline HTML in `.qmd` files.** All HTML controls must be generated via R helper functions in a `plot_helpers.R` file within the post directory.
-2. **No inline JavaScript in `.qmd` files.** All JS logic lives in external `plot_*.js` files, loaded via `readLines()` and injected through `htmlwidgets::onRender()`.
+2. **No inline JavaScript in `.qmd` files.** All JS logic lives in external `plot_*.js` files, inlined at render time via `render_interactive_plot()` in `plot_helpers.R`.
 3. **No hardcoded colors.** R plots reference `INFERNO$...`, JS plots reference `window.INFERNO.roles.*`.
 4. **One `plot_helpers.R` per post** (when interactive controls are needed). Contains functions that generate HTML controls. Shared patterns (like the noUiSlider setup) should follow the same structure.
 5. **Data files** (CSV, etc.) live alongside the post's `index.qmd`.
+6. **Shared JS engine pattern.** When a post has multiple interactive plots with the same boilerplate (traces, layouts, Plotly calls), extract the repeated logic into a single engine file (e.g., `integral_engine.js`) that exposes one factory function accepting a config object. Each plot then becomes a thin ~17-line config wrapper in its own `plot_*.js` file. The engine is inlined once via `render_interactive_plot()`, which tracks whether it has already been loaded using `.GlobalEnv$.integral_engine_loaded`. This avoids duplicating hundreds of lines across plot files.
+7. **Per-post CDN dependencies.** Heavy libraries used only by a specific post (e.g., Plotly.js, noUiSlider) should be loaded once via a `libs.html` file in the post directory, referenced with `include-in-header: libs.html` in the post YAML. Do **not** load them in `_quarto.yml` (site-wide) or re-include them per widget.
 
 ## 5. Quarto / Rendering Notes
 

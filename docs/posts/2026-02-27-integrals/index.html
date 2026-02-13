@@ -192,23 +192,17 @@ window.INFERNO = {
 
 </style>
 
-<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<!-- Plotly.js (loaded once for all interactive plots) -->
 
-<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.27.0/plotly.min.js"></script>
 
-<script src="../../site_libs/plotly-binding-4.10.4/plotly.js"></script>
 
-<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
 
-<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+<!-- noUiSlider (loaded once for all sliders) -->
 
-<link href="../../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
 
-<script src="../../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
-
-<link href="../../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
-
-<script src="../../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
 
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -333,8 +327,162 @@ window.Quarto = {
 <p>Let’s look at the simplest case: <span class="math inline">\(f(t) = 5\)</span>. The integral <span class="math inline">\(\int_a^b 5 \, d\tau = 5(b - a)\)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
-<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
+<script>// Shared engine for all interactive integral plots.
+// Each plot supplies a small config object; the engine handles
+// traces, layouts, crosshairs, and Plotly rendering.
+//
+// Usage:
+//   createIntegralPlot({
+//     idPrefix:    'Log',
+//     tMin:        1,
+//     tMax:        20,
+//     f:           function(t) { return Math.log(t); },
+//     F:           function(t) { return t * Math.log(t) - t; },
+//     title:       'f(t) = ln(t)',
+//     integralLabel: '∫ₐᵇ ln(τ) dτ',
+//     yRange:      [0, Math.log(20) + 0.3],
+//     dtick:       2,
+//     hoverFmt:    ':.2f',
+//     step:        10,          // points per unit on x-axis
+//     defaultLower: 1,
+//     defaultUpper: 10
+//   });
+
+function createIntegralPlot(cfg) {
+  var idPrefix     = cfg.idPrefix  || '';
+  var tMin         = cfg.tMin      != null ? cfg.tMin : 0;
+  var tMax         = cfg.tMax;
+  var f            = cfg.f;
+  var F            = cfg.F;
+  var maxIntegral  = F(tMax) - F(tMin);
+  var title        = cfg.title;
+  var intLabel     = cfg.integralLabel;
+  var yRange       = cfg.yRange;
+  var dtick        = cfg.dtick     || 2;
+  var hoverFmt     = cfg.hoverFmt  || ':.1f';
+  var step         = cfg.step      || 10;  // samples per unit
+  var defaultLower = cfg.defaultLower != null ? cfg.defaultLower : tMin;
+  var defaultUpper = cfg.defaultUpper != null ? cfg.defaultUpper : tMax;
+
+  function generateData(tLower, tUpper) {
+    var lineT = [], lineY = [];
+    for (var i = Math.round(tMin * step); i <= Math.round(tMax * step); i++) {
+      var t = i / step;
+      lineT.push(t);
+      lineY.push(f(t));
+    }
+
+    var fillT = [tLower], fillY = [0];
+    for (var i = Math.round(tLower * step); i <= Math.round(tUpper * step); i++) {
+      var t = i / step;
+      fillT.push(t);
+      fillY.push(f(t));
+    }
+    fillT.push(tUpper);
+    fillY.push(0);
+
+    var integralValue   = F(tUpper) - F(tLower);
+    var integralPercent = (integralValue / maxIntegral) * 100;
+
+    return {
+      lineT: lineT, lineY: lineY,
+      fillT: fillT, fillY: fillY,
+      integralValue: integralValue,
+      integralPercent: integralPercent,
+      tLower: tLower, tUpper: tUpper,
+      fLower: f(tLower), fUpper: f(tUpper)
+    };
+  }
+
+  var updateFnName = idPrefix
+    ? 'update' + idPrefix + 'IntegralPlot'
+    : 'updateIntegralPlot';
+
+  window[updateFnName] = function () {
+    var slider = document.getElementById('rangeSlider' + idPrefix);
+    var values = slider && slider.noUiSlider
+      ? slider.noUiSlider.get()
+      : [defaultLower, defaultUpper];
+    var tLower = parseFloat(values[0]);
+    var tUpper = parseFloat(values[1]);
+
+    var d = generateData(tLower, tUpper);
+    document.getElementById('integralValue' + idPrefix).textContent = d.integralValue.toFixed(2);
+    document.getElementById('integralPercent' + idPrefix).textContent = d.integralPercent.toFixed(0);
+
+    var R = window.INFERNO.roles;
+    var hoverTpl = 'time: %{x:.1f}<br>y: %{y' + hoverFmt + '}<extra></extra>';
+
+    var traces = [
+      // filled area
+      { x: d.fillT, y: d.fillY, fill: 'toself',
+        fillcolor: R.fillA, line: {color: R.fillBorderA, width: 1},
+        name: 'Area', hoverinfo: 'skip' },
+      // function curve
+      { x: d.lineT, y: d.lineY, mode: 'lines',
+        line: {color: R.lineA, width: 2},
+        name: title, hovertemplate: hoverTpl },
+      // lower marker
+      { x: [d.tLower], y: [d.fLower], mode: 'markers',
+        marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},
+        name: 'Lower limit', hovertemplate: hoverTpl },
+      // upper marker
+      { x: [d.tUpper], y: [d.fUpper], mode: 'markers',
+        marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},
+        name: 'Upper limit', hovertemplate: hoverTpl }
+    ];
+
+    // Crosshair shapes: dotted lines from each marker to both axes
+    var shapes = [
+      // lower vertical
+      {type:'line', x0:d.tLower, x1:d.tLower, y0:0, y1:d.fLower,
+       line:{color:R.markerLower, width:1.5, dash:'dot'}},
+      // lower horizontal
+      {type:'line', x0:tMin, x1:d.tLower, y0:d.fLower, y1:d.fLower,
+       line:{color:R.markerLower, width:1.5, dash:'dot'}},
+      // upper vertical
+      {type:'line', x0:d.tUpper, x1:d.tUpper, y0:0, y1:d.fUpper,
+       line:{color:R.markerUpper, width:1.5, dash:'dot'}},
+      // upper horizontal
+      {type:'line', x0:tMin, x1:d.tUpper, y0:d.fUpper, y1:d.fUpper,
+       line:{color:R.markerUpper, width:1.5, dash:'dot'}}
+    ];
+
+    var layoutLeft = {
+      xaxis: {title: 'time', range: [tMin, tMax], dtick: dtick},
+      yaxis: {title: 'growth(t)', range: yRange},
+      plot_bgcolor: 'white', paper_bgcolor: 'white',
+      margin: {l: 50, r: 20, t: 30, b: 50},
+      showlegend: false,
+      shapes: shapes
+    };
+
+    var layoutRight = {
+      xaxis: {showticklabels: false},
+      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},
+      plot_bgcolor: 'white', paper_bgcolor: 'white',
+      margin: {l: 50, r: 20, t: 50, b: 50},
+      showlegend: false,
+      shapes: [{
+        type: 'line', xref: 'paper', x0: 0.1, x1: 0.9, y0: 100, y1: 100,
+        line: {color: R.annotation, width: 2, dash: 'dash'}
+      }]
+    };
+
+    var barTrace = {
+      x: ['Integral'], y: [d.integralPercent], type: 'bar',
+      marker: {color: R.fillB}, name: intLabel,
+      hovertemplate: '%{y:.1f}%<extra></extra>', width: 0.5
+    };
+
+    var config = {responsive: true, displayModeBar: false};
+    Plotly.react('leftPlot'  + idPrefix, traces, layoutLeft,  config);
+    Plotly.react('rightPlot' + idPrefix, [barTrace], layoutRight, config);
+  };
+
+  // Run on first load
+  window[updateFnName]();
+}</script>
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
 <label style="font-weight: bold;">Integration limits:</label>
@@ -351,31 +499,47 @@ Integral:
 </span>
 </div>
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var slider = document.getElementById('rangeSliderConstant');
-          if (slider && !slider.noUiSlider) {
-            noUiSlider.create(slider, {
-              start: [0.000000, 5.000000],
-              connect: true,
-              range: {'min': 0.000000, 'max': 10.000000},
-              step: 0.1,
-              tooltips: false
-            });
-            slider.noUiSlider.on('update', function(values) {
-              document.getElementById('rangeDisplayConstant').textContent = 
-                '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
-              if (typeof updateConstantIntegralPlot === 'function') updateConstantIntegralPlot();
-            });
-          }
-        });
-      </script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var slider = document.getElementById('rangeSliderConstant');
+        if (slider && !slider.noUiSlider) {
+          noUiSlider.create(slider, {
+            start: [0.000000, 5.000000],
+            connect: true,
+            range: {'min': 0.000000, 'max': 10.000000},
+            step: 0.1,
+            tooltips: false
+          });
+          slider.noUiSlider.on('update', function(values) {
+            document.getElementById('rangeDisplayConstant').textContent = 
+              '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
+            if (typeof updateConstantIntegralPlot === 'function') updateConstantIntegralPlot();
+          });
+        }
+      });
+    </script>
 </div>
 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
 <div id="leftPlotConstant" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 <div id="rightPlotConstant" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 </div>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-51a3b0526ffc55a20755" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-51a3b0526ffc55a20755">{"x":{"visdat":{"79106fa87ba2":["function () ","plotlyVisDat"]},"cur_data":"79106fa87ba2","attrs":{"79106fa87ba2":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"height":1,"margin":{"b":0,"l":0,"t":0,"r":0},"xaxis":{"domain":[0,1],"automargin":true,"visible":false},"yaxis":{"domain":[0,1],"automargin":true,"visible":false},"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"type":"scatter","mode":"markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n        el.style.height = '0px';\n        el.style.overflow = 'hidden';\n        function initConstantIntegralPlot(el) {\n  var tMax = 10;\n  var C = 5;\n  var maxIntegral = C * tMax; // = 50\n  \n  function generateData(tLower, tUpper) {\n    // Generate points for the line y = 5\n    var lineT = [0, tMax];\n    var lineY = [C, C];\n    \n    // Generate filled area from tLower to tUpper\n    var fillT = [tLower, tLower, tUpper, tUpper];\n    var fillY = [0, C, C, 0];\n    \n    // Integral of 5 from tLower to tUpper = 5 * (tUpper - tLower)\n    var integralValue = C * (tUpper - tLower);\n    var integralPercent = (integralValue / maxIntegral) * 100;\n    \n    return {\n      lineT: lineT,\n      lineY: lineY,\n      fillT: fillT,\n      fillY: fillY,\n      integralValue: integralValue,\n      integralPercent: integralPercent,\n      tLower: tLower,\n      tUpper: tUpper\n    };\n  }\n  \n  window.updateConstantIntegralPlot = function() {\n    var slider = document.getElementById('rangeSliderConstant');\n    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [0, 5];\n    var tLower = parseFloat(values[0]);\n    var tUpper = parseFloat(values[1]);\n    \n    var data = generateData(tLower, tUpper);\n    document.getElementById('integralValueConstant').textContent = data.integralValue.toFixed(2);\n    document.getElementById('integralPercentConstant').textContent = data.integralPercent.toFixed(0);\n    \n    // Left plot traces\n    var R = window.INFERNO.roles;\n\n    var traceLine = {\n      x: data.lineT,\n      y: data.lineY,\n      mode: 'lines',\n      name: 'y = 5',\n      line: {color: R.lineA, width: 2},\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra><\/extra>'\n    };\n    \n    var traceFill = {\n      x: data.fillT,\n      y: data.fillY,\n      fill: 'toself',\n      fillcolor: R.fillA,\n      line: {color: R.fillBorderA, width: 1},\n      name: 'Area',\n      hoverinfo: 'skip'\n    };\n    \n    var traceMarkerLower = {\n      x: [data.tLower],\n      y: [C],\n      mode: 'markers',\n      marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},\n      name: 'Lower limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra><\/extra>'\n    };\n    \n    var traceMarkerUpper = {\n      x: [data.tUpper],\n      y: [C],\n      mode: 'markers',\n      marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},\n      name: 'Upper limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra><\/extra>'\n    };\n    \n    // Right plot traces - using percentage\n    var traceIntegralBar = {\n      x: ['Integral'],\n      y: [data.integralPercent],\n      type: 'bar',\n      marker: {color: R.fillB},\n      name: '∫ₐᵇ 5 dτ',\n      hovertemplate: '%{y:.1f}%<extra><\/extra>',\n      width: 0.5\n    };\n    \n    var layoutLeft = {\n      title: {text: 'f(t) = 5', font: {size: 14}},\n      xaxis: {title: 'time', range: [0, tMax], dtick: 2},\n      yaxis: {title: 'y', range: [0, tMax], dtick: 2},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false\n    };\n    \n    var layoutRight = {\n      title: {text: '∫ₐᵇ f(τ) dτ', font: {size: 14}},\n      xaxis: {showticklabels: false},\n      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false,\n      shapes: [{\n        type: 'line',\n        xref: 'paper',\n        x0: 0.1,\n        x1: 0.9,\n        y0: 100,\n        y1: 100,\n        line: {color: R.annotation, width: 2, dash: 'dash'}\n      }]\n    };\n    \n    var config = {responsive: true, displayModeBar: false};\n    \n    Plotly.react('leftPlotConstant', [traceFill, traceLine, traceMarkerLower, traceMarkerUpper], layoutLeft, config);\n    Plotly.react('rightPlotConstant', [traceIntegralBar], layoutRight, config);\n  };\n  \n  // Initialize\n  window.updateConstantIntegralPlot();\n}\n        initConstantIntegralPlot(el);\n      }","data":null}]}}</script>
+<script>function initConstantIntegralPlot() {
+  var C = 5, tMax = 10;
+  createIntegralPlot({
+    idPrefix:       'Constant',
+    tMin:           0,
+    tMax:           tMax,
+    f:              function(t) { return C; },
+    F:              function(t) { return C * t; },
+    title:          'f(t) = 5',
+    integralLabel:  '∫ₐᵇ 5 dτ',
+    yRange:         [0, tMax],
+    dtick:          2,
+    hoverFmt:       ':.1f',
+    defaultLower:   0,
+    defaultUpper:   5
+  });
+}
+document.addEventListener('DOMContentLoaded', function() { initConstantIntegralPlot(); });</script>
 </div>
 </div>
 </section>
@@ -384,8 +548,6 @@ Integral:
 <p>Use the slider below to change the upper limit of integration. The left plot shows the function <span class="math inline">\(f(t) = t\)</span> with the area under the curve shaded. The dashed outline shows the maximum possible area. The right plot shows the value of the integral <span class="math inline">\(\int_0^t \tau \, d\tau = \frac{t^2}{2}\)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
-<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
 <label style="font-weight: bold;">Integration limits:</label>
@@ -402,31 +564,47 @@ Integral:
 </span>
 </div>
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var slider = document.getElementById('rangeSlider');
-          if (slider && !slider.noUiSlider) {
-            noUiSlider.create(slider, {
-              start: [0.000000, 5.000000],
-              connect: true,
-              range: {'min': 0.000000, 'max': 10.000000},
-              step: 0.1,
-              tooltips: false
-            });
-            slider.noUiSlider.on('update', function(values) {
-              document.getElementById('rangeDisplay').textContent = 
-                '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
-              if (typeof updateIntegralPlot === 'function') updateIntegralPlot();
-            });
-          }
-        });
-      </script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var slider = document.getElementById('rangeSlider');
+        if (slider && !slider.noUiSlider) {
+          noUiSlider.create(slider, {
+            start: [0.000000, 5.000000],
+            connect: true,
+            range: {'min': 0.000000, 'max': 10.000000},
+            step: 0.1,
+            tooltips: false
+          });
+          slider.noUiSlider.on('update', function(values) {
+            document.getElementById('rangeDisplay').textContent = 
+              '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
+            if (typeof updateIntegralPlot === 'function') updateIntegralPlot();
+          });
+        }
+      });
+    </script>
 </div>
 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
 <div id="leftPlot" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 <div id="rightPlot" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 </div>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-67902cacb772869c72d6" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-67902cacb772869c72d6">{"x":{"visdat":{"79107a8756f3":["function () ","plotlyVisDat"]},"cur_data":"79107a8756f3","attrs":{"79107a8756f3":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"height":1,"margin":{"b":0,"l":0,"t":0,"r":0},"xaxis":{"domain":[0,1],"automargin":true,"visible":false},"yaxis":{"domain":[0,1],"automargin":true,"visible":false},"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"type":"scatter","mode":"markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n        el.style.height = '0px';\n        el.style.overflow = 'hidden';\n        function initIntegralPlot(el) {\n  var tMax = 10;\n  var maxIntegral = (tMax * tMax) / 2; // = 50\n  \n  function generateData(tLower, tUpper) {\n    // Generate points for the line y = t\n    var lineT = [];\n    var lineY = [];\n    for (var i = 0; i <= tMax * 10; i++) {\n      var t = i / 10;\n      lineT.push(t);\n      lineY.push(t);\n    }\n    \n    // Generate filled area from tLower to tUpper\n    var fillT = [tLower];\n    var fillY = [0];\n    for (var i = Math.round(tLower * 10); i <= Math.round(tUpper * 10); i++) {\n      var t = i / 10;\n      fillT.push(t);\n      fillY.push(t);\n    }\n    fillT.push(tUpper);\n    fillY.push(0);\n    \n    // Integral of t from tLower to tUpper = (tUpper^2 - tLower^2) / 2\n    var integralValue = (tUpper * tUpper - tLower * tLower) / 2;\n    var integralPercent = (integralValue / maxIntegral) * 100;\n    \n    return {\n      lineT: lineT,\n      lineY: lineY,\n      fillT: fillT,\n      fillY: fillY,\n      integralValue: integralValue,\n      integralPercent: integralPercent,\n      tLower: tLower,\n      tUpper: tUpper\n    };\n  }\n  \n  window.updateIntegralPlot = function() {\n    var slider = document.getElementById('rangeSlider');\n    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [0, 5];\n    var tLower = parseFloat(values[0]);\n    var tUpper = parseFloat(values[1]);\n    \n    var data = generateData(tLower, tUpper);\n    document.getElementById('integralValue').textContent = data.integralValue.toFixed(2);\n    document.getElementById('integralPercent').textContent = data.integralPercent.toFixed(0);\n    \n    // Left plot traces\n    var R = window.INFERNO.roles;\n\n    var traceLine = {\n      x: data.lineT,\n      y: data.lineY,\n      mode: 'lines',\n      name: 'y = t',\n      line: {color: R.lineA, width: 2},\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra><\/extra>'\n    };\n    \n    var traceFill = {\n      x: data.fillT,\n      y: data.fillY,\n      fill: 'toself',\n      fillcolor: R.fillA,\n      line: {color: R.fillBorderA, width: 1},\n      name: 'Area',\n      hoverinfo: 'skip'\n    };\n    \n    var traceMarkerLower = {\n      x: [data.tLower],\n      y: [data.tLower],\n      mode: 'markers',\n      marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},\n      name: 'Lower limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra><\/extra>'\n    };\n    \n    var traceMarkerUpper = {\n      x: [data.tUpper],\n      y: [data.tUpper],\n      mode: 'markers',\n      marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},\n      name: 'Upper limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra><\/extra>'\n    };\n    \n    // Right plot traces - using percentage\n    var traceIntegralBar = {\n      x: ['Integral'],\n      y: [data.integralPercent],\n      type: 'bar',\n      marker: {color: R.fillB},\n      name: '∫ₐᵇ τ dτ',\n      hovertemplate: '%{y:.1f}%<extra><\/extra>',\n      width: 0.5\n    };\n    \n    var layoutLeft = {\n      title: {text: 'f(t) = t', font: {size: 14}},\n      xaxis: {title: 'time', range: [0, tMax], dtick: 2},\n      yaxis: {title: 'y', range: [0, tMax], dtick: 2},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false\n    };\n    \n    var layoutRight = {\n      title: {text: '∫ₐᵇ f(τ) dτ', font: {size: 14}},\n      xaxis: {showticklabels: false},\n      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false,\n      shapes: [{\n        type: 'line',\n        xref: 'paper',\n        x0: 0.1,\n        x1: 0.9,\n        y0: 100,\n        y1: 100,\n        line: {color: R.annotation, width: 2, dash: 'dash'}\n      }]\n    };\n    \n    var config = {responsive: true, displayModeBar: false};\n    \n    Plotly.react('leftPlot', [traceFill, traceLine, traceMarkerLower, traceMarkerUpper], layoutLeft, config);\n    Plotly.react('rightPlot', [traceIntegralBar], layoutRight, config);\n  };\n  \n  // Initialize\n  window.updateIntegralPlot();\n}\n        initIntegralPlot(el);\n      }","data":null}]}}</script>
+<script>function initIntegralPlot() {
+  var tMax = 10;
+  createIntegralPlot({
+    idPrefix:       '',
+    tMin:           0,
+    tMax:           tMax,
+    f:              function(t) { return t; },
+    F:              function(t) { return t * t / 2; },
+    title:          'f(t) = t',
+    integralLabel:  '∫ₐᵇ τ dτ',
+    yRange:         [0, tMax],
+    dtick:          2,
+    hoverFmt:       ':.1f',
+    defaultLower:   0,
+    defaultUpper:   5
+  });
+}
+document.addEventListener('DOMContentLoaded', function() { initIntegralPlot(); });</script>
 </div>
 </div>
 </section>
@@ -435,12 +613,10 @@ Integral:
 <p>Now let’s look at <span class="math inline">\(f(t) = \ln(t)\)</span>. The integral <span class="math inline">\(\int_1^t \ln(\tau) \, d\tau = t \cdot \ln(t) - t + 1\)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
-<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
 <label style="font-weight: bold;">Integration limits:</label>
-<span id="rangeDisplayLog" style="font-weight: bold;">[1.0, 5.0]</span>
+<span id="rangeDisplayLog" style="font-weight: bold;">[1.0, 10.0]</span>
 </div>
 <div id="rangeSliderLog" style="margin: 10px 5px 20px 5px;"></div>
 <div>
@@ -453,31 +629,47 @@ Integral:
 </span>
 </div>
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var slider = document.getElementById('rangeSliderLog');
-          if (slider && !slider.noUiSlider) {
-            noUiSlider.create(slider, {
-              start: [1.000000, 5.000000],
-              connect: true,
-              range: {'min': 1.000000, 'max': 10.000000},
-              step: 0.1,
-              tooltips: false
-            });
-            slider.noUiSlider.on('update', function(values) {
-              document.getElementById('rangeDisplayLog').textContent = 
-                '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
-              if (typeof updateLogIntegralPlot === 'function') updateLogIntegralPlot();
-            });
-          }
-        });
-      </script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var slider = document.getElementById('rangeSliderLog');
+        if (slider && !slider.noUiSlider) {
+          noUiSlider.create(slider, {
+            start: [1.000000, 10.000000],
+            connect: true,
+            range: {'min': 1.000000, 'max': 20.000000},
+            step: 0.1,
+            tooltips: false
+          });
+          slider.noUiSlider.on('update', function(values) {
+            document.getElementById('rangeDisplayLog').textContent = 
+              '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
+            if (typeof updateLogIntegralPlot === 'function') updateLogIntegralPlot();
+          });
+        }
+      });
+    </script>
 </div>
 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
 <div id="leftPlotLog" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 <div id="rightPlotLog" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 </div>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-7a7a40e97d45232a62a2" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-7a7a40e97d45232a62a2">{"x":{"visdat":{"79103af8d4f":["function () ","plotlyVisDat"]},"cur_data":"79103af8d4f","attrs":{"79103af8d4f":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"height":1,"margin":{"b":0,"l":0,"t":0,"r":0},"xaxis":{"domain":[0,1],"automargin":true,"visible":false},"yaxis":{"domain":[0,1],"automargin":true,"visible":false},"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"type":"scatter","mode":"markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n        el.style.height = '0px';\n        el.style.overflow = 'hidden';\n        function initLogIntegralPlot(el) {\n  var tMin = 1;\n  var tMax = 10;\n  // Max integral: ∫₁^10 ln(t)dt\n  var maxIntegral = tMax * Math.log(tMax) - tMax - (tMin * Math.log(tMin) - tMin);\n  \n  function generateData(tLower, tUpper) {\n    // Generate points for the line y = ln(t)\n    var lineT = [];\n    var lineY = [];\n    for (var i = Math.round(tMin * 10); i <= tMax * 10; i++) {\n      var t = i / 10;\n      lineT.push(t);\n      lineY.push(Math.log(t));\n    }\n    \n    // Generate filled area from tLower to tUpper\n    var fillT = [tLower];\n    var fillY = [0];\n    for (var i = Math.round(tLower * 10); i <= Math.round(tUpper * 10); i++) {\n      var t = i / 10;\n      fillT.push(t);\n      fillY.push(Math.log(t));\n    }\n    fillT.push(tUpper);\n    fillY.push(0);\n    \n    // Integral of ln(t) from tLower to tUpper = [t*ln(t) - t] evaluated\n    var integralValue = (tUpper * Math.log(tUpper) - tUpper) - (tLower * Math.log(tLower) - tLower);\n    var integralPercent = (integralValue / maxIntegral) * 100;\n    \n    return {\n      lineT: lineT,\n      lineY: lineY,\n      fillT: fillT,\n      fillY: fillY,\n      integralValue: integralValue,\n      integralPercent: integralPercent,\n      tLower: tLower,\n      tUpper: tUpper\n    };\n  }\n  \n  window.updateLogIntegralPlot = function() {\n    var slider = document.getElementById('rangeSliderLog');\n    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [1, 5];\n    var tLower = parseFloat(values[0]);\n    var tUpper = parseFloat(values[1]);\n    \n    var data = generateData(tLower, tUpper);\n    document.getElementById('integralValueLog').textContent = data.integralValue.toFixed(2);\n    document.getElementById('integralPercentLog').textContent = data.integralPercent.toFixed(0);\n    \n    // Left plot traces\n    var R = window.INFERNO.roles;\n\n    var traceLine = {\n      x: data.lineT,\n      y: data.lineY,\n      mode: 'lines',\n      name: 'y = ln(t)',\n      line: {color: R.lineA, width: 2},\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra><\/extra>'\n    };\n    \n    var traceFill = {\n      x: data.fillT,\n      y: data.fillY,\n      fill: 'toself',\n      fillcolor: R.fillA,\n      line: {color: R.fillBorderA, width: 1},\n      name: 'Area',\n      hoverinfo: 'skip'\n    };\n    \n    var traceMarkerLower = {\n      x: [data.tLower],\n      y: [Math.log(data.tLower)],\n      mode: 'markers',\n      marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},\n      name: 'Lower limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra><\/extra>'\n    };\n    \n    var traceMarkerUpper = {\n      x: [data.tUpper],\n      y: [Math.log(data.tUpper)],\n      mode: 'markers',\n      marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},\n      name: 'Upper limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra><\/extra>'\n    };\n    \n    // Right plot traces - using percentage\n    var traceIntegralBar = {\n      x: ['Integral'],\n      y: [data.integralPercent],\n      type: 'bar',\n      marker: {color: R.fillB},\n      name: '∫ₐᵇ ln(τ) dτ',\n      hovertemplate: '%{y:.1f}%<extra><\/extra>',\n      width: 0.5\n    };\n    \n    var layoutLeft = {\n      title: {text: 'f(t) = ln(t)', font: {size: 14}},\n      xaxis: {title: 'time', range: [0, tMax], dtick: 2},\n      yaxis: {title: 'y', range: [0, Math.log(tMax) + 0.3]},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false\n    };\n    \n    var layoutRight = {\n      title: {text: '∫ₐᵇ ln(τ) dτ', font: {size: 14}},\n      xaxis: {showticklabels: false},\n      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false,\n      shapes: [{\n        type: 'line',\n        xref: 'paper',\n        x0: 0.1,\n        x1: 0.9,\n        y0: 100,\n        y1: 100,\n        line: {color: R.annotation, width: 2, dash: 'dash'}\n      }]\n    };\n    \n    var config = {responsive: true, displayModeBar: false};\n    \n    Plotly.react('leftPlotLog', [traceFill, traceLine, traceMarkerLower, traceMarkerUpper], layoutLeft, config);\n    Plotly.react('rightPlotLog', [traceIntegralBar], layoutRight, config);\n  };\n  \n  // Initialize\n  window.updateLogIntegralPlot();\n}\n        initLogIntegralPlot(el);\n      }","data":null}]}}</script>
+<script>function initLogIntegralPlot() {
+  var tMax = 20;
+  createIntegralPlot({
+    idPrefix:       'Log',
+    tMin:           1,
+    tMax:           tMax,
+    f:              function(t) { return Math.log(t); },
+    F:              function(t) { return t * Math.log(t) - t; },
+    title:          'f(t) = ln(t)',
+    integralLabel:  '∫ₐᵇ ln(τ) dτ',
+    yRange:         [0, Math.log(tMax) + 0.3],
+    dtick:          2,
+    hoverFmt:       ':.2f',
+    defaultLower:   1,
+    defaultUpper:   10
+  });
+}
+document.addEventListener('DOMContentLoaded', function() { initLogIntegralPlot(); });</script>
 </div>
 </div>
 </section>
@@ -486,8 +678,6 @@ Integral:
 <p>Now let’s look at <span class="math inline">\(f(t) = e^t\)</span>. The integral <span class="math inline">\(\int_0^t e^\tau \, d\tau = e^t - 1\)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
-<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
 <label style="font-weight: bold;">Integration limits:</label>
@@ -504,31 +694,48 @@ Integral:
 </span>
 </div>
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var slider = document.getElementById('rangeSliderExp');
-          if (slider && !slider.noUiSlider) {
-            noUiSlider.create(slider, {
-              start: [0.000000, 2.500000],
-              connect: true,
-              range: {'min': 0.000000, 'max': 5.000000},
-              step: 0.1,
-              tooltips: false
-            });
-            slider.noUiSlider.on('update', function(values) {
-              document.getElementById('rangeDisplayExp').textContent = 
-                '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
-              if (typeof updateExpIntegralPlot === 'function') updateExpIntegralPlot();
-            });
-          }
-        });
-      </script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var slider = document.getElementById('rangeSliderExp');
+        if (slider && !slider.noUiSlider) {
+          noUiSlider.create(slider, {
+            start: [0.000000, 2.500000],
+            connect: true,
+            range: {'min': 0.000000, 'max': 5.000000},
+            step: 0.1,
+            tooltips: false
+          });
+          slider.noUiSlider.on('update', function(values) {
+            document.getElementById('rangeDisplayExp').textContent = 
+              '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
+            if (typeof updateExpIntegralPlot === 'function') updateExpIntegralPlot();
+          });
+        }
+      });
+    </script>
 </div>
 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
 <div id="leftPlotExp" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 <div id="rightPlotExp" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 </div>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-cf4dacb75bedc4755696" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-cf4dacb75bedc4755696">{"x":{"visdat":{"791028ad5056":["function () ","plotlyVisDat"]},"cur_data":"791028ad5056","attrs":{"791028ad5056":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"height":1,"margin":{"b":0,"l":0,"t":0,"r":0},"xaxis":{"domain":[0,1],"automargin":true,"visible":false},"yaxis":{"domain":[0,1],"automargin":true,"visible":false},"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"type":"scatter","mode":"markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n        el.style.height = '0px';\n        el.style.overflow = 'hidden';\n        function initExpIntegralPlot(el) {\n  var tMax = 5;\n  // Max integral: ∫₀^5 exp(t)dt = exp(5) - exp(0) = exp(5) - 1 ≈ 147.41\n  var maxIntegral = Math.exp(tMax) - 1;\n  \n  function generateData(tLower, tUpper) {\n    // Generate points for the line y = exp(t)\n    var lineT = [];\n    var lineY = [];\n    for (var i = 0; i <= tMax * 20; i++) {\n      var t = i / 20;\n      lineT.push(t);\n      lineY.push(Math.exp(t));\n    }\n    \n    // Generate filled area from tLower to tUpper\n    var fillT = [tLower];\n    var fillY = [0];\n    for (var i = Math.round(tLower * 20); i <= Math.round(tUpper * 20); i++) {\n      var t = i / 20;\n      fillT.push(t);\n      fillY.push(Math.exp(t));\n    }\n    fillT.push(tUpper);\n    fillY.push(0);\n    \n    // Integral of exp(t) from tLower to tUpper = exp(tUpper) - exp(tLower)\n    var integralValue = Math.exp(tUpper) - Math.exp(tLower);\n    var integralPercent = (integralValue / maxIntegral) * 100;\n    \n    return {\n      lineT: lineT,\n      lineY: lineY,\n      fillT: fillT,\n      fillY: fillY,\n      integralValue: integralValue,\n      integralPercent: integralPercent,\n      tLower: tLower,\n      tUpper: tUpper\n    };\n  }\n  \n  window.updateExpIntegralPlot = function() {\n    var slider = document.getElementById('rangeSliderExp');\n    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [0, 2.5];\n    var tLower = parseFloat(values[0]);\n    var tUpper = parseFloat(values[1]);\n    \n    var data = generateData(tLower, tUpper);\n    document.getElementById('integralValueExp').textContent = data.integralValue.toFixed(2);\n    document.getElementById('integralPercentExp').textContent = data.integralPercent.toFixed(0);\n    \n    // Left plot traces\n    var R = window.INFERNO.roles;\n\n    var traceLine = {\n      x: data.lineT,\n      y: data.lineY,\n      mode: 'lines',\n      name: 'y = exp(t)',\n      line: {color: R.lineA, width: 2},\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra><\/extra>'\n    };\n    \n    var traceFill = {\n      x: data.fillT,\n      y: data.fillY,\n      fill: 'toself',\n      fillcolor: R.fillA,\n      line: {color: R.fillBorderA, width: 1},\n      name: 'Area',\n      hoverinfo: 'skip'\n    };\n    \n    var traceMarkerLower = {\n      x: [data.tLower],\n      y: [Math.exp(data.tLower)],\n      mode: 'markers',\n      marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},\n      name: 'Lower limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra><\/extra>'\n    };\n    \n    var traceMarkerUpper = {\n      x: [data.tUpper],\n      y: [Math.exp(data.tUpper)],\n      mode: 'markers',\n      marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},\n      name: 'Upper limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra><\/extra>'\n    };\n    \n    // Right plot traces - using percentage\n    var traceIntegralBar = {\n      x: ['Integral'],\n      y: [data.integralPercent],\n      type: 'bar',\n      marker: {color: R.fillB},\n      name: '∫ₐᵇ exp(τ) dτ',\n      hovertemplate: '%{y:.1f}%<extra><\/extra>',\n      width: 0.5\n    };\n    \n    var layoutLeft = {\n      title: {text: 'f(t) = exp(t)', font: {size: 14}},\n      xaxis: {title: 'time', range: [0, tMax], dtick: 1},\n      yaxis: {title: 'y', range: [0, Math.exp(tMax) * 1.05]},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false\n    };\n    \n    var layoutRight = {\n      title: {text: '∫ₐᵇ exp(τ) dτ', font: {size: 14}},\n      xaxis: {showticklabels: false},\n      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false,\n      shapes: [{\n        type: 'line',\n        xref: 'paper',\n        x0: 0.1,\n        x1: 0.9,\n        y0: 100,\n        y1: 100,\n        line: {color: R.annotation, width: 2, dash: 'dash'}\n      }]\n    };\n    \n    var config = {responsive: true, displayModeBar: false};\n    \n    Plotly.react('leftPlotExp', [traceFill, traceLine, traceMarkerLower, traceMarkerUpper], layoutLeft, config);\n    Plotly.react('rightPlotExp', [traceIntegralBar], layoutRight, config);\n  };\n  \n  // Initialize\n  window.updateExpIntegralPlot();\n}\n        initExpIntegralPlot(el);\n      }","data":null}]}}</script>
+<script>function initExpIntegralPlot() {
+  var tMax = 5;
+  createIntegralPlot({
+    idPrefix:       'Exp',
+    tMin:           0,
+    tMax:           tMax,
+    f:              function(t) { return Math.exp(t); },
+    F:              function(t) { return Math.exp(t); },
+    title:          'f(t) = exp(t)',
+    integralLabel:  '∫ₐᵇ exp(τ) dτ',
+    yRange:         [0, Math.exp(tMax) * 1.05],
+    dtick:          1,
+    hoverFmt:       ':.2f',
+    step:           20,
+    defaultLower:   0,
+    defaultUpper:   2.5
+  });
+}
+document.addEventListener('DOMContentLoaded', function() { initExpIntegralPlot(); });</script>
 </div>
 </div>
 </section>
@@ -537,8 +744,6 @@ Integral:
 <p>The sigmoid function <span class="math inline">\(\sigma(t) = \frac{1}{1+e^{-t}}\)</span> is widely used in machine learning. Its integral is <span class="math inline">\(\int_a^b \sigma(\tau) \, d\tau = \ln(1+e^b) - \ln(1+e^a)\)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
-<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
 <label style="font-weight: bold;">Integration limits:</label>
@@ -555,31 +760,46 @@ Integral:
 </span>
 </div>
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var slider = document.getElementById('rangeSliderSigmoid');
-          if (slider && !slider.noUiSlider) {
-            noUiSlider.create(slider, {
-              start: [-2.000000, 2.000000],
-              connect: true,
-              range: {'min': -5.000000, 'max': 5.000000},
-              step: 0.1,
-              tooltips: false
-            });
-            slider.noUiSlider.on('update', function(values) {
-              document.getElementById('rangeDisplaySigmoid').textContent = 
-                '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
-              if (typeof updateSigmoidIntegralPlot === 'function') updateSigmoidIntegralPlot();
-            });
-          }
-        });
-      </script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var slider = document.getElementById('rangeSliderSigmoid');
+        if (slider && !slider.noUiSlider) {
+          noUiSlider.create(slider, {
+            start: [-2.000000, 2.000000],
+            connect: true,
+            range: {'min': -5.000000, 'max': 5.000000},
+            step: 0.1,
+            tooltips: false
+          });
+          slider.noUiSlider.on('update', function(values) {
+            document.getElementById('rangeDisplaySigmoid').textContent = 
+              '[' + parseFloat(values[0]).toFixed(1) + ', ' + parseFloat(values[1]).toFixed(1) + ']';
+            if (typeof updateSigmoidIntegralPlot === 'function') updateSigmoidIntegralPlot();
+          });
+        }
+      });
+    </script>
 </div>
 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
 <div id="leftPlotSigmoid" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 <div id="rightPlotSigmoid" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
 </div>
-<div class="plotly html-widget html-fill-item" id="htmlwidget-65ce184cc31880662c5d" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-65ce184cc31880662c5d">{"x":{"visdat":{"7910b01783c":["function () ","plotlyVisDat"]},"cur_data":"7910b01783c","attrs":{"7910b01783c":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"height":1,"margin":{"b":0,"l":0,"t":0,"r":0},"xaxis":{"domain":[0,1],"automargin":true,"visible":false},"yaxis":{"domain":[0,1],"automargin":true,"visible":false},"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"type":"scatter","mode":"markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":{"render":[{"code":"function(el, x) {\n        el.style.height = '0px';\n        el.style.overflow = 'hidden';\n        function initSigmoidIntegralPlot(el) {\n  var tMin = -5;\n  var tMax = 5;\n  // Sigmoid: f(t) = 1 / (1 + exp(-t))\n  // Integral: F(t) = ln(1 + exp(t)) + C\n  // From tMin to tMax: ln(1 + exp(tMax)) - ln(1 + exp(tMin))\n  var maxIntegral = Math.log(1 + Math.exp(tMax)) - Math.log(1 + Math.exp(tMin));\n  \n  function sigmoid(t) {\n    return 1 / (1 + Math.exp(-t));\n  }\n  \n  function sigmoidIntegral(t) {\n    return Math.log(1 + Math.exp(t));\n  }\n  \n  function generateData(tLower, tUpper) {\n    // Generate points for the sigmoid curve\n    var lineT = [];\n    var lineY = [];\n    for (var i = tMin * 10; i <= tMax * 10; i++) {\n      var t = i / 10;\n      lineT.push(t);\n      lineY.push(sigmoid(t));\n    }\n    \n    // Generate filled area from tLower to tUpper\n    var fillT = [tLower];\n    var fillY = [0];\n    for (var i = Math.round(tLower * 10); i <= Math.round(tUpper * 10); i++) {\n      var t = i / 10;\n      fillT.push(t);\n      fillY.push(sigmoid(t));\n    }\n    fillT.push(tUpper);\n    fillY.push(0);\n    \n    // Integral of sigmoid from tLower to tUpper\n    var integralValue = sigmoidIntegral(tUpper) - sigmoidIntegral(tLower);\n    var integralPercent = (integralValue / maxIntegral) * 100;\n    \n    return {\n      lineT: lineT,\n      lineY: lineY,\n      fillT: fillT,\n      fillY: fillY,\n      integralValue: integralValue,\n      integralPercent: integralPercent,\n      tLower: tLower,\n      tUpper: tUpper\n    };\n  }\n  \n  window.updateSigmoidIntegralPlot = function() {\n    var slider = document.getElementById('rangeSliderSigmoid');\n    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [-2, 2];\n    var tLower = parseFloat(values[0]);\n    var tUpper = parseFloat(values[1]);\n    \n    var data = generateData(tLower, tUpper);\n    document.getElementById('integralValueSigmoid').textContent = data.integralValue.toFixed(2);\n    document.getElementById('integralPercentSigmoid').textContent = data.integralPercent.toFixed(0);\n    \n    // Left plot traces\n    var R = window.INFERNO.roles;\n\n    var traceLine = {\n      x: data.lineT,\n      y: data.lineY,\n      mode: 'lines',\n      name: 'y = σ(t)',\n      line: {color: R.lineA, width: 2},\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.3f}<extra><\/extra>'\n    };\n    \n    var traceFill = {\n      x: data.fillT,\n      y: data.fillY,\n      fill: 'toself',\n      fillcolor: R.fillA,\n      line: {color: R.fillBorderA, width: 1},\n      name: 'Area',\n      hoverinfo: 'skip'\n    };\n    \n    var traceMarkerLower = {\n      x: [data.tLower],\n      y: [sigmoid(data.tLower)],\n      mode: 'markers',\n      marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},\n      name: 'Lower limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.3f}<extra><\/extra>'\n    };\n    \n    var traceMarkerUpper = {\n      x: [data.tUpper],\n      y: [sigmoid(data.tUpper)],\n      mode: 'markers',\n      marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},\n      name: 'Upper limit',\n      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.3f}<extra><\/extra>'\n    };\n    \n    // Right plot traces - using percentage\n    var traceIntegralBar = {\n      x: ['Integral'],\n      y: [data.integralPercent],\n      type: 'bar',\n      marker: {color: R.fillB},\n      name: '∫ₐᵇ σ(τ) dτ',\n      hovertemplate: '%{y:.1f}%<extra><\/extra>',\n      width: 0.5\n    };\n    \n    var layoutLeft = {\n      title: {text: 'f(t) = 1/(1+e⁻ᵗ)', font: {size: 14}},\n      xaxis: {title: 'time', range: [tMin, tMax], dtick: 2},\n      yaxis: {title: 'y', range: [0, 1.1]},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false\n    };\n    \n    var layoutRight = {\n      title: {text: '∫ₐᵇ σ(τ) dτ', font: {size: 14}},\n      xaxis: {showticklabels: false},\n      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},\n      plot_bgcolor: 'white',\n      paper_bgcolor: 'white',\n      margin: {l: 50, r: 20, t: 50, b: 50},\n      showlegend: false,\n      shapes: [{\n        type: 'line',\n        xref: 'paper',\n        x0: 0.1,\n        x1: 0.9,\n        y0: 100,\n        y1: 100,\n        line: {color: R.annotation, width: 2, dash: 'dash'}\n      }]\n    };\n    \n    var config = {responsive: true, displayModeBar: false};\n    \n    Plotly.react('leftPlotSigmoid', [traceFill, traceLine, traceMarkerLower, traceMarkerUpper], layoutLeft, config);\n    Plotly.react('rightPlotSigmoid', [traceIntegralBar], layoutRight, config);\n  };\n  \n  // Initialize\n  window.updateSigmoidIntegralPlot();\n}\n        initSigmoidIntegralPlot(el);\n      }","data":null}]}}</script>
+<script>function initSigmoidIntegralPlot() {
+  createIntegralPlot({
+    idPrefix:       'Sigmoid',
+    tMin:           -5,
+    tMax:           5,
+    f:              function(t) { return 1 / (1 + Math.exp(-t)); },
+    F:              function(t) { return Math.log(1 + Math.exp(t)); },
+    title:          'f(t) = 1/(1+e⁻ᵗ)',
+    integralLabel:  '∫ₐᵇ σ(τ) dτ',
+    yRange:         [0, 1.1],
+    dtick:          2,
+    hoverFmt:       ':.3f',
+    defaultLower:   -2,
+    defaultUpper:   2
+  });
+}
+document.addEventListener('DOMContentLoaded', function() { initSigmoidIntegralPlot(); });</script>
 </div>
 </div>
 

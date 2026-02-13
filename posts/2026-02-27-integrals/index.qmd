@@ -6,6 +6,7 @@ categories: [math, interactive]
 image: "thumb.jpeg"
 description: ""
 title-block-banner: true
+include-in-header: libs.html
 ---
 
 ## Constant Function
@@ -16,50 +17,20 @@ Let's look at the simplest case: $f(t) = 5$. The integral $\int_a^b 5 \, d\tau =
 #| echo: false
 #| warning: false
 
-library(plotly)
-library(htmlwidgets)
-
-# Load helper functions
 source("plot_helpers.R")
 
-# Read external JavaScript file for constant plot
-js_code_constant <- readLines("plot_constant_integral.js", warn = FALSE)
-js_code_constant <- paste(js_code_constant, collapse = "\n")
-
-# Create controls and plot containers using helper functions
-controls_html_constant <- create_integral_controls(
-  id_prefix = "Constant",
-  range_min = 0, range_max = 10,
-  default_lower = 0, default_upper = 5,
-  update_function = "updateConstantIntegralPlot",
-  bg_color = "rgba(147, 38, 103, 0.04)"
+render_interactive_plot(
+  js_file = "plot_constant_integral.js",
+  init_function = "initConstantIntegralPlot",
+  controls_html = create_integral_controls(
+    id_prefix = "Constant",
+    range_min = 0, range_max = 10,
+    default_lower = 0, default_upper = 5,
+    update_function = "updateConstantIntegralPlot",
+    bg_color = "rgba(147, 38, 103, 0.04)"
+  ),
+  plot_containers = create_plot_containers(id_prefix = "Constant")
 )
-plot_containers_constant <- create_plot_containers(id_prefix = "Constant")
-
-# Create minimal plotly widget just to load Plotly.js and run our code
-fig_constant <- plot_ly() %>%
-  layout(
-    xaxis = list(visible = FALSE),
-    yaxis = list(visible = FALSE),
-    plot_bgcolor = "white",
-    paper_bgcolor = "white",
-    height = 1,
-    margin = list(l = 0, r = 0, t = 0, b = 0)
-  ) %>%
-  htmlwidgets::prependContent(htmltools::tagList(controls_html_constant, plot_containers_constant)) %>%
-  htmlwidgets::onRender(
-    sprintf(
-      "function(el, x) {
-        el.style.height = '0px';
-        el.style.overflow = 'hidden';
-        %s
-        initConstantIntegralPlot(el);
-      }",
-      js_code_constant
-    )
-  )
-
-fig_constant
 ```
 
 ## Interactive Integral Visualization
@@ -70,44 +41,18 @@ Use the slider below to change the upper limit of integration. The left plot sho
 #| echo: false
 #| warning: false
 
-# Read external JavaScript file
-js_code <- readLines("plot_integral.js", warn = FALSE)
-js_code <- paste(js_code, collapse = "\n")
-
-# Create controls and plot containers using helper functions
-controls_html <- create_integral_controls(
-  id_prefix = "",
-  range_min = 0, range_max = 10,
-  default_lower = 0, default_upper = 5,
-  update_function = "updateIntegralPlot",
-  bg_color = "rgba(147, 38, 103, 0.04)"
+render_interactive_plot(
+  js_file = "plot_integral.js",
+  init_function = "initIntegralPlot",
+  controls_html = create_integral_controls(
+    id_prefix = "",
+    range_min = 0, range_max = 10,
+    default_lower = 0, default_upper = 5,
+    update_function = "updateIntegralPlot",
+    bg_color = "rgba(147, 38, 103, 0.04)"
+  ),
+  plot_containers = create_plot_containers(id_prefix = "")
 )
-plot_containers <- create_plot_containers(id_prefix = "")
-
-# Create minimal plotly widget just to load Plotly.js and run our code
-fig <- plot_ly() %>%
-  layout(
-    xaxis = list(visible = FALSE),
-    yaxis = list(visible = FALSE),
-    plot_bgcolor = "white",
-    paper_bgcolor = "white",
-    height = 1,
-    margin = list(l = 0, r = 0, t = 0, b = 0)
-  ) %>%
-  htmlwidgets::prependContent(htmltools::tagList(controls_html, plot_containers)) %>%
-  htmlwidgets::onRender(
-    sprintf(
-      "function(el, x) {
-        el.style.height = '0px';
-        el.style.overflow = 'hidden';
-        %s
-        initIntegralPlot(el);
-      }",
-      js_code
-    )
-  )
-
-fig
 ```
 
 ## Logarithmic Function
@@ -118,44 +63,18 @@ Now let's look at $f(t) = \ln(t)$. The integral $\int_1^t \ln(\tau) \, d\tau = t
 #| echo: false
 #| warning: false
 
-# Read external JavaScript file for log plot
-js_code_log <- readLines("plot_log_integral.js", warn = FALSE)
-js_code_log <- paste(js_code_log, collapse = "\n")
-
-# Create controls and plot containers using helper functions
-controls_html_log <- create_integral_controls(
-  id_prefix = "Log",
-  range_min = 1, range_max = 10,
-  default_lower = 1, default_upper = 5,
-  update_function = "updateLogIntegralPlot",
-  bg_color = "rgba(147, 38, 103, 0.04)"
+render_interactive_plot(
+  js_file = "plot_log_integral.js",
+  init_function = "initLogIntegralPlot",
+  controls_html = create_integral_controls(
+    id_prefix = "Log",
+    range_min = 1, range_max = 20,
+    default_lower = 1, default_upper = 10,
+    update_function = "updateLogIntegralPlot",
+    bg_color = "rgba(147, 38, 103, 0.04)"
+  ),
+  plot_containers = create_plot_containers(id_prefix = "Log")
 )
-plot_containers_log <- create_plot_containers(id_prefix = "Log")
-
-# Create minimal plotly widget just to load Plotly.js and run our code
-fig_log <- plot_ly() %>%
-  layout(
-    xaxis = list(visible = FALSE),
-    yaxis = list(visible = FALSE),
-    plot_bgcolor = "white",
-    paper_bgcolor = "white",
-    height = 1,
-    margin = list(l = 0, r = 0, t = 0, b = 0)
-  ) %>%
-  htmlwidgets::prependContent(htmltools::tagList(controls_html_log, plot_containers_log)) %>%
-  htmlwidgets::onRender(
-    sprintf(
-      "function(el, x) {
-        el.style.height = '0px';
-        el.style.overflow = 'hidden';
-        %s
-        initLogIntegralPlot(el);
-      }",
-      js_code_log
-    )
-  )
-
-fig_log
 ```
 
 ## Exponential Function
@@ -166,44 +85,18 @@ Now let's look at $f(t) = e^t$. The integral $\int_0^t e^\tau \, d\tau = e^t - 1
 #| echo: false
 #| warning: false
 
-# Read external JavaScript file for exp plot
-js_code_exp <- readLines("plot_exp_integral.js", warn = FALSE)
-js_code_exp <- paste(js_code_exp, collapse = "\n")
-
-# Create controls and plot containers using helper functions
-controls_html_exp <- create_integral_controls(
-  id_prefix = "Exp",
-  range_min = 0, range_max = 5,
-  default_lower = 0, default_upper = 2.5,
-  update_function = "updateExpIntegralPlot",
-  bg_color = "rgba(147, 38, 103, 0.04)"
+render_interactive_plot(
+  js_file = "plot_exp_integral.js",
+  init_function = "initExpIntegralPlot",
+  controls_html = create_integral_controls(
+    id_prefix = "Exp",
+    range_min = 0, range_max = 5,
+    default_lower = 0, default_upper = 2.5,
+    update_function = "updateExpIntegralPlot",
+    bg_color = "rgba(147, 38, 103, 0.04)"
+  ),
+  plot_containers = create_plot_containers(id_prefix = "Exp")
 )
-plot_containers_exp <- create_plot_containers(id_prefix = "Exp")
-
-# Create minimal plotly widget just to load Plotly.js and run our code
-fig_exp <- plot_ly() %>%
-  layout(
-    xaxis = list(visible = FALSE),
-    yaxis = list(visible = FALSE),
-    plot_bgcolor = "white",
-    paper_bgcolor = "white",
-    height = 1,
-    margin = list(l = 0, r = 0, t = 0, b = 0)
-  ) %>%
-  htmlwidgets::prependContent(htmltools::tagList(controls_html_exp, plot_containers_exp)) %>%
-  htmlwidgets::onRender(
-    sprintf(
-      "function(el, x) {
-        el.style.height = '0px';
-        el.style.overflow = 'hidden';
-        %s
-        initExpIntegralPlot(el);
-      }",
-      js_code_exp
-    )
-  )
-
-fig_exp
 ```
 
 ## Sigmoid Function
@@ -214,42 +107,16 @@ The sigmoid function $\sigma(t) = \frac{1}{1+e^{-t}}$ is widely used in machine 
 #| echo: false
 #| warning: false
 
-# Read external JavaScript file for sigmoid plot
-js_code_sigmoid <- readLines("plot_sigmoid_integral.js", warn = FALSE)
-js_code_sigmoid <- paste(js_code_sigmoid, collapse = "\n")
-
-# Create controls and plot containers using helper functions
-controls_html_sigmoid <- create_integral_controls(
-  id_prefix = "Sigmoid",
-  range_min = -5, range_max = 5,
-  default_lower = -2, default_upper = 2,
-  update_function = "updateSigmoidIntegralPlot",
-  bg_color = "rgba(147, 38, 103, 0.04)"
+render_interactive_plot(
+  js_file = "plot_sigmoid_integral.js",
+  init_function = "initSigmoidIntegralPlot",
+  controls_html = create_integral_controls(
+    id_prefix = "Sigmoid",
+    range_min = -5, range_max = 5,
+    default_lower = -2, default_upper = 2,
+    update_function = "updateSigmoidIntegralPlot",
+    bg_color = "rgba(147, 38, 103, 0.04)"
+  ),
+  plot_containers = create_plot_containers(id_prefix = "Sigmoid")
 )
-plot_containers_sigmoid <- create_plot_containers(id_prefix = "Sigmoid")
-
-# Create minimal plotly widget just to load Plotly.js and run our code
-fig_sigmoid <- plot_ly() %>%
-  layout(
-    xaxis = list(visible = FALSE),
-    yaxis = list(visible = FALSE),
-    plot_bgcolor = "white",
-    paper_bgcolor = "white",
-    height = 1,
-    margin = list(l = 0, r = 0, t = 0, b = 0)
-  ) %>%
-  htmlwidgets::prependContent(htmltools::tagList(controls_html_sigmoid, plot_containers_sigmoid)) %>%
-  htmlwidgets::onRender(
-    sprintf(
-      "function(el, x) {
-        el.style.height = '0px';
-        el.style.overflow = 'hidden';
-        %s
-        initSigmoidIntegralPlot(el);
-      }",
-      js_code_sigmoid
-    )
-  )
-
-fig_sigmoid
 ```

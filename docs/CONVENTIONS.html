@@ -293,7 +293,7 @@ window.INFERNO = {
 <section id="blog-conventions-excellent-problem" class="level1">
 <h1>Blog Conventions — Excellent Problem</h1>
 <blockquote class="blockquote">
-<p>This file is a reference for AI assistants (and humans) creating or editing posts. Follow these rules to keep the blog aesthetic, informative, and coloristically consistent.</p>
+<p>This file is a reference for creating or editing posts. Follow these rules to keep the blog aesthetic, informative, and coloristically consistent.</p>
 </blockquote>
 <hr>
 <section id="project-structure" class="level2">
@@ -308,7 +308,9 @@ window.INFERNO = {
 │   └── YYYY-MM-DD-slug/
 │       ├── index.qmd         # Post content
 │       ├── plot_helpers.R    # R helpers for HTML controls (when applicable)
-│       ├── plot_*.js         # External JS for interactive plots (when applicable)
+│       ├── integral_engine.js # Shared JS engine (when post has multiple similar plots)
+│       ├── plot_*.js         # Per-plot config wrappers for the shared engine
+│       ├── libs.html         # Per-post CDN deps (e.g., Plotly, noUiSlider)
 │       └── ...               # Data files, images, etc.
 ├── styles.css                # Global CSS overrides
 └── share-buttons.html        # Included after every post body</code></pre>
@@ -440,10 +442,12 @@ window.INFERNO = {
 <h2 class="anchored" data-anchor-id="code-organization-rules">4. Code Organization Rules</h2>
 <ol type="1">
 <li><strong>No inline HTML in <code>.qmd</code> files.</strong> All HTML controls must be generated via R helper functions in a <code>plot_helpers.R</code> file within the post directory.</li>
-<li><strong>No inline JavaScript in <code>.qmd</code> files.</strong> All JS logic lives in external <code>plot_*.js</code> files, loaded via <code>readLines()</code> and injected through <code>htmlwidgets::onRender()</code>.</li>
+<li><strong>No inline JavaScript in <code>.qmd</code> files.</strong> All JS logic lives in external <code>plot_*.js</code> files, inlined at render time via <code>render_interactive_plot()</code> in <code>plot_helpers.R</code>.</li>
 <li><strong>No hardcoded colors.</strong> R plots reference <code>INFERNO$...</code>, JS plots reference <code>window.INFERNO.roles.*</code>.</li>
 <li><strong>One <code>plot_helpers.R</code> per post</strong> (when interactive controls are needed). Contains functions that generate HTML controls. Shared patterns (like the noUiSlider setup) should follow the same structure.</li>
 <li><strong>Data files</strong> (CSV, etc.) live alongside the post’s <code>index.qmd</code>.</li>
+<li><strong>Shared JS engine pattern.</strong> When a post has multiple interactive plots with the same boilerplate (traces, layouts, Plotly calls), extract the repeated logic into a single engine file (e.g., <code>integral_engine.js</code>) that exposes one factory function accepting a config object. Each plot then becomes a thin ~17-line config wrapper in its own <code>plot_*.js</code> file. The engine is inlined once via <code>render_interactive_plot()</code>, which tracks whether it has already been loaded using <code>.GlobalEnv$.integral_engine_loaded</code>. This avoids duplicating hundreds of lines across plot files.</li>
+<li><strong>Per-post CDN dependencies.</strong> Heavy libraries used only by a specific post (e.g., Plotly.js, noUiSlider) should be loaded once via a <code>libs.html</code> file in the post directory, referenced with <code>include-in-header: libs.html</code> in the post YAML. Do <strong>not</strong> load them in <code>_quarto.yml</code> (site-wide) or re-include them per widget.</li>
 </ol>
 </section>
 <section id="quarto-rendering-notes" class="level2">
