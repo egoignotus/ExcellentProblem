@@ -58,7 +58,7 @@ function initInteractivePlot(el, fullData) {
       y: data.pctChange,
       mode: 'lines+markers',
       name: '% Return',
-      line: {color: 'green', width: 2},
+      line: {color: '#932667', width: 2},
       marker: {size: 3},
       hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
     };
@@ -68,7 +68,7 @@ function initInteractivePlot(el, fullData) {
       y: data.cumAvg,
       mode: 'lines',
       name: 'Cumulative Average Return',
-      line: {color: 'blue', width: 3, dash: 'dash'},
+      line: {color: '#dd513a', width: 3, dash: 'dash'},
       hovertemplate: 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
     };
     
@@ -77,7 +77,7 @@ function initInteractivePlot(el, fullData) {
       y: zeros,
       mode: 'lines',
       name: 'Zero Line',
-      line: {color: 'gray', width: 1, dash: 'dash'},
+      line: {color: '#2c3e50', width: 1, dash: 'dash'},
       showlegend: false,
       hoverinfo: 'skip'
     };

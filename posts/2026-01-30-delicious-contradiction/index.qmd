@@ -29,6 +29,8 @@ library(plotly)
 library(dplyr)
 library(readr)
 
+source("../../assets/inferno_palette.R")
+
 
 # Load Shiller's data from post directory
 df <- read_csv("monthly_dt_min.csv", show_col_types = FALSE)
@@ -53,7 +55,7 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     type = 'scatter',
     mode = 'lines+markers',
     name = '% Return',
-    line = list(color = 'green', width = 2),
+    line = list(color = INFERNO$lineA, width = 2),
     marker = list(size = 3),
     hovertemplate = 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
   ) %>%
@@ -62,7 +64,7 @@ fig_static <- plot_ly(df_cumul, x = ~year) %>%
     type = 'scatter',
     mode = 'lines',
     name = 'Cumulative Average Return',
-    line = list(color = 'blue', width = 3, dash = 'dash'),
+    line = list(color = INFERNO$lineB, width = 3, dash = 'dash'),
     hovertemplate = 'Year: %{x}<br>%{y:.1f}%<extra></extra>'
   ) %>%
   layout(

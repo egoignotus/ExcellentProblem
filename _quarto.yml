@@ -18,3 +18,4 @@ format:
     toc-depth: 3
     code-fold: true
     css: styles.css
+    include-in-header: assets/inferno-palette.html

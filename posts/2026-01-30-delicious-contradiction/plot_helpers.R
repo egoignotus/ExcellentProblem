@@ -9,7 +9,7 @@
 #' @return HTML div with year input controls
 create_year_controls <- function(default_start, default_end, min_year, max_year) {
   htmltools::tags$div(
-    style = "margin-bottom: 20px; padding: 15px; background-color: #f0f0f0; border-radius: 5px;",
+    style = "margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;",
     htmltools::tags$label(
       "Start Year: ",
       htmltools::tags$input(
@@ -35,7 +35,7 @@ create_year_controls <- function(default_start, default_end, min_year, max_year)
     htmltools::tags$button(
       "Update Plot",
       onclick = "updatePlot()",
-      style = "padding: 5px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer;"
+      style = "padding: 5px 15px; background-color: #932667; color: white; border: none; border-radius: 3px; cursor: pointer;"
     )
   )
 }

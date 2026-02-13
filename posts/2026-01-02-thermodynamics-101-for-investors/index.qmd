@@ -36,6 +36,7 @@ On a plot, it looks like:
 #| warning: false
 
 source("energy_functions.R")
+source("../../assets/inferno_palette.R")
 library(plotly)
 
 # Generate data
@@ -54,7 +55,7 @@ plot_ly() %>%
     type = 'scatter',
     mode = 'lines',
     name = 'single stage reaction',
-    line = list(color = 'black', width = 3)
+    line = list(color = INFERNO$lineA, width = 3)
   ) %>%
   add_trace(
     x = x,
@@ -62,7 +63,7 @@ plot_ly() %>%
     type = 'scatter',
     mode = 'lines',
     name = 'multi-stage reaction',
-    line = list(color = 'red', width = 3)
+    line = list(color = INFERNO$lineB, width = 3)
   ) %>%
   # Add initial state marker
   add_trace(
@@ -70,10 +71,10 @@ plot_ly() %>%
     y = start_energy,
     type = 'scatter',
     mode = 'markers+text',
-    marker = list(size = 12, color = "black", symbol = 'x'),
+    marker = list(size = 12, color = INFERNO$annotation, symbol = 'x'),
     text = "Initial",
     textposition = 'bottom right',
-    textfont = list(size = 14, color = "black"),
+    textfont = list(size = 14, color = INFERNO$annotation),
     showlegend = FALSE,
     hoverinfo = 'skip'
   ) %>%
@@ -83,10 +84,10 @@ plot_ly() %>%
     y = end_energy,
     type = 'scatter',
     mode = 'markers+text',
-    marker = list(size = 12, color = "black", symbol = 'x'),
+    marker = list(size = 12, color = INFERNO$annotation, symbol = 'x'),
     text = "Final",
     textposition = 'bottom left',
-    textfont = list(size = 14, color = "black"),
+    textfont = list(size = 14, color = INFERNO$annotation),
     showlegend = FALSE,
     hoverinfo = 'skip'
   ) %>%
@@ -102,7 +103,7 @@ plot_ly() %>%
         x1 = 1,
         y0 = end_energy,
         y1 = end_energy,
-        line = list(color = "gray", width = 1, dash = "dash")
+        line = list(color = INFERNO$annotation, width = 1, dash = "dash")
       )
     ),
     plot_bgcolor = 'white',
@@ -150,7 +151,7 @@ plot_ly() %>%
     type = 'scatter',
     mode = 'lines',
     name = 'Stock Price',
-    line = list(color = '#1f77b4', width = 3)
+    line = list(color = INFERNO$lineA, width = 3)
   ) %>%
   # Add start marker
   add_trace(
@@ -158,10 +159,10 @@ plot_ly() %>%
     y = initial_price,
     type = 'scatter',
     mode = 'markers+text',
-    marker = list(size = 12, color = "red", symbol = 'x'),
+    marker = list(size = 12, color = INFERNO$annotation, symbol = 'x'),
     text = sprintf("$%.0f", initial_price),
     textposition = 'bottom right',
-    textfont = list(size = 14, color = "red"),
+    textfont = list(size = 14, color = INFERNO$annotation),
     showlegend = FALSE,
     hoverinfo = 'skip'
   ) %>%
@@ -171,10 +172,10 @@ plot_ly() %>%
     y = final_price,
     type = 'scatter',
     mode = 'markers+text',
-    marker = list(size = 12, color = "red", symbol = 'x'),
+    marker = list(size = 12, color = INFERNO$annotation, symbol = 'x'),
     text = sprintf("$%.0f", final_price),
     textposition = 'bottom left',
-    textfont = list(size = 14, color = "red"),
+    textfont = list(size = 14, color = INFERNO$annotation),
     showlegend = FALSE,
     hoverinfo = 'skip'
   ) %>%
@@ -189,7 +190,7 @@ plot_ly() %>%
         x1 = 1,
         y0 = final_price,
         y1 = final_price,
-        line = list(color = "gray", width = 1, dash = "dash")
+        line = list(color = INFERNO$annotation, width = 1, dash = "dash")
       )
     ),
     plot_bgcolor = 'white',

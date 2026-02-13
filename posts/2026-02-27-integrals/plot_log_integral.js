@@ -52,12 +52,14 @@ function initLogIntegralPlot(el) {
     document.getElementById('integralPercentLog').textContent = data.integralPercent.toFixed(0);
     
     // Left plot traces
+    var R = window.INFERNO.roles;
+
     var traceLine = {
       x: data.lineT,
       y: data.lineY,
       mode: 'lines',
       name: 'y = ln(t)',
-      line: {color: 'green', width: 2},
+      line: {color: R.lineA, width: 2},
       hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra></extra>'
     };
     
@@ -65,8 +67,8 @@ function initLogIntegralPlot(el) {
       x: data.fillT,
       y: data.fillY,
       fill: 'toself',
-      fillcolor: 'rgba(144, 238, 144, 0.4)',
-      line: {color: 'rgba(34, 139, 34, 0.8)', width: 1},
+      fillcolor: R.fillA,
+      line: {color: R.fillBorderA, width: 1},
       name: 'Area',
       hoverinfo: 'skip'
     };
@@ -75,7 +77,7 @@ function initLogIntegralPlot(el) {
       x: [data.tLower],
       y: [Math.log(data.tLower)],
       mode: 'markers',
-      marker: {color: 'orange', size: 10},
+      marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},
       name: 'Lower limit',
       hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra></extra>'
     };
@@ -84,7 +86,7 @@ function initLogIntegralPlot(el) {
       x: [data.tUpper],
       y: [Math.log(data.tUpper)],
       mode: 'markers',
-      marker: {color: 'red', size: 12},
+      marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},
       name: 'Upper limit',
       hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra></extra>'
     };
@@ -94,7 +96,7 @@ function initLogIntegralPlot(el) {
       x: ['Integral'],
       y: [data.integralPercent],
       type: 'bar',
-      marker: {color: 'rgba(144, 238, 144, 0.7)'},
+      marker: {color: R.fillB},
       name: '∫ₐᵇ ln(τ) dτ',
       hovertemplate: '%{y:.1f}%<extra></extra>',
       width: 0.5
@@ -125,7 +127,7 @@ function initLogIntegralPlot(el) {
         x1: 0.9,
         y0: 100,
         y1: 100,
-        line: {color: 'gray', width: 2, dash: 'dash'}
+        line: {color: R.annotation, width: 2, dash: 'dash'}
       }]
     };
     

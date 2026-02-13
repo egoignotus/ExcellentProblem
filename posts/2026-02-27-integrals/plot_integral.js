@@ -50,12 +50,14 @@ function initIntegralPlot(el) {
     document.getElementById('integralPercent').textContent = data.integralPercent.toFixed(0);
     
     // Left plot traces
+    var R = window.INFERNO.roles;
+
     var traceLine = {
       x: data.lineT,
       y: data.lineY,
       mode: 'lines',
       name: 'y = t',
-      line: {color: 'blue', width: 2},
+      line: {color: R.lineA, width: 2},
       hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra></extra>'
     };
     
@@ -63,8 +65,8 @@ function initIntegralPlot(el) {
       x: data.fillT,
       y: data.fillY,
       fill: 'toself',
-      fillcolor: 'rgba(100, 149, 237, 0.4)',
-      line: {color: 'rgba(100, 149, 237, 0.8)', width: 1},
+      fillcolor: R.fillA,
+      line: {color: R.fillBorderA, width: 1},
       name: 'Area',
       hoverinfo: 'skip'
     };
@@ -73,7 +75,7 @@ function initIntegralPlot(el) {
       x: [data.tLower],
       y: [data.tLower],
       mode: 'markers',
-      marker: {color: 'orange', size: 10},
+      marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},
       name: 'Lower limit',
       hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra></extra>'
     };
@@ -82,7 +84,7 @@ function initIntegralPlot(el) {
       x: [data.tUpper],
       y: [data.tUpper],
       mode: 'markers',
-      marker: {color: 'red', size: 12},
+      marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},
       name: 'Upper limit',
       hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra></extra>'
     };
@@ -92,7 +94,7 @@ function initIntegralPlot(el) {
       x: ['Integral'],
       y: [data.integralPercent],
       type: 'bar',
-      marker: {color: 'rgba(100, 149, 237, 0.7)'},
+      marker: {color: R.fillB},
       name: '∫ₐᵇ τ dτ',
       hovertemplate: '%{y:.1f}%<extra></extra>',
       width: 0.5
@@ -123,7 +125,7 @@ function initIntegralPlot(el) {
         x1: 0.9,
         y0: 100,
         y1: 100,
-        line: {color: 'gray', width: 2, dash: 'dash'}
+        line: {color: R.annotation, width: 2, dash: 'dash'}
       }]
     };
     

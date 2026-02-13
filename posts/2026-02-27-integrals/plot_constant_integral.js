@@ -1,31 +1,19 @@
-function initExpIntegralPlot(el) {
-  var tMax = 5;
-  // Max integral: ∫₀^5 exp(t)dt = exp(5) - exp(0) = exp(5) - 1 ≈ 147.41
-  var maxIntegral = Math.exp(tMax) - 1;
+function initConstantIntegralPlot(el) {
+  var tMax = 10;
+  var C = 5;
+  var maxIntegral = C * tMax; // = 50
   
   function generateData(tLower, tUpper) {
-    // Generate points for the line y = exp(t)
-    var lineT = [];
-    var lineY = [];
-    for (var i = 0; i <= tMax * 20; i++) {
-      var t = i / 20;
-      lineT.push(t);
-      lineY.push(Math.exp(t));
-    }
+    // Generate points for the line y = 5
+    var lineT = [0, tMax];
+    var lineY = [C, C];
     
     // Generate filled area from tLower to tUpper
-    var fillT = [tLower];
-    var fillY = [0];
-    for (var i = Math.round(tLower * 20); i <= Math.round(tUpper * 20); i++) {
-      var t = i / 20;
-      fillT.push(t);
-      fillY.push(Math.exp(t));
-    }
-    fillT.push(tUpper);
-    fillY.push(0);
+    var fillT = [tLower, tLower, tUpper, tUpper];
+    var fillY = [0, C, C, 0];
     
-    // Integral of exp(t) from tLower to tUpper = exp(tUpper) - exp(tLower)
-    var integralValue = Math.exp(tUpper) - Math.exp(tLower);
+    // Integral of 5 from tLower to tUpper = 5 * (tUpper - tLower)
+    var integralValue = C * (tUpper - tLower);
     var integralPercent = (integralValue / maxIntegral) * 100;
     
     return {
@@ -40,15 +28,15 @@ function initExpIntegralPlot(el) {
     };
   }
   
-  window.updateExpIntegralPlot = function() {
-    var slider = document.getElementById('rangeSliderExp');
-    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [0, 2.5];
+  window.updateConstantIntegralPlot = function() {
+    var slider = document.getElementById('rangeSliderConstant');
+    var values = slider && slider.noUiSlider ? slider.noUiSlider.get() : [0, 5];
     var tLower = parseFloat(values[0]);
     var tUpper = parseFloat(values[1]);
     
     var data = generateData(tLower, tUpper);
-    document.getElementById('integralValueExp').textContent = data.integralValue.toFixed(2);
-    document.getElementById('integralPercentExp').textContent = data.integralPercent.toFixed(0);
+    document.getElementById('integralValueConstant').textContent = data.integralValue.toFixed(2);
+    document.getElementById('integralPercentConstant').textContent = data.integralPercent.toFixed(0);
     
     // Left plot traces
     var R = window.INFERNO.roles;
@@ -57,9 +45,9 @@ function initExpIntegralPlot(el) {
       x: data.lineT,
       y: data.lineY,
       mode: 'lines',
-      name: 'y = exp(t)',
+      name: 'y = 5',
       line: {color: R.lineA, width: 2},
-      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra></extra>'
+      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra></extra>'
     };
     
     var traceFill = {
@@ -74,20 +62,20 @@ function initExpIntegralPlot(el) {
     
     var traceMarkerLower = {
       x: [data.tLower],
-      y: [Math.exp(data.tLower)],
+      y: [C],
       mode: 'markers',
       marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},
       name: 'Lower limit',
-      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra></extra>'
+      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra></extra>'
     };
     
     var traceMarkerUpper = {
       x: [data.tUpper],
-      y: [Math.exp(data.tUpper)],
+      y: [C],
       mode: 'markers',
       marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},
       name: 'Upper limit',
-      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.2f}<extra></extra>'
+      hovertemplate: 'time: %{x:.1f}<br>y: %{y:.1f}<extra></extra>'
     };
     
     // Right plot traces - using percentage
@@ -96,15 +84,15 @@ function initExpIntegralPlot(el) {
       y: [data.integralPercent],
       type: 'bar',
       marker: {color: R.fillB},
-      name: '∫ₐᵇ exp(τ) dτ',
+      name: '∫ₐᵇ 5 dτ',
       hovertemplate: '%{y:.1f}%<extra></extra>',
       width: 0.5
     };
     
     var layoutLeft = {
-      title: {text: 'f(t) = exp(t)', font: {size: 14}},
-      xaxis: {title: 'time', range: [0, tMax], dtick: 1},
-      yaxis: {title: 'y', range: [0, Math.exp(tMax) * 1.05]},
+      title: {text: 'f(t) = 5', font: {size: 14}},
+      xaxis: {title: 'time', range: [0, tMax], dtick: 2},
+      yaxis: {title: 'y', range: [0, tMax], dtick: 2},
       plot_bgcolor: 'white',
       paper_bgcolor: 'white',
       margin: {l: 50, r: 20, t: 50, b: 50},
@@ -112,7 +100,7 @@ function initExpIntegralPlot(el) {
     };
     
     var layoutRight = {
-      title: {text: '∫ₐᵇ exp(τ) dτ', font: {size: 14}},
+      title: {text: '∫ₐᵇ f(τ) dτ', font: {size: 14}},
       xaxis: {showticklabels: false},
       yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},
       plot_bgcolor: 'white',
@@ -132,10 +120,10 @@ function initExpIntegralPlot(el) {
     
     var config = {responsive: true, displayModeBar: false};
     
-    Plotly.react('leftPlotExp', [traceFill, traceLine, traceMarkerLower, traceMarkerUpper], layoutLeft, config);
-    Plotly.react('rightPlotExp', [traceIntegralBar], layoutRight, config);
+    Plotly.react('leftPlotConstant', [traceFill, traceLine, traceMarkerLower, traceMarkerUpper], layoutLeft, config);
+    Plotly.react('rightPlotConstant', [traceIntegralBar], layoutRight, config);
   };
   
   // Initialize
-  window.updateExpIntegralPlot();
+  window.updateConstantIntegralPlot();
 }

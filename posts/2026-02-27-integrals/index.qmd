@@ -1,16 +1,16 @@
 ---
 title: "Integrals"
 author: "Aleksandra"
-date: "2026-02-07"
+date: "2026-02-27"
 categories: [math, interactive]
-image: ""
+image: "thumb.jpeg"
 description: ""
 title-block-banner: true
 ---
 
-## Interactive Integral Visualization
+## Constant Function
 
-Use the slider below to change the upper limit of integration. The left plot shows the function $f(t) = t$ with the area under the curve shaded. The dashed outline shows the maximum possible area. The right plot shows the value of the integral $\int_0^t \tau \, d\tau = \frac{t^2}{2}$.
+Let's look at the simplest case: $f(t) = 5$. The integral $\int_a^b 5 \, d\tau = 5(b - a)$.
 
 ```{r}
 #| echo: false
@@ -22,6 +22,54 @@ library(htmlwidgets)
 # Load helper functions
 source("plot_helpers.R")
 
+# Read external JavaScript file for constant plot
+js_code_constant <- readLines("plot_constant_integral.js", warn = FALSE)
+js_code_constant <- paste(js_code_constant, collapse = "\n")
+
+# Create controls and plot containers using helper functions
+controls_html_constant <- create_integral_controls(
+  id_prefix = "Constant",
+  range_min = 0, range_max = 10,
+  default_lower = 0, default_upper = 5,
+  update_function = "updateConstantIntegralPlot",
+  bg_color = "rgba(147, 38, 103, 0.04)"
+)
+plot_containers_constant <- create_plot_containers(id_prefix = "Constant")
+
+# Create minimal plotly widget just to load Plotly.js and run our code
+fig_constant <- plot_ly() %>%
+  layout(
+    xaxis = list(visible = FALSE),
+    yaxis = list(visible = FALSE),
+    plot_bgcolor = "white",
+    paper_bgcolor = "white",
+    height = 1,
+    margin = list(l = 0, r = 0, t = 0, b = 0)
+  ) %>%
+  htmlwidgets::prependContent(htmltools::tagList(controls_html_constant, plot_containers_constant)) %>%
+  htmlwidgets::onRender(
+    sprintf(
+      "function(el, x) {
+        el.style.height = '0px';
+        el.style.overflow = 'hidden';
+        %s
+        initConstantIntegralPlot(el);
+      }",
+      js_code_constant
+    )
+  )
+
+fig_constant
+```
+
+## Interactive Integral Visualization
+
+Use the slider below to change the upper limit of integration. The left plot shows the function $f(t) = t$ with the area under the curve shaded. The dashed outline shows the maximum possible area. The right plot shows the value of the integral $\int_0^t \tau \, d\tau = \frac{t^2}{2}$.
+
+```{r}
+#| echo: false
+#| warning: false
+
 # Read external JavaScript file
 js_code <- readLines("plot_integral.js", warn = FALSE)
 js_code <- paste(js_code, collapse = "\n")
@@ -32,7 +80,7 @@ controls_html <- create_integral_controls(
   range_min = 0, range_max = 10,
   default_lower = 0, default_upper = 5,
   update_function = "updateIntegralPlot",
-  bg_color = "#f8f9fa"
+  bg_color = "rgba(147, 38, 103, 0.04)"
 )
 plot_containers <- create_plot_containers(id_prefix = "")
 
@@ -80,7 +128,7 @@ controls_html_log <- create_integral_controls(
   range_min = 1, range_max = 10,
   default_lower = 1, default_upper = 5,
   update_function = "updateLogIntegralPlot",
-  bg_color = "#f0fff0"
+  bg_color = "rgba(147, 38, 103, 0.04)"
 )
 plot_containers_log <- create_plot_containers(id_prefix = "Log")
 
@@ -128,7 +176,7 @@ controls_html_exp <- create_integral_controls(
   range_min = 0, range_max = 5,
   default_lower = 0, default_upper = 2.5,
   update_function = "updateExpIntegralPlot",
-  bg_color = "#f5f0ff"
+  bg_color = "rgba(147, 38, 103, 0.04)"
 )
 plot_containers_exp <- create_plot_containers(id_prefix = "Exp")
 
@@ -176,7 +224,7 @@ controls_html_sigmoid <- create_integral_controls(
   range_min = -5, range_max = 5,
   default_lower = -2, default_upper = 2,
   update_function = "updateSigmoidIntegralPlot",
-  bg_color = "#e0ffff"
+  bg_color = "rgba(147, 38, 103, 0.04)"
 )
 plot_containers_sigmoid <- create_plot_containers(id_prefix = "Sigmoid")
 
