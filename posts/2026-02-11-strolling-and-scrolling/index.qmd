@@ -11,7 +11,7 @@ Story 1, a weekday evening [^1]: the kids are finally asleep and you’re barely
 
 Story 2, a weekend afternoon: you go to the library just to return books. You still need to visit a shop that is closing in one hour. However, wouldn’t it be wasteful to be here and not to stroll between the shelves, just for a quarter? Maybe you will discover the next “Hillbilly Elegy”? So you jump between the shelves and start reading book necks. It is hard to read vertically. Different font on each neck does not make the task easier. You recognize some authors, you immediately recognize books you have already read. It feels like meeting an old friend, so you take the book in your hands, a form of saying “hello”. Ok, but don’t lose the goal from your sight. You are here to hunt, not to reread the familiar books. There is a shelf with less books, and therefore the books are a bit tilted. Diagonally is easier to read so you finally read some necks in full. Because of the same ease of access, you take one or two in your hands. You read a passage, check author’s bio, but quickly get discouraged by bombastic one-sentence reviews on the cover. You won’t be fooled by unknown author borrowing a name of his known reviewer. Your phone buzzes, you check the screen and realize that the shop you have to go to closes in 15 minutes. You leave the library in rush, with no book to stack next to your bed.
 
-::: {#fig1-pdb-entries}
+::: {#fig1-library}
 ![](library.jpg)
 
 Library in Rijksmuseum, Amsterdam. [Source: Wikipedia.](https://commons.wikimedia.org/wiki/File:Rijks_Museum_Library.jpg)
