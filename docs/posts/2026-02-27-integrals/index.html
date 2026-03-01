@@ -9,7 +9,7 @@
 <meta name="author" content="Aleksandra">
 <meta name="dcterms.date" content="2026-02-27">
 
-<title>Integrals – Excellent Problem</title>
+<title>Change. – Excellent Problem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -270,7 +270,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Integrals</h1>
+      <h1 class="title">Change.</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">math</div>
                 <div class="quarto-category">interactive</div>
@@ -414,22 +414,27 @@ function createIntegralPlot(cfg) {
     var hoverTpl = 'time: %{x:.1f}<br>y: %{y' + hoverFmt + '}<extra></extra>';
 
     var traces = [
-      // filled area
+      // filled area (main axes)
       { x: d.fillT, y: d.fillY, fill: 'toself',
         fillcolor: R.fillA, line: {color: R.fillBorderA, width: 1},
         name: 'Area', hoverinfo: 'skip' },
-      // function curve
+      // function curve (main axes)
       { x: d.lineT, y: d.lineY, mode: 'lines',
         line: {color: R.lineA, width: 2},
         name: title, hovertemplate: hoverTpl },
-      // lower marker
+      // lower marker (main axes)
       { x: [d.tLower], y: [d.fLower], mode: 'markers',
         marker: {color: R.markerLower, size: 10, line: {color: '#000004', width: 1}},
         name: 'Lower limit', hovertemplate: hoverTpl },
-      // upper marker
+      // upper marker (main axes)
       { x: [d.tUpper], y: [d.fUpper], mode: 'markers',
         marker: {color: R.markerUpper, size: 12, line: {color: '#fcffa4', width: 1}},
-        name: 'Upper limit', hovertemplate: hoverTpl }
+        name: 'Upper limit', hovertemplate: hoverTpl },
+      // inset bar (secondary axes, bottom-right)
+      { x: ['%'], y: [d.integralPercent], type: 'bar',
+        marker: {color: R.fillB, opacity: 0.85}, width: 0.5,
+        hovertemplate: '%{y:.1f}%<extra></extra>',
+        xaxis: 'x2', yaxis: 'y2', showlegend: false }
     ];
 
     // Crosshair shapes: dotted lines from each marker to both axes
@@ -448,36 +453,35 @@ function createIntegralPlot(cfg) {
        line:{color:R.markerUpper, width:1.5, dash:'dot'}}
     ];
 
-    var layoutLeft = {
+    var insetBg = 'rgba(147, 38, 103, 0.04)';
+
+    var layout = {
       xaxis: {title: 'time', range: [tMin, tMax], dtick: dtick},
       yaxis: {title: 'growth(t)', range: yRange},
+      // Inset axes for bar chart (bottom-right corner)
+      xaxis2: {domain: [0.78, 0.95], anchor: 'y2', showticklabels: false,
+              showgrid: false, zeroline: false},
+      yaxis2: {domain: [0.05, 0.50], anchor: 'x2', range: [0, 110],
+               ticksuffix: '%', tickfont: {size: 10}, dtick: 50,
+               gridcolor: 'rgba(147, 38, 103, 0.08)', zeroline: false,
+               title: {text: 'AUC', font: {size: 11}}},
       plot_bgcolor: 'white', paper_bgcolor: 'white',
       margin: {l: 50, r: 20, t: 30, b: 50},
       showlegend: false,
-      shapes: shapes
-    };
-
-    var layoutRight = {
-      xaxis: {showticklabels: false},
-      yaxis: {title: '%', range: [0, 110], ticksuffix: '%'},
-      plot_bgcolor: 'white', paper_bgcolor: 'white',
-      margin: {l: 50, r: 20, t: 50, b: 50},
-      showlegend: false,
-      shapes: [{
-        type: 'line', xref: 'paper', x0: 0.1, x1: 0.9, y0: 100, y1: 100,
-        line: {color: R.annotation, width: 2, dash: 'dash'}
-      }]
-    };
-
-    var barTrace = {
-      x: ['Integral'], y: [d.integralPercent], type: 'bar',
-      marker: {color: R.fillB}, name: intLabel,
-      hovertemplate: '%{y:.1f}%<extra></extra>', width: 0.5
+      shapes: shapes.concat([
+        // inset background
+        {type: 'rect', xref: 'x2 domain', yref: 'y2 domain',
+         x0: -0.3, x1: 1.1, y0: -0.08, y1: 1.12,
+         fillcolor: insetBg, line: {width: 0}, layer: 'below'},
+        // 100% dashed reference line in inset
+        {type: 'line', xref: 'x2 domain', x0: 0.05, x1: 0.95,
+         yref: 'y2', y0: 100, y1: 100,
+         line: {color: R.annotation, width: 1.5, dash: 'dash'}}
+      ])
     };
 
     var config = {responsive: true, displayModeBar: false};
-    Plotly.react('leftPlot'  + idPrefix, traces, layoutLeft,  config);
-    Plotly.react('rightPlot' + idPrefix, [barTrace], layoutRight, config);
+    Plotly.react('leftPlot' + idPrefix, traces, layout, config);
   };
 
   // Run on first load
@@ -486,7 +490,7 @@ function createIntegralPlot(cfg) {
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
 <label style="font-weight: bold;">Integration limits:</label>
-<span id="rangeDisplayConstant" style="font-weight: bold;">[0.0, 5.0]</span>
+<span id="rangeDisplayConstant" style="font-weight: bold;">[0.0, 10.0]</span>
 </div>
 <div id="rangeSliderConstant" style="margin: 10px 5px 20px 5px;"></div>
 <div>
@@ -503,9 +507,9 @@ Integral:
         var slider = document.getElementById('rangeSliderConstant');
         if (slider && !slider.noUiSlider) {
           noUiSlider.create(slider, {
-            start: [0.000000, 5.000000],
+            start: [0.000000, 10.000000],
             connect: true,
-            range: {'min': 0.000000, 'max': 10.000000},
+            range: {'min': 0.000000, 'max': 20.000000},
             step: 0.1,
             tooltips: false
           });
@@ -518,25 +522,24 @@ Integral:
       });
     </script>
 </div>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
-<div id="leftPlotConstant" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
-<div id="rightPlotConstant" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
+<div>
+<div id="leftPlotConstant" style="width: 100%; height: min(400px, 60vw);"></div>
 </div>
 <script>function initConstantIntegralPlot() {
-  var C = 5, tMax = 10;
+  var C = 8, tMax = 20;
   createIntegralPlot({
     idPrefix:       'Constant',
     tMin:           0,
     tMax:           tMax,
     f:              function(t) { return C; },
     F:              function(t) { return C * t; },
-    title:          'f(t) = 5',
-    integralLabel:  '∫ₐᵇ 5 dτ',
-    yRange:         [0, tMax],
+    title:          'f(t) = 8',
+    integralLabel:  '∫ₐᵇ 8 dτ',
+    yRange:         [0, C + 2],
     dtick:          2,
     hoverFmt:       ':.1f',
     defaultLower:   0,
-    defaultUpper:   5
+    defaultUpper:   10
   });
 }
 document.addEventListener('DOMContentLoaded', function() { initConstantIntegralPlot(); });</script>
@@ -551,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() { initConstantIntegralP
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
 <label style="font-weight: bold;">Integration limits:</label>
-<span id="rangeDisplay" style="font-weight: bold;">[0.0, 5.0]</span>
+<span id="rangeDisplay" style="font-weight: bold;">[0.0, 10.0]</span>
 </div>
 <div id="rangeSlider" style="margin: 10px 5px 20px 5px;"></div>
 <div>
@@ -568,9 +571,9 @@ Integral:
         var slider = document.getElementById('rangeSlider');
         if (slider && !slider.noUiSlider) {
           noUiSlider.create(slider, {
-            start: [0.000000, 5.000000],
+            start: [0.000000, 10.000000],
             connect: true,
-            range: {'min': 0.000000, 'max': 10.000000},
+            range: {'min': 0.000000, 'max': 20.000000},
             step: 0.1,
             tooltips: false
           });
@@ -583,12 +586,11 @@ Integral:
       });
     </script>
 </div>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
-<div id="leftPlot" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
-<div id="rightPlot" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
+<div>
+<div id="leftPlot" style="width: 100%; height: min(400px, 60vw);"></div>
 </div>
 <script>function initIntegralPlot() {
-  var tMax = 10;
+  var tMax = 20;
   createIntegralPlot({
     idPrefix:       '',
     tMin:           0,
@@ -601,7 +603,7 @@ Integral:
     dtick:          2,
     hoverFmt:       ':.1f',
     defaultLower:   0,
-    defaultUpper:   5
+    defaultUpper:   10
   });
 }
 document.addEventListener('DOMContentLoaded', function() { initIntegralPlot(); });</script>
@@ -648,9 +650,8 @@ Integral:
       });
     </script>
 </div>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
-<div id="leftPlotLog" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
-<div id="rightPlotLog" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
+<div>
+<div id="leftPlotLog" style="width: 100%; height: min(400px, 60vw);"></div>
 </div>
 <script>function initLogIntegralPlot() {
   var tMax = 20;
@@ -713,9 +714,8 @@ Integral:
       });
     </script>
 </div>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
-<div id="leftPlotExp" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
-<div id="rightPlotExp" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
+<div>
+<div id="leftPlotExp" style="width: 100%; height: min(400px, 60vw);"></div>
 </div>
 <script>function initExpIntegralPlot() {
   var tMax = 5;
@@ -747,7 +747,7 @@ document.addEventListener('DOMContentLoaded', function() { initExpIntegralPlot()
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
 <label style="font-weight: bold;">Integration limits:</label>
-<span id="rangeDisplaySigmoid" style="font-weight: bold;">[-2.0, 2.0]</span>
+<span id="rangeDisplaySigmoid" style="font-weight: bold;">[-5.0, 5.0]</span>
 </div>
 <div id="rangeSliderSigmoid" style="margin: 10px 5px 20px 5px;"></div>
 <div>
@@ -764,9 +764,9 @@ Integral:
         var slider = document.getElementById('rangeSliderSigmoid');
         if (slider && !slider.noUiSlider) {
           noUiSlider.create(slider, {
-            start: [-2.000000, 2.000000],
+            start: [-5.000000, 5.000000],
             connect: true,
-            range: {'min': -5.000000, 'max': 5.000000},
+            range: {'min': -20.000000, 'max': 20.000000},
             step: 0.1,
             tooltips: false
           });
@@ -779,15 +779,14 @@ Integral:
       });
     </script>
 </div>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
-<div id="leftPlotSigmoid" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
-<div id="rightPlotSigmoid" style="flex: 1 1 45%; min-width: 250px; height: min(350px, 50vw);"></div>
+<div>
+<div id="leftPlotSigmoid" style="width: 100%; height: min(400px, 60vw);"></div>
 </div>
 <script>function initSigmoidIntegralPlot() {
   createIntegralPlot({
     idPrefix:       'Sigmoid',
-    tMin:           -5,
-    tMax:           5,
+    tMin:           -20,
+    tMax:           20,
     f:              function(t) { return 1 / (1 + Math.exp(-t)); },
     F:              function(t) { return Math.log(1 + Math.exp(t)); },
     title:          'f(t) = 1/(1+e⁻ᵗ)',
@@ -795,8 +794,8 @@ Integral:
     yRange:         [0, 1.1],
     dtick:          2,
     hoverFmt:       ':.3f',
-    defaultLower:   -2,
-    defaultUpper:   2
+    defaultLower:   -5,
+    defaultUpper:   5
   });
 }
 document.addEventListener('DOMContentLoaded', function() { initSigmoidIntegralPlot(); });</script>

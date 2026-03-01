@@ -18,7 +18,7 @@ $$\ce{C6H12O6 + 6O2 -> 6CO2 + 6H2O}$$
 
 ![](monkey_labcoat.jpeg)
 
-Burning glucose in full stram of oxygen is a single step reaction. You go from glucose immediately to carbon dioxide and water. Game over, nothing more to oxidize. It is quite brute force approach in comparison to elegant biological oxidation of glucose, that involves more than dozen intermediate reactions, multiple enzymes, different cellular locations and ends with a cycle (sic!): 
+Burning glucose in full stream of oxygen is a single step reaction. You go from glucose immediately to carbon dioxide and water. Game over, nothing more to oxidize. It is quite brute force approach in comparison to elegant biological oxidation of glucose, that involves more than dozen intermediate reactions, multiple enzymes, different cellular locations and ends with a cycle (sic!): 
 
 ::: {#fig1-krebs-cycle}
 ![](krebs_cycle.png)
