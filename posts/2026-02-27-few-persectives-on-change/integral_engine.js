@@ -127,8 +127,8 @@ function createIntegralPlot(cfg) {
     var insetBg = 'rgba(147, 38, 103, 0.04)';
 
     var layout = {
-      xaxis: {title: 'time', range: [tMin, tMax], dtick: dtick},
-      yaxis: {title: 'growth(t)', range: yRange},
+      xaxis: {title: 'time', range: [tMin, tMax], dtick: dtick, fixedrange: true},
+      yaxis: {title: 'growth(t)', range: yRange, fixedrange: true},
       // Inset axes for bar chart (bottom-right corner)
       xaxis2: {domain: [0.78, 0.95], anchor: 'y2', showticklabels: false,
               showgrid: false, zeroline: false},
