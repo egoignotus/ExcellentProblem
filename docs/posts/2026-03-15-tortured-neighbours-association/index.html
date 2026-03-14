@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Aleksandra">
+<meta name="dcterms.date" content="2026-03-15">
+<meta name="description" content="“The wand chooses the wizard, Mr Potter.”">
+
+<title>Tortured Neighbours Association – Excellent Problem</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+
+// =============================================================
+
+// Viridis Inferno Palette — Global Color System
+
+// Available on every page via window.INFERNO
+
+// =============================================================
+
+window.INFERNO = {
+
+  // 11 discrete stops sampled from viridis inferno (0.0 → 1.0)
+
+  palette: [
+
+    '#000004', '#1b0c41', '#420a68', '#6a176e', '#932667',
+
+    '#bb3754', '#dd513a', '#f37819', '#fca50a', '#f6d746', '#fcffa4'
+
+  ],
+
+
+
+  // Role-based colors — identical across every plot for consistency
+
+  // "trace A" = the function line + shaded area
+
+  // "trace B" = the integral bar (right panel)
+
+  roles: {
+
+    lineA:       '#932667',                    // function curve
+
+    fillA:       'rgba(147, 38, 103, 0.25)',   // shaded area under curve
+
+    fillBorderA: 'rgba(147, 38, 103, 0.70)',   // border of shaded area
+
+    lineB:       '#dd513a',                    // second trace / bar
+
+    fillB:       'rgba(221, 81, 58, 0.50)',    // bar fill
+
+    markerLower: '#fca50a',                    // lower-limit marker (amber)
+
+    markerUpper: '#420a68',                    // upper-limit marker (deep purple)
+
+    annotation:  '#2c3e50',                    // flatly banner blue — dashed lines, labels
+
+    panelBg:     'rgba(147, 38, 103, 0.04)'    // subtle control-panel tint
+
+  },
+
+
+
+  // Utility: get hex color at position t ∈ [0, 1] (for continuous scales)
+
+  at: function(t) {
+
+    var idx = Math.max(0, Math.min(1, t)) * (this.palette.length - 1);
+
+    return this.palette[Math.round(idx)];
+
+  },
+
+
+
+  // Utility: hex → rgba string
+
+  rgba: function(hex, alpha) {
+
+    var r = parseInt(hex.slice(1, 3), 16);
+
+    var g = parseInt(hex.slice(3, 5), 16);
+
+    var b = parseInt(hex.slice(5, 7), 16);
+
+    return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
+
+  },
+
+
+
+  // Plotly-compatible colorscale for continuous variables
+
+  colorscale: [
+
+    [0.0, '#000004'], [0.1, '#1b0c41'], [0.2, '#420a68'],
+
+    [0.3, '#6a176e'], [0.4, '#932667'], [0.5, '#bb3754'],
+
+    [0.6, '#dd513a'], [0.7, '#f37819'], [0.8, '#fca50a'],
+
+    [0.9, '#f6d746'], [1.0, '#fcffa4']
+
+  ]
+
+};
+
+</script>
+
+
+
+<style>
+
+/* noUiSlider inferno theming — single solid color */
+
+.noUi-connect {
+
+  background: #932667 !important;
+
+}
+
+.noUi-handle {
+
+  border-color: #6a176e !important;
+
+  box-shadow: 0 0 4px rgba(0, 0, 4, 0.25) !important;
+
+}
+
+</style>
+
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Excellent Problem</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Tortured Neighbours Association</h1>
+                  <div>
+        <div class="description">
+          “The wand chooses the wizard, Mr Potter.”
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">skills</div>
+                <div class="quarto-category">music</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Aleksandra </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 15, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>Do you remember Harry’s visit at the Ollivander’s wand shop? Young wizard tried multiple wands: willow, oak, maple, and with different cores: unicorn’s hair, phoenix feather. Nothing gave a spark until a wand made from holly wood with dragon heartstring. Ollivander was very perplexed by this match <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, but he quickly got his coolness back, saying “The wand chooses the wizard, Mr Potter”. It is strikingly similar to what cello professionals are saying about bow: as an extension of their arm, it is the bow that chooses the musician. And bow is my greatest nemesis when learning the instrument.</p>
+<p>Slightly more than a year ago I started learning the cello. With ~100-150 hours of cello in my body, I would like to reflect on the process of producing a clear sound. It is probably the only advantage I have over a child learning an instrument: I can analyse the elements through the lens of my earlier experiences, and describe them as such. Not the form of expression I am learning to build, but always something.</p>
+<p>For starters, cello is the big violin-like instrument you need to put on the floor. Consequently, instead of a chinrest, it has a pin: the metal appendage to position on the ground. It gives the first point of support, the remaining ones are created with the cellist’s body. You hold it with your legs, slightly above your knees. The neck gets supported by your chest. When playing, the instrument gets additionally fixated in space by your left hand, that is by pressing the strings against the fingerboard. The last point of contact comes from the bow, operated by your right hand. The ultimate test of right positioning is that the ebony pegs on which the strings are rolled should not land in your face. The issue is as old as the first modern cellos, and some cellists handled it decisively <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Notably, symmetry of the instrument is roughly matching symmetry of the player’s body. The symmetry match is not the case for the bow, however.</p>
+<div id="fig1-cello-parts">
+<p><img src="cello_parts.jpg" class="img-fluid"></p>
+<p>Elements of the cello. <a href="https://en.wikipedia.org/wiki/Cello#/media/File:Cello_Parts.jpg">Source: Wikipedia</a></p>
+</div>
+<p>Jeckyll and Hyde, cello and bow. The bow revolutionised string instruments, as it allows string to vibrate far longer than simple plucking (plucking is what you do with a guitar <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>). That’s about all good I can say about the bow. I felt in love with the cello because of the sound produced with the bow, and I hate this magic stick at the same time. Why? Because it is so hard to hold, and it is even harder to hold it and produce decent sound for couple of minutes straight. But more on that later.</p>
+<p>To hold the bow, thumb pairs with the middle finger. Against teens of millions years of evolution but consistent with what you need to do with your left hand <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. The actual hold of the bow is done by index and thumb, though, as index wraps around the grip. Another word of criticism is that the bow, even though round the world is hold in the right hand, is achiral. Achiral means it has symmetry. Completely unnecessarily. For firm grip and comfort, it should be chiral – that is, profiled for the right hand. When you have a decent glove, the glove for right hand fits your right hand but not the left one. Gloves are chiral <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. And this is universal criticism. All my other complains probably hold to student bows that are more manufactured than made, and for now I will keep them for myself.</p>
+<div id="fig2-bow-grip">
+<p><img src="right-hand-position.jpg" class="img-fluid"></p>
+<p>Holding of the bow. <a href="https://tomplay.com/fingering-charts/cello">Source: TomPlay</a></p>
+</div>
+<p>Naturally, the cello needs to be tuned.</p>
+<p>There are two entry points to tune the cello, an easy one and a hard one. If the instrument is slightly out of tune you are lucky and you can use fine tuners, the little screws close to the bridge. But if the instrument hasn’t been used for a while or the string got loose in transport, you have to use pegs. In such case I spend the time I was planning to practice just to tune. And not always succeed. It is still on a good day. On a bad day it happens to break a string, though. Be aware: it is not because I tune with my ear only, I use external tuner, but tuning with pegs is a very tedious process for a beginner.</p>
+<p>Keep in mind we haven’t made any sound so far.</p>
+<p>Ready for the next step? Let’s produce sound with an open string. First, we need to tense the bow hair and apply rosin for proper grip. When you stroke the bow over the string, you should do it at 90<sup>o</sup> angle. Not that anybody will come to measure, no one has to. With four strings, there is not much freedom to play one string without playing the other, and it is why this accuracy is crucial. Also, you need to acquire this peculiar positioning of your arm and elbow, slightly different for each string, and learn to switch between them. Probably you have heard about the tennis player elbow. There exist the cello player elbow, too. Yes, you can get injured by playing a musical instrument. Similar as in sport, acquiring decent technique is not only a way to succeed as an individual player, but also to avoid injuries.</p>
+<p>Mind that we still operate with a single hand only. To play notes different than do, sol, re and la <a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>, we need to start pressing the strings in the correct positions. For that we use left hand.</p>
+<p>Left hand is for the fingerboard – it is the one that is left (punch unintended), while right hand is operating the bow. Let’s say that we want to play do-mi-sol-do’, with 2nd do being an octave higher. A cellist junkie chord. Notice that 1st and 3rd notes are open strings, we only need to press strings for mi (ring finger) and do’ (pinky). It is played in the so-called first position, with the left hand operating close to the end of the neck. Here I try to describe the positioning of the fingers, so please, bear with me in the next paragraph.</p>
+<p>Thumb goes behind the fingerboard, roughly opposite the middle finger. This is where cello betrays our evolutionary wiring: primates evolved pincet grip between thumb and index, and now you have to unlearn it. All the remaining fingers come down on the C string. Then comes the stretch: pull index and ring far apart, farther than feels reasonable. When it starts to hurt, stretch just a bit more. Hold that distance and press the C-string with the index. If you’re lucky, a mi comes out. Sol is easy, as it’s an open string, small victory. For do’, the index finger migrates to the G string, perpendicular to the nut, while the pinky drops only a touch beyond the ring. In contrast to index-ring, the ring–pinky gap doesn’t hurt at all. The problem is strength: the pinky is so feeble it can barely press the string. Luckily, but just for a moment, the other fingers might pitch in and share the load of the pinky. And there it is: do–mi–sol–do’.</p>
+<div id="fig3-first-position">
+<p><img src="left-hand-position.jpg" class="img-fluid"></p>
+<p>Right hand in the first position. <a href="https://tomplay.com/fingering-charts/cello">Source: TomPlay</a></p>
+</div>
+<p>I did not say where exactly to place the fingers. Well, cello has no frets to designate positions of the notes, as eg. guitar does. Given that your cello is tuned, you find the correct positions in relation to the sound of the open strings. Or, putting it bluntly, you just need to hear.</p>
+<p>Funny enough, positioning of left hand is so unnatural that just searching for these few elements allows you to spot fake cellists in the pictures or in the movies. Even pretending requires training.</p>
+<p>And here we come to the “at once”.</p>
+<p>So far I have described individual aspects of playing cello as being physically uncomfortable, unnatural or demanding. Or just bow construction being primitive, and not refined for the centuries. Well, it was just nagging of the novice, as the real challenge is to put all these elements together. Posture, left hand, right hand, rhythm, melody, articulation <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p>
+<p>All good sounds are the same, all bad sounds are bad in their unique way. Given all these elements, and few more, contribute to the sound quality, it is enough to mess up just one to produce inferior sound.</p>
+<p>In “Thinking Fast and Slow,” Daniel Kahneman, American-Israeli psychologist who won the 2002 Nobel Prize in Economics, discusses his early research involving pupil dilation. Together with his grad student Jackson Beatty they build on the fact that the more cognitively demanding the task is, the more dilated the person’s pupils are. Well, if they were to observe me playing a simple cello piece they probably wouldn’t be able to say the colour of my eyes. I don’t think I ever did anything equally difficult in my life.</p>
+<p>Then why the hell am I doing it?</p>
+<p>Starting from a simple but noticeable detail: at least contemporary cellos have the pin. The baroque cellos did not have that, and probably the cellists who performed for Bach his six cello suites could crack nuts with their knees. Tiny detail, but meaningful. I wonder if I will experience such touch of genius for bow construction, too.</p>
+<p>Not that it matters too much in the world of sounds, but cellos are aesthetically pleasing. Shape, colour, symmetrical appearance. Among cellists, there is high appreciation of varnishing and 300-year-long discussion on how it affects the instrument’s sound. It seems that preparing varnish in the past was advanced potion making, but today no one has the book, forget the Snape’s annotations.</p>
+<p>And here comes the real argumentation.</p>
+<p>Cello is the most versatile musical instrument with the most soothing register. The register is similar to human voice, which on its own gives this comforting feeling of familiarity. The well produced sound has warmth, depth and pitch that just feels good. Within the string, besides its length, there are practically no limitations: you can play a continuous glissando, which sounds like a fire brigade. You can play <em>pizzicato</em> <a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> by pulling the strings with your naked fingers, you can play with the bow. You can even pluck as you would do with acoustic guitar! You can modulate the note, giving it even more warmth and depth, when playing vibrato.</p>
+<p>We humans like stories. And the cellos have stories like no other instruments. Cellos survive cellists. Best instruments are passed from musician to musician. The better cellist you are, the more you are a cellist of the cello than it is your cello. Moreover, cello is mechanical instrument, build up of a fairly few elements. As such the cellos get better with time. Show me a profession in which tools fulfill these three elements: get better when being used, are passed from generation to generation and rise in value in time <a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p>
+<p>In addition, cello is mobile. Being mobile increases chances of being part of some exceptional performances, concert halls, musicians, conductors. Imagine playing the same instrument that recalls the times of Bach, Mozart and Brahms, or perhaps was even played in their presence. And then realize that this instrument will survive you and will sound even better in the years to come… Even if you don’t play such instrument yourself, you’re still part of the community. You can enjoy their performances in the concert halls— as a dirty distant cousin to the main star, but you belong nonetheless.</p>
+<p>Finally: when you play lower strings, like C and G you <strong>feel</strong> vibrations of the instrument. The sound resonates with your body. It can really make you a junkie. In the intimate hold you have with the cello (remember multiple support points, knees, chest and hands?), the energy of the sound is propagated through your body. Therefore, you not only produce sounds, you literally emit them. Sorry my violinists friends, check mate.</p>
+<p>I wish to get to the level when it will make sense to change the bow. Until then, I try to collect my little wins over the instrument. Strong sound made with the pinky. Clean transitions between strings. Smooth legato. There is so much to collect. Thank you for reading.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/Dxxg6NenmBQ" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+
+
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>You-Know-Why.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://www.youtube.com/watch?v=siB-jy_EwUI">Trying 300 Year Old Cello &amp; Jacqueline Du Pre’s bow in London!</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Keep in mind that in the guitar all strings are placed in the same plane, parallel to the fingerboard. Playing the guitar with the bow, you would play all strings at once. Strings in the cello are positioned on a semi-circle and thanks to such construction you can play them separately.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>If it comforts anyone.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>It is different in the case of highly elastic laboratory gloves where each glove from the box fit both hands equally well. Yet, “elastic” is the last adjective you can use to describe the bow.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Remember the scale, do-re-mi-fa-sol-la-si-do? It is spanning a single octave. Four strings in the cello span almost two octaves, as the string to the left is dominant to the preceeding string: <strong>do</strong>-re-mi-fa-<strong>sol</strong>-la-si-do-<strong>re</strong>-mi-fa-sol-<strong>la</strong>-si-do.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>I remember once I was playing a melody with <em>legato</em> articulation, which means more than one note with a single stroke of the bow. I wasn’t doing well, so my teacher switched the gears, “let’s play it <em>détaché</em>”, she . She almost made my head to explode. Then she said the intention was to change to an easier articulation. -&gt; no 4h PhD defense, no job application, no experiment planning and execution on equipment worth 100x more than my cello. Switching from legato to <em>détaché</em> on the top of all the other elements I was trying to control at the time. It almost blow my mind.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><em>Pizzicato</em> and pizza have the same etymology!<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>These arguments apply to violin, too. Sure. But as a mother of three, I could not stand one more source of high pitch under my roof. It is all about the pitch.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<div class="share-buttons">
+
+  <h4>Share this post:</h4>
+
+  <div class="share-links">
+
+    <a href="#" class="share-btn twitter" onclick="shareOnTwitter(); return false;" title="Share on Twitter">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+
+      </svg>
+
+      Twitter
+
+    </a>
+
+    <a href="#" class="share-btn linkedin" onclick="shareOnLinkedIn(); return false;" title="Share on LinkedIn">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+
+      </svg>
+
+      LinkedIn
+
+    </a>
+
+    <a href="#" class="share-btn facebook" onclick="shareOnFacebook(); return false;" title="Share on Facebook">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+
+      </svg>
+
+      Facebook
+
+    </a>
+
+    <a href="#" class="share-btn email" onclick="shareViaEmail(); return false;" title="Share via Email">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+
+        <polyline points="22,6 12,13 2,6"></polyline>
+
+      </svg>
+
+      Email
+
+    </a>
+
+    <a href="#" class="share-btn copy-link" onclick="copyLink(this); return false;" title="Copy link to clipboard">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+
+      </svg>
+
+      <span class="copy-text">Copy Link</span>
+
+    </a>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+  function shareOnTwitter() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    const title = encodeURIComponent(document.title);
+
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
+
+  }
+
+  
+
+  function shareOnLinkedIn() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=600');
+
+  }
+
+  
+
+  function shareOnFacebook() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+
+  }
+
+  
+
+  function shareViaEmail() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    const title = encodeURIComponent(document.title);
+
+    const body = encodeURIComponent(`I thought you might find this interesting: ${window.location.href}`);
+
+    window.location.href = `mailto:?subject=${title}&body=${body}`;
+
+  }
+
+  
+
+  function copyLink(button) {
+
+    navigator.clipboard.writeText(window.location.href).then(function() {
+
+      // Change button text to show success
+
+      const textSpan = button.querySelector('.copy-text');
+
+      const originalText = textSpan.textContent;
+
+      textSpan.textContent = 'Copied!';
+
+      button.classList.add('copied');
+
+      
+
+      // Reset after 2 seconds
+
+      setTimeout(function() {
+
+        textSpan.textContent = originalText;
+
+        button.classList.remove('copied');
+
+      }, 2000);
+
+    }).catch(function(err) {
+
+      console.error('Failed to copy link: ', err);
+
+      alert('Failed to copy link. Please copy it manually from the address bar.');
+
+    });
+
+  }
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2025 Aleksandra. All rights reserved.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
