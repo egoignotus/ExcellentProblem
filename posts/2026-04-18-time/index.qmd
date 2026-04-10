@@ -1,0 +1,135 @@
+---
+title: "Countable"
+author: "Aleksandra"
+date: "2026-04-18"
+categories: [ideas, interactive]
+image: "thumb.jpg"
+description: ""
+title-block-banner: true
+---
+Between this and the next post I will be celebrating my birthday. 20 years of being of legal age, kind of round anniversary. For this reason, I decided to write about some countable events, and place them not only in the context of the current birthday, but also of the entire lifespan. The grids below are interactive, so you can test your inputs, too. The post is inspired by [The Tail End](https://waitbutwhy.com/2015/12/the-tail-end.html) by Tim Urban. 
+
+Talking about the lifespan, we need to make some assumptions: the average female in Belgium reaches her 85 birthday. In the coming ~50 years it will highly likely expand and demographics play also in my favour, so let’s make it round 90 ;). Another assumption is that the events are linearly/equally distributed along the lifetime. Linearity is rarely a good real-life assumption [reference to post “on growth”], but I will do my best with choosing examples. 
+
+As for a few more days I am 37, I still have 63 birthdays to enjoy. Same for summers, Christmas and dentist’s check-ups. Auch.
+
+## Annual
+
+```{r}
+#| echo: false
+#| warning: false
+
+source("plot_helpers.R")
+
+.GlobalEnv$.tail_end_engine_loaded <- FALSE  # ensure engine is inlined on first render
+
+render_tail_end_plot(
+  js_file        = "tail_end.js",
+  instance       = "annual",
+  controls_html  = create_tail_end_controls(
+    instance = "annual", default_age = 37, default_lifespan = 90,
+    event_group = "annual", default_event = "birthday"
+  ),
+  container_html = create_tail_end_container(instance = "annual")
+)
+```
+
+It is painfully countable.
+
+## More than yearly
+How much better does it look for the events that are not that rare, and happen multiple times a year? Eg. these friends that I meet ~every quarter? Or books to be read, given I read ~6 books a year? How many times will I have a chance to see the full moon? Assuming I have a meal I particularly enjoy twice a month, how many meals are ahead? 
+
+```{r}
+#| echo: false
+#| warning: false
+
+render_tail_end_plot(
+  js_file        = "tail_end.js",
+  instance       = "highfreq",
+  controls_html  = create_tail_end_controls(
+    instance = "highfreq",
+    default_age = 37,
+    default_lifespan = 90,
+    event_group = "highfreq",
+    default_event = "meetingfriends",
+    include_frequency = TRUE,
+    default_events_per_year = 4
+  ),
+  container_html = create_tail_end_container(instance = "highfreq"),
+  include_frequency = TRUE
+)
+```
+
+Better, but the scroll is still very short.  
+
+## The rare ones
+
+On the other end of the spectrum, there are events that happen periodically, but rarelier than annual: elections, passport exchanges, stock market crashes. Once I heard that an averaged isotopic[^1] exchange in the living organism takes 7 years [^2]. Atoms are in motion, and the implied mobility warrants that one and the same atom will not occupy the same lattice (or tissue, if we talk about flesh) once and forever. We are build up of light elements, and these are more mobile than the heavy elements. That is why the collective “mobility score” of 7 years is relatively short, or at least shorter than a human lifespan. For me, it’s a mind-blowing realization that every seven years we’re literally a different person. On average. From this perspective any bug has greater integrity than a human being.
+
+So how many such exchanges do I have ahead of me?
+
+```{r}
+#| echo: false
+#| warning: false
+
+render_tail_end_plot(
+  js_file        = "tail_end.js",
+  instance       = "rare",
+  controls_html  = create_tail_end_controls(
+    instance = "rare", default_age = 37, default_lifespan = 90, event_group = "rare",
+    default_event = "isotopicexchange",
+    include_frequency_years = TRUE, default_frequency_years = 7
+  ),
+  container_html = create_tail_end_container(instance = "rare"),
+  include_frequency_years = TRUE
+)
+```
+
+## Events that start later
+
+Ok, but for some events the clock does not start at our birth. It makes more sense to look only at the elections you could cast a vote in. Or birthdays of your children, that only matter once they are born. Or all these crazy things you will be able to afford once you pay the mortgage.
+
+```{r}
+#| echo: false
+#| warning: false
+
+render_tail_end_plot(
+  js_file        = "tail_end.js",
+  instance       = "cutoff",
+  controls_html  = create_tail_end_controls(
+    instance = "cutoff",
+    default_age = 37,
+    default_lifespan = 90,
+    event_group = "cutoff",
+    include_cutoff = TRUE,
+    default_cutoff_age = 29,
+    default_event = "childbirthdays"
+  ),
+  container_html = create_tail_end_container(instance = "cutoff"),
+  include_cutoff = TRUE
+)
+```
+
+## Right cut-off
+
+Sadly, our expiry date is not the only right side cut-off, especially if they require people that are even older than us. My parents. Any older family member. My husband, who is a few years older and plain demographics give him worse perspectives than me. My teachers, mentors – people who shaped me are at least a decade older than me. 
+
+```{r}
+#| echo: false
+#| warning: false
+
+render_tail_end_plot(
+  js_file        = "tail_end.js",
+  instance       = "rightcutoff",
+  controls_html  = create_right_cutoff_controls(
+    instance = "rightcutoff",
+    default_age = 37,
+    default_lifespan = 90,
+    default_mate_age = 65,
+    default_mate_lifespan = 85,
+    default_event = "yearswithparents"
+  ),
+  container_html = create_tail_end_container(instance = "rightcutoff"),
+  include_right_cutoff = TRUE
+)
+```
