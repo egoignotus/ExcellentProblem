@@ -519,7 +519,10 @@ window.INFERNO = {
       grid.innerHTML = '';
       grid.className = 'tail-end-grid';
 
-      var cols = Math.min(10, Math.max(1, total));
+      var containerWidth = grid.parentElement ? grid.parentElement.offsetWidth : window.innerWidth;
+      var cellSize = Math.min(52, window.innerWidth * 0.12);
+      var maxCols = Math.floor(containerWidth / (cellSize + 4));
+      var cols = Math.min(10, Math.max(1, total), maxCols);
       grid.style.gridTemplateColumns = 'repeat(' + cols + ', min(52px, 12vw))';
 
       var gridMetAge = isRightCutoff && inp.metAge != null ? inp.metAge : 0;
