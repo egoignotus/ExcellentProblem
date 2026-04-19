@@ -1,10 +1,10 @@
 ---
-title: "Countable Events."
+title: "Countable Events"
 author: "Aleksandra"
 date: "2026-04-18"
-categories: [ideas, interactive]
-image: "thumb.jpg"
-description: ""
+categories: [ideas, interactive, chemistry]
+image: "thumb.jpeg"
+description: "How many birthdays do I have ahead?"
 title-block-banner: true
 ---
 Between this post and the next one I will celebrate my birthday. 20 years of being of legal age, kind of a round anniversary. For this reason, I decided to write about countable events, and place them not only in the context of the current birthday, but also of the entire lifespan. The grids below are interactive, so go ahead and test your inputs, too. This post is inspired by [The Tail End](https://waitbutwhy.com/2015/12/the-tail-end.html) by Tim Urban. 
@@ -64,7 +64,8 @@ Better, but the scroll is surprisingly short. Much shorter than a typical [scrol
 
 ## The rare ones
 
-On the other end of the spectrum, there are events that happen periodically, but rarelier than annual: elections, passport exchanges, stock market crashes. Once I heard that an averaged isotopic[^1] exchange in the living organism takes 7 years[^2]. Atoms are in motion, and the implied mobility warrants that one and the same atom will not occupy one and the same point in space forever. We are build up of light elements (mostly C, H, O, N, S and P), and the light elements are more mobile than the heavy elements. That is why the collective “mobility score” of 7 years is relatively short, or at least short in relation to a human lifespan. For me, it is a mind-blowing realization that every seven years we are literally a different person. Well, on average. From this perspective any bug has greater integrity than a human being.
+On the other end of the spectrum, there are events that happen periodically, but rarelier than annual: elections, passport exchanges, stock market crashes. Once I heard that an averaged isotopic[^1] exchange in the living organism takes 7 years[^2]. For me, it is a mind-blowing realization that every seven years we are literally a different person. Well, on average.
+How possible? Atoms are in motion, and the implied mobility warrants that one and the same atom will not forever occupy one and the same point in space. Each atom will eventually exchange with a different atom of the same element. Our bodies are build of light elements (mostly C, H, O, N, S and P), and the light elements are more mobile than the heavy elements. That is why the collective “mobility score” of 7 years is relatively short, or at least short in relation to a human lifespan. From this perspective any bug has greater integrity than a human being.
 
 So how many such exchanges do I have ahead of me?
 
