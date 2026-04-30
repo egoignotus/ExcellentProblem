@@ -1,0 +1,64 @@
+---
+title: "Survival of the Diversified"
+author: "Aleksandra"
+date: "2026-05-01"
+categories: [evolution, chemistry, finance, AI]
+image: ""
+description: ""
+title-block-banner: true
+---
+For more than 20 years, Charles Darwin was seduced by a contrast. It was the contrast that become foundational for evolution theory that was just birthing in his head. It is the contrast that is still causing misunderstanding of evolution and provides arguments to its sceptics. Namely, Darwin proposed that the mechanism of natural selection is a driving force behind evolution of living organisms. The powerful comparison juxtaposed artificial selection with natural selection. 
+
+[image]
+
+Let’s read Darwin’s words firsthand, from a letter when he was persuading his fellow naturalist Asa Gray to his theory[^1] - still before publishing the Origin[^2]: 
+
+_'It is wonderful what the principle of Selection by Man, that is the picking out of individuals with any desired quality, and breeding from them, and again picking out, can do. Even Breeders have been astonished at their own results.(...) Now suppose there was a being, who did not judge by mere external appearance, but could study the whole internal organization— who never was capricious,—who should go on selecting for one end during millions of generations, who will say what he might not effect! (...) I think it can be shown that there is such an unerring power at work, or Natural Selection (...) which selects exclusively for the good of each organic being.'[^3]_
+
+Do you see the issue? A mechanism that is blind and has no purpose is called selection. Selection has same root as election. Selection implies agency. And Mother Nature simply does not care.
+
+[julia mother nature]
+
+Although the message from Julia Roberts was not heard by Darwin, it is the same type of feedback he got from many of his contemporaries. Everyone from the fellow discoverer of evolution Alfred Russel Wallece to his own publisher came up with objections: 
+
+_Others have objected that the term selection implies conscious choice in the animals which become modified; and it has even been urged that as plants have no volition, natural selection is not applicable to them![^4]_
+
+The latter was a remark made by a British zoologist John Edward Gray. Touched by the review, Darwin later complained that J. E. Gray understood the Origin 'no more than a pig does'[^5]. 
+
+Agency of nature was precisely the implication Darwin was trying to avoid. Even though, reception of criticism was always a rare feature[^6]. The term “natural selection” was so embedded in Darwin’s own thinking that he chose to stick with it and use in the 1st edition of the Origin. Then, years have passed, the book was read by many more than Darwin’s pen friends and confusion caused by “natural selection” only grew. In his later correspondence he admitted that it was a poor term choice and even considered to change it to “natural preservation” or “survival of the fittest”. At the same time, he decided that it is too late for the full swap, as the book is already released[^7]__needed__. I wonder what decision he would had made if he had known that evolution theory is going to become cornerstone for biology, will be beautifully complemented by Mendel’s work on inheritance and will reach well beyond his imagination, shaping the origins of life at the molecular level. Would he still stick to the term everyone around was saying is a confusing one, only because it was useful to shape his thinking?
+
+Nowadays, we are once again confronted with the natural-versus-artificial divide. Natural is also called human or biological or just no-adjective-is-attached. This time, the dabate is not about selection, but about intelligence. I have no problem with the noun, but with the adjective.
+
+There is inferiority in “artificial”; artificial is fake. The word “artificial” has the same root as “art” – but try to tell to an artist that he produces artificial works. Also, juxtaposing artificial with human intelligence creates opposition, and opposition is a chance for conflict. I rather prefer the expansion of AI proposed by Yuval Noah Harari in Nexus: alien intelligence. AI is not faking human intelligence, it is just different. Same as plains are not artificial birds. 
+
+[Feynman on AI]
+
+Despite all the progress in AI in recent decades, the points Feynman made 40 years ago remain valid. Human intelligence is shaped by millions of years of evolution on the planet Earth and just this makes it irreplicable. But irreplicable is not the same as unreachable. Human intelligence serves survival pretty well and as a byproduct we enjoy apparent dominance over other species[^8].
+
+Yet, many decisions we make are dictated by instincts. And instincts are often binary. Fight or flight, friend or foe, black or white, there is not much space for weighting and gray scale. On the other hand, alien intelligence thrives on a gray scale and avoids extrema. When we decide “left, not right”, AI assigns probabilities. From this perspective humans and AI could be considered complementary. And this is how I choose to think about it.
+
+As a chemist I choose to think about AI as a potent new chemical. It will interact with many compounds, and as a result new entities will be produced. Still, the products will be composed of the same elements that were in substrates: conservation of mass and law of definite proportions hold true, we are still in the same reality. Also, rather than irreversible reaction (that would mean only products in the pot), I expect a certain equilibrium between products and substrates. A kitchen table example of a reversible reaction is estrification: in acidic environment a fruity smelling ester is formed, while substrates in the form of alcohol and vinegar are still well represented:
+
+[estrification reaction]
+
+Analogously, 
+[Human + AI <-> Human-AI] 
+__[PRZYPIS..?]__I have no good idea of what a molecule of water would be. 
+
+As an investor I choose to think that AI will not cause mass unemployment. Imagine that a publicly trading company A can do the entire work that used to be done recently 2x faster with AI. Then they are facing a choice. First option is, they can fire half of its employees, grow the same pie and save on employees compensation. The earnings will not grow, but costs will be reduced. If you translate it into gain for the investors, pie will be slightly bigger, because enlarged by the crumps being employee compensations. On the other hand, the company can keep the employees and with the same workforce grow twice bigger pie[^9]. Which option will the shareholders vote for?
+
+And as a working professional… Today is the 1st of May, the Labor Day and a national holiday almost around the world. To remind on the genesis of this holiday, we commemorate victims of Haymarket affair that happened round 140 years ago in Chicago[^10]. On 1st of May 1886, hundreds of thousands of workers across the US went on strike, showing their support for 8h working day. The 3rd day of strike, at the McCormick plant in Chicago the atmosphere got denser and up till then peaceful rally precipitated violence between the plant workers and the police. Depending on sources, from two up to six McCormick workers were shoot dead by police officers. Organized the day after rally at Haymarket was a response to these events, with peaceful intentions. And it was a non-violent rally until the moment someone threw a bomb that killed a policeman. The events that followed put the 8-hour movement back, as their claims were linked to anarchists and broadly ignored. Interestingly, the Chicagoans are commemorated in 150+ countries in the world, but not in the US.
+
+What was the paragraph above all for? Let me start again. As a working professional, I would be more than happy if gains in productivity attributed to AI would translate to a shorter working day. Eventually, time is the resource that matters the most __[link to birthday post]__.
+
+It looks that my statements are contradicting each other. Investor or employee? Fight or flight, friend or foe? Likely investor and employee, both with fractional contributions to the big picture. I do not opt for a single scenario, because in reality edge cases are extremely unlikely. Thank you for reading. 
+
+[^1]: I selected this writing not the book itself, bc here he is __still a broker of this idea__. The tone here is much more convincing, story-making and appealing than in the book itself, where the thought was already solidified.
+[^2]: “On Origin of Species by Means of Natural Selection, or the Preservation of Favoured Races in the Struggle for Life”, as the original full title goes, in the following editions collapsed to the “Origin of Species”.
+[^3]: | Darwin Correspondence Project
+[^4]: problems with terminology, part 1
+[^5]| Darwin Correspondence Project – letter to Huxley]. 
+[^6] definitely a feature of character that nature rarely selects for :D
+[^7]: citation for regrets over term. 
+[^8]: Remember covid? That’s why apparent.
+[^9]: Let’s skip for now the mundane necessity of having market to its products

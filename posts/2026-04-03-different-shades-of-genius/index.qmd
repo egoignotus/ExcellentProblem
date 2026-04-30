@@ -2,7 +2,7 @@
 title: "Different Shades of Genius"
 author: "Aleksandra"
 date: "2026-04-03"
-categories: [skills, ideas]
+categories: [skills, books]
 image: "thumb.jpg"
 description: ""
 title-block-banner: true
