@@ -7,9 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Aleksandra">
-<meta name="dcterms.date" content="2026-04-03">
+<meta name="dcterms.date" content="2026-05-01">
+<meta name="description" content="For more than 20 years, Charles Darwin was seduced by a contrast.">
 
-<title>Different Shades of Genius – Excellent Problem</title>
+<title>Survival of the Diversified – Excellent Problem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -193,6 +194,35 @@ window.INFERNO = {
 </style>
 
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -229,10 +259,17 @@ window.INFERNO = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Different Shades of Genius</h1>
-                                <div class="quarto-categories">
-                <div class="quarto-category">skills</div>
-                <div class="quarto-category">books</div>
+      <h1 class="title">Survival of the Diversified</h1>
+                  <div>
+        <div class="description">
+          For more than 20 years, Charles Darwin was seduced by a contrast.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">evolution</div>
+                <div class="quarto-category">chemistry</div>
+                <div class="quarto-category">finance</div>
+                <div class="quarto-category">AI</div>
               </div>
                   </div>
   </div>
@@ -250,7 +287,7 @@ window.INFERNO = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">April 3, 2026</p>
+        <p class="date">May 1, 2026</p>
       </div>
     </div>
     
@@ -271,32 +308,29 @@ window.INFERNO = {
 
 
 
-<p>Halfway between the nursery and home, I am often caught by the red light. The moment I hit the break, the scent of melted butter is coming to my nostrils. Coincidentally, the ventilation pipe outlet from the nearby bakery is going to this side of the street. In an instant, I am facing the choice: wait on the red light or turn right and grab something for breakfast<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>? The bakery is run by a couple of elderly people, probably married for +50 years. The work distribution is crystal clear: she is serving the clients, he is doing the baking.</p>
-<p>If you take the right spot for a coffee, you can see through almost all working stations in the humongous open kitchen. You can follow all steps: from separation of egg’s yolk, through melting the butter, mixing with flour, until decoration with powder sugar. While you can notice some helpers to the wife, the husband is always working alone. Stradivari of croissants with almond dressing.</p>
-<div id="fig1-crossaint">
-<p><img src="crossaint.jpg" class="img-fluid"></p>
-<p>Work of art from my Baker.</p>
+<p>For more than 20 years, Charles Darwin was seduced by a contrast. It was the contrast that became foundational for evolutionary theory that was just birthing in his head. It is the contrast that is still causing misunderstanding of evolution and provides arguments to its sceptics. Namely, Darwin proposed that a mechanism of natural selection is a driving force behind evolution of living organisms. The powerful comparison juxtaposed artificial selection with natural selection.</p>
+<div id="fig1-art_vs_natrure">
+<p><img src="art_vs_nature.png" class="img-fluid"></p>
+<p>The powerful contrast: artificial selection (top) vs.&nbsp;natural selection (bottom). Each circle represents a horse with two characteristics: type of coating and ability to digest particular type of clover.</p>
 </div>
-<p>As I recently read “Stradivari’s genius” by Toby Faber, I realized that my baker has a lot in common with the Italian master violin maker. Both work professionally at the very advanced age. Both are excellent in their respective fields. And neither is surrounded by (many) apprentices, to pass on the secrets of the craft to the next generations.</p>
-<p>The book by Faber follows in time six instruments made by Antonio Stradivari. Starting from the bench in the Cremonese workshop we follow Viotti, Paganini, Davidoff, Messiah, Khevenhüller and Lipiński for three centuries, around the world, when they are witnessing, and sometimes even making, history. What I would like to focus on in the today’s post is the personage of the master craftsman, Antonio Stradivari. During his ninety-three year long life, he made +1000 violins and +100 cellos, of which ~300 and ~60, respectively, survive to this day<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. He was a dedicated experimenter, who, so to speak, directed the evolution of violins<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and arrived at the model that is the blueprint of today, almost 300 years after his death. Nowadays, his instruments are sometimes even more famous than the musicians who play them. The contribution of Stradivari, as compared to the earlier luthiers, is strong, penetrating sound of his instruments, suitable for big concert halls<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Aside from his astonishing achievements as a craftsman, what fascinates me most is Stradivari’s role as a teacher — or the kind of teacher he might have been.</p>
-<p>In his 70+ years as a luthier, Antonio Stradivari had for sure two apprentices: Francesco and Omobono. Surprise, surprise, they were his sons. Within a prosperous family business, it has always been customary to train children in the trade. However, his teaching activity seems very limited. Antonio had eight children who reached adulthood, spent seven decades at the workbench, and himself started as an apprentice at a non-family workshop<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. Although reconstructing a person’s life long after their passing is inherently challenging, it is evident that there was sufficient time to train more than two luthiers. He could have taught more of his own children or accept apprentices outside of his family; the notion of training someone beyond his relatives must have been present in his mind.</p>
-<p>Music historians have determined, based on how the scrolls were cut, that Francesco was given the responsibility of crafting this part of violins in 1699, at the age of 27. The scroll is a decorative piece of the instrument which does not impact its sound. By comparison, the father made his first violin (the latest) at the age of 22. For the younger Omobono it is even harder to evaluate his works. Since the instruments made by the father were selling best, it was common practice to relabel works of his sons and this way boost profits. These historians have also concluded that Antonio delegated cello making to Francesco only in 1727, same year he commissioned the stoneman for his gravestone. He was ready, but the reaper came only seven years and few violins later.</p>
-<p>Stradivari’s will, its initial and final versions, is one of the few surviving documents written by the great luthier. In both versions the entire workshop, house and instruments was passed to Francesco. Also, in both versions the father reduced the financial allowance he left to Omobono by the debt he made with a trip to Naples in his twenties. The difference between 1.0 and 1.1 was that in the former Omobono was allowed to keep craftsman tools of his choice.</p>
-<p>Families… Was passing everything to Francesco a traditional practice of giving all assets to the eldest son? Or, in terms of the workshop’s future, was it choosing the lesser of two evils? Otherwise, if Antonio had trust in Francesco, why he was so reluctant to delegate any responsibility to him pre mortem? The father’s longevity was not shared by his sons: they both died within a decade after Antonio. None of them had children, none of them took any apprenticeship.</p>
-<p>As a result, the supply of exquisite violins was cut permanently. Antonio could not predict how long his sons would outlive him, but did he have confidence that they—especially the oldest Francesco—could manage and sustain the workshop’s legacy? Was he even bothered about it, or maybe he just wanted to make exquisite violins? Same as my baker wants to make best crossaints?</p>
-<p>On the other hand, isn’t it sort of harsh to expect from someone who is excellent at his craft, to do something completely else, like teaching?</p>
-<p>Why do we assume that someone who has consistently excelled at his job, has extensive knowledge in a certain field, and (ideally) is also an experimentalist who continuously improves his methods, will be also good at delegating, motivating and mentoring?</p>
-<p>An analogy to the academic world is so evident that I cannot avoid it here. In many countries, the dominant path for a researcher to stay in academia and to continue testing his ideas, is to become a tenured professor<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. However, professorship comes with group leader responsibilities, which is noting else than managerial duties. And here is the great clash: a researcher offered a professorship is selected on soloist criteria: individual excellence in research, competitiveness and achievement in publishing process and solo performances on renowned conferences. Once successful, he is supposed to do something completely different: delegate, motivate and drive subordinates to deliver. By no means to carry out any research by himself.</p>
-<p>In nature, the natural selection operates. Frances Arnold pioneered the whole branch of research where directed selection is in power <a href="https://excellentproblem.com/posts/2026-01-15-caveman-baby/">see: Caveman Baby</a>. In academia lunatic selection is used instead. Imagine a species is selected based on his ability to digest a stringy plant, the only source of energy in the academia biotope. Once the worse chewing opponents die out from hunger, the world turns dark. Now our master chewer will only survive if he has decent night vision. But he does not need to worry about the food, it will be brought to him, half-cooked even.</p>
-<p>As a great admirer of Darwinian evolution, I totally love works of Arnold and dislike the underlying forces in academia. On the other hand, I see that making researchers team leaders, same as making subject matter experts the managers and expecting my baker to have a network of bakeries that he overlooks, is a common way of scaling people. How else to increase somebody’s sphere of impact, if not by making him more influential? Such move, if successful, is best in terms of value creation for society, community and company. But is it good for the individual under question? Is he even capable to fulfill hid new duties? How many exceptional soloists from the symphonic orchestra make decent conductors? Selection process to be efficient should, at least partially, select for the feature of interest.</p>
-<p>Surely, people are not one dimensional: they have different talents and they can learn. Plus, there are many examples of outstanding teachers and managers that were exceptional individual contributors first. However, not all roots grow horizontally, some go deep into the soil instead. Or even become storage organs. And all three are examples of growth.</p>
-<div id="fig2-taproots">
-<p><img src="archimboldo.jpg" class="img-fluid"></p>
-<p>Vegetables or Gardener? Turn the picture upside down. By Giuseppe Arcimboldo, 1590. What a coincidence that it’s on display at the Museo Civico Ala Ponzone in Cremona?!? <a href="https://wilhelm-fabry-museum.de/wp-content/uploads/2022/10/Kinderartothek-Arcimboldo-Gemuesegaertner-600x779.jpg">Source: Wilheml Fabry Museum webiste</a></p>
-</div>
-<p>Messiah, the 1716 violin from the gold period of Antonio Stradivari, is on display in Ashmolean Museum in Oxford, as “a yardstick for contemporary violin makers” <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. Even though Stradivari lived for almost 30 years after its completion, he has never sold the reddish violin. Also, it was never sold by Francesco, his oldest son and the sole heir. The first buyer of Messiah was Count Cozio, a collector who bought it from Paolo, heir of Francesco and his youngest half-brother. Apparently neither when in possession of Stradivaris nor of Cozio the instrument was played. It enabled to keep the remarkable varnish intact for almost hundred years, making the instrument look as if it dried out the day before on a rooftop terrace in Northern Italy. Such characteristic could successfully intimidate generations of violinists and therefore Messiah remains the mythical instrument, for most of the history appreciated by its displayable features, and not of its tone. As Messiah exhibits some features that make it doubt it was made by Antonio Stradivari<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>, it was a subject of multiple studies trying to determine its age, that can be politely summed up as inconclusive. However, Toby Farber gives it an excellent twist:</p>
-<p><em>“In 1716 Giovanni Battista, the eldest son from Stradivari’s second marriage to survive infancy, was thirteen, just the sort of age when, after maybe two years in the workshop, a fast learner might have expected to have a hand in his own instruments. If Messiah was one of them, then never mind the implications for the violin; consider what it says about Giovanni Battista. Generations have hailed the Messiah as a masterpiece and its maker as a genius. Perhaps, if Giovanni Battista had not died in 1727, aged only twenty-four, Antonio Stradivari would have a worthy successor after all”.</em></p>
-<p>Thank you for reading.</p>
+<p>Let’s read Darwin’s words firsthand, from a letter when he was persuading his fellow naturalist Asa Gray to his theory<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> - still before publishing the Origin<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<p><em>‘It is wonderful what the principle of Selection by Man, that is the picking out of individuals with any desired quality, and breeding from them, and again picking out, can do. Even Breeders have been astonished at their own results.(…) Now suppose there was a being, who did not judge by mere external appearance, but could study the whole internal organization— who never was capricious,—who should go on selecting for one end during millions of generations, who will say what he might not effect! (…) I think it can be shown that there is such an unerring power at work, or Natural Selection (…) which selects exclusively for the good of each organic being.’<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></em></p>
+<p>Do you see the issue? A mechanism that is blind and has no purpose is called selection. Selection has same root as election. Selection implies agency. And Mother Nature simply does not care.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/WmVLcj-XKnM" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Although the message from Julia Roberts was not heard by Darwin, it is the same type of feedback he got from many of his contemporaries. Everyone from the fellow discoverer of evolution Alfred Russel Wallace to his own publisher came up with objections:</p>
+<p><em>Others have objected that the term selection implies conscious choice in the animals which become modified; and it has even been urged that as plants have no volition, natural selection is not applicable to them!<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></em></p>
+<p>The latter was a remark made by a British zoologist John Edward Gray. Touched by the review, Darwin later complained that J. E. Gray understood the Origin ‘no more than a pig does’<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<p>Agency of nature was precisely the implication Darwin was trying to avoid. Even though, reception of criticism was always a rare feature<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. The term “natural selection” was so embedded in Darwin’s own thinking that he chose to stick with it and use in the 1st edition of the Origin. Then, years have passed, the book was read by many more than Darwin’s pen friends and confusion caused by “natural selection” only grew. In his later correspondence he admitted that it was a poor term choice and even considered to change it to “natural preservation” or “survival of the fittest”. At the same time, he decided that it is too late for the full swap, as the book was already released<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. I wonder what decision he would have made if he had known that the theory of evolution would become a cornerstone of biology, be beautifully complemented by Mendel’s work on inheritance, and reach far beyond his imagination — eventually shaping our understanding of the origins of life at the molecular level. Would he still have stuck with a term that everyone around him said was confusing, simply because it helped him shape his thinking?</p>
+<p>Nowadays, we are once again confronted with the natural-versus-artificial divide. Natural is also called human or biological or just no-adjective-is-attached. Intelligence. This time, I have no problem with the noun, but with the adjective.</p>
+<p>There is inferiority in “artificial”; artificial is fake. The word “artificial” has the same root as “art” – but try to tell to an artist that he produces artificial works. Also, juxtaposing artificial with human intelligence creates opposition, and opposition is a chance for conflict. I rather prefer the expansion of AI proposed by Yuval Noah Harari in Nexus: alien intelligence. AI is not faking human intelligence, it is just different. Same as plains are not artificial birds.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/ipRvjS7q1DI" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Despite all the progress in AI in recent decades, the points Feynman made 40 years ago remain valid. Human intelligence is shaped by millions of years of evolution on the planet Earth and just this makes it irreplicable. But irreplicable is not the same as unreachable. Human intelligence serves survival pretty well and as a byproduct we enjoy apparent dominance over other species<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p>
+<p>Yet, many decisions we make are dictated by instincts. And instincts are often binary. Fight or flight, friend or foe, black or white, there is not much space for weighting and gray scale. On the other hand, alien intelligence thrives on a gray scale and avoids extrema. When we decide “left, not right”, AI assigns probabilities. From this perspective humans and AI could be considered complementary. And this is how I choose to think about it.</p>
+<p>As a chemist, I choose to think about AI as a potent new chemical. It will interact with many compounds, and as a result new entities will be produced. Still, the products will be composed of the same elements that were in substrates: conservation of mass and law of definite proportions hold true, we are still in the same reality. Also, rather than irreversible reaction (that would mean only products in the pot), I expect a certain equilibrium between products and substrates. <span class="math display">\[\ce{C2H5OH + CH3COOH &lt;=&gt; CH3COOC2H5 + H2O}\]</span> <span class="figure-caption">A kitchen table example of a reversible reaction is estrification: mixing vodka with vinegar, with a few drops of car battery acid will produce a fruity smelling ester. Because the reaction is reversible, you will smell three scents at once, because all reagents will be present. Similar for human-AI hybrid, it will coexist with humans and AI.</span></p>
+<p>As an investor, I choose to think that AI will not cause mass unemployment. Imagine a publicly traded company that can, thanks to AI, do the same work it was doing recently but twice as fast. The company then faces a choice. One option is to lay off half of its employees, keep output constant, and save on compensation. Earnings would not grow, but costs would fall. Translated into investor gains, the pie would become only slightly larger, expanded by what used to be employee compensation. Alternatively, the company could retain its workforce and, with the same number of employees, double the size of the pie<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>. Which option would shareholders vote for?</p>
+<p>And as a working professional… Today is the 1st of May—Labor Day—and a national holiday in much of the world. To recall the origins of this holiday, we commemorate the victims of the Haymarket affair, which took place 140 years ago in Chicago. On May 1, 1886, hundreds of thousands of workers across the United States went on strike in support of the eight-hour workday. On the third day of the strike, tensions escalated at the McCormick plant in Chicago, and what had until then been a peaceful rally turned violent, with clashes between workers and the police. Depending on the source, between two and six McCormick workers were shot dead by police officers<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>. The rally held the following day at Haymarket was organized in response to these events and was intended to be peaceful. It remained nonviolent until someone threw a bomb that killed a police officer. The events that followed set the eight-hour movement back, as its demands became associated with anarchists and were largely ignored. Interestingly, these Chicago events are commemorated in more than 150 countries worldwide—but not in the US.</p>
+<p>What was the paragraph above all for? Let me start again. As a working professional, I would be more than happy if gains in productivity attributed to AI would translate to a shorter working day. Eventually, <a href="https://excellentproblem.com/posts/2026-04-18-countable-events/">time is the resource that matters the most.</a></p>
+<p>It looks that my statements are contradicting each other. Investor or employee? Fight or flight, friend or foe? Likely investor and employee, both with fractional contributions to the big picture. I do not opt for a single scenario, because in reality edge cases are extremely unlikely. Thank you for reading.</p>
 
 
 
@@ -304,14 +338,16 @@ window.INFERNO = {
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>Best marketing ever, and I am pretty sure it is unintentional.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>And 10 violas. Source: Carlos Prieto, “Adventures of a cello”.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Interestingly, there was not so much experimentation for cellos: to make the bigger instrument it requires more time and physical effort. In contrast to violins, it is unlikely that Stradivari made cellos in his spare time; he made the cello only when contracted to make one. At that times these who could afford to commission the cello were kings, popes or opera impresarios. Also, for cellos the poll of noteworthy craftsmen was greater, and it was centred in another northern Italian city, Venice. To mention just a few remarkable Venetian cello makers: Montagnana, Goffriller and Guarneri – their instruments are often of choice of contemporary top cellists.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Given that the wood needs to age for the instrument to get its best tone, Stradivari must have had an excellent acoustic intuition and … a bunch of luck when selecting wood. Unless he could project how the wood will age in 50 years.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>there exist a violin that binds Stradivari with another great Cremonese luthier, Nicola Amati, by mean of the label. However, lack of data on Antonio living in Amati’s house during the plausible apprenticeship divides the community on whether Stradivari learned at Amati or not.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>By saying dominant, it does not mean that it is available for a big number of candidates. It only means that it is the most common path for these who stay in academia and become independent researchers.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>as advised by the Hills, a family who donated Messiah to the Oxford’s museum.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>Eg. cut of the sound holes and asymmetry of the scroll. For more read the already mentioned excellent book of Toby Farber, “Stradivari’s genius”.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>I chose this letter and not the book itself, because in the letter Darwin is still the advocate for the idea. In the letter the tone is more convincing, story-making and appealing than in the Origin itself, where the thought was already solidified.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>“On Origin of Species by Means of Natural Selection, or the Preservation of Favoured Races in the Struggle for Life”, as the original full title goes, in the following editions collapsed to the “Origin of Species”.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://www.darwinproject.ac.uk/letter?docId=letters/DCP-LETT-2136.xml" class="uri">https://www.darwinproject.ac.uk/letter?docId=letters/DCP-LETT-2136.xml</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://www.darwinproject.ac.uk/natural-selection-trouble-terminology" class="uri">https://www.darwinproject.ac.uk/natural-selection-trouble-terminology</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><a href="https://www.darwinproject.ac.uk/letter?docId=letters/DCP-LETT-3009.xml" class="uri">https://www.darwinproject.ac.uk/letter?docId=letters/DCP-LETT-3009.xml</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Definitely a feature of character that nature rarely selects for :D<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p><a href="https://www.darwinproject.ac.uk/survival-of-the-fittest" class="uri">https://www.darwinproject.ac.uk/survival-of-the-fittest</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Remember covid? That’s why apparent.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Let’s skip for now the mundane necessity of having market for its products.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p><a href="https://en.wikipedia.org/wiki/Haymarket_affair" class="uri">https://en.wikipedia.org/wiki/Haymarket_affair</a><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <div class="share-buttons">
