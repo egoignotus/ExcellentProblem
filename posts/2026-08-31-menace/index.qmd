@@ -1,0 +1,25 @@
+
+---
+title: "MENACE"
+author: "Aleksandra"
+date: "2026-08-31"
+categories: [math, interactive]
+description: ""
+title-block-banner: true
+include-in-header: libs.html
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+source("menace_helpers.R")
+
+render_menace_plot(
+  controls_html    = create_menace_controls(),
+  board_html       = create_menace_board(),
+  curve_html       = create_menace_curve(),
+  collection_html  = create_menace_collection(),
+  move2_html       = create_menace_move2()
+)
+```
