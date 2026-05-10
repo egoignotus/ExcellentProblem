@@ -133,18 +133,25 @@
     "text": "In this blog I share my thoughts on things that absorb me in some way: things I find intersting, important or frustrating. Topic-wise it will be mostly about data, science and maybe parenting. We will see.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSurvival of the Diversified\n\n\n\nevolution\n\nchemistry\n\nfinance\n\nAI\n\n\n\nFor more than 20 years, Charles Darwin was seduced by a contrast.\n\n\n\n\n\nMay 1, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nCountable Events\n\n\n\nideas\n\ninteractive\n\nchemistry\n\n\n\nHow many birthdays do I have ahead?\n\n\n\n\n\nApr 18, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nDifferent Shades of Genius\n\n\n\nskills\n\nbooks\n\nmusic\n\n\n\n\n\n\n\n\n\nApr 3, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nTortured Neighbours Association\n\n\n\nskills\n\nmusic\n\n\n\n“The wand chooses the wizard, Mr Potter.”\n\n\n\n\n\nMar 15, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nFew Perspectives on Change\n\n\n\ninteractive\n\nskills\n\nfinance\n\n\n\nStarting point: nothing changes.\n\n\n\n\n\nFeb 27, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nStrolling and Scrolling\n\n\n\nbooks\n\ndecision-making\n\n\n\nAnd how different are they, if at all.\n\n\n\n\n\nFeb 11, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nA Delicious Contradiction\n\n\n\nfinance\n\ninteractive\n\n\n\nTo be and not to be path dependent at the same time.\n\n\n\n\n\nJan 30, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nCaveman Baby\n\n\n\nparenting\n\nevolution\n\n\n\nSleeping preferences of babies is something that make many parents sleepless.\n\n\n\n\n\nJan 15, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nThermodynamics 101 For Investors\n\n\n\nchemistry\n\nfinance\n\n\n\nI am lying just a tiny bit when saying I learned to read plots at the second year bachelor.\n\n\n\n\n\nJan 2, 2026\n\n\nAleksandra\n\n\n\n\n\n\n\n\n\n\n\n\nAn Excellent Problem!\n\n\n\nAI\n\nchemistry\n\n\n\nThe day started early. Actually, the day started in the middle of a dark, freezing night.\n\n\n\n\n\nDec 19, 2025\n\n\nAleksandra\n\n\n\n\n\nNo matching items"
   },
   {
+    "objectID": "anchors.html",
+    "href": "anchors.html",
+    "title": "Anchors",
+    "section": "",
+    "text": "Use high quality data.\nGenerate informative, readable and aesthetically pleasing visuals. Interactive, if possible.\nTake care of honest referencing. Provide sources for things that are not considered common knowledge. If any picture or graphics used in a post are not mine, give the source, ideally along with the link.\nTry to spark interest. And smile.\n\nAbove all, it is a personal blog. If I feel like writing a joke that only two people on this planet can get – I will do that."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About Me",
     "section": "",
-    "text": "This is a placeholder for my about page.\nMore details coming soon!"
+    "text": "I am a chemist turned an IT professional. Together with my husband and three kids I live in Belgium, whereas until 2012 I lived in Poland. I enjoy books, jigsaw puzzle and interesting conversations. I try to play cello and run - both with rather limited outcomes but a lot of enjoyment. Welcome to my blog, I wish you will find here something interesting."
   },
   {
-    "objectID": "about.html#hi-im-aleksandra",
-    "href": "about.html#hi-im-aleksandra",
+    "objectID": "about.html#hi-im-aleksandra.",
+    "href": "about.html#hi-im-aleksandra.",
     "title": "About Me",
     "section": "",
-    "text": "This is a placeholder for my about page.\nMore details coming soon!"
+    "text": "I am a chemist turned an IT professional. Together with my husband and three kids I live in Belgium, whereas until 2012 I lived in Poland. I enjoy books, jigsaw puzzle and interesting conversations. I try to play cello and run - both with rather limited outcomes but a lot of enjoyment. Welcome to my blog, I wish you will find here something interesting."
   },
   {
     "objectID": "CONVENTIONS.html",
@@ -201,6 +208,13 @@
     "title": "Blog Conventions — Excellent Problem",
     "section": "",
     "text": "All Plotly charts should use:\nplot_bgcolor = \"white\"\npaper_bgcolor = \"white\"\nlegend orientation = \"h\", centered below plot\nGrids are off by default (showgrid = FALSE) unless the plot specifically benefits from them."
+  },
+  {
+    "objectID": "CONVENTIONS.html#security",
+    "href": "CONVENTIONS.html#security",
+    "title": "Blog Conventions — Excellent Problem",
+    "section": "",
+    "text": "All user inputs are assumed to be natural numbers unless explicitly required otherwise.\nAlways validate/parse numeric inputs with parseInt() or a strict validator (regex /^\\d+$/ + bounds check) before use.\nNever insert user-supplied values into innerHTML, outerHTML, or insertAdjacentHTML. Use textContent for plain text.\nIf HTML construction is needed with dynamic values, ensure all interpolated values are either:\n\nValidated integers (from toSafeInt or equivalent)\nValues from hardcoded lookup objects (not user-typed strings)\nColor strings validated against /^#[0-9a-fA-F]{6}$/\n\nNo eval(), new Function(), or setTimeout/setInterval with string arguments.\nAvoid document.write().\n\n\n\n\n\nEvery &lt;script src=\"...\"&gt; or &lt;link rel=\"stylesheet\" href=\"...\"&gt; pointing to a CDN must include integrity=\"sha384-...\" and crossorigin=\"anonymous\" attributes.\nGenerate hashes: download file → SHA-384 → base64 → prefix with sha384-.\nPin exact versions (e.g., @2.27.0) — never use @latest or unversioned CDN URLs.\nIf upgrading a library version, regenerate the SRI hash."
   },
   {
     "objectID": "posts/2025-12-19-excellent-problem/index.html",
@@ -306,12 +320,5 @@
     "title": "Countable Events",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nIsotopes are variants of the same element. Distinct elements (eg. C, P, U) occupy different positions in the periodic table. Isotopes are types of the same element: carbon (dominant 12C or 14C used for carbon dating), phosphorus (that has bunch of isotopes, from 26P to 41P, among which only 31P is stable) or uranium (stable and dominant 238U is not so much of interest as 235U, which fissile material properties). If you are interested, read Wikipedia. For the purpose of this post, isotopes are atoms, but I wanted to be precise with the name of the phenomenon.↩︎\nProve me wrong or at least provide a reference; I have not found a good written one. I heard it back in time in a conversation with a chemistry professor. Yet, the number does not really matter. Isotopic exchange is a physical phenomenon, and what matters is that it happens. How often is a secondary issue.↩︎"
-  },
-  {
-    "objectID": "CONVENTIONS.html#security",
-    "href": "CONVENTIONS.html#security",
-    "title": "Blog Conventions — Excellent Problem",
-    "section": "",
-    "text": "All user inputs are assumed to be natural numbers unless explicitly required otherwise.\nAlways validate/parse numeric inputs with parseInt() or a strict validator (regex /^\\d+$/ + bounds check) before use.\nNever insert user-supplied values into innerHTML, outerHTML, or insertAdjacentHTML. Use textContent for plain text.\nIf HTML construction is needed with dynamic values, ensure all interpolated values are either:\n\nValidated integers (from toSafeInt or equivalent)\nValues from hardcoded lookup objects (not user-typed strings)\nColor strings validated against /^#[0-9a-fA-F]{6}$/\n\nNo eval(), new Function(), or setTimeout/setInterval with string arguments.\nAvoid document.write().\n\n\n\n\n\nEvery &lt;script src=\"...\"&gt; or &lt;link rel=\"stylesheet\" href=\"...\"&gt; pointing to a CDN must include integrity=\"sha384-...\" and crossorigin=\"anonymous\" attributes.\nGenerate hashes: download file → SHA-384 → base64 → prefix with sha384-.\nPin exact versions (e.g., @2.27.0) — never use @latest or unversioned CDN URLs.\nIf upgrading a library version, regenerate the SRI hash."
   }
 ]

@@ -8,6 +8,8 @@ website:
     left:
       - text: "About"
         href: about.qmd
+      - text: "Anchors"
+        href: anchors.qmd
   page-footer:
     center: "© 2025 Aleksandra. All rights reserved."
 
