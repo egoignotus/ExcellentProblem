@@ -1,5 +1,125 @@
 # Helper functions for MENACE interactive post
 
+#' Create the Move 1 symmetry figure
+#'
+#' Shows empty board + 3 distinct first moves (corner, edge, center).
+#' Corner and edge boards rotate in 90° steps to illustrate symmetry.
+#'
+#' @return HTML div with canvas elements for the figure
+create_move1_figure <- function() {
+  htmltools::tags$div(
+    id = "fig-move1",
+    style = paste0(
+      "display: flex; align-items: center; justify-content: center; ",
+      "gap: 16px; flex-wrap: wrap; margin: 24px 0; padding: 20px;"
+    ),
+    # Empty board
+    htmltools::tags$div(
+      style = "text-align: center;",
+      htmltools::tags$canvas(id = "fig-move1-empty", width = "120", height = "120",
+        style = "border: 2px solid #420a68; border-radius: 6px; background: white;"),
+      htmltools::tags$div(style = "font-size: 11px; color: #888; margin-top: 4px;", "Empty board")
+    ),
+    # Arrow
+    htmltools::tags$div(
+      style = "font-size: 28px; color: #932667; font-weight: bold; padding: 0 4px;",
+      htmltools::HTML("&#8594;")
+    ),
+    # Corner (rotates)
+    htmltools::tags$div(
+      style = "text-align: center;",
+      htmltools::tags$canvas(id = "fig-move1-corner", width = "120", height = "120",
+        style = "border: 2px solid #420a68; border-radius: 6px; background: white;"),
+      htmltools::tags$div(style = "font-size: 11px; color: #888; margin-top: 4px;",
+        "Corner ", htmltools::tags$span(style = "color:#932667;", "(4 equivalent)"))
+    ),
+    # Edge (rotates)
+    htmltools::tags$div(
+      style = "text-align: center;",
+      htmltools::tags$canvas(id = "fig-move1-edge", width = "120", height = "120",
+        style = "border: 2px solid #420a68; border-radius: 6px; background: white;"),
+      htmltools::tags$div(style = "font-size: 11px; color: #888; margin-top: 4px;",
+        "Edge ", htmltools::tags$span(style = "color:#932667;", "(4 equivalent)"))
+    ),
+    # Center (static)
+    htmltools::tags$div(
+      style = "text-align: center;",
+      htmltools::tags$canvas(id = "fig-move1-center", width = "120", height = "120",
+        style = "border: 2px solid #420a68; border-radius: 6px; background: white;"),
+      htmltools::tags$div(style = "font-size: 11px; color: #888; margin-top: 4px;",
+        "Center ", htmltools::tags$span(style = "color:#932667;", "(1 unique)"))
+    )
+  )
+}
+
+#' Render the move 1 figure with its JS animation
+#'
+#' @return htmltools::tagList
+render_move1_figure <- function() {
+  fig_code <- paste(readLines("fig_move1.js", warn = FALSE), collapse = "\n")
+  htmltools::tagList(
+    create_move1_figure(),
+    htmltools::tags$script(htmltools::HTML(paste0(
+      fig_code,
+      "\ndocument.addEventListener('DOMContentLoaded', function() { initMove1Figure(); });"
+    )))
+  )
+}
+
+#' Create the Move 2 orbit figure
+#'
+#' Two boards after 2 moves, empty cells colored by symmetry orbit.
+#' Scenario A: X corner + O edge → 7 distinct orbits (no symmetry).
+#' Scenario B: X edge + O center → 4 orbits (h-flip symmetry).
+#'
+#' @return HTML div with two canvases
+create_move2_figure <- function() {
+  board_style <- paste0(
+    "border: 2px solid #420a68; border-radius: 6px; background: white;"
+  )
+  htmltools::tags$div(
+    id = "fig-move2",
+    style = paste0(
+      "display: flex; align-items: flex-start; justify-content: center; ",
+      "gap: 40px; flex-wrap: wrap; margin: 24px 0; padding: 20px;"
+    ),
+    # Scenario A
+    htmltools::tags$div(
+      style = "text-align: center;",
+      htmltools::tags$canvas(id = "fig-move2-a", width = "140", height = "140",
+        style = board_style),
+      htmltools::tags$div(style = "font-size: 12px; color: #888; margin-top: 6px;",
+        htmltools::tags$b("7"), " distinct moves"),
+      htmltools::tags$div(style = "font-size: 11px; color: #aaa;",
+        "no symmetry left")
+    ),
+    # Scenario B
+    htmltools::tags$div(
+      style = "text-align: center;",
+      htmltools::tags$canvas(id = "fig-move2-b", width = "140", height = "140",
+        style = board_style),
+      htmltools::tags$div(style = "font-size: 12px; color: #888; margin-top: 6px;",
+        htmltools::tags$b("4"), " distinct moves"),
+      htmltools::tags$div(style = "font-size: 11px; color: #aaa;",
+        "mirror symmetry")
+    )
+  )
+}
+
+#' Render the move 2 orbit figure with its JS
+#'
+#' @return htmltools::tagList
+render_move2_figure <- function() {
+  fig_code <- paste(readLines("fig_move2.js", warn = FALSE), collapse = "\n")
+  htmltools::tagList(
+    create_move2_figure(),
+    htmltools::tags$script(htmltools::HTML(paste0(
+      fig_code,
+      "\ndocument.addEventListener('DOMContentLoaded', function() { initMove2Figure(); });"
+    )))
+  )
+}
+
 #' Create the MENACE control panel with buttons
 #' 
 #' @return HTML div with game controls

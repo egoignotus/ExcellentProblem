@@ -8,6 +8,7 @@
 
 <meta name="author" content="Aleksandra">
 <meta name="dcterms.date" content="2026-08-31">
+<meta name="description" content="The hardest part is to understand fundamentals.">
 
 <title>MENACE – Excellent Problem</title>
 <style>
@@ -234,7 +235,12 @@ window.INFERNO = {
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">MENACE</h1>
-                                <div class="quarto-categories">
+                  <div>
+        <div class="description">
+          The hardest part is to understand fundamentals.
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">math</div>
                 <div class="quarto-category">interactive</div>
               </div>
@@ -275,6 +281,363 @@ window.INFERNO = {
 
 
 
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-move1" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
+<div style="text-align: center;">
+<canvas id="fig-move1-empty" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">Empty board</div>
+</div>
+<div style="font-size: 28px; color: #932667; font-weight: bold; padding: 0 4px;">→</div>
+<div style="text-align: center;">
+<canvas id="fig-move1-corner" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Corner 
+<span style="color:#932667;">(4 equivalent)</span>
+</div>
+</div>
+<div style="text-align: center;">
+<canvas id="fig-move1-edge" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Edge 
+<span style="color:#932667;">(4 equivalent)</span>
+</div>
+</div>
+<div style="text-align: center;">
+<canvas id="fig-move1-center" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Center 
+<span style="color:#932667;">(1 unique)</span>
+</div>
+</div>
+</div>
+<script>// =============================================================
+// Move 1 Symmetry Figure — Empty board + 3 distinct first moves.
+// Corner and edge boards rotate on click to show equivalence.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  var R = window.INFERNO.roles;
+  var SIZE = 120;
+  var CELL = SIZE / 3;
+
+  // The 4 corner cells, in 90° rotation order
+  var CORNERS = [0, 2, 8, 6]; // top-left → top-right → bottom-right → bottom-left
+  // The 4 edge cells, in 90° rotation order
+  var EDGES = [1, 5, 7, 3];   // top-mid → mid-right → bottom-mid → mid-left
+
+  // High-DPI setup: scale canvas buffer while keeping CSS size
+  function setupHiDPI(canvas, w, h) {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return ctx;
+  }
+
+  function getCanvas(id) { return document.getElementById(id); }
+  function getCtx(id) {
+    var canvas = getCanvas(id);
+    if (!canvas) return null;
+    return canvas.getContext('2d');
+  }
+
+  function drawGrid(ctx) {
+    ctx.strokeStyle = '#420a68';
+    ctx.lineWidth = 2;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
+    }
+  }
+
+  function drawX(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var off = CELL * 0.28;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+  }
+
+  // Draw faded X markers for the "shadow" positions (equivalent cells)
+  function drawXFaded(ctx, cellIdx, alpha) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var off = CELL * 0.28;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawBoard(canvasId, xCell, fadedCells) {
+    var ctx = getCtx(canvasId);
+    if (!ctx) return;
+    ctx.clearRect(0, 0, SIZE, SIZE);
+    drawGrid(ctx);
+    if (fadedCells) {
+      for (var i = 0; i < fadedCells.length; i++) {
+        drawXFaded(ctx, fadedCells[i], 0.15);
+      }
+    }
+    if (xCell >= 0) drawX(ctx, xCell);
+  }
+
+  function makeClickable(canvas) {
+    canvas.style.cursor = 'pointer';
+  }
+
+  function renderRotating(canvasId, cells, idxRef) {
+    var current = cells[idxRef.v];
+    var faded = [];
+    for (var i = 0; i < cells.length; i++) {
+      if (i !== idxRef.v) faded.push(cells[i]);
+    }
+    drawBoard(canvasId, current, faded);
+  }
+
+  function initMove1Figure() {
+    // Scale all canvases for high-DPI
+    var ids = ['fig-move1-empty', 'fig-move1-corner', 'fig-move1-edge', 'fig-move1-center'];
+    for (var k = 0; k < ids.length; k++) {
+      var c = getCanvas(ids[k]);
+      if (c) setupHiDPI(c, SIZE, SIZE);
+    }
+
+    // Empty board
+    var ctxEmpty = getCtx('fig-move1-empty');
+    if (ctxEmpty) {
+      ctxEmpty.clearRect(0, 0, SIZE, SIZE);
+      drawGrid(ctxEmpty);
+    }
+
+    // Center (static)
+    drawBoard('fig-move1-center', 4, null);
+
+    // Corner — click to rotate
+    var cornerIdx = { v: 0 };
+    renderRotating('fig-move1-corner', CORNERS, cornerIdx);
+    var cornerCanvas = getCanvas('fig-move1-corner');
+    if (cornerCanvas) {
+      makeClickable(cornerCanvas);
+      cornerCanvas.addEventListener('click', function () {
+        cornerIdx.v = (cornerIdx.v + 1) % 4;
+        renderRotating('fig-move1-corner', CORNERS, cornerIdx);
+      });
+    }
+
+    // Edge — click to rotate
+    var edgeIdx = { v: 0 };
+    renderRotating('fig-move1-edge', EDGES, edgeIdx);
+    var edgeCanvas = getCanvas('fig-move1-edge');
+    if (edgeCanvas) {
+      makeClickable(edgeCanvas);
+      edgeCanvas.addEventListener('click', function () {
+        edgeIdx.v = (edgeIdx.v + 1) % 4;
+        renderRotating('fig-move1-edge', EDGES, edgeIdx);
+      });
+    }
+  }
+
+  window.initMove1Figure = initMove1Figure;
+
+})();
+document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); });</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-move2" style="display: flex; align-items: flex-start; justify-content: center; gap: 40px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
+<div style="text-align: center;">
+<canvas id="fig-move2-a" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>7</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">no symmetry left</div>
+</div>
+<div style="text-align: center;">
+<canvas id="fig-move2-b" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>4</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">mirror symmetry</div>
+</div>
+</div>
+<script>// =============================================================
+// Move 2 Symmetry Figure — Two board states after X and O each
+// played once. Empty cells colored by symmetry orbit to show
+// how many distinct 3rd-move options MENACE sees.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  var R = window.INFERNO.roles;
+  var SIZE = 140;
+  var CELL = SIZE / 3;
+
+  // High-DPI setup: scale canvas buffer while keeping CSS size
+  function setupHiDPI(canvas, w, h) {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return ctx;
+  }
+
+  // Orbit fill colors — visually distinct, semi-transparent
+  var ORBIT_FILLS = [
+    'rgba(66, 10, 104, 0.22)',    // 0: dark purple
+    'rgba(147, 38, 103, 0.22)',   // 1: magenta
+    'rgba(221, 81, 58, 0.22)',    // 2: orange-red
+    'rgba(252, 165, 10, 0.25)',   // 3: yellow-orange
+    'rgba(70, 130, 180, 0.28)',   // 4: steel blue
+    'rgba(60, 179, 113, 0.28)',   // 5: sea green
+    'rgba(180, 82, 205, 0.22)'   // 6: orchid
+  ];
+  // Matching solid colors for legend dots
+  var ORBIT_SOLIDS = [
+    'rgba(66, 10, 104, 0.7)',
+    'rgba(147, 38, 103, 0.7)',
+    'rgba(221, 81, 58, 0.7)',
+    'rgba(252, 165, 10, 0.7)',
+    'rgba(70, 130, 180, 0.7)',
+    'rgba(60, 179, 113, 0.7)',
+    'rgba(180, 82, 205, 0.7)'
+  ];
+
+  // Scenario A: X=0 (corner), O=5 (edge)
+  // Stabiliser = {identity} → 7 distinct orbits
+  var SCENARIO_A = {
+    x: 0, o: 5,
+    orbits: [-1, 0, 1, 2, 3, -1, 4, 5, 6],
+    nOrbits: 7
+  };
+
+  // Scenario B: X=1 (edge), O=4 (center)
+  // Stabiliser = {identity, h-flip} → 4 orbits: {0,2}, {3,5}, {6,8}, {7}
+  var SCENARIO_B = {
+    x: 1, o: 4,
+    orbits: [0, -1, 0, 1, -1, 1, 2, 3, 2],
+    nOrbits: 4
+  };
+
+  function getCtx(id) {
+    var c = document.getElementById(id);
+    return c ? c.getContext('2d') : null;
+  }
+
+  function fillCell(ctx, cellIdx, color) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    ctx.fillStyle = color;
+    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
+  }
+
+  function drawGrid(ctx) {
+    ctx.strokeStyle = '#420a68';
+    ctx.lineWidth = 2;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
+    }
+  }
+
+  function drawX(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var off = CELL * 0.28;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+  }
+
+  function drawO(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var radius = CELL * 0.26;
+    ctx.strokeStyle = R.lineB;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+    ctx.stroke();
+  }
+
+  // Draw small orbit-index label inside each empty cell
+  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(orbitIdx + 1), cx, cy);
+  }
+
+  function drawScenario(canvasId, scenario) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    setupHiDPI(canvas, SIZE, SIZE);
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, SIZE, SIZE);
+
+    // Fill orbit cells
+    for (var i = 0; i < 9; i++) {
+      var oi = scenario.orbits[i];
+      if (oi >= 0) fillCell(ctx, i, ORBIT_FILLS[oi]);
+    }
+
+    drawGrid(ctx);
+    drawX(ctx, scenario.x);
+    drawO(ctx, scenario.o);
+
+    // Draw orbit labels in empty cells
+    for (var j = 0; j < 9; j++) {
+      var oj = scenario.orbits[j];
+      if (oj >= 0) drawOrbitLabel(ctx, j, oj);
+    }
+  }
+
+  function initMove2Figure() {
+    drawScenario('fig-move2-a', SCENARIO_A);
+    drawScenario('fig-move2-b', SCENARIO_B);
+  }
+
+  window.initMove2Figure = initMove2Figure;
+
+})();
+document.addEventListener('DOMContentLoaded', function() { initMove2Figure(); });</script>
+</div>
+</div>
 <div class="cell">
 <div class="cell-output-display">
 <script>// =============================================================
