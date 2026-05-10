@@ -114,3 +114,24 @@ paper_bgcolor = "white"
 legend orientation = "h", centered below plot
 ```
 Grids are off by default (`showgrid = FALSE`) unless the plot specifically benefits from them.
+
+## 8. Security
+
+### Input Sanitization
+
+- **All user inputs are assumed to be natural numbers** unless explicitly required otherwise.
+- Always validate/parse numeric inputs with `parseInt()` or a strict validator (regex `/^\d+$/` + bounds check) before use.
+- Never insert user-supplied values into `innerHTML`, `outerHTML`, or `insertAdjacentHTML`. Use `textContent` for plain text.
+- If HTML construction is needed with dynamic values, ensure all interpolated values are either:
+  - Validated integers (from `toSafeInt` or equivalent)
+  - Values from hardcoded lookup objects (not user-typed strings)
+  - Color strings validated against `/^#[0-9a-fA-F]{6}$/`
+- No `eval()`, `new Function()`, or `setTimeout`/`setInterval` with string arguments.
+- Avoid `document.write()`.
+
+### CDN Subresource Integrity (SRI)
+
+- **Every** `<script src="...">` or `<link rel="stylesheet" href="...">` pointing to a CDN **must** include `integrity="sha384-..."` and `crossorigin="anonymous"` attributes.
+- Generate hashes: download file → SHA-384 → base64 → prefix with `sha384-`.
+- Pin exact versions (e.g., `@2.27.0`) — never use `@latest` or unversioned CDN URLs.
+- If upgrading a library version, regenerate the SRI hash.

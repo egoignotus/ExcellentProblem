@@ -280,6 +280,11 @@ window.INFERNO = {
   <li><a href="#quarto-rendering-notes" id="toc-quarto-rendering-notes" class="nav-link" data-scroll-target="#quarto-rendering-notes">5. Quarto / Rendering Notes</a></li>
   <li><a href="#post-frontmatter-template" id="toc-post-frontmatter-template" class="nav-link" data-scroll-target="#post-frontmatter-template">6. Post Frontmatter Template</a></li>
   <li><a href="#plotly-defaults" id="toc-plotly-defaults" class="nav-link" data-scroll-target="#plotly-defaults">7. Plotly Defaults</a></li>
+  <li><a href="#security" id="toc-security" class="nav-link" data-scroll-target="#security">8. Security</a>
+  <ul class="collapse">
+  <li><a href="#input-sanitization" id="toc-input-sanitization" class="nav-link" data-scroll-target="#input-sanitization">Input Sanitization</a></li>
+  <li><a href="#cdn-subresource-integrity-sri" id="toc-cdn-subresource-integrity-sri" class="nav-link" data-scroll-target="#cdn-subresource-integrity-sri">CDN Subresource Integrity (SRI)</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -479,8 +484,36 @@ Remove-Item -Recurse -Force .quarto/_freeze/posts/&lt;post-slug&gt;</code></pre>
 paper_bgcolor = "white"
 legend orientation = "h", centered below plot</code></pre>
 <p>Grids are off by default (<code>showgrid = FALSE</code>) unless the plot specifically benefits from them.</p>
+</section>
+<section id="security" class="level2">
+<h2 class="anchored" data-anchor-id="security">8. Security</h2>
+<section id="input-sanitization" class="level3">
+<h3 class="anchored" data-anchor-id="input-sanitization">Input Sanitization</h3>
+<ul>
+<li><strong>All user inputs are assumed to be natural numbers</strong> unless explicitly required otherwise.</li>
+<li>Always validate/parse numeric inputs with <code>parseInt()</code> or a strict validator (regex <code>/^\d+$/</code> + bounds check) before use.</li>
+<li>Never insert user-supplied values into <code>innerHTML</code>, <code>outerHTML</code>, or <code>insertAdjacentHTML</code>. Use <code>textContent</code> for plain text.</li>
+<li>If HTML construction is needed with dynamic values, ensure all interpolated values are either:
+<ul>
+<li>Validated integers (from <code>toSafeInt</code> or equivalent)</li>
+<li>Values from hardcoded lookup objects (not user-typed strings)</li>
+<li>Color strings validated against <code>/^#[0-9a-fA-F]{6}$/</code></li>
+</ul></li>
+<li>No <code>eval()</code>, <code>new Function()</code>, or <code>setTimeout</code>/<code>setInterval</code> with string arguments.</li>
+<li>Avoid <code>document.write()</code>.</li>
+</ul>
+</section>
+<section id="cdn-subresource-integrity-sri" class="level3">
+<h3 class="anchored" data-anchor-id="cdn-subresource-integrity-sri">CDN Subresource Integrity (SRI)</h3>
+<ul>
+<li><strong>Every</strong> <code>&lt;script src="..."&gt;</code> or <code>&lt;link rel="stylesheet" href="..."&gt;</code> pointing to a CDN <strong>must</strong> include <code>integrity="sha384-..."</code> and <code>crossorigin="anonymous"</code> attributes.</li>
+<li>Generate hashes: download file → SHA-384 → base64 → prefix with <code>sha384-</code>.</li>
+<li>Pin exact versions (e.g., <code>@2.27.0</code>) — never use <code>@latest</code> or unversioned CDN URLs.</li>
+<li>If upgrading a library version, regenerate the SRI hash.</li>
+</ul>
 
 
+</section>
 </section>
 </section>
 

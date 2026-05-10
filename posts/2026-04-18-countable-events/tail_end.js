@@ -181,6 +181,7 @@
       var summaryEl = document.getElementById(cfg.summaryId);
       if (summaryEl) {
         var color = (window.INFERNO && window.INFERNO.roles) ? window.INFERNO.roles.lineA : '#932667';
+        if (!/^#[0-9a-fA-F]{6}$/.test(color)) color = '#932667';
         var summaryText;
         if (isRightCutoff) {
           var metAgeVal = inp.metAge != null ? inp.metAge : 0;
