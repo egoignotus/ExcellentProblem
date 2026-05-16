@@ -3,12 +3,17 @@ title: "Stamps, Strings and Strengths"
 author: "Aleksandra"
 date: "2026-05-16"
 categories: [parenting, music]
-description: "I believe that focus, listening ability and persistence are currencies of the future."
+description: "Last month, I took my sons to a music school open day, where every instrument seemed to be auditioning for a child."
+image: "thumb.jpg"
 title-block-banner: true
 ---
 Last month, I took my sons to a music school open day, where every instrument seemed to be auditioning for a child. For a single afternoon the whole philharmonic orchestra was to be tried under one roof, and no sound was considered out of tune. The instruments were accompanied by respective teachers and these special duos were cheering, complimenting and even tricking the prospective students.
 
 For some instruments, the teacher did not need to have any persuasive skills: in this country, there is already a strong affection for the violin, and the queues for trying it were long throughout the afternoon. Clearly, violin played the first fiddle. Thought by a teacher who resembled Miss Clavel from Madleine stories, her posture and sight were saying “strict and fair”. For some other instruments, it was the teacher’s glooming personality which likely won them potential students; definitely, it was the case of fagot. The teacher was a star: joking, dancing with the instrument, engaging kids. Oboe, that was in front of him, got only fraction of fagot’s attention, whereas sound-wise these two instruments are quite similar. Some, like double bass, tried tricks: the teacher played E-string, the thickest and lowest-sounding one. If you stood close enough you could feel the floor vibrating. The teacher asked kids to place a hand on the resonance box. If a child had high sensory sensitivity, he would be instantly won over. What all these instruments had in common, was that the teachers were necessary to help the kids produce sound. Neither blowing nor using a bow is an intuitive skill. This was in sharp contrast to piano - or rather, to the five pianos  - whose black and white keyboards were very inviting to strike a note. Even the shyest kids were eager to try.
+
+::: {#fig1-piano}
+![](thumb.jpg)
+:::
 
 And in all this there were my two sons. AV, the older, taken there against his will. I communicated the plan for this afternoon only two weeks in advance, and he made a plan, a day before, to play with a friend. Reason, priorities and planning are not effective to persuade a nine-year-old to do something, but a little bribery is. FV, the younger, was excited. He got even more excited when he learned that he could collect a stamp for each instrument he tried. A stamp card would not work on me as motivation, but what do I know about being five—especially when a fully stamped card comes with the promise of a surprise gift?
 
@@ -34,7 +39,7 @@ _But then I realized: winning effortlessly is the ultimate achievement. I got th
 
 _Yes, talent matters. I’m not going to stand here and tell you it doesn’t. But talent has a broad definition. Most of the time, it’s not about having a gift. It’s about having grit. In tennis, a great forehand with sick racquet head speed can be called a talent. But in tennis... like in life... discipline is also a talent. And so is patience. Trusting yourself is a talent. Embracing the process, loving the process, is a talent. Managing your life, managing yourself... these can be talents, too. Some people are born with them. Everybody has to work at them. (...)_
 
-***
+<p style="text-align:center; letter-spacing:1em;">∗ ∗ ∗</p>
 
 I find it extremely difficult to write about kids. I find it even more difficult to write something about kids that might be relevant for others. All this parenting is one great improvisation I have had no training for, nor have I passed an exam for it. To drive a car you need to have a licence, to be a parent you don’t... Luckily, there are other aspects of writing about kids that might be appreciated by broader audience. And what might be better when the task is overwhelming, if not a good laugh? 
 
