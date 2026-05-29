@@ -38,9 +38,13 @@ It was only recently that I realised the language of spam emails offers another 
 William is an entrepreneurial writer in “The Truth”, a novel from the Discworld series. For a small fee, he writes letters to parents of migratory workers arriving at Ankh-Morpork. With the invention of the printing press he not only he scales his business, but also invents new ways to earn extra dimes[^6]: 
 
 _Fond dwarf parents all over the mountains treasured letters which looked something like this:_
-_Dear <Mume & Dad/>,_
-_Well, I arrived here all right and I am staying, at <109 Cockbill Street The Shades Ankh-Morpk/>. Everythyng is fine. I have got a goode job working for <Mr C.M.O.T. Dibbler, Merchant Venturer/> and will be makinge lots of money really soon now. I am rememberinge alle your gode advyce and am not drinkynge, in bars or mixsing with Trolls. Well thas about itte must goe now, looking forwade to seing you and <Emelia/> agane, your loving son,_
-_<Tomas Brokenbrow/>_
+
+> _Dear <Mume & Dad/>,_
+>
+> _Well, I arrived here all right and I am staying, at <109 Cockbill Street The Shades Ankh-Morpk/>. Everythyng is fine. I have got a goode job working for <Mr C.M.O.T. Dibbler, Merchant Venturer/> and will be makinge lots of money really soon now. I am rememberinge alle your gode advyce and am not drinkynge, in bars or mixsing with Trolls. Well thas about itte must goe now, looking forwade to seing you and <Emelia/> agane, your loving son,_
+>
+> _<Tomas Brokenbrow/>_
+
 _... who was usually swaying while he dictated it. It was twenty pence easily made, and as an additional service William carefully tailored the spelling to the client and allowed them to choose their own punctuation._
 
 I do not know about the Discworld, but on planet Earth the trolls are sending better and better emails. Neither spelling nor punctuation raises my eyebrow anymore. To reach my primary goal, same as public servants in snowy regions, I need to invest more time, more effort and employ more creativity.
