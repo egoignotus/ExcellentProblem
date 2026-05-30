@@ -10,6 +10,8 @@ website:
         href: about.qmd
       - text: "Anchors"
         href: anchors.qmd
+      - text: "Books"
+        href: books.qmd
   page-footer:
     center: "© 2025 Aleksandra. All rights reserved."
 
