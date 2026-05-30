@@ -6,6 +6,9 @@ categories: [parenting, music]
 description: "Last month, I took my sons to a music school open day, where every instrument seemed to be auditioning for a child."
 image: "thumb.jpg"
 title-block-banner: true
+books:
+  - title: "Madeline"
+    author: "Ludwig Bemelmans"
 ---
 Last month, I took my sons to a music school open day, where every instrument seemed to be auditioning for a child. For a single afternoon the whole philharmonic orchestra was to be tried under one roof, and no sound was considered out of tune. The instruments were accompanied by respective teachers and these special duos were cheering, complimenting and even tricking the prospective students.
 

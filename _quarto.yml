@@ -1,6 +1,7 @@
 project:
   type: website
   output-dir: docs
+  pre-render: "\"C:/Program Files/R/R-4.5.0/bin/Rscript.exe\" _build/generate-books.R"
 
 website:
   title: "Excellent Problem"

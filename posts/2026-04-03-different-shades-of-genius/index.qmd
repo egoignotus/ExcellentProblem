@@ -6,6 +6,11 @@ categories: [skills, books, music]
 image: "thumb.jpg"
 description: ""
 title-block-banner: true
+books:
+  - title: "Stradivari's Genius"
+    author: "Toby Faber"
+  - title: "Adventures of a Cello"
+    author: "Carlos Prieto"
 ---
 
 Halfway between the nursery and home, I am often caught by the red light. The moment I hit the break, the scent of melted butter is coming to my nostrils. Coincidentally, the ventilation pipe outlet from the nearby bakery is going to this side of the street. In an instant, I am facing the choice: wait on the red light or turn right and grab something for breakfast[^1]? The bakery is run by a couple of elderly people, probably married for +50 years. The work distribution is crystal clear: she is serving the clients, he is doing the baking.

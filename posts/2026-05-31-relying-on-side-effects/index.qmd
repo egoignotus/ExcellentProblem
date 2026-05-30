@@ -6,6 +6,11 @@ categories: [ideas]
 description: "Three times a week on a good week; less on a regular one."
 image: "thumb.jpg"
 title-block-banner: true
+books:
+  - title: "The Truth"
+    author: "Terry Pratchett"
+  - title: "Atomic Habits"
+    author: "James Clear"
 ---
 Three times a week on a good week; less on a regular one. I put on my running outfit before leaving home to drop the kids at school. Not because we are often late, but because I go for a run just after the drop off. I have to leave the house anyway, and I need to be dressed regardless. This is the minimum plan. The twist is that it comes with an audience: the kids and the other parents see me. It’s a habit cue on steroids. After being seen by all those people, I would feel like a complete loser if I didn’t run. So I run, just to be able to look myself in the mirror. Humiliation avoidance is a powerful tool[^1].
 

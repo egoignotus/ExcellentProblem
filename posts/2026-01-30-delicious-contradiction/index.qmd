@@ -6,6 +6,9 @@ categories: [finance, interactive]
 image: "thumb.png"
 description: "To be and not to be path dependent at the same time."
 title-block-banner: true
+blogs:
+  - title: "Best Interest"
+    author: "Jesse Cramer"
 ---
 
 What a delicious contradiction it is: to be and not to be path dependent at the same time. In [the post](https://excellentproblem.com/posts/2026-01-02-thermodynamics-101-for-investors/) “Thermodynamics 101 for Investors” I drew an analogy between function state, in thermodynamical sense, and investment outcomes. I claimed that the financial result you harvest does not depend on the ups and downs the stock price makes on a way. I claimed that these results solely depend on the price at start and the price at end points. It might sound counter-intuitive, but it is so. If you haven’t read the mentioned post yet, it is worth giving a try!

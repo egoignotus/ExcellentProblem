@@ -6,6 +6,11 @@ categories: [evolution, chemistry, finance, AI]
 image: "thumb.png"
 description: "For more than 20 years, Charles Darwin was seduced by a contrast."
 title-block-banner: true
+books:
+  - title: "On the Origin of Species"
+    author: "Charles Darwin"
+  - title: "Nexus"
+    author: "Yuval Noah Harari"
 ---
 For more than 20 years, Charles Darwin was seduced by a contrast. It was the contrast that became foundational for evolutionary theory that was just birthing in his head. It is the contrast that is still causing misunderstanding of evolution and provides arguments to its sceptics. Namely, Darwin proposed that a mechanism of natural selection is a driving force behind evolution of living organisms. The powerful comparison juxtaposed artificial selection with natural selection. 
 

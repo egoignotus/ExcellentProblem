@@ -223,6 +223,10 @@ window.INFERNO = {
     <a class="nav-link" href="../../anchors.html"> 
 <span class="menu-text">Anchors</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../books.html"> 
+<span class="menu-text">Books</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -482,6 +486,7 @@ window.INFERNO = {
       var summaryEl = document.getElementById(cfg.summaryId);
       if (summaryEl) {
         var color = (window.INFERNO && window.INFERNO.roles) ? window.INFERNO.roles.lineA : '#932667';
+        if (!/^#[0-9a-fA-F]{6}$/.test(color)) color = '#932667';
         var summaryText;
         if (isRightCutoff) {
           var metAgeVal = inp.metAge != null ? inp.metAge : 0;

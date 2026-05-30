@@ -109,7 +109,7 @@
     "href": "posts/2026-01-30-delicious-contradiction/index.html#zoom-out-full-historical-view",
     "title": "A Delicious Contradiction",
     "section": "Zoom Out: Full Historical View",
-    "text": "Zoom Out: Full Historical View\n\n\n\n\n\n\nIt shows a set of data on US stock market returns from 1871 to 2025. This plot has two traces, purple solid trace and orange dashed trace. Purple solid trace represents yearly nominal returns, expressed in percentages, %. The line helps to guide your sight from datapoint to datapoint. If you hover your finger over purple trace, you can see returns for a particular year. Eg. it was -24.5% in 1975, 33.5% in 1976 and 7.5% in 1977. Overall, when you look at the purple trace you see many ups and downs. It is hard to answer the question “what typically the US stock market returns?” On the other hand, orange dashed line shows what happens when you cumulatively average yearly returns. The trace starts bumpy but smoothens out the further from the start you are. You see that from ~ year 2000 the returns average to 6% yearly. With this trace you can immediately answer the question: what did the stock market return on average from 1871 to 1950? (and now hover over orange dashed line for 1950). A bonus: if you made it that far in the post, you can isolate the blue trace by clicking on it in the plot legend."
+    "text": "Zoom Out: Full Historical View\n\n\n\n\n\n\nIt shows a set of data on US stock market returns from 1871 to 2025. This plot has two traces, purple solid trace and orange dashed trace. Purple solid trace represents yearly nominal returns, expressed in percentages, %. The line helps to guide your sight from datapoint to datapoint. If you hover your finger over purple trace, you can see returns for a particular year. Eg. it was -24.5% in 1975, 33.5% in 1976 and 7.5% in 1977. Overall, when you look at the purple trace you see many ups and downs. It is hard to answer the question “what typically the US stock market returns?” On the other hand, orange dashed line shows what happens when you cumulatively average yearly returns. The trace starts bumpy but smoothens out the further from the start you are. You see that from ~ year 2000 the returns average to 6% yearly. With this trace you can immediately answer the question: what did the stock market return on average from 1871 to 1950? (and now hover over orange dashed line for 1950). A bonus: if you made it that far in the post, you can isolate the orange trace by clicking on it in the plot legend."
   },
   {
     "objectID": "posts/2026-01-30-delicious-contradiction/index.html#zoom-in-check-different-historical-time-ranges",
@@ -354,6 +354,20 @@
     "href": "books.html",
     "title": "Books",
     "section": "",
-    "text": "An index of books mentioned — directly or indirectly — across the blog posts.\n\n\n\nBook\nAuthor\nPost\n\n\n\n\nAdventures of a Cello\nCarlos Prieto\nDifferent Shades of Genius\n\n\nAtomic Habits\nJames Clear\nRelying on Side Effects\n\n\nHarry Potter and the Half-Blood Prince\nJ.K. Rowling\nTortured Neighbours Association\n\n\nHarry Potter and the Philosopher’s Stone\nJ.K. Rowling\nTortured Neighbours Association\n\n\nHillbilly Elegy\nJ.D. Vance\nStrolling and Scrolling\n\n\nMadeline series\nLudwig Bemelmans\nStamps, Strings and Strengths\n\n\nNexus\nYuval Noah Harari\nSurvival of the Diversified\n\n\nOn the Origin of Species\nCharles Darwin\nSurvival of the Diversified\n\n\nStradivari’s Genius\nToby Faber\nDifferent Shades of Genius\n\n\nThe Paradox of Choice\nBarry Schwartz\nStrolling and Scrolling\n\n\nThe Truth (Discworld)\nTerry Pratchett\nRelying on Side Effects\n\n\nThinking, Fast and Slow\nDaniel Kahneman\nTortured Neighbours Association"
+    "text": "An index of books and blogs mentioned — directly or indirectly — across the blog posts."
+  },
+  {
+    "objectID": "books.html#books",
+    "href": "books.html#books",
+    "title": "Books",
+    "section": "Books",
+    "text": "Books\n\n\n\nBook\nAuthor\nPost\n\n\n\n\nAdventures of a Cello\nCarlos Prieto\nDifferent Shades of Genius\n\n\nAtomic Habits\nJames Clear\nRelying on Side Effects\n\n\nHarry Potter and the Half-Blood Prince\nJ.K. Rowling\nTortured Neighbours Association\n\n\nHarry Potter and the Philosopher’s Stone\nJ.K. Rowling\nTortured Neighbours Association\n\n\nHillbilly Elegy\nJ.D. Vance\nStrolling and Scrolling\n\n\nMadeline\nLudwig Bemelmans\nStamps, Strings and Strengths\n\n\nNexus\nYuval Noah Harari\nSurvival of the Diversified\n\n\nOn the Origin of Species\nCharles Darwin\nSurvival of the Diversified\n\n\nStradivari’s Genius\nToby Faber\nDifferent Shades of Genius\n\n\nThe Paradox of Choice\nBarry Schwartz\nStrolling and Scrolling\n\n\nThe Truth\nTerry Pratchett\nRelying on Side Effects\n\n\nThinking, Fast and Slow\nDaniel Kahneman\nTortured Neighbours Association"
+  },
+  {
+    "objectID": "books.html#blogs",
+    "href": "books.html#blogs",
+    "title": "Books",
+    "section": "Blogs",
+    "text": "Blogs\n\n\n\nBlog\nAuthor\nPost\n\n\n\n\nBest Interest\nJesse Cramer\nA Delicious Contradiction\n\n\nThe Tail End\nTim Urban\nCountable Events"
   }
 ]

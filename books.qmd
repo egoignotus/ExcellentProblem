@@ -2,7 +2,9 @@
 title: "Books"
 ---
 
-An index of books mentioned — directly or indirectly — across the blog posts.
+An index of books and blogs mentioned — directly or indirectly — across the blog posts.
+
+## Books
 
 | Book | Author | Post |
 |------|--------|------|
@@ -11,10 +13,17 @@ An index of books mentioned — directly or indirectly — across the blog posts
 | *Harry Potter and the Half-Blood Prince* | J.K. Rowling | [Tortured Neighbours Association](posts/2026-03-15-tortured-neighbours-association/index.qmd) |
 | *Harry Potter and the Philosopher's Stone* | J.K. Rowling | [Tortured Neighbours Association](posts/2026-03-15-tortured-neighbours-association/index.qmd) |
 | *Hillbilly Elegy* | J.D. Vance | [Strolling and Scrolling](posts/2026-02-11-strolling-and-scrolling/index.qmd) |
-| *Madeline* series | Ludwig Bemelmans | [Stamps, Strings and Strengths](posts/2026-05-16-stamps-strings-and-strengths/index.qmd) |
+| *Madeline* | Ludwig Bemelmans | [Stamps, Strings and Strengths](posts/2026-05-16-stamps-strings-and-strengths/index.qmd) |
 | *Nexus* | Yuval Noah Harari | [Survival of the Diversified](posts/2026-05-01-survival-of-the-diversified/index.qmd) |
 | *On the Origin of Species* | Charles Darwin | [Survival of the Diversified](posts/2026-05-01-survival-of-the-diversified/index.qmd) |
 | *Stradivari's Genius* | Toby Faber | [Different Shades of Genius](posts/2026-04-03-different-shades-of-genius/index.qmd) |
 | *The Paradox of Choice* | Barry Schwartz | [Strolling and Scrolling](posts/2026-02-11-strolling-and-scrolling/index.qmd) |
-| *The Truth* (Discworld) | Terry Pratchett | [Relying on Side Effects](posts/2026-05-31-relying-on-side-effects/index.qmd) |
+| *The Truth* | Terry Pratchett | [Relying on Side Effects](posts/2026-05-31-relying-on-side-effects/index.qmd) |
 | *Thinking, Fast and Slow* | Daniel Kahneman | [Tortured Neighbours Association](posts/2026-03-15-tortured-neighbours-association/index.qmd) |
+
+## Blogs
+
+| Blog | Author | Post |
+|------|--------|------|
+| *Best Interest* | Jesse Cramer | [A Delicious Contradiction](posts/2026-01-30-delicious-contradiction/index.qmd) |
+| *The Tail End* | Tim Urban | [Countable Events](posts/2026-04-18-countable-events/index.qmd) |
