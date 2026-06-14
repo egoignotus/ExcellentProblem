@@ -17,7 +17,9 @@ An index of books and blogs mentioned — directly or indirectly — across the 
 | *Nexus* | Yuval Noah Harari | [Survival of the Diversified](posts/2026-05-01-survival-of-the-diversified/index.qmd) |
 | *On the Origin of Species* | Charles Darwin | [Survival of the Diversified](posts/2026-05-01-survival-of-the-diversified/index.qmd) |
 | *Stradivari's Genius* | Toby Faber | [Different Shades of Genius](posts/2026-04-03-different-shades-of-genius/index.qmd) |
+| *The Intelligent Investor* | Benjamin Graham | [Buffer of Patience](posts/2026-06-14-buffer-of-patience/index.qmd) |
 | *The Paradox of Choice* | Barry Schwartz | [Strolling and Scrolling](posts/2026-02-11-strolling-and-scrolling/index.qmd) |
+| *The Psychology of Money* | Morgan Housel | [Buffer of Patience](posts/2026-06-14-buffer-of-patience/index.qmd) |
 | *The Truth* | Terry Pratchett | [Relying on Side Effects](posts/2026-05-31-relying-on-side-effects/index.qmd) |
 | *Thinking, Fast and Slow* | Daniel Kahneman | [Tortured Neighbours Association](posts/2026-03-15-tortured-neighbours-association/index.qmd) |
 
