@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Aleksandra">
+<meta name="dcterms.date" content="2026-06-28">
+
+<title>index – Excellent Problem</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+
+// =============================================================
+
+// Viridis Inferno Palette — Global Color System
+
+// Available on every page via window.INFERNO
+
+// =============================================================
+
+window.INFERNO = {
+
+  // 11 discrete stops sampled from viridis inferno (0.0 → 1.0)
+
+  palette: [
+
+    '#000004', '#1b0c41', '#420a68', '#6a176e', '#932667',
+
+    '#bb3754', '#dd513a', '#f37819', '#fca50a', '#f6d746', '#fcffa4'
+
+  ],
+
+
+
+  // Role-based colors — identical across every plot for consistency
+
+  // "trace A" = the function line + shaded area
+
+  // "trace B" = the integral bar (right panel)
+
+  roles: {
+
+    lineA:       '#932667',                    // function curve
+
+    fillA:       'rgba(147, 38, 103, 0.25)',   // shaded area under curve
+
+    fillBorderA: 'rgba(147, 38, 103, 0.70)',   // border of shaded area
+
+    lineB:       '#dd513a',                    // second trace / bar
+
+    fillB:       'rgba(221, 81, 58, 0.50)',    // bar fill
+
+    markerLower: '#fca50a',                    // lower-limit marker (amber)
+
+    markerUpper: '#420a68',                    // upper-limit marker (deep purple)
+
+    annotation:  '#2c3e50',                    // flatly banner blue — dashed lines, labels
+
+    panelBg:     'rgba(147, 38, 103, 0.04)'    // subtle control-panel tint
+
+  },
+
+
+
+  // Utility: get hex color at position t ∈ [0, 1] (for continuous scales)
+
+  at: function(t) {
+
+    var idx = Math.max(0, Math.min(1, t)) * (this.palette.length - 1);
+
+    return this.palette[Math.round(idx)];
+
+  },
+
+
+
+  // Utility: hex → rgba string
+
+  rgba: function(hex, alpha) {
+
+    var r = parseInt(hex.slice(1, 3), 16);
+
+    var g = parseInt(hex.slice(3, 5), 16);
+
+    var b = parseInt(hex.slice(5, 7), 16);
+
+    return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
+
+  },
+
+
+
+  // Plotly-compatible colorscale for continuous variables
+
+  colorscale: [
+
+    [0.0, '#000004'], [0.1, '#1b0c41'], [0.2, '#420a68'],
+
+    [0.3, '#6a176e'], [0.4, '#932667'], [0.5, '#bb3754'],
+
+    [0.6, '#dd513a'], [0.7, '#f37819'], [0.8, '#fca50a'],
+
+    [0.9, '#f6d746'], [1.0, '#fcffa4']
+
+  ]
+
+};
+
+</script>
+
+
+
+<style>
+
+/* noUiSlider inferno theming — single solid color */
+
+.noUi-connect {
+
+  background: #932667 !important;
+
+}
+
+.noUi-handle {
+
+  border-color: #6a176e !important;
+
+  box-shadow: 0 0 4px rgba(0, 0, 4, 0.25) !important;
+
+}
+
+</style>
+
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Excellent Problem</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../anchors.html"> 
+<span class="menu-text">Anchors</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../books.html"> 
+<span class="menu-text">Books</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      
+                                <div class="quarto-categories">
+                <div class="quarto-category">maths</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Aleksandra </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 28, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#independent-events" id="toc-independent-events" class="nav-link active" data-scroll-target="#independent-events">Independent events</a></li>
+  <li><a href="#dependent-events" id="toc-dependent-events" class="nav-link" data-scroll-target="#dependent-events">Dependent events</a></li>
+  <li><a href="#how-often-positive-is" id="toc-how-often-positive-is" class="nav-link" data-scroll-target="#how-often-positive-is">How often positive is</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="independent-events" class="level2">
+<h2 class="anchored" data-anchor-id="independent-events">Independent events</h2>
+<div class="cell">
+<div class="cell-output-display">
+<script>// independent_events.js — Interactive unit-square visual for independent events
+// P(A ∩ B) = P(A) × P(B)  ↔  area of the intersection rectangle
+(function () {
+  "use strict";
+
+  var C = window.INFERNO.roles;
+
+  function toSafeProbability(val) {
+    var n = parseFloat(val);
+    if (isNaN(n) || n < 0) return 0;
+    if (n > 1) return 1;
+    return Math.round(n * 100) / 100;   // two-decimal precision
+  }
+
+  function createIndependentEventsPlot(cfg) {
+    var canvas  = document.getElementById(cfg.canvasId);
+    var ctx     = canvas.getContext("2d");
+    var sliderX = document.getElementById(cfg.sliderXId);
+    var sliderY = document.getElementById(cfg.sliderYId);
+    var labelX  = document.getElementById(cfg.labelXId);
+    var labelY  = document.getElementById(cfg.labelYId);
+
+    function draw() {
+      var pA = toSafeProbability(sliderX.value);
+      var pB = toSafeProbability(sliderY.value);
+
+      labelX.textContent = pA.toFixed(2);
+      labelY.textContent = pB.toFixed(2);
+
+      // Responsive padding — shrink on narrow screens
+      var cssW = canvas.clientWidth;
+      var mobile = cssW < 480;
+      var PAD_LEFT   = mobile ? 36 : 48;
+      var PAD_BOTTOM = mobile ? 44 : 52;
+      var PAD_TOP    = mobile ? 12 : 16;
+      var PAD_RIGHT  = mobile ? 10 : 16;
+      var FONT_SIZE  = mobile ? 11 : 13;
+
+      // Square side: fill available width, cap at 500 for readability
+      var S = Math.min(cssW - PAD_LEFT - PAD_RIGHT, 500);
+
+      // Canvas height derived from S so axis labels always fit
+      var totalH = PAD_TOP + S + PAD_BOTTOM;
+      canvas.style.height = totalH + "px";
+
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width  = cssW * dpr;
+      canvas.height = totalH * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      var ox = PAD_LEFT;
+      var oy = PAD_TOP;
+
+      ctx.clearRect(0, 0, cssW, totalH);
+
+      // --- unit square outline ---
+      ctx.strokeStyle = C.annotation;
+      ctx.lineWidth   = 1.5;
+      ctx.strokeRect(ox, oy, S, S);
+
+      // --- P(B) vertical band (full height, width = pA * S) ---
+      ctx.fillStyle = C.fillA;                         // purple tint
+      ctx.fillRect(ox, oy, pA * S, S);
+
+      // --- P(A) horizontal band (full width, height = pB * S, from bottom) ---
+      ctx.fillStyle = "rgba(221, 81, 58, 0.25)";      // orange tint (fillB-like)
+      ctx.fillRect(ox, oy + S - pB * S, S, pB * S);
+
+      // --- intersection P(A)·P(B) overlay ---
+      var intW = pA * S;
+      var intH = pB * S;
+      var intX = ox;
+      var intY = oy + S - intH;
+      ctx.fillStyle = "rgba(187, 55, 84, 0.55)";      // blended magenta
+      ctx.fillRect(intX, intY, intW, intH);
+
+      // --- area label inside intersection ---
+      var areaText = (pA * pB).toFixed(4);
+      var areaFont = "bold " + FONT_SIZE + "px sans-serif";
+      ctx.font = areaFont;
+      var textW = ctx.measureText(areaText).width;
+      var textH = FONT_SIZE;
+      if (intW > textW + 8 && intH > textH + 8) {
+        ctx.fillStyle    = "#fff";
+        ctx.textAlign    = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(areaText, intX + intW / 2, intY + intH / 2);
+      }
+
+      // --- axis ticks & labels ---
+      var font = FONT_SIZE + "px sans-serif";
+      ctx.fillStyle   = C.annotation;
+      ctx.font        = font;
+      ctx.textAlign   = "center";
+      ctx.textBaseline = "top";
+
+      // x-axis: 0 and 1
+      ctx.fillText("0", ox, oy + S + 5);
+      ctx.fillText("1", ox + S, oy + S + 5);
+
+      // x-axis: P(A) tick
+      if (pA > 0.06 && pA < 0.94) {
+        var xTick = ox + pA * S;
+        ctx.strokeStyle = C.lineA;
+        ctx.lineWidth   = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath();
+        ctx.moveTo(xTick, oy);
+        ctx.lineTo(xTick, oy + S);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = C.lineA;
+        ctx.fillText(pA.toFixed(2), xTick, oy + S + 5);
+      }
+
+      // x-axis title
+      ctx.fillStyle = C.annotation;
+      ctx.fillText("P(A)", ox + S / 2, oy + S + FONT_SIZE + 10);
+
+      // y-axis: 0 and 1
+      ctx.textAlign    = "right";
+      ctx.textBaseline = "middle";
+      ctx.fillText("0", ox - 6, oy + S);
+      ctx.fillText("1", ox - 6, oy);
+
+      // y-axis: P(B) tick
+      if (pB > 0.06 && pB < 0.94) {
+        var yTick = oy + S - pB * S;
+        ctx.strokeStyle = C.lineB;
+        ctx.lineWidth   = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath();
+        ctx.moveTo(ox, yTick);
+        ctx.lineTo(ox + S, yTick);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = C.lineB;
+        ctx.fillText(pB.toFixed(2), ox - 6, yTick);
+      }
+
+      // y-axis title (rotated)
+      ctx.save();
+      ctx.fillStyle = C.annotation;
+      ctx.translate(ox - (mobile ? 24 : 34), oy + S / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.textAlign    = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("P(B)", 0, 0);
+      ctx.restore();
+
+      // --- legend inside the square ---
+      ctx.textAlign    = "left";
+      ctx.textBaseline = "top";
+      ctx.font         = "bold " + FONT_SIZE + "px sans-serif";
+
+      var legW = mobile ? 100 : 130;
+      var legX = ox + S - legW + 4;
+      var legY = oy + 8;
+      if (pA > 0.55 && pB > 0.55) { legY = oy + S - 52; }
+
+      // P(A) swatch
+      ctx.fillStyle = C.fillA;
+      ctx.fillRect(legX, legY, 14, 14);
+      ctx.strokeStyle = C.lineA; ctx.lineWidth = 1;
+      ctx.strokeRect(legX, legY, 14, 14);
+      ctx.fillStyle = C.lineA;
+      ctx.fillText("P(A)", legX + 20, legY + 1);
+
+      // P(B) swatch
+      ctx.fillStyle = "rgba(221, 81, 58, 0.25)";
+      ctx.fillRect(legX, legY + 20, 14, 14);
+      ctx.strokeStyle = C.lineB; ctx.lineWidth = 1;
+      ctx.strokeRect(legX, legY + 20, 14, 14);
+      ctx.fillStyle = C.lineB;
+      ctx.fillText("P(B)", legX + 20, legY + 21);
+
+      // P(A∩B) swatch
+      ctx.fillStyle = "rgba(187, 55, 84, 0.55)";
+      ctx.fillRect(legX, legY + 40, 14, 14);
+      ctx.strokeStyle = "#bb3754"; ctx.lineWidth = 1;
+      ctx.strokeRect(legX, legY + 40, 14, 14);
+      ctx.fillStyle = "#bb3754";
+      ctx.fillText("P(A\u2229B)", legX + 20, legY + 41);
+    }
+
+    sliderX.addEventListener("input", draw);
+    sliderY.addEventListener("input", draw);
+    window.addEventListener("resize", draw);
+
+    draw();
+
+    return { draw: draw };
+  }
+
+  window.IndependentEvents = { create: createIndependentEventsPlot };
+})();</script>
+<div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+<label style="font-weight: bold; min-width: 42px;">P(A):</label>
+<input type="range" id="sliderPA-indep" min="0" max="1" step="0.01" value="0.5" style="flex: 1; accent-color: #932667;">
+<span id="sliderPA-indep-val" style="font-weight: bold; min-width: 40px; color: #932667;">0.50</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+<label style="font-weight: bold; min-width: 42px;">P(B):</label>
+<input type="range" id="sliderPB-indep" min="0" max="1" step="0.01" value="0.4" style="flex: 1; accent-color: #932667;">
+<span id="sliderPB-indep-val" style="font-weight: bold; min-width: 40px; color: #932667;">0.40</span>
+</div>
+</div>
+<div style="padding: 8px 0;">
+<canvas id="indep-canvas-indep" style="width: 100%; display: block;"></canvas>
+</div>
+<script>document.addEventListener("DOMContentLoaded", function () {
+  window.IndependentEvents.create({
+    canvasId:  "indep-canvas-indep",
+    sliderXId: "sliderPA-indep",
+    sliderYId: "sliderPB-indep",
+    labelXId:  "sliderPA-indep-val",
+    labelYId:  "sliderPB-indep-val"
+  });
+});</script>
+</div>
+</div>
+</section>
+<section id="dependent-events" class="level2">
+<h2 class="anchored" data-anchor-id="dependent-events">Dependent events</h2>
+<div class="cell">
+<div class="cell-output-display">
+<script>// dependent_events.js — Total probability & Bayes' theorem rectangle visual
+// P(positive) = P(pos|sick)*P(sick) + P(pos|healthy)*P(healthy)
+// Y-axis: P(sick) bottom, P(healthy) top
+// Bottom X-axis: P(positive|sick), Upper X-axis: P(positive|healthy)
+(function () {
+  "use strict";
+
+  var C = window.INFERNO.roles;
+
+  function toSafeProbability(val) {
+    var n = parseFloat(val);
+    if (isNaN(n) || n < 0) return 0;
+    if (n > 1) return 1;
+    return Math.round(n * 100) / 100;
+  }
+
+  function createDependentEventsPlot(cfg) {
+    var canvas        = document.getElementById(cfg.canvasId);
+    var ctx           = canvas.getContext("2d");
+    var sliderSick    = document.getElementById(cfg.sliderSickId);
+    var sliderPosSick = document.getElementById(cfg.sliderPosSickId);
+    var sliderPosH    = document.getElementById(cfg.sliderPosHealthyId);
+    var labelSick     = document.getElementById(cfg.labelSickId);
+    var labelPosSick  = document.getElementById(cfg.labelPosSickId);
+    var labelPosH     = document.getElementById(cfg.labelPosHealthyId);
+    var barTotal      = document.getElementById(cfg.barTotalId);
+    var labelTotal    = document.getElementById(cfg.labelTotalId);
+
+    // Colors
+    var COL_SICK      = "rgba(187, 55, 84, 0.55)";
+    var COL_HEALTHY   = "rgba(68, 1, 84, 0.25)";
+    var COL_POS_SICK  = "rgba(187, 55, 84, 0.70)";
+    var COL_POS_H     = "rgba(221, 81, 58, 0.50)";
+    var COL_SPLIT     = "#bb3754";
+    var COL_TOP_AXIS  = "#dd513a";
+
+    function draw() {
+      var pSick    = toSafeProbability(sliderSick.value);
+      var pHealthy = 1 - pSick;
+      var pPosSick = toSafeProbability(sliderPosSick.value);
+      var pPosH    = toSafeProbability(sliderPosH.value);
+
+      // Total probability
+      var pPos = pPosSick * pSick + pPosH * pHealthy;
+
+      // Update labels
+      labelSick.textContent    = pSick.toFixed(2);
+      labelPosSick.textContent = pPosSick.toFixed(2);
+      labelPosH.textContent    = pPosH.toFixed(2);
+      labelTotal.textContent   = "P(+) = " + pPos.toFixed(4);
+
+      // Update total probability bar
+      var pctPos = (pPos * 100).toFixed(1);
+      barTotal.style.width = pctPos + "%";
+
+      // Responsive padding
+      var cssW = canvas.clientWidth;
+      var mobile = cssW < 480;
+      var PAD_LEFT   = mobile ? 44 : 56;
+      var PAD_BOTTOM = mobile ? 44 : 52;
+      var PAD_TOP    = mobile ? 36 : 44;
+      var PAD_RIGHT  = mobile ? 10 : 16;
+      var FONT_SIZE  = mobile ? 11 : 13;
+
+      // Square side
+      var S = Math.min(cssW - PAD_LEFT - PAD_RIGHT, 500);
+      var totalH = PAD_TOP + S + PAD_BOTTOM;
+      canvas.style.height = totalH + "px";
+
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width  = cssW * dpr;
+      canvas.height = totalH * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      var ox = PAD_LEFT;
+      var oy = PAD_TOP;
+
+      ctx.clearRect(0, 0, cssW, totalH);
+
+      // --- Background strips (sick bottom, healthy top) ---
+      var sickH = pSick * S;
+      var healthyH = pHealthy * S;
+
+      // Healthy strip (top)
+      ctx.fillStyle = COL_HEALTHY;
+      ctx.fillRect(ox, oy, S, healthyH);
+
+      // Sick strip (bottom)
+      ctx.fillStyle = COL_SICK;
+      ctx.fillRect(ox, oy + healthyH, S, sickH);
+
+      // --- Positive regions ---
+      // Positive given sick: within sick strip, width = pPosSick * S
+      ctx.fillStyle = COL_POS_SICK;
+      ctx.fillRect(ox, oy + healthyH, pPosSick * S, sickH);
+
+      // Positive given healthy: within healthy strip, width = pPosH * S
+      ctx.fillStyle = COL_POS_H;
+      ctx.fillRect(ox, oy, pPosH * S, healthyH);
+
+      // --- 10x10 grid ---
+      ctx.strokeStyle = "rgba(120,120,120,0.7)";
+      ctx.lineWidth   = 0.75;
+      ctx.setLineDash([3, 3]);
+      for (var gi = 1; gi < 10; gi++) {
+        ctx.beginPath();
+        ctx.moveTo(ox + gi * S / 10, oy);
+        ctx.lineTo(ox + gi * S / 10, oy + S);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(ox, oy + gi * S / 10);
+        ctx.lineTo(ox + S, oy + gi * S / 10);
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+
+      // --- Unit square outline ---
+      ctx.strokeStyle = C.annotation;
+      ctx.lineWidth   = 1.5;
+      ctx.strokeRect(ox, oy, S, S);
+
+      // --- Horizontal split line (sick / healthy boundary) ---
+      ctx.strokeStyle = COL_SPLIT;
+      ctx.lineWidth   = 2;
+      ctx.beginPath();
+      ctx.moveTo(ox, oy + healthyH);
+      ctx.lineTo(ox + S, oy + healthyH);
+      ctx.stroke();
+
+      // --- Vertical dashed line: P(positive|sick) ---
+      if (pPosSick > 0.02 && pPosSick < 0.98) {
+        ctx.strokeStyle = COL_SPLIT;
+        ctx.lineWidth   = 1.5;
+        ctx.setLineDash([5, 3]);
+        ctx.beginPath();
+        ctx.moveTo(ox + pPosSick * S, oy + healthyH);
+        ctx.lineTo(ox + pPosSick * S, oy + S);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // --- Vertical dashed line: P(positive|healthy) ---
+      if (pPosH > 0.02 && pPosH < 0.98) {
+        ctx.strokeStyle = COL_TOP_AXIS;
+        ctx.lineWidth   = 1.5;
+        ctx.setLineDash([5, 3]);
+        ctx.beginPath();
+        ctx.moveTo(ox + pPosH * S, oy);
+        ctx.lineTo(ox + pPosH * S, oy + healthyH);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // --- Area labels inside rectangles ---
+      var font = "bold " + FONT_SIZE + "px sans-serif";
+      ctx.font = font;
+      ctx.textAlign    = "center";
+      ctx.textBaseline = "middle";
+
+      // Label in sick+positive area
+      var sickPosArea = (pPosSick * pSick).toFixed(4);
+      var sickPosW = pPosSick * S;
+      if (sickPosW > 50 && sickH > FONT_SIZE + 8) {
+        ctx.fillStyle = "#fff";
+        ctx.fillText(sickPosArea, ox + sickPosW / 2, oy + healthyH + sickH / 2);
+      }
+
+      // Label in healthy+positive area
+      var healthyPosArea = (pPosH * pHealthy).toFixed(4);
+      var healthyPosW = pPosH * S;
+      if (healthyPosW > 50 && healthyH > FONT_SIZE + 8) {
+        ctx.fillStyle = "#fff";
+        ctx.fillText(healthyPosArea, ox + healthyPosW / 2, oy + healthyH / 2);
+      }
+
+      // --- Bottom X-axis: P(positive|sick) ---
+      var FONT_TICK  = mobile ? 13 : 15;
+      var FONT_TITLE = mobile ? 13 : 16;
+
+      ctx.fillStyle    = C.annotation;
+      ctx.font         = "bold " + FONT_TICK + "px sans-serif";
+      ctx.textAlign    = "center";
+      ctx.textBaseline = "top";
+
+      ctx.fillText("0", ox, oy + S + 5);
+      ctx.fillText("1", ox + S, oy + S + 5);
+
+      if (pPosSick > 0.06 && pPosSick < 0.94) {
+        ctx.fillStyle = COL_SPLIT;
+        ctx.fillText(pPosSick.toFixed(2), ox + pPosSick * S, oy + S + 5);
+      }
+
+      ctx.font      = "bold " + FONT_TITLE + "px sans-serif";
+      ctx.fillStyle = C.annotation;
+      ctx.fillText("P(+|sick)", ox + S / 2, oy + S + FONT_TICK + 10);
+
+      // --- Top X-axis: P(positive|healthy) ---
+      ctx.font         = "bold " + FONT_TICK + "px sans-serif";
+      ctx.textBaseline = "bottom";
+
+      ctx.fillStyle = C.annotation;
+      ctx.fillText("0", ox, oy - 5);
+      ctx.fillText("1", ox + S, oy - 5);
+
+      if (pPosH > 0.06 && pPosH < 0.94) {
+        ctx.fillStyle = COL_TOP_AXIS;
+        ctx.fillText(pPosH.toFixed(2), ox + pPosH * S, oy - 5);
+      }
+
+      ctx.font      = "bold " + FONT_TITLE + "px sans-serif";
+      ctx.fillStyle = C.annotation;
+      ctx.fillText("P(+|healthy)", ox + S / 2, oy - FONT_TICK - 8);
+
+      // --- Y-axis labels ---
+      ctx.font         = "bold " + FONT_TICK + "px sans-serif";
+      ctx.textAlign    = "right";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle    = C.annotation;
+
+      ctx.fillText("0", ox - 6, oy + S);
+      ctx.fillText("1", ox - 6, oy);
+
+      // P(sick) tick
+      if (pSick > 0.06 && pSick < 0.94) {
+        ctx.fillStyle = COL_SPLIT;
+        ctx.fillText(pSick.toFixed(2), ox - 6, oy + healthyH);
+      }
+
+      // Y-axis title
+      ctx.save();
+      ctx.font      = "bold " + FONT_TITLE + "px sans-serif";
+      ctx.fillStyle = C.annotation;
+      ctx.translate(ox - (mobile ? 30 : 40), oy + S / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.textAlign    = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("P(sick)", 0, 0);
+      ctx.restore();
+
+      // --- Strip labels on right side ---
+      ctx.textAlign    = "left";
+      ctx.textBaseline = "middle";
+      ctx.font         = "bold " + FONT_SIZE + "px sans-serif";
+
+      if (sickH > FONT_SIZE + 4) {
+        ctx.fillStyle = COL_SPLIT;
+        ctx.fillText("sick", ox + S + 4, oy + healthyH + sickH / 2);
+      }
+      if (healthyH > FONT_SIZE + 4) {
+        ctx.fillStyle = "#440154";
+        ctx.fillText("healthy", ox + S + 4, oy + healthyH / 2);
+      }
+    }
+
+    sliderSick.addEventListener("input", draw);
+    sliderPosSick.addEventListener("input", draw);
+    sliderPosH.addEventListener("input", draw);
+    window.addEventListener("resize", draw);
+
+    draw();
+
+    return { draw: draw };
+  }
+
+  window.DependentEvents = { create: createDependentEventsPlot };
+})();</script>
+<div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+<label style="font-weight: bold; min-width: 110px;">P(sick):</label>
+<input type="range" id="sliderSick-dep" min="0" max="1" step="0.01" value="0.1" style="flex: 1; accent-color: #932667;">
+<span id="sliderSick-dep-val" style="font-weight: bold; min-width: 40px; color: #bb3754;">0.10</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+<label style="font-weight: bold; min-width: 110px;">P(+|sick):</label>
+<input type="range" id="sliderPosSick-dep" min="0" max="1" step="0.01" value="0.9" style="flex: 1; accent-color: #932667;">
+<span id="sliderPosSick-dep-val" style="font-weight: bold; min-width: 40px; color: #bb3754;">0.90</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+<label style="font-weight: bold; min-width: 110px;">P(+|healthy):</label>
+<input type="range" id="sliderPosH-dep" min="0" max="1" step="0.01" value="0.1" style="flex: 1; accent-color: #932667;">
+<span id="sliderPosH-dep-val" style="font-weight: bold; min-width: 40px; color: #dd513a;">0.10</span>
+</div>
+<div style="margin-top: 12px;">
+<label style="font-weight: bold; display: block; margin-bottom: 4px;">P(positive) total:</label>
+<div style="position: relative; height: 22px; background: rgba(221, 81, 58, 0.15); border: 1px solid rgba(221, 81, 58, 0.4); border-radius: 4px; overflow: hidden;">
+<div id="barTotal-dep" style="height: 100%; background: linear-gradient(90deg, #bb3754, #dd513a); width: 18%; transition: width 0.15s;"></div>
+</div>
+<span id="labelTotal-dep" style="font-weight: bold; font-size: 13px; color: #dd513a; display: block; margin-top: 4px;">P(+) = 0.18</span>
+</div>
+</div>
+<div style="padding: 8px 0;">
+<canvas id="dep-canvas-dep" style="width: 100%; display: block;"></canvas>
+</div>
+<script>document.addEventListener("DOMContentLoaded", function () {
+  window.DependentEvents.create({
+    canvasId:          "dep-canvas-dep",
+    sliderSickId:      "sliderSick-dep",
+    sliderPosSickId:   "sliderPosSick-dep",
+    sliderPosHealthyId:"sliderPosH-dep",
+    labelSickId:       "sliderSick-dep-val",
+    labelPosSickId:    "sliderPosSick-dep-val",
+    labelPosHealthyId: "sliderPosH-dep-val",
+    barTotalId:        "barTotal-dep",
+    labelTotalId:      "labelTotal-dep"
+  });
+});</script>
+</div>
+</div>
+</section>
+<section id="how-often-positive-is" class="level2">
+<h2 class="anchored" data-anchor-id="how-often-positive-is">How often positive is</h2>
+<div class="cell">
+<div class="cell-output-display">
+<script>// bayes_visual.js — P(sick|positive) via area decomposition
+// Driven by the same sliders as dependent_events.js
+(function () {
+  "use strict";
+
+  var C = window.INFERNO.roles;
+
+  function toSafeProbability(val) {
+    var n = parseFloat(val);
+    if (isNaN(n) || n < 0) return 0;
+    if (n > 1) return 1;
+    return Math.round(n * 100) / 100;
+  }
+
+  function createBayesVisual(cfg) {
+    var canvas        = document.getElementById(cfg.canvasId);
+    var ctx           = canvas.getContext("2d");
+    var sliderSick    = document.getElementById(cfg.sliderSickId);
+    var sliderPosSick = document.getElementById(cfg.sliderPosSickId);
+    var sliderPosH    = document.getElementById(cfg.sliderPosHealthyId);
+
+    // Colors — match dependent_events.js
+    var COL_TRUE_POS  = "rgba(187, 55, 84, 0.85)";
+    var COL_FALSE_POS = "rgba(221, 81, 58, 0.65)";
+    var COL_SPLIT     = "#bb3754";
+    var COL_FP        = "#dd513a";
+    var COL_BG        = "#1a1a2e";
+
+    function draw() {
+      var pSick    = toSafeProbability(sliderSick.value);
+      var pHealthy = 1 - pSick;
+      var pPosSick = toSafeProbability(sliderPosSick.value);
+      var pPosH    = toSafeProbability(sliderPosH.value);
+
+      // Areas (joint probabilities)
+      var areaTP = pPosSick * pSick;        // True Positive area
+      var areaFP = pPosH * pHealthy;        // False Positive area
+      var areaFN = (1 - pPosSick) * pSick;  // False Negative area
+      var pPos   = areaTP + areaFP;         // Total positive
+
+      // Bayes' theorem
+      var pSickGivenPos = (pPos > 0) ? areaTP / pPos : 0;
+
+      // Responsive layout
+      var cssW = canvas.clientWidth;
+      var mobile = cssW < 480;
+      var PAD_LEFT   = mobile ? 10 : 16;
+      var PAD_RIGHT  = mobile ? 10 : 16;
+      var PAD_TOP    = mobile ? 30 : 36;
+      var PAD_BOTTOM = mobile ? 50 : 58;
+      var FONT       = mobile ? 11 : 13;
+      var FONT_SM    = mobile ? 10 : 11;
+
+      var barW = cssW - PAD_LEFT - PAD_RIGHT;
+      var barH = mobile ? 44 : 56;
+      var totalH = PAD_TOP + barH + PAD_BOTTOM;
+
+      canvas.style.height = totalH + "px";
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width  = cssW * dpr;
+      canvas.height = totalH * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, cssW, totalH);
+
+      var ox = PAD_LEFT;
+      var oy = PAD_TOP;
+
+      // --- Title ---
+      var FONT_TITLE = mobile ? 14 : 17;
+      ctx.font         = "bold " + FONT_TITLE + "px sans-serif";
+      ctx.textAlign    = "center";
+      ctx.textBaseline = "bottom";
+      ctx.fillStyle    = C.annotation;
+      ctx.fillText("P(sick | positive) = " + pSickGivenPos.toFixed(4), cssW / 2, oy - 8);
+
+      // --- Background bar (total = 1 scale = pPos) ---
+      ctx.fillStyle = COL_BG;
+      ctx.fillRect(ox, oy, barW, barH);
+
+      // --- 10-division grid on bar ---
+      ctx.strokeStyle = "rgba(120,120,120,0.7)";
+      ctx.lineWidth   = 0.75;
+      ctx.setLineDash([3, 3]);
+      for (var gi = 1; gi < 10; gi++) {
+        ctx.beginPath();
+        ctx.moveTo(ox + gi * barW / 10, oy);
+        ctx.lineTo(ox + gi * barW / 10, oy + barH);
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = C.annotation;
+      ctx.lineWidth   = 1;
+      ctx.strokeRect(ox, oy, barW, barH);
+
+      if (pPos < 0.0001) {
+        // Edge case: nothing positive
+        ctx.font         = FONT + "px sans-serif";
+        ctx.fillStyle    = C.annotation;
+        ctx.textAlign    = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("P(+) \u2248 0", ox + barW / 2, oy + barH / 2);
+        return;
+      }
+
+      // --- True Positive segment (left) ---
+      var tpW = (areaTP / pPos) * barW;
+      ctx.fillStyle = COL_TRUE_POS;
+      ctx.fillRect(ox, oy, tpW, barH);
+
+      // --- False Positive segment (right) ---
+      var fpW = barW - tpW;
+      ctx.fillStyle = COL_FALSE_POS;
+      ctx.fillRect(ox + tpW, oy, fpW, barH);
+
+      // --- Divider line ---
+      if (tpW > 2 && fpW > 2) {
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth   = 2;
+        ctx.beginPath();
+        ctx.moveTo(ox + tpW, oy);
+        ctx.lineTo(ox + tpW, oy + barH);
+        ctx.stroke();
+      }
+
+      // --- Labels inside bar segments ---
+      ctx.textBaseline = "middle";
+      ctx.font = "bold " + FONT + "px sans-serif";
+
+      // TP label
+      var tpLabel = "TP = " + areaTP.toFixed(4);
+      var tpLabelW = ctx.measureText(tpLabel).width;
+      if (tpW > tpLabelW + 10) {
+        ctx.fillStyle = "#fff";
+        ctx.textAlign = "center";
+        ctx.fillText(tpLabel, ox + tpW / 2, oy + barH / 2);
+      }
+
+      // FP label
+      var fpLabel = "FP = " + areaFP.toFixed(4);
+      var fpLabelW = ctx.measureText(fpLabel).width;
+      if (fpW > fpLabelW + 10) {
+        ctx.fillStyle = "#fff";
+        ctx.textAlign = "center";
+        ctx.fillText(fpLabel, ox + tpW + fpW / 2, oy + barH / 2);
+      }
+
+      // --- Bar axis labels ---
+      var FONT_TICK = mobile ? 13 : 15;
+      ctx.font         = "bold " + FONT_TICK + "px sans-serif";
+      ctx.textBaseline = "top";
+      ctx.textAlign    = "left";
+      ctx.fillStyle    = C.annotation;
+      ctx.fillText("0", ox, oy + barH + 5);
+      ctx.textAlign = "right";
+      ctx.fillText("1", ox + barW, oy + barH + 5);
+
+      // Tick at TP/FP boundary
+      if (tpW > 20 && fpW > 20) {
+        ctx.textAlign = "center";
+        ctx.fillStyle = COL_SPLIT;
+        ctx.fillText((pSickGivenPos).toFixed(4), ox + tpW, oy + barH + 5);
+      }
+
+      // --- Percentage annotation ---
+      var pctY = oy + barH + FONT_TICK + 14;
+      ctx.font      = "bold " + FONT + "px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillStyle = COL_SPLIT;
+      ctx.fillText(
+        (pSickGivenPos * 100).toFixed(1) + "% of positive results are truly sick",
+        cssW / 2,
+        pctY
+      );
+    }
+
+    sliderSick.addEventListener("input", draw);
+    sliderPosSick.addEventListener("input", draw);
+    sliderPosH.addEventListener("input", draw);
+    window.addEventListener("resize", draw);
+
+    draw();
+
+    return { draw: draw };
+  }
+
+  window.BayesVisual = { create: createBayesVisual };
+})();</script>
+<div style="padding: 8px 0;">
+<canvas id="bayes-canvas-bayes" style="width: 100%; display: block;"></canvas>
+</div>
+<script>document.addEventListener("DOMContentLoaded", function () {
+  window.BayesVisual.create({
+    canvasId:          "bayes-canvas-bayes",
+    sliderSickId:      "sliderSick-dep",
+    sliderPosSickId:   "sliderPosSick-dep",
+    sliderPosHealthyId:"sliderPosH-dep"
+  });
+});</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<div class="share-buttons">
+
+  <h4>Share this post:</h4>
+
+  <div class="share-links">
+
+    <a href="#" class="share-btn twitter" onclick="shareOnTwitter(); return false;" title="Share on Twitter">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+
+      </svg>
+
+      Twitter
+
+    </a>
+
+    <a href="#" class="share-btn linkedin" onclick="shareOnLinkedIn(); return false;" title="Share on LinkedIn">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+
+      </svg>
+
+      LinkedIn
+
+    </a>
+
+    <a href="#" class="share-btn facebook" onclick="shareOnFacebook(); return false;" title="Share on Facebook">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+
+      </svg>
+
+      Facebook
+
+    </a>
+
+    <a href="#" class="share-btn email" onclick="shareViaEmail(); return false;" title="Share via Email">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+
+        <polyline points="22,6 12,13 2,6"></polyline>
+
+      </svg>
+
+      Email
+
+    </a>
+
+    <a href="#" class="share-btn copy-link" onclick="copyLink(this); return false;" title="Copy link to clipboard">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+
+      </svg>
+
+      <span class="copy-text">Copy Link</span>
+
+    </a>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+  function shareOnTwitter() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    const title = encodeURIComponent(document.title);
+
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
+
+  }
+
+  
+
+  function shareOnLinkedIn() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=600');
+
+  }
+
+  
+
+  function shareOnFacebook() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+
+  }
+
+  
+
+  function shareViaEmail() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    const title = encodeURIComponent(document.title);
+
+    const body = encodeURIComponent(`I thought you might find this interesting: ${window.location.href}`);
+
+    window.location.href = `mailto:?subject=${title}&body=${body}`;
+
+  }
+
+  
+
+  function copyLink(button) {
+
+    navigator.clipboard.writeText(window.location.href).then(function() {
+
+      // Change button text to show success
+
+      const textSpan = button.querySelector('.copy-text');
+
+      const originalText = textSpan.textContent;
+
+      textSpan.textContent = 'Copied!';
+
+      button.classList.add('copied');
+
+      
+
+      // Reset after 2 seconds
+
+      setTimeout(function() {
+
+        textSpan.textContent = originalText;
+
+        button.classList.remove('copied');
+
+      }, 2000);
+
+    }).catch(function(err) {
+
+      console.error('Failed to copy link: ', err);
+
+      alert('Failed to copy link. Please copy it manually from the address bar.');
+
+    });
+
+  }
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2025 Aleksandra. All rights reserved.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,63 @@
+---
+title: ""
+author: "Aleksandra"
+date: "2026-06-28"
+categories: [maths]
+description: ""
+image: "thumb.jpg"
+title-block-banner: true
+books:
+  - title: ""
+    author: ""
+---
+
+## Independent events
+
+```{r}
+#| echo: false
+#| warning: false
+
+source("plot_helpers.R")
+
+.GlobalEnv$.indep_events_engine_loaded <- FALSE
+
+render_independent_plot(
+  js_file        = "independent_events.js",
+  instance       = "indep",
+  controls_html  = create_independent_controls(
+    instance = "indep", default_pA = 0.50, default_pB = 0.40
+  ),
+  container_html = create_independent_container(instance = "indep")
+)
+```
+
+## Dependent events
+
+```{r}
+#| echo: false
+#| warning: false
+
+.GlobalEnv$.dep_events_engine_loaded <- FALSE
+
+render_dependent_plot(
+  js_file        = "dependent_events.js",
+  instance       = "dep",
+  controls_html  = create_dependent_controls(
+    instance = "dep", default_pSick = 0.10, default_pPosSick = 0.90, default_pPosH = 0.10
+  ),
+  container_html = create_dependent_container(instance = "dep")
+)
+```
+
+## How often positive is actually sick?
+```{r}
+#| echo: false
+#| warning: false
+
+render_bayes_plot(
+  js_file        = "bayes_visual.js",
+  dep_instance   = "dep",
+  instance       = "bayes",
+  container_html = create_bayes_container(instance = "bayes")
+)
+```
