@@ -126,6 +126,29 @@ hr {
   }
 }
 
+/* Comments section */
+.comments-section {
+  margin: 2.5rem 0 2rem 0;
+  padding: 1.2rem 0;
+  border-top: 1px solid #e8e6e0;
+}
+
+.comments-section h4 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comments-note {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 1.2rem;
+}
+
 /* Remove right ToC margin on mobile devices */
 @media (max-width: 991.98px) {
   /* Target Quarto's column layout */
