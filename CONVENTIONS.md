@@ -135,3 +135,31 @@ Grids are off by default (`showgrid = FALSE`) unless the plot specifically benef
 - Generate hashes: download file → SHA-384 → base64 → prefix with `sha384-`.
 - Pin exact versions (e.g., `@2.27.0`) — never use `@latest` or unversioned CDN URLs.
 - If upgrading a library version, regenerate the SRI hash.
+
+## 9. Deployment Workflow
+
+The site is hosted on GitHub Pages and served directly from the `docs/` folder on the `main` branch. **There is no CI/CD pipeline** — the built HTML must be committed manually. If source files are merged without a fresh render, the live site stays stale.
+
+### Checklist before every merge to `main`
+
+1. **Render the site locally:**
+   ```powershell
+   quarto render
+   ```
+   If you edited `.R` helpers or `.js` files, clear the freeze cache first (see Section 5).
+
+2. **Stage and commit the rebuilt `docs/`** alongside the source changes:
+   ```powershell
+   git add docs/
+   git commit -m "rebuild docs: <short description>"
+   ```
+
+3. **Push to `main`:**
+   ```powershell
+   git push origin main
+   ```
+   GitHub Pages deploys automatically within ~1–2 minutes after the push.
+
+### Why this matters
+
+Quarto source files (`.qmd`, `.R`, `.js`) live in `posts/` and are **not** what GitHub Pages serves. The built HTML in `docs/` is what goes live. A PR that only touches source files without a corresponding `docs/` rebuild will never appear on the site.
