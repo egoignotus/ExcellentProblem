@@ -8,7 +8,6 @@ An index of books and blogs mentioned — directly or indirectly — across the 
 
 | Book | Author | Post |
 |------|--------|------|
-| ** |  | [](posts/2026-06-28-probability/index.qmd) |
 | *Adventures of a Cello* | Carlos Prieto | [Different Shades of Genius](posts/2026-04-03-different-shades-of-genius/index.qmd) |
 | *Atomic Habits* | James Clear | [Relying on Side Effects](posts/2026-05-31-relying-on-side-effects/index.qmd) |
 | *Harry Potter and the Half-Blood Prince* | J.K. Rowling | [Tortured Neighbours Association](posts/2026-03-15-tortured-neighbours-association/index.qmd) |

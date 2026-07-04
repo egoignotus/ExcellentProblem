@@ -1,14 +1,11 @@
 ---
-title: ""
+title: "The Hugly Truth"
 author: "Aleksandra"
 date: "2026-07-04"
-categories: [maths]
+categories: [interactive, math]
 description: "It happened again: I got fooled by a probability puzzle."
 image: "thumb.jpg"
 title-block-banner: true
-books:
-  - title: ""
-    author: ""
 ---
 
 It happened again: I got fooled by a probability puzzle. It is even more annoying because I know exactly why: I followed the effortless intuition when I should have pursued a mundane calculation. The puzzle was stated more or less like this:
@@ -25,9 +22,7 @@ _D) 50%_
 
 A classical conditional probability puzzle, this I recognized. I also recalled that they are tricker than they look and, afterwards, no extra effort invested, I chose answer C. Wrong. 
 
-So in today’s post I decided to build a little tool that visualizes conditional probability puzzles and hopefully prevents me from falling into the trap again. Given that I am writing with the ambition that it might help some of you too, let’s take a step back and first learn to recognize such puzzles. Any pair of future events is a candidate. 
-
-## On a Search for a Puzzle
+So in today’s post I decided to build a little tool that visualizes conditional probability puzzles and hopefully prevents me from falling into the trap again. Given that I am writing with the ambition that it might help some of you too, let’s take a step back and first learn to recognize such puzzles. Before returning to Hugly, let’s just look at future events in general.
 
 If you think about any two future events, they are either independent or dependent on each other.  For example, a chance that my daughter will learn to ride a bike on her own before her third birthday and a chance that, between now and the end of August, the average temperature in Melbourne will be greater than 12^o^C are independent. We can assign both events a number from 0 to 1 and represent them on two perpendicular sides of a square:
 
@@ -53,7 +48,11 @@ A square with side length of 1 is an extremely powerful visualization tool: conv
 
 You decide the probabilities of the individual events using the sliders. Easy-peasy. Just when assigning probability that NV will be going crazy on two wheels before end of summer, keep in mind that we live in Flanders, in a city where there are more bikes than inhabitants. 
 
-__PICTURE GSP__
+::: {#fig1-gsp}
+![](gsp.jpg)
+
+Snapshot of the train station bike parking.  
+:::
 
 In practice, it is surprisingly hard to find events that are completely unrelated. Even though we are not planning a trip to Melbourne in the coming months and have no particular reason to go there, you should never say never – we all have valid passports. And if we did end up in Melbourne before the end of the northern summer, right in the middle of the southern winter, it would affect our daughter’s ability to practice riding a bike and, consequently, her chances of learning to ride before her birthday. And you can build a similar of reasoning for almost any pair of future events. 
 
