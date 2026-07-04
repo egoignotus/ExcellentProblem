@@ -192,7 +192,7 @@
 
       ctx.font      = "bold " + FONT_TITLE + "px sans-serif";
       ctx.fillStyle = C.annotation;
-      ctx.fillText("P(+|sick)", ox + S / 2, oy + S + FONT_TICK + 10);
+      ctx.fillText("P(+|Hugly)", ox + S / 2, oy + S + FONT_TICK + 10);
 
       // --- Top X-axis: P(positive|healthy) ---
       ctx.font         = "bold " + FONT_TICK + "px sans-serif";
@@ -234,7 +234,7 @@
       ctx.rotate(-Math.PI / 2);
       ctx.textAlign    = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText("P(sick)", 0, 0);
+      ctx.fillText("P(Hugly)", 0, 0);
       ctx.restore();
 
       // --- Strip labels on right side ---
@@ -244,7 +244,7 @@
 
       if (sickH > FONT_SIZE + 4) {
         ctx.fillStyle = COL_SPLIT;
-        ctx.fillText("sick", ox + S + 4, oy + healthyH + sickH / 2);
+        ctx.fillText("Hugly", ox + S + 4, oy + healthyH + sickH / 2);
       }
       if (healthyH > FONT_SIZE + 4) {
         ctx.fillStyle = "#440154";

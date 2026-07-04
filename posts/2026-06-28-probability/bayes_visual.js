@@ -71,7 +71,7 @@
       ctx.textAlign    = "center";
       ctx.textBaseline = "bottom";
       ctx.fillStyle    = C.annotation;
-      ctx.fillText("P(sick | positive) = " + pSickGivenPos.toFixed(4), cssW / 2, oy - 8);
+      ctx.fillText("P(Hugly | positive) = " + pSickGivenPos.toFixed(4), cssW / 2, oy - 8);
 
       // --- Background bar (total = 1 scale = pPos) ---
       ctx.fillStyle = COL_BG;
@@ -168,7 +168,7 @@
       ctx.textAlign = "center";
       ctx.fillStyle = COL_SPLIT;
       ctx.fillText(
-        (pSickGivenPos * 100).toFixed(1) + "% of positive results are truly sick",
+        (pSickGivenPos * 100).toFixed(1) + "% of positive results are truly Hugly",
         cssW / 2,
         pctY
       );

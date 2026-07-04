@@ -116,7 +116,7 @@
 
       // x-axis title
       ctx.fillStyle = C.annotation;
-      ctx.fillText("P(A)", ox + S / 2, oy + S + FONT_SIZE + 10);
+      ctx.fillText("P(\uD83D\uDEB2)", ox + S / 2, oy + S + FONT_SIZE + 10);
 
       // y-axis: 0 and 1
       ctx.textAlign    = "right";
@@ -147,7 +147,7 @@
       ctx.rotate(-Math.PI / 2);
       ctx.textAlign    = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText("P(B)", 0, 0);
+      ctx.fillText("P(\uD83E\uDD98)", 0, 0);
       ctx.restore();
 
       // --- legend inside the square ---
@@ -166,23 +166,23 @@
       ctx.strokeStyle = C.lineA; ctx.lineWidth = 1;
       ctx.strokeRect(legX, legY, 14, 14);
       ctx.fillStyle = C.lineA;
-      ctx.fillText("P(A)", legX + 20, legY + 1);
+      ctx.fillText("P(\uD83D\uDEB2)", legX + 20, legY + 1);
 
-      // P(B) swatch
+      // P(🦘) swatch
       ctx.fillStyle = "rgba(221, 81, 58, 0.25)";
       ctx.fillRect(legX, legY + 20, 14, 14);
       ctx.strokeStyle = C.lineB; ctx.lineWidth = 1;
       ctx.strokeRect(legX, legY + 20, 14, 14);
       ctx.fillStyle = C.lineB;
-      ctx.fillText("P(B)", legX + 20, legY + 21);
+      ctx.fillText("P(\uD83E\uDD98)", legX + 20, legY + 21);
 
-      // P(A∩B) swatch
+      // P(🚲∩🦘) swatch
       ctx.fillStyle = "rgba(187, 55, 84, 0.55)";
       ctx.fillRect(legX, legY + 40, 14, 14);
       ctx.strokeStyle = "#bb3754"; ctx.lineWidth = 1;
       ctx.strokeRect(legX, legY + 40, 14, 14);
       ctx.fillStyle = "#bb3754";
-      ctx.fillText("P(A\u2229B)", legX + 20, legY + 41);
+      ctx.fillText("P(\uD83D\uDEB2\u2229\uD83E\uDD98)", legX + 20, legY + 41);
     }
 
     sliderX.addEventListener("input", draw);

@@ -1,9 +1,9 @@
 ---
 title: ""
 author: "Aleksandra"
-date: "2026-06-28"
+date: "2026-07-04"
 categories: [maths]
-description: ""
+description: "It happened again: I got fooled by a probability puzzle."
 image: "thumb.jpg"
 title-block-banner: true
 books:
@@ -11,7 +11,25 @@ books:
     author: ""
 ---
 
-## Independent events
+It happened again: I got fooled by a probability puzzle. It is even more annoying because I know exactly why: I followed the effortless intuition when I should have pursued a mundane calculation. The puzzle was stated more or less like this:
+
+_A disease called Hugly occurs in 10% of the population, P(Hugly)=0.1. When a sick person is tested, the test returns positive result 90% of the time, P(+|Hugly)=0.9, whereas when a healthy person is tested, the test returns positive result 10% of the time, P(-|Hugly)=0.1. Given a person has received a positive test result, how likely is he Hugly, P(Hugly|+)?_
+
+_A) 99%_ 
+
+_B) 90%_ 
+
+_C) 67%_ 
+
+_D) 50%_ 
+
+A classical conditional probability puzzle, this I recognized. I also recalled that they are tricker than they look and, afterwards, no extra effort invested, I chose answer C. Wrong. 
+
+So in today’s post I decided to build a little tool that visualizes conditional probability puzzles and hopefully prevents me from falling into the trap again. Given that I am writing with the ambition that it might help some of you too, let’s take a step back and first learn to recognize such puzzles. Any pair of future events is a candidate. 
+
+## On a Search for a Puzzle
+
+If you think about any two future events, they are either independent or dependent on each other.  For example, a chance that my daughter will learn to ride a bike on her own before her third birthday and a chance that, between now and the end of August, the average temperature in Melbourne will be greater than 12^o^C are independent. We can assign both events a number from 0 to 1 and represent them on two perpendicular sides of a square:
 
 ```{r}
 #| echo: false
@@ -31,7 +49,17 @@ render_independent_plot(
 )
 ```
 
-## Dependent events
+A square with side length of 1 is an extremely powerful visualization tool: conveniently, its area is one, so it is perfect to represent total probability which is also always equal one. The probability of each event can be read from the respective sides. The probability that both events will happen is the overlap area in the lower-left corner, whereas the chance that neither of them will occur is the area of the rectangle in the upper-right corner. 
+
+You decide the probabilities of the individual events using the sliders. Easy-peasy. Just when assigning probability that NV will be going crazy on two wheels before end of summer, keep in mind that we live in Flanders, in a city where there are more bikes than inhabitants. 
+
+__PICTURE GSP__
+
+In practice, it is surprisingly hard to find events that are completely unrelated. Even though we are not planning a trip to Melbourne in the coming months and have no particular reason to go there, you should never say never – we all have valid passports. And if we did end up in Melbourne before the end of the northern summer, right in the middle of the southern winter, it would affect our daughter’s ability to practice riding a bike and, consequently, her chances of learning to ride before her birthday. And you can build a similar of reasoning for almost any pair of future events. 
+
+Which brings me to the actual puzzle I wanted to dissect here: one involving events that are clearly dependent on each other. Whether someone is sick and whether he receives a positive test result are two events dependent on each other. And this dependency changes how we have to express the probability of a positive result – because it matters whether a the tested person is sick or healthy. 
+
+Ok, I’ll shut up and draw:
 
 ```{r}
 #| echo: false
@@ -49,7 +77,6 @@ render_dependent_plot(
 )
 ```
 
-## How often positive is actually sick?
 ```{r}
 #| echo: false
 #| warning: false
@@ -61,3 +88,15 @@ render_bayes_plot(
   container_html = create_bayes_container(instance = "bayes")
 )
 ```
+
+Adjusting the sliders to match the data from the puzzle introduced in the beginning of this post,  we can easily recover the answer: 50% (it is the default setting, but you are invited to play with the sliders as much as you wish, to test other probability values). 50% is the probability of being sick given a positive test result. In this case, among people who test positive, being sick and being healthy are equally likely. Ridiculous, isn’t it? And if you adjust P(Hugly) to 0.01,  P(Hugly|+) drops to 9%!
+
+Is there something wrong with the puzzle or with the test? I mean, math is correct, but it seems hard to justify using a test with parameters like these in practice. Or does it?
+
+I find it very difficult to imagine undergoing a diagnostic test and, after getting a positive result, still being more likely to be healthy than sick. In reality, people are often tested because they display signs of being sick. In that case, you are not a random sample from the population; you are an individual from a subset “showing symptoms” – and that is the crucial detail these puzzles usually fail to mention. They implicitly assume that the tested person is a random member of the population.
+
+However, there are situations where the puzzle is highly relevant: it is when you are dealing with a screening test. If you are healthy, simply coming for a routine check-up, and doctor sends a sample for screening. Then, you are actually a random sample from a primarily healthy population; perhaps from a subset “aware ones”. This draws a clear line between diagnostic and screening tests: you are diagnosed when you show symptoms; you are screened when you are healthy as a horse. 
+
+This realization led me to ask: what are the selectivity ranges for diagnostic and screening tests in practice? The funny thing is that there are no strict ranges that a test has to fall into. The test’s utility is decided based on the harm a false positive would cause. For conditions where additional cross checks are available, a cheap test with sensitivity 80% (1 false positive in every 5 healthy individuals) might be a part of the diagnostic pipeline. A test of which positive result would qualify a person for an invasive procedure has to have orders of magnitude higher sensitivity (99% or 99.9%). Still, without deliberate thinking 80% or 90% selectivity does not sound low. I wonder how doctors communicate such conditional results to their patients. 
+
+I learned a lot writing this post; it went through more rewrites than any other, which explains the delay. I hope I am not the only one who could learn with this material, and that you can use the visual to test some crazy conditional probability scenarios. Thank you for reading. 

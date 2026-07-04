@@ -42,8 +42,8 @@ create_independent_controls <- function(instance,
       "margin-bottom: 20px; padding: 15px; ",
       "background-color: ", panel_bg, "; border-radius: 8px;"
     ),
-    make_slider_row("P(A)", paste0("sliderPA-", instance), default_pA),
-    make_slider_row("P(B)", paste0("sliderPB-", instance), default_pB)
+    make_slider_row("P(\U0001F6B2)", paste0("sliderPA-", instance), default_pA),
+    make_slider_row("P(\U0001F998)", paste0("sliderPB-", instance), default_pB)
   )
 }
 
@@ -145,8 +145,8 @@ create_dependent_controls <- function(instance,
       "margin-bottom: 20px; padding: 15px; ",
       "background-color: ", panel_bg, "; border-radius: 8px;"
     ),
-    make_slider_row("P(sick)",        paste0("sliderSick-", instance),    default_pSick,    "#bb3754"),
-    make_slider_row("P(+|sick)",      paste0("sliderPosSick-", instance), default_pPosSick, "#bb3754"),
+    make_slider_row("P(Hugly)",       paste0("sliderSick-", instance),    default_pSick,    "#bb3754"),
+    make_slider_row("P(+|Hugly)",     paste0("sliderPosSick-", instance), default_pPosSick, "#bb3754"),
     make_slider_row("P(+|healthy)",   paste0("sliderPosH-", instance),    default_pPosH,    "#dd513a"),
     # Total probability bar (read-only)
     htmltools::tags$div(
