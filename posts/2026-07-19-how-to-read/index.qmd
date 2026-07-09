@@ -26,7 +26,7 @@ title-block-banner: true
 It is the summer holiday season, and I am happily putting together a list of books I would love to read this summer. I will likely not even get halfway through it, but that is rather the goal. An overambitious reading list is excellent insurance against point 5. Feel free to share your own types, the comments section is now open. 
 
 ::: {#fig1-fnf}
-![](fiction-nonfiction.jpg.jpg)
+![](fiction-nonfiction.jpg)
 :::
 
 Instead of sharing my summer list, I am sharing something even better: books for which I gave up sleep, took a day off, or cancelled social arrangements. Or all three at once. I don’t think of myself as a particularly jealous person, but if you still get to read one of these for the first time, I am genuinely jealous:
@@ -44,4 +44,4 @@ Instead of sharing my summer list, I am sharing something even better: books for
 •	*1Q84* by Haruki Murakami
 •	*Hot Chocolate on Thursday* by Michiko Aoyama
 
-
+Happy reading and thank you for reading. 
