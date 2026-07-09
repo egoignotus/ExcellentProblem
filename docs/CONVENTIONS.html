@@ -293,6 +293,11 @@ window.INFERNO = {
   <li><a href="#input-sanitization" id="toc-input-sanitization" class="nav-link" data-scroll-target="#input-sanitization">Input Sanitization</a></li>
   <li><a href="#cdn-subresource-integrity-sri" id="toc-cdn-subresource-integrity-sri" class="nav-link" data-scroll-target="#cdn-subresource-integrity-sri">CDN Subresource Integrity (SRI)</a></li>
   </ul></li>
+  <li><a href="#deployment-workflow" id="toc-deployment-workflow" class="nav-link" data-scroll-target="#deployment-workflow">9. Deployment Workflow</a>
+  <ul class="collapse">
+  <li><a href="#checklist-before-every-merge-to-main" id="toc-checklist-before-every-merge-to-main" class="nav-link" data-scroll-target="#checklist-before-every-merge-to-main">Checklist before every merge to <code>main</code></a></li>
+  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why this matters</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -519,6 +524,28 @@ legend orientation = "h", centered below plot</code></pre>
 <li>Pin exact versions (e.g., <code>@2.27.0</code>) — never use <code>@latest</code> or unversioned CDN URLs.</li>
 <li>If upgrading a library version, regenerate the SRI hash.</li>
 </ul>
+</section>
+</section>
+<section id="deployment-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-workflow">9. Deployment Workflow</h2>
+<p>The site is hosted on GitHub Pages and served directly from the <code>docs/</code> folder on the <code>main</code> branch. <strong>There is no CI/CD pipeline</strong> — the built HTML must be committed manually. If source files are merged without a fresh render, the live site stays stale.</p>
+<section id="checklist-before-every-merge-to-main" class="level3">
+<h3 class="anchored" data-anchor-id="checklist-before-every-merge-to-main">Checklist before every merge to <code>main</code></h3>
+<ol type="1">
+<li><p><strong>Render the site locally:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>quarto render</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you edited <code>.R</code> helpers or <code>.js</code> files, clear the freeze cache first (see Section 5).</p></li>
+<li><p><strong>Stage and commit the rebuilt <code>docs/</code></strong> alongside the source changes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>git add docs<span class="op">/</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>git commit <span class="op">-</span>m <span class="st">"rebuild docs: &lt;short description&gt;"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Push to <code>main</code>:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>git push origin main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>GitHub Pages deploys automatically within ~1–2 minutes after the push.</p></li>
+</ol>
+</section>
+<section id="why-this-matters" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters">Why this matters</h3>
+<p>Quarto source files (<code>.qmd</code>, <code>.R</code>, <code>.js</code>) live in <code>posts/</code> and are <strong>not</strong> what GitHub Pages serves. The built HTML in <code>docs/</code> is what goes live. A PR that only touches source files without a corresponding <code>docs/</code> rebuild will never appear on the site.</p>
 
 
 </section>
