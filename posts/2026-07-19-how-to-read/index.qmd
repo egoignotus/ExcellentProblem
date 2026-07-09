@@ -3,7 +3,7 @@ title: "How to Read"
 author: "Aleksandra"
 date: "2026-07-19"
 categories: [ideas, books]
-description: "And what is your reading list for this summer?"
+description: "And what is your reading list (for this summer)?"
 image: "thumb.jpg"
 title-block-banner: true
 ---
