@@ -26,7 +26,7 @@ However, none of my readings provided a convincing explanation of why wheat, in 
 ::: {#fig1-summer-wheat}
 ![](summer_wheat.jpg)
 
-Sumerian cylinder seal impression dating to c. 3200 BC. [Source:](https://en.wikipedia.org/wiki/Wheat#/media/File:UrukPlate3000BCE.jpg)  
+Sumerian cylinder seal impression dating to c. 3200 BC. [Source](https://en.wikipedia.org/wiki/Wheat#/media/File:UrukPlate3000BCE.jpg)  
 :::
 
 Imagine preparing land to be able to grow something that cannot be eaten as is, requires multiple non-intuitive processing steps with specialized tools and at all the effort yields a tasteless powder. That is not the kind of work humans usually opt for, at least not the humans that I know. We get a kick from sweet and salty, and a warning from sour and bitter. But wheat gives no immediate signal.
@@ -59,7 +59,7 @@ The benefit of being proven wrong is that afterwards you are a little less wrong
 
 [^1]: One of the great benefits of knowing polish is to be able to listen to [this podcast](https://radionaukowe.pl/podcast/prapolska-jak-pierwsi-rolnicy-wyparli-lowcow-zbieraczy-prof-iwona-sobkowiak-tabaka/)
 [^2]: A book that made great impression on me was “Na początku był głód” by Marek Konarzewski.
-[^3]: Scientist are quite agreed upon that a nomad was "working" fewer hours a day to get their food, much less than early farmers had to.
+[^3]: Scientist are quite agreed upon that nomads were "working" fewer hours a day to get their food, much less than early farmers had to.
 [^4]: Next to harvesting, requires peeling and milling, mixing with water/eggs, and still does not taste even remotely as good as berries do?
 [^5]: Given that we practice any form of sedentary lifestyle only for ~eleven centuries, is a valid argument why, on average, we are such bad long-term planners.
 [^6]: 2020 paper from Balkans
