@@ -31,9 +31,15 @@ Sumerian cylinder seal impression dating to c. 3200 BC. [Source](https://en.wiki
 
 Imagine preparing land to be able to grow something that cannot be eaten as is, requires multiple non-intuitive processing steps with specialized tools and at all the effort yields a tasteless powder. That is not the kind of work humans usually opt for, at least not the humans that I know. We get a kick from sweet and salty, and a warning from sour and bitter. But wheat gives no immediate signal.
 
-The point for wheat is that you can store it. How far you can get if you store a thing of value, you see later in history with money. As wheat precedes money in time, it might have been the first time people could start thinking long-term, beyond the current season [^5]. And even though wheat does not arouse our taste buds, it sends another signal: signal of fullness (albeit belated). Another “for” argument is that sedentary women could have kids more often. There is a fascinating study from __XXX researchers__ that compares mineralized tissue patterns in teeth of nomadic vs sedentary women[^6]. 
+The point for wheat is that you can store it. How far you can get if you store a thing of value, you see later in history with money. As wheat precedes money in time, it might have been the first time people could start thinking long-term, beyond the current season [^5]. And even though wheat does not arouse our taste buds, it sends another signal: signal of fullness (albeit belated). Another “for” argument is that sedentary women could have kids more often. There is a fascinating study from Serbian researchers that compares mineralized tissue patterns in teeth of nomadic vs sedentary women[^6]. 
 
 Penzić and colleagues elegantly combined two facts: first, that from the beginning of time, pregnancy has been a woman’s greatest metabolic stressor; and second, that periodic patterns in tooth cementum - read in a way similar to tree rings - are perturbed in the presence of major stress. As a consequence, they developed an approach to determine how many times a female was pregnant. Having teeth from both nomadic and sedentary women at their disposal, they showed that, on average, sedentary women were pregnant more frequently than their nomadic peers.
+
+::: {#fig2-tooth-cementum}
+![](tooth-cementum.jpg)
+
+Mineralized tissue patterns in tooth cementum. Figure 2 from [Source](https://www.sciencedirect.com/science/article/pii/S0305440320301382)  
+:::
 
 Although I find the study captivating, I struggle to weight the fertility argument against the emergence of zoonotic diseases. If over the course of a lifetime a person might experienced a few epidemics that decimated the population, does it really matter there were more children per woman?[^7] 
 
@@ -58,10 +64,10 @@ My last sin was failing to appreciate the power of time. It is funny, because I 
 The benefit of being proven wrong is that afterwards you are a little less wrong. And being a tiny bit closer to the truth is something, isn’t it? Thank you for reading.
 
 [^1]: One of the great benefits of knowing polish is to be able to listen to [this podcast](https://radionaukowe.pl/podcast/prapolska-jak-pierwsi-rolnicy-wyparli-lowcow-zbieraczy-prof-iwona-sobkowiak-tabaka/)
-[^2]: A book that made great impression on me was “Na początku był głód” by Marek Konarzewski.
+[^2]: A book that made great impression on me was _Na początku był głód_ by Marek Konarzewski.
 [^3]: Scientist are quite agreed upon that nomads were "working" fewer hours a day to get their food, much less than early farmers had to.
 [^4]: Next to harvesting, requires peeling and milling, mixing with water/eggs, and still does not taste even remotely as good as berries do?
 [^5]: Given that we practice any form of sedentary lifestyle only for ~eleven centuries, is a valid argument why, on average, we are such bad long-term planners.
-[^6]: 2020 paper from Balkans
+[^6]: [Stressful times for women - Increased physiological stress in Neolithic females detected in tooth cementum](https://www.sciencedirect.com/science/article/pii/S0305440320301382)
 [^7]: Also, a direct casual link between more pregnancies and more children is not so straightforward. Without data on newborn mortality (which I assume it was higher among sedentary women) it is impossible to say how more pregnancies contributed to population growth.
 [^8]: Millennia later, the same effect took its tool when Europeans “discovered” America and their germs were as effective at decimating the native population as their guns were - more on this in _Guns, Germs, and Steel_ by Jared Diamond
