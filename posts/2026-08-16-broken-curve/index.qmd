@@ -67,7 +67,7 @@ plot_ly() %>%
   )
 ```
 
-Mendeleev’s data are shown in cold blue at 0^o^C and bright yellow at 30^o^C. Yes, he was able to measure water-ethanol mixtures at 0^o^C, because these solutions freeze at -20^o^C and below. You can see that, at each temperature, contraction reaches its maximum at the same alcohol to water mass ratio, ~47.5:52.5. However, I must not shy away from the fact that what grabs my attention most is not the maximum on the plot, but the broken 20^o^C curve. And now the modest plot starts doing more than showing data: it leads me to two unexpected reflections.
+Mendeleev’s data are shown in cold blue at 0^o^C and bright yellow at 30^o^C. Yes, he was able to measure water-ethanol mixtures at 0^o^C, because these solutions freeze at -20^o^C and below. You can see that, at each temperature, contraction reaches its maximum at the same alcohol to water mass ratio, ~45.7:54.3. However, I must not shy away from the fact that what grabs my attention most is not the maximum on the plot, but the broken 20^o^C curve. And now the modest plot starts doing more than showing data: it leads me to two unexpected reflections.
 
 This is the first time in this blog that I present a function at different temperatures, and I find it oddly fulfilling. I find it fulfilling because the color palette I use across the blog is called inferno. You know, like “hell”. And what in hell could have inspired such colors? Temperature gradient  - flames. I could easily write a post on the utility, readability and overall superiority of the inferno palette – and maybe one day I will. The point is that the temperature gradient in Mendeleev’s data lines up with the color gradient of flames. High five, Dmitri!
 
