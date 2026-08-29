@@ -1,0 +1,44 @@
+---
+title: "Praise of Boredom"
+author: "Aleksandra"
+date: "2026-08-29"
+categories: [ideas, parenting]
+description: "The new school year is just around the corner."
+image: "thumb.jpg"
+title-block-banner: true
+books:
+	# - title: "Book title"
+	#   author: "Author name"
+---
+
+The new school year is just around the corner. As a working parent of three relatively young kids, I am counting down the days to 1st September, after 8+ weeks of juggling camps, lunch boxes, sunscreen, different locations, cancellations, travels, delays and, most of all, [packing luggage](https://excellentproblem.com/posts/2026-08-16-broken-curve/). School brings structure and I am not sure whether my kids need it, but I certainly do – to navigate everyday life. Or simply to stay sane, if you will.
+
+Besides school itself, many children will return to packed schedules. In the bubble I live, children are sometimes even busier than their working parents. I know many parents who will argue, heart and soul, that every child needs to practise at least one sport and pursue one artistic activity. I generally agree with most of their arguments (“to build stamina”, “to build character”, “to have friends outside school”, but not necessarily “they will understand and thank me later”). Yet, I also see this as a middle-class trap (“I can afford it”, “Myself I always wanted to play the piano”, “All my colleagues send their kids to X and Y”). First and foremost, however, I believe that childhood is the time to provide children with the luxury of boredom.
+
+Why allow boredom? A bored brain is a brain at idle. It is running, but the engine is resting, ready to shift into a gear at any moment. Curiosity, that great spontaneous spark, is much more likely to appear when the brain is idling than while it is busy with something. My theory is that this is why little kids ask far more “why” questions than we adults do. Surely, children want explanations of the world around them. Yet surprise and curiosity often hide behind their whys. A 3-year-old has no occupation whatsoever, her brain is idling all the time and she can burn every kJ of energy going down why-rabbit holes, often without noticing it[^1]. Curiosity is essential for internal motivation, the grit that keeps you focused and allows to pursue an interest. With internal motivation, parental reminders are unnecessary, and so do school marks. Yes, internal motivation is the Holy Grail of my parenting. So far I have never seen it, but it is too beautiful a story not to believe in. Still, even though I never seen internal motivation in my kids, I have caught many glimpses of it: in the endless whys. Mundane as they may seem, these whys deserve to be taken seriously. 
+
+I am a firm believer that boredom is necessary and, in the right dosage, can do magic. Determining the right dosage might be tricky; it is likely different for every child. But what I find even more difficult than finding the right dosage, is creating supportive environment for boredom. 
+
+Hold on: it is not as crazy as it sounds, but it is defining such environment is difficult. In the following paragraph, I will explain what I mean by a supportive environment, starting with what it is not. 
+
+A supportive environment for boredom does not mean leaving a child in a sort of prison: closed room, empty walls, no sounds, nothing to occupy them. Nor does it mean leaving a child with a tablet or in front of the TV, with no curated set of apps or programs[^2]. I would not leave any books within reach either. 
+
+::: {#fig1-sky}
+![](sky.jpg)
+:::
+
+For my kids, the perfect environment for boredom would be outdoors, preferably countryside, with some water to play in (but not to sink), some trees to climb and some fruit to pick. For the picture not to be so idyllic, I would add an element of discomfort. I would ask my nine-year-old to do a simple task – for example, collect mown grass. His deep aversion to  chores might lead to ingenious solutions. In contrast, I would just leave my six-year-old on his own, because he would probably do the task without much hesitation. For him, the element of discomfort would be that climbing a tree does not come easily. Then I would leave them in such environment, unsupervised, for a day.
+
+“Well done Aleksandra. It is a perfect lab setup - which is never the reality”, you might say. Agreed. But lab setups do not pretend to be reality, lab setups are to model reality. And to give us some more control over the outcomes. In real life, the closest I can get to this ideal setup is when a healthy kid stays home for a day. One at a time. And then, these imperfect but real situation can still benefit from the model:
+
+- limited supervision (I need to work, so they get very little attention from me during the day)
+- Limited screen time until later in the day (“you can watch Netflix while I am in an important meeting at 2 p.m.”)
+- Little discomfort (“if you go outside to play, please take out the trash; if you stay home, just unload the dishwasher”)
+
+Does it work? Well, my success in sparking curiosity usually shares an adjective with supervision and screen time: it is limited. But it happens that my nine-year-old makes a tasty new snack from what is in the fridge or my six-year-old matches shapes of home appliances with the letters he learnt. Also, the described opportunity for boredom is accidental, and if I want to find the Holy Grail I need a more systematic approach. Therefore, I give my kids at least two free afternoons during the working week and one agenda-free day during the weekend. Full stop.
+
+I know that many parents would disagree with me and consider boredom a plague to fight. The thing is, we have more in common than it might initially seem. In essence, we share the same goal: we both want to raise happy children who spend their time doing something they enjoy. I would even go so far as to say that we both want our children to be internally motivated, without tying their well-being to whether or not they receive a pat on their back. That said, we choose different means to achieve this goal. They believe that maximizing the offer of extracurricular activities[^3] will help their kid eventually stumble upon something they enjoy. Surely, it might happen and it often does. To me, though, this means opting for an edge scenario and edge scenarios are rarely optimal choices (I encourage you to read [Survival of the Diversified](https://excellentproblem.com/posts/2026-05-01-survival-of-the-diversified/)). If we treated the boredom-occupation spectrum as a parameter and assigned it a value, they would choose for 1 ([again, read SoD](https://excellentproblem.com/posts/2026-05-01-survival-of-the-diversified/)). I would choose something closer to  0.4 ± 0.2, depending on the child’s age. And what is your number? Thank you for reading.
+
+[^1]: I admit, without shame, that sometimes, to break the loop, I answer my three-year-old’s “why” with an open question. It works, so far. 
+[^2]: I am not demonizing technology. I think leaving a child who can read and write with unrestricted access to tablet is like leaving him on the streets of New York. Both are full of opportunities. 
+[^3]: Funny enough, in the country where I live (Belgium) extracurricular activities are called “hobbies”. There are many imperfect borrowings from other languages, but one that misses the mark so completely is worth noting. A hobby is something a person chooses to do and enjoys doing.
