@@ -4,6 +4,7 @@ author: "Aleksandra"
 date: "2026-09-13"
 categories: [ideas, evolution]
 description: "The question I’ve always wanted to answer — but no one ever asks."
+image: "thumb.jpg"
 title-block-banner: true
 books:
 	# - title: "Book title"
