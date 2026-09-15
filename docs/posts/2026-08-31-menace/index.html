@@ -281,6 +281,9 @@ window.INFERNO = {
 
 
 
+<div id="fig-menace-move-one" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-move1" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
@@ -461,6 +464,15 @@ Center
 document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); });</script>
 </div>
 </div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: On an empty board, rotations and reflections reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the centre.
+</figcaption>
+</figure>
+</div>
+<div id="fig-menace-move-two" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-move2" style="display: flex; align-items: flex-start; justify-content: center; gap: 40px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
@@ -470,7 +482,7 @@ document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); })
 <b>7</b>
  distinct moves
 </div>
-<div style="font-size: 11px; color: #aaa;">no symmetry left</div>
+<div style="font-size: 11px; color: #aaa;">no symmetry left (#6)</div>
 </div>
 <div style="text-align: center;">
 <canvas id="fig-move2-b" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
@@ -478,11 +490,19 @@ document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); })
 <b>4</b>
  distinct moves
 </div>
-<div style="font-size: 11px; color: #aaa;">mirror symmetry</div>
+<div style="font-size: 11px; color: #aaa;">mirror symmetry (#10)</div>
+</div>
+<div style="text-align: center;">
+<canvas id="fig-move2-c" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>4</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">mirror symmetry (#12)</div>
 </div>
 </div>
 <script>// =============================================================
-// Move 2 Symmetry Figure — Two board states after X and O each
+// Move 2 Symmetry Figure — Three board states after X and O each
 // played once. Empty cells colored by symmetry orbit to show
 // how many distinct 3rd-move options MENACE sees.
 // =============================================================
@@ -506,25 +526,24 @@ document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); })
     return ctx;
   }
 
-  // Orbit fill colors — visually distinct, semi-transparent
+  // Orbit colors match the engine's bead palette.
   var ORBIT_FILLS = [
-    'rgba(66, 10, 104, 0.22)',    // 0: dark purple
-    'rgba(147, 38, 103, 0.22)',   // 1: magenta
-    'rgba(221, 81, 58, 0.22)',    // 2: orange-red
-    'rgba(252, 165, 10, 0.25)',   // 3: yellow-orange
-    'rgba(70, 130, 180, 0.28)',   // 4: steel blue
-    'rgba(60, 179, 113, 0.28)',   // 5: sea green
-    'rgba(180, 82, 205, 0.22)'   // 6: orchid
+    'rgba(91, 26, 120, 0.22)',
+    'rgba(230, 159, 0, 0.25)',
+    'rgba(0, 140, 131, 0.25)',
+    'rgba(217, 79, 61, 0.22)',
+    'rgba(63, 127, 191, 0.25)',
+    'rgba(192, 74, 135, 0.22)',
+    'rgba(106, 159, 56, 0.25)'
   ];
-  // Matching solid colors for legend dots
   var ORBIT_SOLIDS = [
-    'rgba(66, 10, 104, 0.7)',
-    'rgba(147, 38, 103, 0.7)',
-    'rgba(221, 81, 58, 0.7)',
-    'rgba(252, 165, 10, 0.7)',
-    'rgba(70, 130, 180, 0.7)',
-    'rgba(60, 179, 113, 0.7)',
-    'rgba(180, 82, 205, 0.7)'
+    '#5B1A78',
+    '#E69F00',
+    '#008C83',
+    '#D94F3D',
+    '#3F7FBF',
+    '#C04A87',
+    '#6A9F38'
   ];
 
   // Scenario A: X=0 (corner), O=5 (edge)
@@ -540,6 +559,14 @@ document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); })
   var SCENARIO_B = {
     x: 1, o: 4,
     orbits: [0, -1, 0, 1, -1, 1, 2, 3, 2],
+    nOrbits: 4
+  };
+
+  // Scenario C (collection position #12): X and O in opposite corners
+  // Mirror symmetry → 4 orbits: {1,3}, {2,6}, {4}, {5,7}
+  var SCENARIO_C = {
+    x: 0, o: 8,
+    orbits: [-1, 0, 1, 0, 2, 3, 1, 3, -1],
     nOrbits: 4
   };
 
@@ -630,6 +657,7 @@ document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); })
   function initMove2Figure() {
     drawScenario('fig-move2-a', SCENARIO_A);
     drawScenario('fig-move2-b', SCENARIO_B);
+    drawScenario('fig-move2-c', SCENARIO_C);
   }
 
   window.initMove2Figure = initMove2Figure;
@@ -638,6 +666,163 @@ document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); })
 document.addEventListener('DOMContentLoaded', function() { initMove2Figure(); });</script>
 </div>
 </div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure <a href="#fig-menace-boxes" class="quarto-xref">Figure&nbsp;3</a>. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
+</figcaption>
+</figure>
+</div>
+<div id="fig-menace-boxes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-boxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div style="margin: 24px 0; padding: 20px; background: linear-gradient(to bottom, #fafafa, #f0f0f0); border-radius: 12px; border: 1px solid #e0e0e0;">
+<div style="text-align: center; font-size: 14px; color: #555; margin-bottom: 14px; font-weight: 600;">Move 2 — MENACE’s 5 Matchboxes</div>
+<div style="text-align: center; font-size: 12px; color: #888; margin-bottom: 16px;">
+All distinct board positions (up to symmetry) when it’s MENACE’s 2nd turn. 
+Board has 1×✕ and 1×○.
+</div>
+<div id="menace-move2"></div>
+</div>
+<div style="margin: 24px 0; padding: 20px; background: linear-gradient(to bottom, #fafafa, #f0f0f0); border-radius: 12px; border: 1px solid #e0e0e0;">
+<div style="text-align: center; font-size: 14px; color: #555; margin-bottom: 14px; font-weight: 600;">MENACE’s Matchbox Collection</div>
+<div id="menace-collection"></div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-boxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Each matchbox represents one board position, with rotated and reflected copies stored only once. The five enlarged boxes show every position MENACE can encounter on its second turn; the collection below groups all matchboxes by turn.
+</figcaption>
+</figure>
+</div>
+<div id="fig-menace-reinforcement" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div style="max-width: 620px; margin: 24px auto; padding: 0 12px;">
+<div style="display: grid; grid-template-columns: 64px minmax(104px, 1fr) 72px minmax(104px, 1fr); gap: 12px; padding-bottom: 6px; font-size: 11px; color: #888; text-align: center;">
+<span>Outcome</span>
+<span>Selected move before</span>
+<span>Update</span>
+<span>Selected move after</span>
+</div>
+<div style="display: grid; grid-template-columns: 64px minmax(104px, 1fr) 72px minmax(104px, 1fr); align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #e5e5e5;">
+<div style="font-size: 13px; font-weight: 700; color: #932667;">WIN</div>
+<div style="display: flex; flex-direction: column; align-items: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; align-content: center; width: 104px; min-height: 48px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777;">8 beads</span>
+</div>
+<div style="text-align: center; font-size: 16px; font-weight: 700; color: #932667;">
+→
+<div style="font-size: 12px;">+3</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; align-content: center; width: 104px; min-height: 48px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777;">11 beads</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 64px minmax(104px, 1fr) 72px minmax(104px, 1fr); align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #e5e5e5;">
+<div style="font-size: 13px; font-weight: 700; color: #E69F00;">DRAW</div>
+<div style="display: flex; flex-direction: column; align-items: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; align-content: center; width: 104px; min-height: 48px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777;">8 beads</span>
+</div>
+<div style="text-align: center; font-size: 16px; font-weight: 700; color: #E69F00;">
+→
+<div style="font-size: 12px;">+1</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; align-content: center; width: 104px; min-height: 48px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777;">9 beads</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 64px minmax(104px, 1fr) 72px minmax(104px, 1fr); align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #e5e5e5;">
+<div style="font-size: 13px; font-weight: 700; color: #D94F3D;">LOSS</div>
+<div style="display: flex; flex-direction: column; align-items: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; align-content: center; width: 104px; min-height: 48px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777;">8 beads</span>
+</div>
+<div style="text-align: center; font-size: 16px; font-weight: 700; color: #D94F3D;">
+→
+<div style="font-size: 12px;">-1</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; align-content: center; width: 104px; min-height: 48px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777;">7 beads</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: After a game, MENACE updates the bead color it selected in every matchbox used during that game: three beads are added after a win, one after a draw, and one is removed after a loss. The diagram starts from a fresh count of eight beads; other choices in each box are unchanged, and a losing choice never falls below one bead.
+</figcaption>
+</figure>
+</div>
+<div id="fig-menace-engine" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell">
 <div class="cell-output-display">
 <script>// =============================================================
@@ -1043,18 +1228,6 @@ document.addEventListener('DOMContentLoaded', function() { initMove2Figure(); })
   };
 
 })();</script>
-<div style="margin: 24px 0; padding: 20px; background: linear-gradient(to bottom, #fafafa, #f0f0f0); border-radius: 12px; border: 1px solid #e0e0e0;">
-<div style="text-align: center; font-size: 14px; color: #555; margin-bottom: 14px; font-weight: 600;">Move 2 — MENACE’s 5 Matchboxes</div>
-<div style="text-align: center; font-size: 12px; color: #888; margin-bottom: 16px;">
-All distinct board positions (up to symmetry) when it’s MENACE’s 2nd turn. 
-Board has 1×✕ and 1×○.
-</div>
-<div id="menace-move2"></div>
-</div>
-<div style="margin: 24px 0; padding: 20px; background: linear-gradient(to bottom, #fafafa, #f0f0f0); border-radius: 12px; border: 1px solid #e0e0e0;">
-<div style="text-align: center; font-size: 14px; color: #555; margin-bottom: 14px; font-weight: 600;">MENACE’s Matchbox Collection</div>
-<div id="menace-collection"></div>
-</div>
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
 <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
 <button id="menace-btn-new" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #932667; color: white;">New Game</button>
@@ -1066,14 +1239,20 @@ Board has 1×✕ and 1×○.
 <div id="menace-status" style="font-weight: bold; margin-bottom: 8px; min-height: 1.5em;"></div>
 <div id="menace-stats" style="font-size: 13px; color: #666;"></div>
 </div>
-<div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin: 20px 0;">
+<div style="display: flex; flex-direction: column; gap: 24px; align-items: center; margin: 20px 0;">
 <div style="flex-shrink: 0;">
 <div style="text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;">Game Board</div>
 <canvas id="menace-board" style="width: 240px; height: 240px; border: 2px solid #420a68; border-radius: 8px; background: white;"></canvas>
 </div>
-<div style="min-width: 200px; flex: 0 1 280px;">
+<div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: flex-start; width: 100%;">
+<div style="width: min(100%, 280px); flex: 0 1 280px;">
 <div style="text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;">Current Matchbox (bead counts)</div>
 <div id="menace-matchbox"></div>
+</div>
+<div style="width: min(100%, 280px); flex: 0 1 280px;">
+<div style="text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;">Move Probability (area)</div>
+<div id="menace-probability" style="width: 100%; aspect-ratio: 1;"></div>
+</div>
 </div>
 </div>
 <div>
@@ -1091,13 +1270,11 @@ Board has 1×✕ and 1×○.
   var M = window.MENACE;
   var R = window.INFERNO.roles;
 
-  // ---- Bead color per cell position (9 Inferno stops) -----------
-  var BEAD_COLORS = [];
-  (function () {
-    for (var i = 0; i < 9; i++) {
-      BEAD_COLORS.push(window.INFERNO.at(i / 8));
-    }
-  })();
+  // ---- Distinct bead colors for move orbits ---------------------
+  var BEAD_COLORS = [
+    '#5B1A78', '#E69F00', '#008C83', '#D94F3D',
+    '#3F7FBF', '#C04A87', '#6A9F38'
+  ];
 
   // ---- Shared state ---------------------------------------------
   var menace = new M.MenaceAgent();
@@ -1201,7 +1378,7 @@ Board has 1×✕ and 1×○.
   // Render `count` small colored circles inside a flex container.
   // Above MAX_DOTS we show dots + "+N" overflow label.
   var MAX_DOTS = 16;
-  var DOT_SIZE = 7;   // px
+  var DOT_SIZE = 10;   // px
 
   function renderBeadDots(count, color) {
     var show = Math.min(count, MAX_DOTS);
@@ -1228,10 +1405,88 @@ Board has 1×✕ and 1×○.
     if (!menaceViewBoard) {
       container.innerHTML = '<div style="color:#888; text-align:center; padding:30px;">' +
         'Start a game to see MENACE\'s matchbox</div>';
+      renderProbabilitySurface();
       return;
     }
 
     container.innerHTML = renderMatchboxOrbits();
+    renderProbabilitySurface();
+  }
+
+  function renderProbabilitySurface() {
+    var div = el('menace-probability');
+    if (!div) return;
+
+    div.replaceChildren();
+    if (!menaceViewBoard) {
+      return;
+    }
+
+    var orbits = menace.getOrbitSnapshot(menaceViewBoard);
+    var totalBeads = 0;
+    for (var o = 0; o < orbits.length; o++) totalBeads += orbits[o].beads;
+
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Move probability shown as exact area on a 10 by 10 grid');
+    svg.style.cssText = 'display:block;width:100%;height:100%;background:#fff;';
+
+    var cursor = 0;
+    for (var o = 0; o < orbits.length; o++) {
+      var probability = totalBeads > 0 ? orbits[o].beads * 100 / totalBeads : 0;
+      var end = cursor + probability;
+      for (var row = 0; row < 10; row++) {
+        var rowStart = row * 10;
+        var segmentStart = Math.max(cursor, rowStart);
+        var segmentEnd = Math.min(end, rowStart + 10);
+        if (segmentEnd <= segmentStart) continue;
+
+        var fill = document.createElementNS(svgNS, 'rect');
+        fill.setAttribute('x', String((segmentStart - rowStart) * 10));
+        fill.setAttribute('y', String(row * 10));
+        fill.setAttribute('width', String((segmentEnd - segmentStart) * 10));
+        fill.setAttribute('height', '10');
+        fill.setAttribute('fill', BEAD_COLORS[o % BEAD_COLORS.length]);
+        var title = document.createElementNS(svgNS, 'title');
+        title.textContent = 'Choice ' + (o + 1) + ': ' + probability.toFixed(1) + '%';
+        fill.appendChild(title);
+        svg.appendChild(fill);
+      }
+      cursor = end;
+    }
+
+    for (var line = 0; line <= 10; line++) {
+      var vertical = document.createElementNS(svgNS, 'line');
+      vertical.setAttribute('x1', String(line * 10));
+      vertical.setAttribute('y1', '0');
+      vertical.setAttribute('x2', String(line * 10));
+      vertical.setAttribute('y2', '100');
+      vertical.setAttribute('stroke', '#ffffff');
+      vertical.setAttribute('stroke-width', '0.8');
+      svg.appendChild(vertical);
+
+      var horizontal = document.createElementNS(svgNS, 'line');
+      horizontal.setAttribute('x1', '0');
+      horizontal.setAttribute('y1', String(line * 10));
+      horizontal.setAttribute('x2', '100');
+      horizontal.setAttribute('y2', String(line * 10));
+      horizontal.setAttribute('stroke', '#ffffff');
+      horizontal.setAttribute('stroke-width', '0.8');
+      svg.appendChild(horizontal);
+    }
+
+    var border = document.createElementNS(svgNS, 'rect');
+    border.setAttribute('x', '0.4');
+    border.setAttribute('y', '0.4');
+    border.setAttribute('width', '99.2');
+    border.setAttribute('height', '99.2');
+    border.setAttribute('fill', 'none');
+    border.setAttribute('stroke', '#cccccc');
+    border.setAttribute('stroke-width', '0.8');
+    svg.appendChild(border);
+    div.appendChild(svg);
   }
 
   function renderMatchboxOrbits() {
@@ -1244,12 +1499,12 @@ Board has 1×✕ and 1×○.
 
     for (var o = 0; o < orbits.length; o++) {
       var orb = orbits[o];
-      var pct = totalBeads > 0 ? ((orb.beads / totalBeads) * 100).toFixed(0) : 0;
+      var pct = totalBeads > 0 ? ((orb.beads / totalBeads) * 100).toFixed(1) : '0.0';
       var isChosen = false;
       for (var m = 0; m < orb.actualMembers.length; m++) {
         if (orb.actualMembers[m] === menaceChosenCell) isChosen = true;
       }
-      var color = BEAD_COLORS[orb.actualMembers[0]];
+      var color = BEAD_COLORS[o % BEAD_COLORS.length];
       var borderStyle = isChosen ? '3px solid #fca50a' : '2px solid ' + window.INFERNO.rgba(color, 0.4);
       var bgStyle = isChosen ? 'rgba(252, 165, 10, 0.10)' : 'rgba(255,255,255,0.6)';
 
@@ -1330,7 +1585,12 @@ Board has 1×✕ and 1×○.
     ];
 
     var layout = {
-      xaxis: { title: 'Game #' },
+      xaxis: {
+        title: 'Game #',
+        tick0: 1,
+        dtick: Math.max(1, Math.ceil(menace.gameLog.length / 10)),
+        tickformat: 'd'
+      },
       yaxis: { title: 'Rate (%)', range: [0, 105] },
       plot_bgcolor: 'white', paper_bgcolor: 'white',
       margin: { l: 50, r: 20, t: 10, b: 45 },
@@ -1760,6 +2020,12 @@ Board has 1×✕ and 1×○.
 })();
 document.addEventListener('DOMContentLoaded', function() { initMenacePlot(); });</script>
 </div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: The playable engine chooses among the current matchbox options in proportion to their bead counts. The 10 x 10 area display shows the same probabilities visually, while the learning curve records how MENACE’s results change during training.
+</figcaption>
+</figure>
 </div>
 
 

@@ -10,13 +10,11 @@
   var M = window.MENACE;
   var R = window.INFERNO.roles;
 
-  // ---- Bead color per cell position (9 Inferno stops) -----------
-  var BEAD_COLORS = [];
-  (function () {
-    for (var i = 0; i < 9; i++) {
-      BEAD_COLORS.push(window.INFERNO.at(i / 8));
-    }
-  })();
+  // ---- Distinct bead colors for move orbits ---------------------
+  var BEAD_COLORS = [
+    '#5B1A78', '#E69F00', '#008C83', '#D94F3D',
+    '#3F7FBF', '#C04A87', '#6A9F38'
+  ];
 
   // ---- Shared state ---------------------------------------------
   var menace = new M.MenaceAgent();
@@ -120,7 +118,7 @@
   // Render `count` small colored circles inside a flex container.
   // Above MAX_DOTS we show dots + "+N" overflow label.
   var MAX_DOTS = 16;
-  var DOT_SIZE = 7;   // px
+  var DOT_SIZE = 10;   // px
 
   function renderBeadDots(count, color) {
     var show = Math.min(count, MAX_DOTS);
@@ -147,10 +145,88 @@
     if (!menaceViewBoard) {
       container.innerHTML = '<div style="color:#888; text-align:center; padding:30px;">' +
         'Start a game to see MENACE\'s matchbox</div>';
+      renderProbabilitySurface();
       return;
     }
 
     container.innerHTML = renderMatchboxOrbits();
+    renderProbabilitySurface();
+  }
+
+  function renderProbabilitySurface() {
+    var div = el('menace-probability');
+    if (!div) return;
+
+    div.replaceChildren();
+    if (!menaceViewBoard) {
+      return;
+    }
+
+    var orbits = menace.getOrbitSnapshot(menaceViewBoard);
+    var totalBeads = 0;
+    for (var o = 0; o < orbits.length; o++) totalBeads += orbits[o].beads;
+
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Move probability shown as exact area on a 10 by 10 grid');
+    svg.style.cssText = 'display:block;width:100%;height:100%;background:#fff;';
+
+    var cursor = 0;
+    for (var o = 0; o < orbits.length; o++) {
+      var probability = totalBeads > 0 ? orbits[o].beads * 100 / totalBeads : 0;
+      var end = cursor + probability;
+      for (var row = 0; row < 10; row++) {
+        var rowStart = row * 10;
+        var segmentStart = Math.max(cursor, rowStart);
+        var segmentEnd = Math.min(end, rowStart + 10);
+        if (segmentEnd <= segmentStart) continue;
+
+        var fill = document.createElementNS(svgNS, 'rect');
+        fill.setAttribute('x', String((segmentStart - rowStart) * 10));
+        fill.setAttribute('y', String(row * 10));
+        fill.setAttribute('width', String((segmentEnd - segmentStart) * 10));
+        fill.setAttribute('height', '10');
+        fill.setAttribute('fill', BEAD_COLORS[o % BEAD_COLORS.length]);
+        var title = document.createElementNS(svgNS, 'title');
+        title.textContent = 'Choice ' + (o + 1) + ': ' + probability.toFixed(1) + '%';
+        fill.appendChild(title);
+        svg.appendChild(fill);
+      }
+      cursor = end;
+    }
+
+    for (var line = 0; line <= 10; line++) {
+      var vertical = document.createElementNS(svgNS, 'line');
+      vertical.setAttribute('x1', String(line * 10));
+      vertical.setAttribute('y1', '0');
+      vertical.setAttribute('x2', String(line * 10));
+      vertical.setAttribute('y2', '100');
+      vertical.setAttribute('stroke', '#ffffff');
+      vertical.setAttribute('stroke-width', '0.8');
+      svg.appendChild(vertical);
+
+      var horizontal = document.createElementNS(svgNS, 'line');
+      horizontal.setAttribute('x1', '0');
+      horizontal.setAttribute('y1', String(line * 10));
+      horizontal.setAttribute('x2', '100');
+      horizontal.setAttribute('y2', String(line * 10));
+      horizontal.setAttribute('stroke', '#ffffff');
+      horizontal.setAttribute('stroke-width', '0.8');
+      svg.appendChild(horizontal);
+    }
+
+    var border = document.createElementNS(svgNS, 'rect');
+    border.setAttribute('x', '0.4');
+    border.setAttribute('y', '0.4');
+    border.setAttribute('width', '99.2');
+    border.setAttribute('height', '99.2');
+    border.setAttribute('fill', 'none');
+    border.setAttribute('stroke', '#cccccc');
+    border.setAttribute('stroke-width', '0.8');
+    svg.appendChild(border);
+    div.appendChild(svg);
   }
 
   function renderMatchboxOrbits() {
@@ -163,12 +239,12 @@
 
     for (var o = 0; o < orbits.length; o++) {
       var orb = orbits[o];
-      var pct = totalBeads > 0 ? ((orb.beads / totalBeads) * 100).toFixed(0) : 0;
+      var pct = totalBeads > 0 ? ((orb.beads / totalBeads) * 100).toFixed(1) : '0.0';
       var isChosen = false;
       for (var m = 0; m < orb.actualMembers.length; m++) {
         if (orb.actualMembers[m] === menaceChosenCell) isChosen = true;
       }
-      var color = BEAD_COLORS[orb.actualMembers[0]];
+      var color = BEAD_COLORS[o % BEAD_COLORS.length];
       var borderStyle = isChosen ? '3px solid #fca50a' : '2px solid ' + window.INFERNO.rgba(color, 0.4);
       var bgStyle = isChosen ? 'rgba(252, 165, 10, 0.10)' : 'rgba(255,255,255,0.6)';
 
@@ -249,7 +325,12 @@
     ];
 
     var layout = {
-      xaxis: { title: 'Game #' },
+      xaxis: {
+        title: 'Game #',
+        tick0: 1,
+        dtick: Math.max(1, Math.ceil(menace.gameLog.length / 10)),
+        tickformat: 'd'
+      },
       yaxis: { title: 'Rate (%)', range: [0, 105] },
       plot_bgcolor: 'white', paper_bgcolor: 'white',
       margin: { l: 50, r: 20, t: 10, b: 45 },

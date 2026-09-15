@@ -68,11 +68,12 @@ render_move1_figure <- function() {
 
 #' Create the Move 2 orbit figure
 #'
-#' Two boards after 2 moves, empty cells colored by symmetry orbit.
+#' Three boards after 2 moves, empty cells colored by symmetry orbit.
 #' Scenario A: X corner + O edge → 7 distinct orbits (no symmetry).
 #' Scenario B: X edge + O center → 4 orbits (h-flip symmetry).
+#' Scenario C: X corner + O opposite corner → 4 orbits (mirror symmetry).
 #'
-#' @return HTML div with two canvases
+#' @return HTML div with three canvases
 create_move2_figure <- function() {
   board_style <- paste0(
     "border: 2px solid #420a68; border-radius: 6px; background: white;"
@@ -91,7 +92,7 @@ create_move2_figure <- function() {
       htmltools::tags$div(style = "font-size: 12px; color: #888; margin-top: 6px;",
         htmltools::tags$b("7"), " distinct moves"),
       htmltools::tags$div(style = "font-size: 11px; color: #aaa;",
-        "no symmetry left")
+        "no symmetry left (#6)")
     ),
     # Scenario B
     htmltools::tags$div(
@@ -101,7 +102,17 @@ create_move2_figure <- function() {
       htmltools::tags$div(style = "font-size: 12px; color: #888; margin-top: 6px;",
         htmltools::tags$b("4"), " distinct moves"),
       htmltools::tags$div(style = "font-size: 11px; color: #aaa;",
-        "mirror symmetry")
+        "mirror symmetry (#10)")
+    ),
+    # Scenario C: collection position #12
+    htmltools::tags$div(
+      style = "text-align: center;",
+      htmltools::tags$canvas(id = "fig-move2-c", width = "140", height = "140",
+        style = board_style),
+      htmltools::tags$div(style = "font-size: 12px; color: #888; margin-top: 6px;",
+        htmltools::tags$b("4"), " distinct moves"),
+      htmltools::tags$div(style = "font-size: 11px; color: #aaa;",
+        "mirror symmetry (#12)")
     )
   )
 }
@@ -161,12 +172,12 @@ create_menace_controls <- function() {
   )
 }
 
-#' Create the game board + matchbox side-by-side layout
+#' Create the game board above the matchbox views
 #' 
 #' @return HTML div with canvas board and matchbox container
 create_menace_board <- function() {
   htmltools::tags$div(
-    style = "display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin: 20px 0;",
+    style = "display: flex; flex-direction: column; gap: 24px; align-items: center; margin: 20px 0;",
     # Board (canvas)
     htmltools::tags$div(
       style = "flex-shrink: 0;",
@@ -183,14 +194,33 @@ create_menace_board <- function() {
         )
       )
     ),
-    # Matchbox view
+    # Matchbox and probability row
     htmltools::tags$div(
-      style = "min-width: 200px; flex: 0 1 280px;",
-      htmltools::tags$div(
-        style = "text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;",
-        "Current Matchbox (bead counts)"
+      style = paste0(
+        "display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; ",
+        "align-items: flex-start; width: 100%;"
       ),
-      htmltools::tags$div(id = "menace-matchbox")
+      # Matchbox view
+      htmltools::tags$div(
+        style = "width: min(100%, 280px); flex: 0 1 280px;",
+        htmltools::tags$div(
+          style = "text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;",
+          "Current Matchbox (bead counts)"
+        ),
+        htmltools::tags$div(id = "menace-matchbox")
+      ),
+      # Probability waffle chart
+      htmltools::tags$div(
+        style = "width: min(100%, 280px); flex: 0 1 280px;",
+        htmltools::tags$div(
+          style = "text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;",
+          "Move Probability (area)"
+        ),
+        htmltools::tags$div(
+          id = "menace-probability",
+          style = "width: 100%; aspect-ratio: 1;"
+        )
+      )
     )
   )
 }
@@ -265,6 +295,78 @@ create_menace_collection <- function() {
       "MENACE\u2019s Matchbox Collection"
     ),
     htmltools::tags$div(id = "menace-collection")
+  )
+}
+
+#' Create the bead reinforcement diagram
+#'
+#' @return HTML div showing bead updates after each game outcome
+create_reinforcement_figure <- function() {
+  bead_group <- function(count) {
+    htmltools::tags$div(
+      style = paste0(
+        "display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; ",
+        "align-content: center; width: 104px; min-height: 48px;"
+      ),
+      lapply(seq_len(count), function(i) {
+        htmltools::tags$span(
+          style = paste0(
+            "display: block; width: 12px; height: 12px; border-radius: 50%; ",
+            "background: #5B1A78;"
+          )
+        )
+      })
+    )
+  }
+
+  outcome_row <- function(outcome, delta, after, accent) {
+    htmltools::tags$div(
+      style = paste0(
+        "display: grid; grid-template-columns: 64px minmax(104px, 1fr) 72px ",
+        "minmax(104px, 1fr); align-items: center; gap: 12px; padding: 14px 0; ",
+        "border-bottom: 1px solid #e5e5e5;"
+      ),
+      htmltools::tags$div(
+        style = paste0("font-size: 13px; font-weight: 700; color: ", accent, ";"),
+        outcome
+      ),
+      htmltools::tags$div(
+        style = "display: flex; flex-direction: column; align-items: center;",
+        bead_group(8),
+        htmltools::tags$span(style = "font-size: 11px; color: #777;", "8 beads")
+      ),
+      htmltools::tags$div(
+        style = paste0("text-align: center; font-size: 16px; font-weight: 700; color: ", accent, ";"),
+        htmltools::HTML("&#8594;"),
+        htmltools::tags$div(style = "font-size: 12px;", delta)
+      ),
+      htmltools::tags$div(
+        style = "display: flex; flex-direction: column; align-items: center;",
+        bead_group(after),
+        htmltools::tags$span(
+          style = "font-size: 11px; color: #777;",
+          paste(after, "beads")
+        )
+      )
+    )
+  }
+
+  htmltools::tags$div(
+    style = "max-width: 620px; margin: 24px auto; padding: 0 12px;",
+    htmltools::tags$div(
+      style = paste0(
+        "display: grid; grid-template-columns: 64px minmax(104px, 1fr) 72px ",
+        "minmax(104px, 1fr); gap: 12px; padding-bottom: 6px; ",
+        "font-size: 11px; color: #888; text-align: center;"
+      ),
+      htmltools::tags$span("Outcome"),
+      htmltools::tags$span("Selected move before"),
+      htmltools::tags$span("Update"),
+      htmltools::tags$span("Selected move after")
+    ),
+    outcome_row("WIN", "+3", 11, "#932667"),
+    outcome_row("DRAW", "+1", 9, "#E69F00"),
+    outcome_row("LOSS", "-1", 7, "#D94F3D")
   )
 }
 

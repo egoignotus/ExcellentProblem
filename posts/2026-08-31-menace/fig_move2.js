@@ -1,5 +1,5 @@
 // =============================================================
-// Move 2 Symmetry Figure — Two board states after X and O each
+// Move 2 Symmetry Figure — Three board states after X and O each
 // played once. Empty cells colored by symmetry orbit to show
 // how many distinct 3rd-move options MENACE sees.
 // =============================================================
@@ -23,25 +23,24 @@
     return ctx;
   }
 
-  // Orbit fill colors — visually distinct, semi-transparent
+  // Orbit colors match the engine's bead palette.
   var ORBIT_FILLS = [
-    'rgba(66, 10, 104, 0.22)',    // 0: dark purple
-    'rgba(147, 38, 103, 0.22)',   // 1: magenta
-    'rgba(221, 81, 58, 0.22)',    // 2: orange-red
-    'rgba(252, 165, 10, 0.25)',   // 3: yellow-orange
-    'rgba(70, 130, 180, 0.28)',   // 4: steel blue
-    'rgba(60, 179, 113, 0.28)',   // 5: sea green
-    'rgba(180, 82, 205, 0.22)'   // 6: orchid
+    'rgba(91, 26, 120, 0.22)',
+    'rgba(230, 159, 0, 0.25)',
+    'rgba(0, 140, 131, 0.25)',
+    'rgba(217, 79, 61, 0.22)',
+    'rgba(63, 127, 191, 0.25)',
+    'rgba(192, 74, 135, 0.22)',
+    'rgba(106, 159, 56, 0.25)'
   ];
-  // Matching solid colors for legend dots
   var ORBIT_SOLIDS = [
-    'rgba(66, 10, 104, 0.7)',
-    'rgba(147, 38, 103, 0.7)',
-    'rgba(221, 81, 58, 0.7)',
-    'rgba(252, 165, 10, 0.7)',
-    'rgba(70, 130, 180, 0.7)',
-    'rgba(60, 179, 113, 0.7)',
-    'rgba(180, 82, 205, 0.7)'
+    '#5B1A78',
+    '#E69F00',
+    '#008C83',
+    '#D94F3D',
+    '#3F7FBF',
+    '#C04A87',
+    '#6A9F38'
   ];
 
   // Scenario A: X=0 (corner), O=5 (edge)
@@ -57,6 +56,14 @@
   var SCENARIO_B = {
     x: 1, o: 4,
     orbits: [0, -1, 0, 1, -1, 1, 2, 3, 2],
+    nOrbits: 4
+  };
+
+  // Scenario C (collection position #12): X and O in opposite corners
+  // Mirror symmetry → 4 orbits: {1,3}, {2,6}, {4}, {5,7}
+  var SCENARIO_C = {
+    x: 0, o: 8,
+    orbits: [-1, 0, 1, 0, 2, 3, 1, 3, -1],
     nOrbits: 4
   };
 
@@ -147,6 +154,7 @@
   function initMove2Figure() {
     drawScenario('fig-move2-a', SCENARIO_A);
     drawScenario('fig-move2-b', SCENARIO_B);
+    drawScenario('fig-move2-c', SCENARIO_C);
   }
 
   window.initMove2Figure = initMove2Figure;

@@ -9,6 +9,7 @@ title-block-banner: true
 include-in-header: libs.html
 ---
 
+::: {#fig-menace-move-one}
 ```{r}
 #| echo: false
 #| warning: false
@@ -18,15 +19,46 @@ source("menace_helpers.R")
 render_move1_figure()
 ```
 
+On an empty board, rotations and reflections reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the centre.
+:::
+
+::: {#fig-menace-move-two}
 ```{r}
 #| echo: false
 #| warning: false
 
-source("menace_helpers.R")
-
 render_move2_figure()
 ```
 
+After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure @fig-menace-boxes. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
+:::
+
+::: {#fig-menace-boxes}
+```{r}
+#| echo: false
+#| warning: false
+
+htmltools::tagList(
+  create_menace_move2(),
+  create_menace_collection()
+)
+```
+
+Each matchbox represents one board position, with rotated and reflected copies stored only once. The five enlarged boxes show every position MENACE can encounter on its second turn; the collection below groups all matchboxes by turn.
+:::
+
+::: {#fig-menace-reinforcement}
+```{r}
+#| echo: false
+#| warning: false
+
+create_reinforcement_figure()
+```
+
+After a game, MENACE updates the bead color it selected in every matchbox used during that game: three beads are added after a win, one after a draw, and one is removed after a loss. The diagram starts from a fresh count of eight beads; other choices in each box are unchanged, and a losing choice never falls below one bead.
+:::
+
+::: {#fig-menace-engine}
 ```{r}
 #| echo: false
 #| warning: false
@@ -34,8 +66,9 @@ render_move2_figure()
 render_menace_plot(
   controls_html    = create_menace_controls(),
   board_html       = create_menace_board(),
-  curve_html       = create_menace_curve(),
-  collection_html  = create_menace_collection(),
-  move2_html       = create_menace_move2()
+  curve_html       = create_menace_curve()
 )
 ```
+
+The playable engine chooses among the current matchbox options in proportion to their bead counts. The 10 x 10 area display shows the same probabilities visually, while the learning curve records how MENACE's results change during training.
+:::
