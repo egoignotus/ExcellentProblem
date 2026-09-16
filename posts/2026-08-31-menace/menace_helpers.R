@@ -202,9 +202,25 @@ create_menace_controls <- function() {
     "cursor: pointer; font-size: 14px; font-weight: 600; ",
     "transition: opacity 0.2s;"
   )
-  primary_btn <- paste0(btn_style, "background: #932667; color: white;")
+  primary_btn <- paste0(
+    btn_style,
+    "padding: 11px 24px; font-size: 16px; background: #932667; color: white;"
+  )
   secondary_btn <- paste0(btn_style, "background: #420a68; color: white;")
   danger_btn <- paste0(btn_style, "background: #dd513a; color: white;")
+  parameter_input <- function(id, label, value) {
+    htmltools::tags$label(
+      style = "display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;",
+      label,
+      htmltools::tags$input(
+        id = id, type = "number", min = "0", step = "1", value = value,
+        style = paste0(
+          "width: 64px; padding: 5px 6px; border: 1px solid #bbb; ",
+          "border-radius: 4px; font-size: 13px;"
+        )
+      )
+    )
+  }
   
   htmltools::tags$div(
     style = paste0(
@@ -213,12 +229,30 @@ create_menace_controls <- function() {
     ),
     # Button row
     htmltools::tags$div(
-      style = "display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;",
+      style = paste0(
+        "display: flex; align-items: center; gap: 8px; flex-wrap: wrap; ",
+        "margin-bottom: 12px;"
+      ),
       htmltools::tags$button(id = "menace-btn-new", style = primary_btn, "New Game"),
       htmltools::tags$button(id = "menace-btn-train50", style = secondary_btn, "Train 50"),
       htmltools::tags$button(id = "menace-btn-train200", style = secondary_btn, "Train 200"),
       htmltools::tags$button(id = "menace-btn-train500", style = secondary_btn, "Train 500"),
       htmltools::tags$button(id = "menace-btn-reset", style = danger_btn, "Reset")
+    ),
+    htmltools::tags$div(
+      style = paste0(
+        "display: flex; gap: 10px; flex-wrap: wrap; align-items: end; ",
+        "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;"
+      ),
+      parameter_input("menace-param-initial", "Initial", 8),
+      parameter_input("menace-param-win", "Win +", 3),
+      parameter_input("menace-param-draw", "Draw +", 1),
+      parameter_input("menace-param-loss", "Loss -", 1),
+      parameter_input("menace-param-minimum", "Minimum", 1),
+      htmltools::tags$span(
+        style = "font-size: 11px; color: #777; padding-bottom: 6px;",
+        "Applied when Reset is pressed"
+      )
     ),
     # Status line
     htmltools::tags$div(

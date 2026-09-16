@@ -475,7 +475,20 @@
 
   function resetMenace() {
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
-    menace.reset();
+    var settings = {
+      initialBeads: Number(el('menace-param-initial').value),
+      winReward: Number(el('menace-param-win').value),
+      drawReward: Number(el('menace-param-draw').value),
+      lossPenalty: Number(el('menace-param-loss').value),
+      minimumBeads: Number(el('menace-param-minimum').value)
+    };
+    menace.configure(settings);
+    var applied = menace.settings;
+    el('menace-param-initial').value = applied.initialBeads;
+    el('menace-param-win').value = applied.winReward;
+    el('menace-param-draw').value = applied.drawReward;
+    el('menace-param-loss').value = applied.lossPenalty;
+    el('menace-param-minimum').value = applied.minimumBeads;
     currentBoard    = [0,0,0,0,0,0,0,0,0];
     menaceViewBoard = null;
     menaceChosenCell = -1;
@@ -485,7 +498,7 @@
     renderMatchbox();
     renderStats();
     renderLearningCurve();
-    setText('menace-status', 'MENACE reset. All matchboxes cleared.');
+    setText('menace-status', 'Parameters applied. MENACE learning and matchboxes reset.');
   }
 
   // ---- Move 2 zoom view (5 canonical boards) --------------------
@@ -628,7 +641,7 @@
 
       var isXTurn = (xCount === oCount);
 
-      if (isXTurn) {
+      if (isXTurn && M.legalMoves(board).length > 1) {
         var move = xCount + 1;
         if (move <= 5) groups[move][M.canonicalKey(board)] = true;
       }

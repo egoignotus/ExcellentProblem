@@ -271,8 +271,14 @@ window.INFERNO = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#constraints" id="toc-constraints" class="nav-link active" data-scroll-target="#constraints">Constraints:</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -294,7 +300,7 @@ window.INFERNO = {
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-boxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer’s moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once.
+Figure&nbsp;1: The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer’s moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once. [FOOTNOTE: There are no matchboxes for move5, eventhough MENACE does that move, because in the last move only one empty square remains, so no choice needs to be made]
 </figcaption>
 </figure>
 </div>
@@ -560,6 +566,20 @@ Figure&nbsp;2: Move 1: on an empty board, rotations reduce the nine possible ope
 </figcaption>
 </figure>
 </div>
+<div id="fig-menace-move-two-options" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div id="menace-move2" style="margin: 24px 0;"></div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The twelve numbered boxes show every position MENACE can encounter on its second turn.
+</figcaption>
+</figure>
+</div>
 <div id="fig-menace-move-two" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -767,24 +787,25 @@ document.addEventListener('DOMContentLoaded', function() { initMove2Figure(); })
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure <a href="#fig-menace-boxes" class="quarto-xref">Figure&nbsp;1</a>. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
+Figure&nbsp;4: After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure <a href="#fig-menace-boxes" class="quarto-xref">Figure&nbsp;1</a>. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
 </figcaption>
 </figure>
 </div>
-<div id="fig-menace-move-two-options" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div id="menace-move2" style="margin: 24px 0;"></div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: The twelve numbered boxes show every position MENACE can encounter on its second turn.
-</figcaption>
-</figure>
-</div>
+<section id="constraints" class="level2">
+<h2 class="anchored" data-anchor-id="constraints">Constraints:</h2>
+<ul>
+<li><p>MENACE always plays X and moves first.</p></li>
+<li><p>Every new move option starts with 8 beads.</p></li>
+<li><p>Moves are selected randomly, weighted by current bead counts.</p></li>
+<li><p>Symmetrically equivalent boards share one matchbox.</p></li>
+<li><p>Symmetrically equivalent squares share one bead color; a square within that group is selected randomly.</p></li>
+<li><p>The final outcome updates the selected color in every matchbox used during that game.</p></li>
+<li><p>Bead counts are integers with no upper limit.</p></li>
+<li><p>Batch training plays against an opponent choosing legal moves uniformly at random.</p></li>
+<li><p>Reset deletes all learning, statistics, and matchboxes.</p></li>
+<li><p>Winning or drawn games terminate immediately; occupied squares cannot be selected.</p></li>
+<li><p>Forced moves still execute normally, although they are omitted from the illustrated 304-box collection because no choice is required.</p></li>
+</ul>
 <div id="fig-menace-reinforcement" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -907,11 +928,31 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
     [0,4,8],[2,4,6]            // diags
   ];
 
-  // Bead reward/penalty settings (Michie's original values)
-  var INITIAL_BEADS  = 8;   // beads per legal move in a fresh box
-  var WIN_REWARD     = 3;   // beads added on win
-  var DRAW_REWARD    = 1;   // beads added on draw
-  var LOSS_PENALTY   = 1;   // beads removed on loss (min 1 remains)
+  // Michie's original bead settings. Each agent keeps its own editable copy.
+  var DEFAULT_SETTINGS = {
+    initialBeads: 8,
+    winReward: 3,
+    drawReward: 1,
+    lossPenalty: 1,
+    minimumBeads: 1
+  };
+
+  function normaliseSettings(settings) {
+    settings = settings || {};
+    function integer(name, fallback, minimum) {
+      var value = Number(settings[name]);
+      return Number.isInteger(value) && value >= minimum ? value : fallback;
+    }
+    var minimumBeads = integer('minimumBeads', DEFAULT_SETTINGS.minimumBeads, 0);
+    return {
+      initialBeads: Math.max(minimumBeads,
+        integer('initialBeads', DEFAULT_SETTINGS.initialBeads, 0)),
+      winReward: integer('winReward', DEFAULT_SETTINGS.winReward, 0),
+      drawReward: integer('drawReward', DEFAULT_SETTINGS.drawReward, 0),
+      lossPenalty: integer('lossPenalty', DEFAULT_SETTINGS.lossPenalty, 0),
+      minimumBeads: minimumBeads
+    };
+  }
 
   // ---- Board utilities ------------------------------------------
 
@@ -1040,7 +1081,8 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
 
   // ---- MENACE Agent ---------------------------------------------
 
-  function MenaceAgent() {
+  function MenaceAgent(settings) {
+    this.settings = normaliseSettings(settings);
     this.boxes = {};          // canonicalKey -> { _orbits, rep: beadCount }
     this.history = [];        // moves made this game: [{key, move}]
     this.stats = { wins: 0, draws: 0, losses: 0, games: 0 };
@@ -1057,7 +1099,7 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
       var orbits = getMoveOrbits(canonBoard);
       var box = { _orbits: orbits };
       for (var m = 0; m < orbits.length; m++) {
-        box[orbits[m].rep] = INITIAL_BEADS;
+        box[orbits[m].rep] = this.settings.initialBeads;
       }
       this.boxes[key] = box;
     }
@@ -1105,16 +1147,16 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
 
   MenaceAgent.prototype.reward = function (outcome) {
     // outcome: 'win', 'draw', 'loss'
-    var delta = outcome === 'win' ? WIN_REWARD
-              : outcome === 'draw' ? DRAW_REWARD
-              : -LOSS_PENALTY;
+    var delta = outcome === 'win' ? this.settings.winReward
+              : outcome === 'draw' ? this.settings.drawReward
+              : -this.settings.lossPenalty;
 
     for (var i = 0; i < this.history.length; i++) {
       var h = this.history[i];
       if (h.move === null) continue;
       var box = this.boxes[h.key];
       if (!box) continue;
-      box[h.move] = Math.max(1, (box[h.move] || 0) + delta);
+      box[h.move] = Math.max(this.settings.minimumBeads, (box[h.move] || 0) + delta);
     }
 
     this.stats.games++;
@@ -1131,6 +1173,11 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
     this.history = [];
     this.stats = { wins: 0, draws: 0, losses: 0, games: 0 };
     this.gameLog = [];
+  };
+
+  MenaceAgent.prototype.configure = function (settings) {
+    this.settings = normaliseSettings(settings);
+    this.reset();
   };
 
   MenaceAgent.prototype.getBeadSnapshot = function (board) {
@@ -1281,20 +1328,40 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
     playGame: playGame,
     trainBatch: trainBatch,
     rollingStats: rollingStats,
-    INITIAL_BEADS: INITIAL_BEADS,
-    WIN_REWARD: WIN_REWARD,
-    DRAW_REWARD: DRAW_REWARD,
-    LOSS_PENALTY: LOSS_PENALTY
+    DEFAULT_SETTINGS: DEFAULT_SETTINGS
   };
 
 })();</script>
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-<button id="menace-btn-new" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #932667; color: white;">New Game</button>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+<button id="menace-btn-new" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;padding: 11px 24px; font-size: 16px; background: #932667; color: white;">New Game</button>
 <button id="menace-btn-train50" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 50</button>
 <button id="menace-btn-train200" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 200</button>
 <button id="menace-btn-train500" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 500</button>
 <button id="menace-btn-reset" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #dd513a; color: white;">Reset</button>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;">
+<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
+Initial
+<input id="menace-param-initial" type="number" min="0" step="1" value="8" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+</label>
+<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
+Win +
+<input id="menace-param-win" type="number" min="0" step="1" value="3" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+</label>
+<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
+Draw +
+<input id="menace-param-draw" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+</label>
+<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
+Loss -
+<input id="menace-param-loss" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+</label>
+<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
+Minimum
+<input id="menace-param-minimum" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+</label>
+<span style="font-size: 11px; color: #777; padding-bottom: 6px;">Applied when Reset is pressed</span>
 </div>
 <div id="menace-status" style="font-weight: bold; margin-bottom: 8px; min-height: 1.5em;"></div>
 <div id="menace-stats" style="font-size: 13px; color: #666;"></div>
@@ -1795,7 +1862,20 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
 
   function resetMenace() {
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
-    menace.reset();
+    var settings = {
+      initialBeads: Number(el('menace-param-initial').value),
+      winReward: Number(el('menace-param-win').value),
+      drawReward: Number(el('menace-param-draw').value),
+      lossPenalty: Number(el('menace-param-loss').value),
+      minimumBeads: Number(el('menace-param-minimum').value)
+    };
+    menace.configure(settings);
+    var applied = menace.settings;
+    el('menace-param-initial').value = applied.initialBeads;
+    el('menace-param-win').value = applied.winReward;
+    el('menace-param-draw').value = applied.drawReward;
+    el('menace-param-loss').value = applied.lossPenalty;
+    el('menace-param-minimum').value = applied.minimumBeads;
     currentBoard    = [0,0,0,0,0,0,0,0,0];
     menaceViewBoard = null;
     menaceChosenCell = -1;
@@ -1805,7 +1885,7 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
     renderMatchbox();
     renderStats();
     renderLearningCurve();
-    setText('menace-status', 'MENACE reset. All matchboxes cleared.');
+    setText('menace-status', 'Parameters applied. MENACE learning and matchboxes reset.');
   }
 
   // ---- Move 2 zoom view (5 canonical boards) --------------------
@@ -1948,7 +2028,7 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
 
       var isXTurn = (xCount === oCount);
 
-      if (isXTurn) {
+      if (isXTurn && M.legalMoves(board).length > 1) {
         var move = xCount + 1;
         if (move <= 5) groups[move][M.canonicalKey(board)] = true;
       }
@@ -2092,6 +2172,7 @@ Figure&nbsp;6: The playable engine chooses among the current matchbox options in
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <div class="share-buttons">

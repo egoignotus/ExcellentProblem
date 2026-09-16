@@ -18,7 +18,7 @@ source("menace_helpers.R")
 create_menace_collection()
 ```
 
-The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer's moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once. 
+The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer's moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once. [FOOTNOTE: There are no matchboxes for move5, eventhough MENACE does that move, because in the last move only one empty square remains, so no choice needs to be made]
 :::
 
 ::: {#fig-menace-move-one}
@@ -32,6 +32,17 @@ render_move1_figure()
 Move 1: on an empty board, rotations reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the centre. Therefore, at the beginning of the game, the first matchbox has eight beads in each of three colors, 24 beads in total, with each color representing one of these choices. A single bead is drawn and its color determines MENACE's move.
 :::
 
+::: {#fig-menace-move-two-options}
+```{r}
+#| echo: false
+#| warning: false
+
+create_menace_move2()
+```
+
+The twelve numbered boxes show every position MENACE can encounter on its second turn.
+:::
+
 ::: {#fig-menace-move-two}
 ```{r}
 #| echo: false
@@ -43,16 +54,29 @@ render_move2_figure()
 After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure @fig-menace-boxes. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
 :::
 
-::: {#fig-menace-move-two-options}
-```{r}
-#| echo: false
-#| warning: false
+## Constraints:
 
-create_menace_move2()
-```
+- MENACE always plays X and moves first.
 
-The twelve numbered boxes show every position MENACE can encounter on its second turn.
-:::
+- Every new move option starts with 8 beads.
+
+- Moves are selected randomly, weighted by current bead counts.
+
+- Symmetrically equivalent boards share one matchbox.
+
+- Symmetrically equivalent squares share one bead color; a square within that group is selected randomly.
+
+- The final outcome updates the selected color in every matchbox used during that game.
+
+- Bead counts are integers with no upper limit.
+
+- Batch training plays against an opponent choosing legal moves uniformly at random.
+
+- Reset deletes all learning, statistics, and matchboxes.
+
+- Winning or drawn games terminate immediately; occupied squares cannot be selected.
+
+- Forced moves still execute normally, although they are omitted from the illustrated 304-box collection because no choice is required.
 
 ::: {#fig-menace-reinforcement}
 ```{r}

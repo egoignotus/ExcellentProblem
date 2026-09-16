@@ -20,11 +20,31 @@
     [0,4,8],[2,4,6]            // diags
   ];
 
-  // Bead reward/penalty settings (Michie's original values)
-  var INITIAL_BEADS  = 8;   // beads per legal move in a fresh box
-  var WIN_REWARD     = 3;   // beads added on win
-  var DRAW_REWARD    = 1;   // beads added on draw
-  var LOSS_PENALTY   = 1;   // beads removed on loss (min 1 remains)
+  // Michie's original bead settings. Each agent keeps its own editable copy.
+  var DEFAULT_SETTINGS = {
+    initialBeads: 8,
+    winReward: 3,
+    drawReward: 1,
+    lossPenalty: 1,
+    minimumBeads: 1
+  };
+
+  function normaliseSettings(settings) {
+    settings = settings || {};
+    function integer(name, fallback, minimum) {
+      var value = Number(settings[name]);
+      return Number.isInteger(value) && value >= minimum ? value : fallback;
+    }
+    var minimumBeads = integer('minimumBeads', DEFAULT_SETTINGS.minimumBeads, 0);
+    return {
+      initialBeads: Math.max(minimumBeads,
+        integer('initialBeads', DEFAULT_SETTINGS.initialBeads, 0)),
+      winReward: integer('winReward', DEFAULT_SETTINGS.winReward, 0),
+      drawReward: integer('drawReward', DEFAULT_SETTINGS.drawReward, 0),
+      lossPenalty: integer('lossPenalty', DEFAULT_SETTINGS.lossPenalty, 0),
+      minimumBeads: minimumBeads
+    };
+  }
 
   // ---- Board utilities ------------------------------------------
 
@@ -153,7 +173,8 @@
 
   // ---- MENACE Agent ---------------------------------------------
 
-  function MenaceAgent() {
+  function MenaceAgent(settings) {
+    this.settings = normaliseSettings(settings);
     this.boxes = {};          // canonicalKey -> { _orbits, rep: beadCount }
     this.history = [];        // moves made this game: [{key, move}]
     this.stats = { wins: 0, draws: 0, losses: 0, games: 0 };
@@ -170,7 +191,7 @@
       var orbits = getMoveOrbits(canonBoard);
       var box = { _orbits: orbits };
       for (var m = 0; m < orbits.length; m++) {
-        box[orbits[m].rep] = INITIAL_BEADS;
+        box[orbits[m].rep] = this.settings.initialBeads;
       }
       this.boxes[key] = box;
     }
@@ -218,16 +239,16 @@
 
   MenaceAgent.prototype.reward = function (outcome) {
     // outcome: 'win', 'draw', 'loss'
-    var delta = outcome === 'win' ? WIN_REWARD
-              : outcome === 'draw' ? DRAW_REWARD
-              : -LOSS_PENALTY;
+    var delta = outcome === 'win' ? this.settings.winReward
+              : outcome === 'draw' ? this.settings.drawReward
+              : -this.settings.lossPenalty;
 
     for (var i = 0; i < this.history.length; i++) {
       var h = this.history[i];
       if (h.move === null) continue;
       var box = this.boxes[h.key];
       if (!box) continue;
-      box[h.move] = Math.max(1, (box[h.move] || 0) + delta);
+      box[h.move] = Math.max(this.settings.minimumBeads, (box[h.move] || 0) + delta);
     }
 
     this.stats.games++;
@@ -244,6 +265,11 @@
     this.history = [];
     this.stats = { wins: 0, draws: 0, losses: 0, games: 0 };
     this.gameLog = [];
+  };
+
+  MenaceAgent.prototype.configure = function (settings) {
+    this.settings = normaliseSettings(settings);
+    this.reset();
   };
 
   MenaceAgent.prototype.getBeadSnapshot = function (board) {
@@ -394,10 +420,7 @@
     playGame: playGame,
     trainBatch: trainBatch,
     rollingStats: rollingStats,
-    INITIAL_BEADS: INITIAL_BEADS,
-    WIN_REWARD: WIN_REWARD,
-    DRAW_REWARD: DRAW_REWARD,
-    LOSS_PENALTY: LOSS_PENALTY
+    DEFAULT_SETTINGS: DEFAULT_SETTINGS
   };
 
 })();
