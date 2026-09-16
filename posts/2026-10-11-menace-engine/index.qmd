@@ -1,0 +1,50 @@
+
+---
+title: "MENACE Engine"
+author: "Aleksandra"
+date: "2026-10-11"
+categories: [math, interactive]
+description: "Train MENACE with your own reinforcement parameters."
+title-block-banner: true
+include-in-header: libs.html
+---
+The matchboxes, symmetry classes, and reinforcement mechanism are introduced in [Introduction to MENACE](../2026-09-27-intro-to-menace/).
+
+## Adjustable parameters
+
+The engine exposes all five numerical constraints. Their defaults reproduce the rules in the introduction:
+
+1. **Initial beads:** 8 beads for every new move option.
+2. **Win reward:** add 3 beads to each selected option.
+3. **Draw reward:** add 1 bead to each selected option.
+4. **Loss penalty:** remove 1 bead from each selected option.
+5. **Minimum beads:** do not let an option fall below 1 bead.
+
+Parameters must be non-negative integers. The initial count cannot be lower than the minimum. Pressing **Reset** applies the current values and clears earlier learning, statistics, and matchboxes.
+
+## Engine rules
+
+- MENACE always plays X and moves first.
+- Moves are selected randomly in proportion to their bead counts.
+- Symmetrically equivalent boards share one matchbox.
+- Symmetrically equivalent squares share one bead color; a square within the selected class is chosen randomly.
+- The final outcome updates every option selected by MENACE during that game.
+- Batch training uses an opponent that selects uniformly among legal moves.
+- A win or draw ends the game immediately, and occupied squares cannot be selected.
+
+::: {#fig-menace-engine}
+```{r}
+#| echo: false
+#| warning: false
+
+source("menace_helpers.R")
+
+render_menace_plot(
+  controls_html    = create_menace_controls(),
+  board_html       = create_menace_board(),
+  curve_html       = create_menace_curve()
+)
+```
+
+Adjust the five parameters, press **Reset**, and train or play against MENACE. The 10 x 10 area display shows the current move probabilities, while the learning curve records how its results change during training.
+:::
