@@ -2,7 +2,7 @@
 title: "Few Perspectives on Change"
 author: "Aleksandra"
 date: "2026-02-27"
-categories: [interactive, skills, finance]
+categories: [interactive, skills, math]
 image: "thumb.jpeg"
 description: "Starting point: nothing changes."
 title-block-banner: true

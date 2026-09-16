@@ -6,6 +6,9 @@ categories: [ideas, interactive, chemistry]
 image: "thumb.jpeg"
 description: "How many birthdays do I have ahead?"
 title-block-banner: true
+blogs:
+  - title: "The Tail End"
+    author: "Tim Urban"
 ---
 Between this post and the next one I will celebrate my birthday. 20 years of being of legal age, kind of a round anniversary. For this reason, I decided to write about countable events, and place them not only in the context of the current birthday, but also of the entire lifespan. The grids below are interactive, so go ahead and test your inputs, too. This post is inspired by [The Tail End](https://waitbutwhy.com/2015/12/the-tail-end.html) by Tim Urban. 
 

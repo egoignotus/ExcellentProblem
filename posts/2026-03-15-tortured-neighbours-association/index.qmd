@@ -6,6 +6,13 @@ categories: [skills, music]
 image: "thumb.jpg"
 description: "“The wand chooses the wizard, Mr Potter.”"
 title-block-banner: true
+books:
+  - title: "Harry Potter and the Philosopher's Stone"
+    author: "J.K. Rowling"
+  - title: "Harry Potter and the Half-Blood Prince"
+    author: "J.K. Rowling"
+  - title: "Thinking, Fast and Slow"
+    author: "Daniel Kahneman"
 ---
 
 Do you remember Harry’s visit at the Ollivander’s wand shop? Young wizard tried multiple wands: willow, oak, maple, and with different cores: unicorn’s hair, phoenix feather. Nothing gave a spark until a wand made from holly wood with dragon heartstring. Ollivander was very perplexed by this match [^1], but he quickly got his coolness back, saying “The wand chooses the wizard, Mr Potter”. It is strikingly similar to what cello professionals are saying about bow: as an extension of their arm, it is the bow that chooses the musician. And bow is my greatest nemesis when learning the instrument. 
