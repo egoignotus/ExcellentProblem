@@ -524,7 +524,8 @@
     if (!container) return;
 
     var states = enumerateMove2States();
-    var html = '<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;padding:8px 0;">';
+    var html = '<div style="display:grid;grid-template-columns:repeat(3,minmax(0,84px));' +
+           'gap:12px;justify-content:center;padding:8px 0;">';
     for (var i = 0; i < states.length; i++) {
       html += renderMiniBoardCard(states[i], i + 1);
     }
@@ -675,10 +676,12 @@
       var col = COLLECTION_COLORS[m - 1];
       var boxesPerRow = Math.max(4, Math.min(14, Math.ceil(Math.sqrt(count * 2))));
       var maxW = boxesPerRow * 25;
+      var boxesStyle = m === 2
+        ? 'display:grid; grid-template-columns:repeat(3,22px); gap:2px; justify-content:center;'
+        : 'display:flex; flex-wrap:wrap; gap:2px; max-width:' + maxW + 'px; justify-content:center;';
 
       html += '<div style="text-align:center;">';
-      html += '<div style="display:flex; flex-wrap:wrap; gap:2px; ' +
-              'max-width:' + maxW + 'px; justify-content:center;">';
+      html += '<div style="' + boxesStyle + '">';
 
       for (var i = 0; i < count; i++) {
         html += '<div style="' +

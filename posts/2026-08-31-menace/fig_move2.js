@@ -155,6 +155,15 @@
     drawScenario('fig-move2-a', SCENARIO_A);
     drawScenario('fig-move2-b', SCENARIO_B);
     drawScenario('fig-move2-c', SCENARIO_C);
+
+    var ids = ['fig-move2-a', 'fig-move2-b', 'fig-move2-c'];
+    for (var i = 0; i < ids.length; i++) {
+      var canvas = document.getElementById(ids[i]);
+      if (canvas) {
+        canvas.style.width = 'min(140px, 100%)';
+        canvas.style.height = 'auto';
+      }
+    }
   }
 
   window.initMove2Figure = initMove2Figure;

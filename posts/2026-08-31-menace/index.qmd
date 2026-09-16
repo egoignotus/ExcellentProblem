@@ -8,18 +8,28 @@ description: "The hardest part is to understand fundamentals."
 title-block-banner: true
 include-in-header: libs.html
 ---
-
-::: {#fig-menace-move-one}
+::: {#fig-menace-boxes}
 ```{r}
 #| echo: false
 #| warning: false
 
 source("menace_helpers.R")
 
+create_menace_collection()
+```
+
+The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer's moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once. 
+:::
+
+::: {#fig-menace-move-one}
+```{r}
+#| echo: false
+#| warning: false
+
 render_move1_figure()
 ```
 
-On an empty board, rotations and reflections reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the centre.
+Move 1: on an empty board, rotations reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the centre. Therefore, at the beginning of the game, the first matchbox has eight beads in each of three colors, 24 beads in total, with each color representing one of these choices. A single bead is drawn and its color determines MENACE's move.
 :::
 
 ::: {#fig-menace-move-two}
@@ -33,18 +43,15 @@ render_move2_figure()
 After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure @fig-menace-boxes. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
 :::
 
-::: {#fig-menace-boxes}
+::: {#fig-menace-move-two-options}
 ```{r}
 #| echo: false
 #| warning: false
 
-htmltools::tagList(
-  create_menace_move2(),
-  create_menace_collection()
-)
+create_menace_move2()
 ```
 
-Each matchbox represents one board position, with rotated and reflected copies stored only once. The five enlarged boxes show every position MENACE can encounter on its second turn; the collection below groups all matchboxes by turn.
+The twelve numbered boxes show every position MENACE can encounter on its second turn.
 :::
 
 ::: {#fig-menace-reinforcement}
