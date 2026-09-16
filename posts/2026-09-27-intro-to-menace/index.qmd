@@ -1,12 +1,11 @@
 
 ---
-title: "MENACE"
+title: "Introduction to MENACE"
 author: "Aleksandra"
-date: "2026-08-31"
+date: "2026-09-27"
 categories: [math, interactive]
 description: "The hardest part is to understand fundamentals."
 title-block-banner: true
-include-in-header: libs.html
 ---
 ::: {#fig-menace-boxes}
 ```{r}
@@ -15,7 +14,7 @@ include-in-header: libs.html
 
 source("menace_helpers.R")
 
-create_menace_collection()
+render_menace_static_figures(create_menace_collection())
 ```
 
 The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer's moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once. [FOOTNOTE: There are no matchboxes for move5, eventhough MENACE does that move, because in the last move only one empty square remains, so no choice needs to be made]
@@ -54,30 +53,6 @@ render_move2_figure()
 After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure @fig-menace-boxes. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
 :::
 
-## Constraints:
-
-- MENACE always plays X and moves first.
-
-- Every new move option starts with 8 beads.
-
-- Moves are selected randomly, weighted by current bead counts.
-
-- Symmetrically equivalent boards share one matchbox.
-
-- Symmetrically equivalent squares share one bead color; a square within that group is selected randomly.
-
-- The final outcome updates the selected color in every matchbox used during that game.
-
-- Bead counts are integers with no upper limit.
-
-- Batch training plays against an opponent choosing legal moves uniformly at random.
-
-- Reset deletes all learning, statistics, and matchboxes.
-
-- Winning or drawn games terminate immediately; occupied squares cannot be selected.
-
-- Forced moves still execute normally, although they are omitted from the illustrated 304-box collection because no choice is required.
-
 ::: {#fig-menace-reinforcement}
 ```{r}
 #| echo: false
@@ -87,19 +62,4 @@ create_reinforcement_figure()
 ```
 
 After a game, MENACE updates the bead color it selected in every matchbox used during that game: three beads are added after a win, one after a draw, and one is removed after a loss. The diagram starts from a fresh count of eight beads; other choices in each box are unchanged, and a losing choice never falls below one bead.
-:::
-
-::: {#fig-menace-engine}
-```{r}
-#| echo: false
-#| warning: false
-
-render_menace_plot(
-  controls_html    = create_menace_controls(),
-  board_html       = create_menace_board(),
-  curve_html       = create_menace_curve()
-)
-```
-
-The playable engine chooses among the current matchbox options in proportion to their bead counts. The 10 x 10 area display shows the same probabilities visually, while the learning curve records how MENACE's results change during training.
 :::

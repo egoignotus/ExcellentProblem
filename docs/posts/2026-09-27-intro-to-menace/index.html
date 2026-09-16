@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Aleksandra">
-<meta name="dcterms.date" content="2026-08-31">
+<meta name="dcterms.date" content="2026-09-27">
 <meta name="description" content="The hardest part is to understand fundamentals.">
 
-<title>MENACE – Excellent Problem</title>
+<title>Introduction to MENACE – Excellent Problem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -193,10 +193,6 @@ window.INFERNO = {
 
 </style>
 
-<!-- Plotly.js (for the learning curve chart) -->
-
-<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.27.0/plotly.min.js"></script>
-
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -242,7 +238,7 @@ window.INFERNO = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">MENACE</h1>
+      <h1 class="title">Introduction to MENACE</h1>
                   <div>
         <div class="description">
           The hardest part is to understand fundamentals.
@@ -268,7 +264,7 @@ window.INFERNO = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 31, 2026</p>
+        <p class="date">September 27, 2026</p>
       </div>
     </div>
     
@@ -279,14 +275,8 @@ window.INFERNO = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#constraints" id="toc-constraints" class="nav-link active" data-scroll-target="#constraints">Constraints:</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -298,620 +288,6 @@ window.INFERNO = {
 <div id="fig-menace-boxes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-menace-boxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div style="margin: 24px 0;">
-<div style="text-align: center; font-size: 14px; color: #555; margin-bottom: 14px; font-weight: 600;">MENACE’s Matchbox Collection</div>
-<div id="menace-collection"></div>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-boxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer’s moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once. [FOOTNOTE: There are no matchboxes for move5, eventhough MENACE does that move, because in the last move only one empty square remains, so no choice needs to be made]
-</figcaption>
-</figure>
-</div>
-<div id="fig-menace-move-one" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-move1" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
-<div style="text-align: center;">
-<canvas id="fig-move1-empty" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
-<div style="font-size: 11px; color: #888; margin-top: 4px;">Empty board</div>
-</div>
-<div style="font-size: 28px; color: #932667; font-weight: bold; padding: 0 4px;">→</div>
-<div id="fig-move1-options" style="display: grid; grid-template-columns: repeat(3, minmax(0, 120px)); justify-content: center; gap: 8px; width: min(100%, 376px);">
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move1-corner" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 11px; color: #888; margin-top: 4px;">
-Corner 
-<span style="color:#932667;">(4 equivalent)</span>
-</div>
-</div>
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move1-edge" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 11px; color: #888; margin-top: 4px;">
-Edge 
-<span style="color:#932667;">(4 equivalent)</span>
-</div>
-</div>
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move1-center" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 11px; color: #888; margin-top: 4px;">
-Center 
-<span style="color:#932667;">(1 unique)</span>
-</div>
-</div>
-</div>
-<div style="flex-basis: 100%; text-align: center; font-size: 28px; color: #932667; font-weight: bold; height: 28px; line-height: 28px;">↓</div>
-<div role="img" aria-label="First matchbox with 24 beads: 8 in each of 3 colors" style="min-width: 214px; padding: 12px 14px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; text-align: center;">
-<div style="display: flex; flex-direction: column; align-items: center; gap: 7px;">
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #5B1A78;">Corner</span>
-<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #E69F00;">Edge</span>
-<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #008C83;">Centre</span>
-<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-</div>
-</div>
-</div>
-<div style="font-size: 11px; color: #888; margin-top: 8px;">
-First matchbox 
-<span style="color:#932667;">(24 beads)</span>
-</div>
-</div>
-</div>
-<script>// =============================================================
-// Move 1 Symmetry Figure — Empty board + 3 distinct first moves.
-// Corner and edge boards rotate on click to show equivalence.
-// =============================================================
-
-(function () {
-  'use strict';
-
-  var R = window.INFERNO.roles;
-  var SIZE = 120;
-  var CELL = SIZE / 3;
-
-  // The 4 corner cells, in 90° rotation order
-  var CORNERS = [0, 2, 8, 6]; // top-left → top-right → bottom-right → bottom-left
-  // The 4 edge cells, in 90° rotation order
-  var EDGES = [1, 5, 7, 3];   // top-mid → mid-right → bottom-mid → mid-left
-
-  // Match the orbit and bead colors used throughout the MENACE figures.
-  var ORBIT_FILLS = [
-    'rgba(91, 26, 120, 0.22)',
-    'rgba(230, 159, 0, 0.25)',
-    'rgba(0, 140, 131, 0.25)'
-  ];
-  var ORBIT_SOLIDS = ['#5B1A78', '#E69F00', '#008C83'];
-
-  // High-DPI setup: scale canvas buffer while keeping CSS size
-  function setupHiDPI(canvas, w, h) {
-    var dpr = window.devicePixelRatio || 1;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    var ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
-    return ctx;
-  }
-
-  function getCanvas(id) { return document.getElementById(id); }
-  function getCtx(id) {
-    var canvas = getCanvas(id);
-    if (!canvas) return null;
-    return canvas.getContext('2d');
-  }
-
-  function drawGrid(ctx) {
-    ctx.strokeStyle = '#420a68';
-    ctx.lineWidth = 2;
-    for (var i = 1; i < 3; i++) {
-      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
-    }
-  }
-
-  function fillCell(ctx, cellIdx, color) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    ctx.fillStyle = color;
-    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
-  }
-
-  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    var cx = col * CELL + CELL / 2;
-    var cy = row * CELL + CELL / 2;
-    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
-    ctx.font = 'bold 13px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(String(orbitIdx + 1), cx, cy);
-  }
-
-  function drawX(ctx, cellIdx) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    var cx = col * CELL + CELL / 2;
-    var cy = row * CELL + CELL / 2;
-    var off = CELL * 0.28;
-    ctx.strokeStyle = R.lineA;
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
-  }
-
-  function drawBoard(canvasId, xCell, equivalentCells, orbitIdx) {
-    var ctx = getCtx(canvasId);
-    if (!ctx) return;
-    ctx.clearRect(0, 0, SIZE, SIZE);
-    for (var i = 0; i < equivalentCells.length; i++) {
-      fillCell(ctx, equivalentCells[i], ORBIT_FILLS[orbitIdx]);
-    }
-    drawGrid(ctx);
-    if (xCell >= 0) drawX(ctx, xCell);
-  }
-
-  function makeClickable(canvas) {
-    canvas.style.cursor = 'pointer';
-  }
-
-  function renderRotating(canvasId, cells, idxRef) {
-    var current = cells[idxRef.v];
-    var orbitIdx = canvasId === 'fig-move1-corner' ? 0 : 1;
-    drawBoard(canvasId, current, cells, orbitIdx);
-  }
-
-  function initMove1Figure() {
-    // Scale all canvases for high-DPI
-    var ids = ['fig-move1-empty', 'fig-move1-corner', 'fig-move1-edge', 'fig-move1-center'];
-    var optionSize = window.matchMedia('(max-width: 576px)').matches ? 88 : SIZE;
-    for (var k = 0; k < ids.length; k++) {
-      var c = getCanvas(ids[k]);
-      if (c) {
-        setupHiDPI(c, SIZE, SIZE);
-        if (ids[k] !== 'fig-move1-empty') {
-          c.style.width = optionSize + 'px';
-          c.style.height = optionSize + 'px';
-        }
-      }
-    }
-
-    // Empty board
-    var ctxEmpty = getCtx('fig-move1-empty');
-    if (ctxEmpty) {
-      ctxEmpty.clearRect(0, 0, SIZE, SIZE);
-      for (var corner = 0; corner < CORNERS.length; corner++) {
-        fillCell(ctxEmpty, CORNERS[corner], ORBIT_FILLS[0]);
-      }
-      for (var edge = 0; edge < EDGES.length; edge++) {
-        fillCell(ctxEmpty, EDGES[edge], ORBIT_FILLS[1]);
-      }
-      fillCell(ctxEmpty, 4, ORBIT_FILLS[2]);
-      drawGrid(ctxEmpty);
-      for (var cell = 0; cell < 9; cell++) {
-        var orbitIdx = cell === 4 ? 2 : (cell % 2 === 0 ? 0 : 1);
-        drawOrbitLabel(ctxEmpty, cell, orbitIdx);
-      }
-    }
-
-    // Center (static)
-    drawBoard('fig-move1-center', 4, [4], 2);
-
-    // Corner — click to rotate
-    var cornerIdx = { v: 0 };
-    renderRotating('fig-move1-corner', CORNERS, cornerIdx);
-    var cornerCanvas = getCanvas('fig-move1-corner');
-    if (cornerCanvas) {
-      makeClickable(cornerCanvas);
-      cornerCanvas.addEventListener('click', function () {
-        cornerIdx.v = (cornerIdx.v + 1) % 4;
-        renderRotating('fig-move1-corner', CORNERS, cornerIdx);
-      });
-    }
-
-    // Edge — click to rotate
-    var edgeIdx = { v: 0 };
-    renderRotating('fig-move1-edge', EDGES, edgeIdx);
-    var edgeCanvas = getCanvas('fig-move1-edge');
-    if (edgeCanvas) {
-      makeClickable(edgeCanvas);
-      edgeCanvas.addEventListener('click', function () {
-        edgeIdx.v = (edgeIdx.v + 1) % 4;
-        renderRotating('fig-move1-edge', EDGES, edgeIdx);
-      });
-    }
-  }
-
-  window.initMove1Figure = initMove1Figure;
-
-})();
-document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); });</script>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Move 1: on an empty board, rotations reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the centre. Therefore, at the beginning of the game, the first matchbox has eight beads in each of three colors, 24 beads in total, with each color representing one of these choices. A single bead is drawn and its color determines MENACE’s move.
-</figcaption>
-</figure>
-</div>
-<div id="fig-menace-move-two-options" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div id="menace-move2" style="margin: 24px 0;"></div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: The twelve numbered boxes show every position MENACE can encounter on its second turn.
-</figcaption>
-</figure>
-</div>
-<div id="fig-menace-move-two" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-move2" style="display: grid; grid-template-columns: repeat(3, minmax(0, 140px)); align-items: start; justify-content: center; gap: 12px; margin: 24px 0; padding: 20px 0;">
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move2-a" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 12px; color: #888; margin-top: 6px;">
-<b>7</b>
- distinct moves
-</div>
-<div style="font-size: 11px; color: #aaa;">no symmetry left (#6)</div>
-</div>
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move2-b" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 12px; color: #888; margin-top: 6px;">
-<b>4</b>
- distinct moves
-</div>
-<div style="font-size: 11px; color: #aaa;">mirror symmetry (#10)</div>
-</div>
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move2-c" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 12px; color: #888; margin-top: 6px;">
-<b>4</b>
- distinct moves
-</div>
-<div style="font-size: 11px; color: #aaa;">mirror symmetry (#12)</div>
-</div>
-</div>
-<script>// =============================================================
-// Move 2 Symmetry Figure — Three board states after X and O each
-// played once. Empty cells colored by symmetry orbit to show
-// how many distinct 3rd-move options MENACE sees.
-// =============================================================
-
-(function () {
-  'use strict';
-
-  var R = window.INFERNO.roles;
-  var SIZE = 140;
-  var CELL = SIZE / 3;
-
-  // High-DPI setup: scale canvas buffer while keeping CSS size
-  function setupHiDPI(canvas, w, h) {
-    var dpr = window.devicePixelRatio || 1;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    var ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
-    return ctx;
-  }
-
-  // Orbit colors match the engine's bead palette.
-  var ORBIT_FILLS = [
-    'rgba(91, 26, 120, 0.22)',
-    'rgba(230, 159, 0, 0.25)',
-    'rgba(0, 140, 131, 0.25)',
-    'rgba(217, 79, 61, 0.22)',
-    'rgba(63, 127, 191, 0.25)',
-    'rgba(192, 74, 135, 0.22)',
-    'rgba(106, 159, 56, 0.25)'
-  ];
-  var ORBIT_SOLIDS = [
-    '#5B1A78',
-    '#E69F00',
-    '#008C83',
-    '#D94F3D',
-    '#3F7FBF',
-    '#C04A87',
-    '#6A9F38'
-  ];
-
-  // Scenario A: X=0 (corner), O=5 (edge)
-  // Stabiliser = {identity} → 7 distinct orbits
-  var SCENARIO_A = {
-    x: 0, o: 5,
-    orbits: [-1, 0, 1, 2, 3, -1, 4, 5, 6],
-    nOrbits: 7
-  };
-
-  // Scenario B: X=1 (edge), O=4 (center)
-  // Stabiliser = {identity, h-flip} → 4 orbits: {0,2}, {3,5}, {6,8}, {7}
-  var SCENARIO_B = {
-    x: 1, o: 4,
-    orbits: [0, -1, 0, 1, -1, 1, 2, 3, 2],
-    nOrbits: 4
-  };
-
-  // Scenario C (collection position #12): X and O in opposite corners
-  // Mirror symmetry → 4 orbits: {1,3}, {2,6}, {4}, {5,7}
-  var SCENARIO_C = {
-    x: 0, o: 8,
-    orbits: [-1, 0, 1, 0, 2, 3, 1, 3, -1],
-    nOrbits: 4
-  };
-
-  function getCtx(id) {
-    var c = document.getElementById(id);
-    return c ? c.getContext('2d') : null;
-  }
-
-  function fillCell(ctx, cellIdx, color) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    ctx.fillStyle = color;
-    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
-  }
-
-  function drawGrid(ctx) {
-    ctx.strokeStyle = '#420a68';
-    ctx.lineWidth = 2;
-    for (var i = 1; i < 3; i++) {
-      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
-    }
-  }
-
-  function drawX(ctx, cellIdx) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    var cx = col * CELL + CELL / 2;
-    var cy = row * CELL + CELL / 2;
-    var off = CELL * 0.28;
-    ctx.strokeStyle = R.lineA;
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
-  }
-
-  function drawO(ctx, cellIdx) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    var cx = col * CELL + CELL / 2;
-    var cy = row * CELL + CELL / 2;
-    var radius = CELL * 0.26;
-    ctx.strokeStyle = R.lineB;
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
-    ctx.stroke();
-  }
-
-  // Draw small orbit-index label inside each empty cell
-  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    var cx = col * CELL + CELL / 2;
-    var cy = row * CELL + CELL / 2;
-    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
-    ctx.font = 'bold 13px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(String(orbitIdx + 1), cx, cy);
-  }
-
-  function drawScenario(canvasId, scenario) {
-    var canvas = document.getElementById(canvasId);
-    if (!canvas) return;
-    setupHiDPI(canvas, SIZE, SIZE);
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, SIZE, SIZE);
-
-    // Fill orbit cells
-    for (var i = 0; i < 9; i++) {
-      var oi = scenario.orbits[i];
-      if (oi >= 0) fillCell(ctx, i, ORBIT_FILLS[oi]);
-    }
-
-    drawGrid(ctx);
-    drawX(ctx, scenario.x);
-    drawO(ctx, scenario.o);
-
-    // Draw orbit labels in empty cells
-    for (var j = 0; j < 9; j++) {
-      var oj = scenario.orbits[j];
-      if (oj >= 0) drawOrbitLabel(ctx, j, oj);
-    }
-  }
-
-  function initMove2Figure() {
-    drawScenario('fig-move2-a', SCENARIO_A);
-    drawScenario('fig-move2-b', SCENARIO_B);
-    drawScenario('fig-move2-c', SCENARIO_C);
-
-    var ids = ['fig-move2-a', 'fig-move2-b', 'fig-move2-c'];
-    for (var i = 0; i < ids.length; i++) {
-      var canvas = document.getElementById(ids[i]);
-      if (canvas) {
-        canvas.style.width = 'min(140px, 100%)';
-        canvas.style.height = 'auto';
-      }
-    }
-  }
-
-  window.initMove2Figure = initMove2Figure;
-
-})();
-document.addEventListener('DOMContentLoaded', function() { initMove2Figure(); });</script>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure <a href="#fig-menace-boxes" class="quarto-xref">Figure&nbsp;1</a>. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
-</figcaption>
-</figure>
-</div>
-<section id="constraints" class="level2">
-<h2 class="anchored" data-anchor-id="constraints">Constraints:</h2>
-<ul>
-<li><p>MENACE always plays X and moves first.</p></li>
-<li><p>Every new move option starts with 8 beads.</p></li>
-<li><p>Moves are selected randomly, weighted by current bead counts.</p></li>
-<li><p>Symmetrically equivalent boards share one matchbox.</p></li>
-<li><p>Symmetrically equivalent squares share one bead color; a square within that group is selected randomly.</p></li>
-<li><p>The final outcome updates the selected color in every matchbox used during that game.</p></li>
-<li><p>Bead counts are integers with no upper limit.</p></li>
-<li><p>Batch training plays against an opponent choosing legal moves uniformly at random.</p></li>
-<li><p>Reset deletes all learning, statistics, and matchboxes.</p></li>
-<li><p>Winning or drawn games terminate immediately; occupied squares cannot be selected.</p></li>
-<li><p>Forced moves still execute normally, although they are omitted from the illustrated 304-box collection because no choice is required.</p></li>
-</ul>
-<div id="fig-menace-reinforcement" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div role="img" aria-label="An initial matchbox with 8 beads branches to 11 beads after a win, 9 after a draw, and 7 after a loss" style="max-width: 420px; margin: 24px auto; padding: 0 4px;">
-<div style="display: flex; flex-direction: column; align-items: center;">
-<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-<span style="font-size: 11px; color: #777; margin-top: 5px;">Initial: 8 beads</span>
-</div>
-</div>
-<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 4px;">
-<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
-<div style="text-align: center; color: #932667; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
-<div style="font-size: 25px; line-height: 24px;">↓</div>
-<div>WIN</div>
-<div style="font-size: 11px;">+3</div>
-</div>
-<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-<span style="font-size: 11px; color: #777; margin-top: 5px;">11 beads</span>
-</div>
-</div>
-<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
-<div style="text-align: center; color: #E69F00; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
-<div style="font-size: 25px; line-height: 24px;">↓</div>
-<div>DRAW</div>
-<div style="font-size: 11px;">+1</div>
-</div>
-<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-<span style="font-size: 11px; color: #777; margin-top: 5px;">9 beads</span>
-</div>
-</div>
-<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
-<div style="text-align: center; color: #D94F3D; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
-<div style="font-size: 25px; line-height: 24px;">↓</div>
-<div>LOSS</div>
-<div style="font-size: 11px;">-1</div>
-</div>
-<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-<span style="font-size: 11px; color: #777; margin-top: 5px;">7 beads</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every matchbox used during that game: three beads are added after a win, one after a draw, and one is removed after a loss. The diagram starts from a fresh count of eight beads; other choices in each box are unchanged, and a losing choice never falls below one bead.
-</figcaption>
-</figure>
-</div>
-<div id="fig-menace-engine" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell">
 <div class="cell-output-display">
 <script>// =============================================================
@@ -1340,58 +716,9 @@ Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every 
   };
 
 })();</script>
-<div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
-<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-<button id="menace-btn-new" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;padding: 11px 24px; font-size: 16px; background: #932667; color: white;">New Game</button>
-<button id="menace-btn-train50" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 50</button>
-<button id="menace-btn-train200" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 200</button>
-<button id="menace-btn-train500" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 500</button>
-<button id="menace-btn-reset" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #dd513a; color: white;">Reset</button>
-</div>
-<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;">
-<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
-Initial
-<input id="menace-param-initial" type="number" min="0" step="1" value="8" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
-</label>
-<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
-Win +
-<input id="menace-param-win" type="number" min="0" step="1" value="3" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
-</label>
-<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
-Draw +
-<input id="menace-param-draw" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
-</label>
-<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
-Loss -
-<input id="menace-param-loss" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
-</label>
-<label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
-Minimum
-<input id="menace-param-minimum" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
-</label>
-<span style="font-size: 11px; color: #777; padding-bottom: 6px;">Applied when Reset is pressed</span>
-</div>
-<div id="menace-status" style="font-weight: bold; margin-bottom: 8px; min-height: 1.5em;"></div>
-<div id="menace-stats" style="font-size: 13px; color: #666;"></div>
-</div>
-<div style="display: flex; flex-direction: column; gap: 24px; align-items: center; margin: 20px 0;">
-<div style="flex-shrink: 0;">
-<div style="text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;">Game Board</div>
-<canvas id="menace-board" style="width: 240px; height: 240px; border: 2px solid #420a68; border-radius: 8px; background: white;"></canvas>
-</div>
-<div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: flex-start; width: 100%;">
-<div style="width: min(100%, 280px); flex: 0 1 280px;">
-<div style="text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;">Current Matchbox (bead counts)</div>
-<div id="menace-matchbox"></div>
-</div>
-<div style="width: min(100%, 280px); flex: 0 1 280px;">
-<div style="text-align: center; font-size: 13px; color: #888; margin-bottom: 6px;">Move Probability (area)</div>
-<div id="menace-probability" style="width: 100%; aspect-ratio: 1;"></div>
-</div>
-</div>
-</div>
-<div>
-<div id="menace-curve" style="width: 100%; height: min(350px, 55vw);"></div>
+<div style="margin: 24px 0;">
+<div style="text-align: center; font-size: 14px; color: #555; margin-bottom: 14px; font-weight: 600;">MENACE’s Matchbox Collection</div>
+<div id="menace-collection"></div>
 </div>
 <script>// =============================================================
 // MENACE Visualisation — Interactive tic-tac-toe board,
@@ -2173,14 +1500,595 @@ document.addEventListener('DOMContentLoaded', function() { initMenacePlot(); });
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: The playable engine chooses among the current matchbox options in proportion to their bead counts. The 10 x 10 area display shows the same probabilities visually, while the learning curve records how MENACE’s results change during training.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-boxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer’s moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once. [FOOTNOTE: There are no matchboxes for move5, eventhough MENACE does that move, because in the last move only one empty square remains, so no choice needs to be made]
+</figcaption>
+</figure>
+</div>
+<div id="fig-menace-move-one" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-move1" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
+<div style="text-align: center;">
+<canvas id="fig-move1-empty" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">Empty board</div>
+</div>
+<div style="font-size: 28px; color: #932667; font-weight: bold; padding: 0 4px;">→</div>
+<div id="fig-move1-options" style="display: grid; grid-template-columns: repeat(3, minmax(0, 120px)); justify-content: center; gap: 8px; width: min(100%, 376px);">
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-corner" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Corner 
+<span style="color:#932667;">(4 equivalent)</span>
+</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-edge" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Edge 
+<span style="color:#932667;">(4 equivalent)</span>
+</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-center" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Center 
+<span style="color:#932667;">(1 unique)</span>
+</div>
+</div>
+</div>
+<div style="flex-basis: 100%; text-align: center; font-size: 28px; color: #932667; font-weight: bold; height: 28px; line-height: 28px;">↓</div>
+<div role="img" aria-label="First matchbox with 24 beads: 8 in each of 3 colors" style="min-width: 214px; padding: 12px 14px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; text-align: center;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 7px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #5B1A78;">Corner</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #E69F00;">Edge</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #008C83;">Centre</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+</div>
+</div>
+</div>
+<div style="font-size: 11px; color: #888; margin-top: 8px;">
+First matchbox 
+<span style="color:#932667;">(24 beads)</span>
+</div>
+</div>
+</div>
+<script>// =============================================================
+// Move 1 Symmetry Figure — Empty board + 3 distinct first moves.
+// Corner and edge boards rotate on click to show equivalence.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  var R = window.INFERNO.roles;
+  var SIZE = 120;
+  var CELL = SIZE / 3;
+
+  // The 4 corner cells, in 90° rotation order
+  var CORNERS = [0, 2, 8, 6]; // top-left → top-right → bottom-right → bottom-left
+  // The 4 edge cells, in 90° rotation order
+  var EDGES = [1, 5, 7, 3];   // top-mid → mid-right → bottom-mid → mid-left
+
+  // Match the orbit and bead colors used throughout the MENACE figures.
+  var ORBIT_FILLS = [
+    'rgba(91, 26, 120, 0.22)',
+    'rgba(230, 159, 0, 0.25)',
+    'rgba(0, 140, 131, 0.25)'
+  ];
+  var ORBIT_SOLIDS = ['#5B1A78', '#E69F00', '#008C83'];
+
+  // High-DPI setup: scale canvas buffer while keeping CSS size
+  function setupHiDPI(canvas, w, h) {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return ctx;
+  }
+
+  function getCanvas(id) { return document.getElementById(id); }
+  function getCtx(id) {
+    var canvas = getCanvas(id);
+    if (!canvas) return null;
+    return canvas.getContext('2d');
+  }
+
+  function drawGrid(ctx) {
+    ctx.strokeStyle = '#420a68';
+    ctx.lineWidth = 2;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
+    }
+  }
+
+  function fillCell(ctx, cellIdx, color) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    ctx.fillStyle = color;
+    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
+  }
+
+  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(orbitIdx + 1), cx, cy);
+  }
+
+  function drawX(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var off = CELL * 0.28;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+  }
+
+  function drawBoard(canvasId, xCell, equivalentCells, orbitIdx) {
+    var ctx = getCtx(canvasId);
+    if (!ctx) return;
+    ctx.clearRect(0, 0, SIZE, SIZE);
+    for (var i = 0; i < equivalentCells.length; i++) {
+      fillCell(ctx, equivalentCells[i], ORBIT_FILLS[orbitIdx]);
+    }
+    drawGrid(ctx);
+    if (xCell >= 0) drawX(ctx, xCell);
+  }
+
+  function makeClickable(canvas) {
+    canvas.style.cursor = 'pointer';
+  }
+
+  function renderRotating(canvasId, cells, idxRef) {
+    var current = cells[idxRef.v];
+    var orbitIdx = canvasId === 'fig-move1-corner' ? 0 : 1;
+    drawBoard(canvasId, current, cells, orbitIdx);
+  }
+
+  function initMove1Figure() {
+    // Scale all canvases for high-DPI
+    var ids = ['fig-move1-empty', 'fig-move1-corner', 'fig-move1-edge', 'fig-move1-center'];
+    var optionSize = window.matchMedia('(max-width: 576px)').matches ? 88 : SIZE;
+    for (var k = 0; k < ids.length; k++) {
+      var c = getCanvas(ids[k]);
+      if (c) {
+        setupHiDPI(c, SIZE, SIZE);
+        if (ids[k] !== 'fig-move1-empty') {
+          c.style.width = optionSize + 'px';
+          c.style.height = optionSize + 'px';
+        }
+      }
+    }
+
+    // Empty board
+    var ctxEmpty = getCtx('fig-move1-empty');
+    if (ctxEmpty) {
+      ctxEmpty.clearRect(0, 0, SIZE, SIZE);
+      for (var corner = 0; corner < CORNERS.length; corner++) {
+        fillCell(ctxEmpty, CORNERS[corner], ORBIT_FILLS[0]);
+      }
+      for (var edge = 0; edge < EDGES.length; edge++) {
+        fillCell(ctxEmpty, EDGES[edge], ORBIT_FILLS[1]);
+      }
+      fillCell(ctxEmpty, 4, ORBIT_FILLS[2]);
+      drawGrid(ctxEmpty);
+      for (var cell = 0; cell < 9; cell++) {
+        var orbitIdx = cell === 4 ? 2 : (cell % 2 === 0 ? 0 : 1);
+        drawOrbitLabel(ctxEmpty, cell, orbitIdx);
+      }
+    }
+
+    // Center (static)
+    drawBoard('fig-move1-center', 4, [4], 2);
+
+    // Corner — click to rotate
+    var cornerIdx = { v: 0 };
+    renderRotating('fig-move1-corner', CORNERS, cornerIdx);
+    var cornerCanvas = getCanvas('fig-move1-corner');
+    if (cornerCanvas) {
+      makeClickable(cornerCanvas);
+      cornerCanvas.addEventListener('click', function () {
+        cornerIdx.v = (cornerIdx.v + 1) % 4;
+        renderRotating('fig-move1-corner', CORNERS, cornerIdx);
+      });
+    }
+
+    // Edge — click to rotate
+    var edgeIdx = { v: 0 };
+    renderRotating('fig-move1-edge', EDGES, edgeIdx);
+    var edgeCanvas = getCanvas('fig-move1-edge');
+    if (edgeCanvas) {
+      makeClickable(edgeCanvas);
+      edgeCanvas.addEventListener('click', function () {
+        edgeIdx.v = (edgeIdx.v + 1) % 4;
+        renderRotating('fig-move1-edge', EDGES, edgeIdx);
+      });
+    }
+  }
+
+  window.initMove1Figure = initMove1Figure;
+
+})();
+document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); });</script>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Move 1: on an empty board, rotations reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the centre. Therefore, at the beginning of the game, the first matchbox has eight beads in each of three colors, 24 beads in total, with each color representing one of these choices. A single bead is drawn and its color determines MENACE’s move.
+</figcaption>
+</figure>
+</div>
+<div id="fig-menace-move-two-options" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div id="menace-move2" style="margin: 24px 0;"></div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The twelve numbered boxes show every position MENACE can encounter on its second turn.
+</figcaption>
+</figure>
+</div>
+<div id="fig-menace-move-two" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-move2" style="display: grid; grid-template-columns: repeat(3, minmax(0, 140px)); align-items: start; justify-content: center; gap: 12px; margin: 24px 0; padding: 20px 0;">
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move2-a" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>7</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">no symmetry left (#6)</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move2-b" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>4</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">mirror symmetry (#10)</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move2-c" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>4</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">mirror symmetry (#12)</div>
+</div>
+</div>
+<script>// =============================================================
+// Move 2 Symmetry Figure — Three board states after X and O each
+// played once. Empty cells colored by symmetry orbit to show
+// how many distinct 3rd-move options MENACE sees.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  var R = window.INFERNO.roles;
+  var SIZE = 140;
+  var CELL = SIZE / 3;
+
+  // High-DPI setup: scale canvas buffer while keeping CSS size
+  function setupHiDPI(canvas, w, h) {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return ctx;
+  }
+
+  // Orbit colors match the engine's bead palette.
+  var ORBIT_FILLS = [
+    'rgba(91, 26, 120, 0.22)',
+    'rgba(230, 159, 0, 0.25)',
+    'rgba(0, 140, 131, 0.25)',
+    'rgba(217, 79, 61, 0.22)',
+    'rgba(63, 127, 191, 0.25)',
+    'rgba(192, 74, 135, 0.22)',
+    'rgba(106, 159, 56, 0.25)'
+  ];
+  var ORBIT_SOLIDS = [
+    '#5B1A78',
+    '#E69F00',
+    '#008C83',
+    '#D94F3D',
+    '#3F7FBF',
+    '#C04A87',
+    '#6A9F38'
+  ];
+
+  // Scenario A: X=0 (corner), O=5 (edge)
+  // Stabiliser = {identity} → 7 distinct orbits
+  var SCENARIO_A = {
+    x: 0, o: 5,
+    orbits: [-1, 0, 1, 2, 3, -1, 4, 5, 6],
+    nOrbits: 7
+  };
+
+  // Scenario B: X=1 (edge), O=4 (center)
+  // Stabiliser = {identity, h-flip} → 4 orbits: {0,2}, {3,5}, {6,8}, {7}
+  var SCENARIO_B = {
+    x: 1, o: 4,
+    orbits: [0, -1, 0, 1, -1, 1, 2, 3, 2],
+    nOrbits: 4
+  };
+
+  // Scenario C (collection position #12): X and O in opposite corners
+  // Mirror symmetry → 4 orbits: {1,3}, {2,6}, {4}, {5,7}
+  var SCENARIO_C = {
+    x: 0, o: 8,
+    orbits: [-1, 0, 1, 0, 2, 3, 1, 3, -1],
+    nOrbits: 4
+  };
+
+  function getCtx(id) {
+    var c = document.getElementById(id);
+    return c ? c.getContext('2d') : null;
+  }
+
+  function fillCell(ctx, cellIdx, color) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    ctx.fillStyle = color;
+    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
+  }
+
+  function drawGrid(ctx) {
+    ctx.strokeStyle = '#420a68';
+    ctx.lineWidth = 2;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
+    }
+  }
+
+  function drawX(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var off = CELL * 0.28;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+  }
+
+  function drawO(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var radius = CELL * 0.26;
+    ctx.strokeStyle = R.lineB;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+    ctx.stroke();
+  }
+
+  // Draw small orbit-index label inside each empty cell
+  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(orbitIdx + 1), cx, cy);
+  }
+
+  function drawScenario(canvasId, scenario) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    setupHiDPI(canvas, SIZE, SIZE);
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, SIZE, SIZE);
+
+    // Fill orbit cells
+    for (var i = 0; i < 9; i++) {
+      var oi = scenario.orbits[i];
+      if (oi >= 0) fillCell(ctx, i, ORBIT_FILLS[oi]);
+    }
+
+    drawGrid(ctx);
+    drawX(ctx, scenario.x);
+    drawO(ctx, scenario.o);
+
+    // Draw orbit labels in empty cells
+    for (var j = 0; j < 9; j++) {
+      var oj = scenario.orbits[j];
+      if (oj >= 0) drawOrbitLabel(ctx, j, oj);
+    }
+  }
+
+  function initMove2Figure() {
+    drawScenario('fig-move2-a', SCENARIO_A);
+    drawScenario('fig-move2-b', SCENARIO_B);
+    drawScenario('fig-move2-c', SCENARIO_C);
+
+    var ids = ['fig-move2-a', 'fig-move2-b', 'fig-move2-c'];
+    for (var i = 0; i < ids.length; i++) {
+      var canvas = document.getElementById(ids[i]);
+      if (canvas) {
+        canvas.style.width = 'min(140px, 100%)';
+        canvas.style.height = 'auto';
+      }
+    }
+  }
+
+  window.initMove2Figure = initMove2Figure;
+
+})();
+document.addEventListener('DOMContentLoaded', function() { initMove2Figure(); });</script>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure <a href="#fig-menace-boxes" class="quarto-xref">Figure&nbsp;1</a>. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
+</figcaption>
+</figure>
+</div>
+<div id="fig-menace-reinforcement" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div role="img" aria-label="An initial matchbox with 8 beads branches to 11 beads after a win, 9 after a draw, and 7 after a loss" style="max-width: 420px; margin: 24px auto; padding: 0 4px;">
+<div style="display: flex; flex-direction: column; align-items: center;">
+<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777; margin-top: 5px;">Initial: 8 beads</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 4px;">
+<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
+<div style="text-align: center; color: #932667; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
+<div style="font-size: 25px; line-height: 24px;">↓</div>
+<div>WIN</div>
+<div style="font-size: 11px;">+3</div>
+</div>
+<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777; margin-top: 5px;">11 beads</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
+<div style="text-align: center; color: #E69F00; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
+<div style="font-size: 25px; line-height: 24px;">↓</div>
+<div>DRAW</div>
+<div style="font-size: 11px;">+1</div>
+</div>
+<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777; margin-top: 5px;">9 beads</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
+<div style="text-align: center; color: #D94F3D; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
+<div style="font-size: 25px; line-height: 24px;">↓</div>
+<div>LOSS</div>
+<div style="font-size: 11px;">-1</div>
+</div>
+<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+<span style="font-size: 11px; color: #777; margin-top: 5px;">7 beads</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every matchbox used during that game: three beads are added after a win, one after a draw, and one is removed after a loss. The diagram starts from a fresh count of eight beads; other choices in each box are unchanged, and a losing choice never falls below one bead.
 </figcaption>
 </figure>
 </div>
 
 
-</section>
 
 </main> <!-- /main -->
 <div class="share-buttons">

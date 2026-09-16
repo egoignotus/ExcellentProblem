@@ -457,6 +457,24 @@ create_menace_curve <- function() {
   )
 }
 
+#' Render the static MENACE figures that use canonical board enumeration
+#'
+#' @param collection_html HTML from create_menace_collection()
+#' @return htmltools::tagList
+render_menace_static_figures <- function(collection_html) {
+  engine_code <- paste(readLines("menace_engine.js", warn = FALSE), collapse = "\n")
+  plot_code <- paste(readLines("plot_menace.js", warn = FALSE), collapse = "\n")
+
+  htmltools::tagList(
+    htmltools::tags$script(htmltools::HTML(engine_code)),
+    collection_html,
+    htmltools::tags$script(htmltools::HTML(paste0(
+      plot_code,
+      "\ndocument.addEventListener('DOMContentLoaded', function() { initMenacePlot(); });"
+    )))
+  )
+}
+
 #' Render the full MENACE interactive section
 #'
 #' Inlines the engine + plot JS and wires up DOMContentLoaded.
