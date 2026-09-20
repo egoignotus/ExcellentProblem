@@ -29,7 +29,8 @@ Parameters must be non-negative integers. The initial count cannot be lower than
 - Symmetrically equivalent boards share one matchbox.
 - Symmetrically equivalent squares share one bead color; a square within the selected class is chosen randomly.
 - The final outcome updates every option selected by MENACE during that game.
-- Batch training uses an opponent that selects uniformly among legal moves.
+- Batch training can use a random opponent, a player that chooses an optimal move 50% of the time and a random move otherwise, or an optimal coverage player.
+- The optimal coverage player chooses the least-used move among equally optimal moves for each position, exposing MENACE to alternatives without deliberately making an inferior move.
 - A win or draw ends the game immediately, and occupied squares cannot be selected.
 
 ::: {#fig-menace-engine}
@@ -46,5 +47,5 @@ render_menace_plot(
 )
 ```
 
-Adjust the five parameters, press **Reset**, and train or play against MENACE. The 10 x 10 area display shows the current move probabilities, while the learning curve records how its results change during training.
+Adjust the five parameters, press **Reset**, choose a training opponent, and train or play against MENACE. The 10 x 10 area display shows the current move probabilities, while the learning curve records how its results change during training. Even 2,000 training games are inexpensive because tic-tac-toe has a small state space and optimal positions are cached.
 :::

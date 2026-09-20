@@ -237,7 +237,22 @@ create_menace_controls <- function() {
       htmltools::tags$button(id = "menace-btn-train50", style = secondary_btn, "Train 50"),
       htmltools::tags$button(id = "menace-btn-train200", style = secondary_btn, "Train 200"),
       htmltools::tags$button(id = "menace-btn-train500", style = secondary_btn, "Train 500"),
+      htmltools::tags$button(id = "menace-btn-train2000", style = secondary_btn, "Train 2000"),
       htmltools::tags$button(id = "menace-btn-reset", style = danger_btn, "Reset")
+    ),
+    htmltools::tags$label(
+      style = "display: flex; gap: 8px; align-items: center; margin-bottom: 12px; font-size: 13px; color: #555;",
+      htmltools::tags$span("Training opponent"),
+      htmltools::tags$select(
+        id = "menace-opponent",
+        style = paste0(
+          "min-width: 190px; padding: 6px 8px; border: 1px solid #bbb; ",
+          "border-radius: 4px; background: white; font-size: 13px;"
+        ),
+        htmltools::tags$option(value = "random", "Random"),
+        htmltools::tags$option(value = "mixed-optimal", "50% optimal / 50% random"),
+        htmltools::tags$option(value = "optimal-coverage", "Optimal coverage")
+      )
     ),
     htmltools::tags$div(
       style = paste0(

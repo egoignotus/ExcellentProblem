@@ -317,14 +317,15 @@ window.INFERNO = {
 <li>Symmetrically equivalent boards share one matchbox.</li>
 <li>Symmetrically equivalent squares share one bead color; a square within the selected class is chosen randomly.</li>
 <li>The final outcome updates every option selected by MENACE during that game.</li>
-<li>Batch training uses an opponent that selects uniformly among legal moves.</li>
+<li>Batch training can use a random opponent, a player that chooses an optimal move 50% of the time and a random move otherwise, or an optimal coverage player.</li>
+<li>The optimal coverage player chooses the least-used move among equally optimal moves for each position, exposing MENACE to alternatives without deliberately making an inferior move.</li>
 <li>A win or draw ends the game immediately, and occupied squares cannot be selected.</li>
 </ul>
 <div id="fig-menace-engine" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell">
-<div class="cell-output-display">
+<div class="cell-output-display no-overflow-x">
 <script>// =============================================================
 // MENACE Engine — Machine Educable Noughts and Crosses Engine
 // Implements Michie's matchbox reinforcement learning system
@@ -652,11 +653,96 @@ window.INFERNO = {
     return result;
   };
 
-  // ---- Random opponent ------------------------------------------
+  // ---- Training opponents ---------------------------------------
 
   function randomMove(board) {
     var legal = legalMoves(board);
     return legal[Math.floor(Math.random() * legal.length)];
+  }
+
+  var minimaxCache = {};
+
+  function minimaxScore(board, player) {
+    var winner = checkWinner(board);
+    if (winner === O) return 1;
+    if (winner === X) return -1;
+    if (isDraw(board)) return 0;
+
+    var key = boardKey(board) + ':' + player;
+    if (Object.prototype.hasOwnProperty.call(minimaxCache, key)) {
+      return minimaxCache[key];
+    }
+
+    var moves = legalMoves(board);
+    var best = player === O ? -Infinity : Infinity;
+    for (var i = 0; i < moves.length; i++) {
+      board[moves[i]] = player;
+      var score = minimaxScore(board, player === O ? X : O);
+      board[moves[i]] = EMPTY;
+      best = player === O ? Math.max(best, score) : Math.min(best, score);
+    }
+    minimaxCache[key] = best;
+    return best;
+  }
+
+  function optimalMoves(board) {
+    var legal = legalMoves(board);
+    var bestScore = -Infinity;
+    var bestMoves = [];
+    for (var i = 0; i < legal.length; i++) {
+      var move = legal[i];
+      board[move] = O;
+      var score = minimaxScore(board, X);
+      board[move] = EMPTY;
+      if (score > bestScore) {
+        bestScore = score;
+        bestMoves = [move];
+      } else if (score === bestScore) {
+        bestMoves.push(move);
+      }
+    }
+    return bestMoves;
+  }
+
+  function optimalMove(board) {
+    var moves = optimalMoves(board);
+    return moves[Math.floor(Math.random() * moves.length)];
+  }
+
+  function mixedOptimalMove(board) {
+    return Math.random() < 0.5 ? optimalMove(board) : randomMove(board);
+  }
+
+  function createCoverageOpponent() {
+    var moveUsage = {};
+    return function (board) {
+      var key = boardKey(board);
+      var moves = optimalMoves(board);
+      var usage = moveUsage[key] || {};
+      var leastUsed = Infinity;
+      var candidates = [];
+
+      for (var i = 0; i < moves.length; i++) {
+        var count = usage[moves[i]] || 0;
+        if (count < leastUsed) {
+          leastUsed = count;
+          candidates = [moves[i]];
+        } else if (count === leastUsed) {
+          candidates.push(moves[i]);
+        }
+      }
+
+      var move = candidates[Math.floor(Math.random() * candidates.length)];
+      usage[move] = (usage[move] || 0) + 1;
+      moveUsage[key] = usage;
+      return move;
+    };
+  }
+
+  function createOpponent(policy) {
+    if (policy === 'mixed-optimal') return mixedOptimalMove;
+    if (policy === 'optimal-coverage') return createCoverageOpponent();
+    return randomMove;
   }
 
   // ---- Play one full game (MENACE = X vs random/human O) --------
@@ -696,10 +782,11 @@ window.INFERNO = {
 
   // ---- Batch training -------------------------------------------
 
-  function trainBatch(menace, numGames) {
+  function trainBatch(menace, numGames, opponentMoveFn) {
+    opponentMoveFn = opponentMoveFn || randomMove;
     var results = [];
     for (var i = 0; i < numGames; i++) {
-      var r = playGame(menace, randomMove);
+      var r = playGame(menace, opponentMoveFn);
       results.push(r.outcome);
     }
     return results;
@@ -744,6 +831,9 @@ window.INFERNO = {
     canonicalKey: canonicalKey,
     MenaceAgent: MenaceAgent,
     randomMove: randomMove,
+    optimalMove: optimalMove,
+    mixedOptimalMove: mixedOptimalMove,
+    createOpponent: createOpponent,
     playGame: playGame,
     trainBatch: trainBatch,
     rollingStats: rollingStats,
@@ -757,8 +847,17 @@ window.INFERNO = {
 <button id="menace-btn-train50" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 50</button>
 <button id="menace-btn-train200" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 200</button>
 <button id="menace-btn-train500" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 500</button>
+<button id="menace-btn-train2000" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 2000</button>
 <button id="menace-btn-reset" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #dd513a; color: white;">Reset</button>
 </div>
+<label style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px; font-size: 13px; color: #555;">
+<span>Training opponent</span>
+<select id="menace-opponent" style="min-width: 190px; padding: 6px 8px; border: 1px solid #bbb; border-radius: 4px; background: white; font-size: 13px;">
+<option value="random">Random</option>
+<option value="mixed-optimal">50% optimal / 50% random</option>
+<option value="optimal-coverage">Optimal coverage</option>
+</select>
+</label>
 <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;">
 <label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
 Initial
@@ -829,6 +928,10 @@ Minimum
   var humanTurn     = false;
   var autoTraining  = false;
   var pendingTimeout = null;   // track scheduled menaceMoves to prevent races
+  var reinforcementPending = false;
+  var reinforcementNotice = null;
+  var REINFORCEMENT_DELAY_MS = 1500;
+  var trainingOpponent = M.createOpponent('random');
 
   // The board MENACE was looking at when it last made a decision.
   // This is what the matchbox display shows — NOT currentBoard,
@@ -844,6 +947,24 @@ Minimum
   function setText(id, text) {
     var e = el(id);
     if (e) e.textContent = text;
+  }
+
+  function addReinforcementNotice(container) {
+    if (!reinforcementNotice) return;
+
+    var notice = document.createElement('div');
+    notice.textContent = reinforcementNotice;
+    notice.style.cssText = 'margin:0 auto 10px;padding:9px 10px;max-width:280px;' +
+      'border:2px solid #fca50a;border-radius:6px;background:#fff7df;' +
+      'color:#420a68;text-align:center;font-size:13px;font-weight:700;';
+    container.prepend(notice);
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      notice.animate(
+        [{ opacity: 1 }, { opacity: 0.2 }, { opacity: 1 }],
+        { duration: 700, iterations: Infinity }
+      );
+    }
   }
 
   // ---- Board rendering (canvas based) ---------------------------
@@ -956,6 +1077,7 @@ Minimum
     }
 
     container.innerHTML = renderMatchboxOrbits();
+    addReinforcementNotice(container);
     renderProbabilitySurface();
   }
 
@@ -1177,6 +1299,7 @@ Minimum
   // ---- Game logic -----------------------------------------------
 
   function newGame() {
+    if (reinforcementPending) return;
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
     currentBoard = [0,0,0,0,0,0,0,0,0];
     gameActive   = true;
@@ -1233,33 +1356,53 @@ Minimum
   function endGame(outcome) {
     gameActive = false;
     humanTurn  = false;
-    menace.reward(outcome);
-    drawBoard();
-    renderMatchbox();
-    renderStats();
-    renderLearningCurve();
 
     var msg = outcome === 'win'  ? 'MENACE wins!'
             : outcome === 'draw' ? 'Draw!'
             : 'You win! MENACE loses.';
-    setText('menace-status', msg + ' Click "New Game" to play again.');
+    var amount = outcome === 'win' ? menace.settings.winReward
+               : outcome === 'draw' ? menace.settings.drawReward
+               : menace.settings.lossPenalty;
+    var outcomeLabel = outcome === 'win' ? 'WIN'
+                     : outcome === 'draw' ? 'DRAW'
+                     : 'LOSS';
+    var action = outcome === 'loss' ? 'remove' : 'add';
+    reinforcementNotice = outcomeLabel + ' - going to ' + action + ' ' + amount +
+      ' bead' + (amount === 1 ? '' : 's');
+    reinforcementPending = true;
+    drawBoard();
+    renderMatchbox();
+    setText('menace-status', msg + ' Applying reinforcement...');
+
+    setTimeout(function () {
+      menace.reward(outcome);
+      reinforcementPending = false;
+      reinforcementNotice = null;
+      renderMatchbox();
+      renderStats();
+      renderLearningCurve();
+      setText('menace-status', msg + ' Reinforcement applied. Click "New Game" to play again.');
+    }, REINFORCEMENT_DELAY_MS);
   }
 
   // ---- Training -------------------------------------------------
 
   function trainN(n) {
-    if (autoTraining) return;
+    if (autoTraining || reinforcementPending) return;
     autoTraining = true;
     gameActive = false;
     humanTurn  = false;
-    setText('menace-status', 'Training ' + n + ' games...');
+    var opponentSelect = el('menace-opponent');
+    var opponentName = opponentSelect.options[opponentSelect.selectedIndex].text;
+    var opponentMove = trainingOpponent;
+    setText('menace-status', 'Training ' + n + ' games against ' + opponentName + '...');
 
     var batchSize = 50;
     var done = 0;
 
     function runBatch() {
       var toRun = Math.min(batchSize, n - done);
-      M.trainBatch(menace, toRun);
+      M.trainBatch(menace, toRun, opponentMove);
       done += toRun;
       renderStats();
       renderLearningCurve();
@@ -1280,6 +1423,7 @@ Minimum
   }
 
   function resetMenace() {
+    if (reinforcementPending) return;
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
     var settings = {
       initialBeads: Number(el('menace-param-initial').value),
@@ -1289,6 +1433,7 @@ Minimum
       minimumBeads: Number(el('menace-param-minimum').value)
     };
     menace.configure(settings);
+    trainingOpponent = M.createOpponent(el('menace-opponent').value);
     var applied = menace.settings;
     el('menace-param-initial').value = applied.initialBeads;
     el('menace-param-win').value = applied.winReward;
@@ -1561,12 +1706,18 @@ Minimum
     var btn50    = el('menace-btn-train50');
     var btn200   = el('menace-btn-train200');
     var btn500   = el('menace-btn-train500');
+    var btn2000  = el('menace-btn-train2000');
+    var opponent = el('menace-opponent');
 
     if (btnNew)   btnNew.addEventListener('click', newGame);
     if (btnReset) btnReset.addEventListener('click', resetMenace);
     if (btn50)    btn50.addEventListener('click', function () { trainN(50); });
     if (btn200)   btn200.addEventListener('click', function () { trainN(200); });
     if (btn500)   btn500.addEventListener('click', function () { trainN(500); });
+    if (btn2000)  btn2000.addEventListener('click', function () { trainN(2000); });
+    if (opponent) opponent.addEventListener('change', function () {
+      trainingOpponent = M.createOpponent(opponent.value);
+    });
 
     drawBoard();
     renderMatchbox();
@@ -1585,7 +1736,7 @@ document.addEventListener('DOMContentLoaded', function() { initMenacePlot(); });
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Adjust the five parameters, press <strong>Reset</strong>, and train or play against MENACE. The 10 x 10 area display shows the current move probabilities, while the learning curve records how its results change during training.
+Figure&nbsp;1: Adjust the five parameters, press <strong>Reset</strong>, choose a training opponent, and train or play against MENACE. The 10 x 10 area display shows the current move probabilities, while the learning curve records how its results change during training. Even 2,000 training games are inexpensive because tic-tac-toe has a small state space and optimal positions are cached.
 </figcaption>
 </figure>
 </div>

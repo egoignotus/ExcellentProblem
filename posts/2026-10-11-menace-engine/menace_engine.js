@@ -325,11 +325,96 @@
     return result;
   };
 
-  // ---- Random opponent ------------------------------------------
+  // ---- Training opponents ---------------------------------------
 
   function randomMove(board) {
     var legal = legalMoves(board);
     return legal[Math.floor(Math.random() * legal.length)];
+  }
+
+  var minimaxCache = {};
+
+  function minimaxScore(board, player) {
+    var winner = checkWinner(board);
+    if (winner === O) return 1;
+    if (winner === X) return -1;
+    if (isDraw(board)) return 0;
+
+    var key = boardKey(board) + ':' + player;
+    if (Object.prototype.hasOwnProperty.call(minimaxCache, key)) {
+      return minimaxCache[key];
+    }
+
+    var moves = legalMoves(board);
+    var best = player === O ? -Infinity : Infinity;
+    for (var i = 0; i < moves.length; i++) {
+      board[moves[i]] = player;
+      var score = minimaxScore(board, player === O ? X : O);
+      board[moves[i]] = EMPTY;
+      best = player === O ? Math.max(best, score) : Math.min(best, score);
+    }
+    minimaxCache[key] = best;
+    return best;
+  }
+
+  function optimalMoves(board) {
+    var legal = legalMoves(board);
+    var bestScore = -Infinity;
+    var bestMoves = [];
+    for (var i = 0; i < legal.length; i++) {
+      var move = legal[i];
+      board[move] = O;
+      var score = minimaxScore(board, X);
+      board[move] = EMPTY;
+      if (score > bestScore) {
+        bestScore = score;
+        bestMoves = [move];
+      } else if (score === bestScore) {
+        bestMoves.push(move);
+      }
+    }
+    return bestMoves;
+  }
+
+  function optimalMove(board) {
+    var moves = optimalMoves(board);
+    return moves[Math.floor(Math.random() * moves.length)];
+  }
+
+  function mixedOptimalMove(board) {
+    return Math.random() < 0.5 ? optimalMove(board) : randomMove(board);
+  }
+
+  function createCoverageOpponent() {
+    var moveUsage = {};
+    return function (board) {
+      var key = boardKey(board);
+      var moves = optimalMoves(board);
+      var usage = moveUsage[key] || {};
+      var leastUsed = Infinity;
+      var candidates = [];
+
+      for (var i = 0; i < moves.length; i++) {
+        var count = usage[moves[i]] || 0;
+        if (count < leastUsed) {
+          leastUsed = count;
+          candidates = [moves[i]];
+        } else if (count === leastUsed) {
+          candidates.push(moves[i]);
+        }
+      }
+
+      var move = candidates[Math.floor(Math.random() * candidates.length)];
+      usage[move] = (usage[move] || 0) + 1;
+      moveUsage[key] = usage;
+      return move;
+    };
+  }
+
+  function createOpponent(policy) {
+    if (policy === 'mixed-optimal') return mixedOptimalMove;
+    if (policy === 'optimal-coverage') return createCoverageOpponent();
+    return randomMove;
   }
 
   // ---- Play one full game (MENACE = X vs random/human O) --------
@@ -369,10 +454,11 @@
 
   // ---- Batch training -------------------------------------------
 
-  function trainBatch(menace, numGames) {
+  function trainBatch(menace, numGames, opponentMoveFn) {
+    opponentMoveFn = opponentMoveFn || randomMove;
     var results = [];
     for (var i = 0; i < numGames; i++) {
-      var r = playGame(menace, randomMove);
+      var r = playGame(menace, opponentMoveFn);
       results.push(r.outcome);
     }
     return results;
@@ -417,6 +503,9 @@
     canonicalKey: canonicalKey,
     MenaceAgent: MenaceAgent,
     randomMove: randomMove,
+    optimalMove: optimalMove,
+    mixedOptimalMove: mixedOptimalMove,
+    createOpponent: createOpponent,
     playGame: playGame,
     trainBatch: trainBatch,
     rollingStats: rollingStats,

@@ -23,6 +23,10 @@
   var humanTurn     = false;
   var autoTraining  = false;
   var pendingTimeout = null;   // track scheduled menaceMoves to prevent races
+  var reinforcementPending = false;
+  var reinforcementNotice = null;
+  var REINFORCEMENT_DELAY_MS = 1500;
+  var trainingOpponent = M.createOpponent('random');
 
   // The board MENACE was looking at when it last made a decision.
   // This is what the matchbox display shows — NOT currentBoard,
@@ -38,6 +42,24 @@
   function setText(id, text) {
     var e = el(id);
     if (e) e.textContent = text;
+  }
+
+  function addReinforcementNotice(container) {
+    if (!reinforcementNotice) return;
+
+    var notice = document.createElement('div');
+    notice.textContent = reinforcementNotice;
+    notice.style.cssText = 'margin:0 auto 10px;padding:9px 10px;max-width:280px;' +
+      'border:2px solid #fca50a;border-radius:6px;background:#fff7df;' +
+      'color:#420a68;text-align:center;font-size:13px;font-weight:700;';
+    container.prepend(notice);
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      notice.animate(
+        [{ opacity: 1 }, { opacity: 0.2 }, { opacity: 1 }],
+        { duration: 700, iterations: Infinity }
+      );
+    }
   }
 
   // ---- Board rendering (canvas based) ---------------------------
@@ -150,6 +172,7 @@
     }
 
     container.innerHTML = renderMatchboxOrbits();
+    addReinforcementNotice(container);
     renderProbabilitySurface();
   }
 
@@ -371,6 +394,7 @@
   // ---- Game logic -----------------------------------------------
 
   function newGame() {
+    if (reinforcementPending) return;
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
     currentBoard = [0,0,0,0,0,0,0,0,0];
     gameActive   = true;
@@ -427,33 +451,53 @@
   function endGame(outcome) {
     gameActive = false;
     humanTurn  = false;
-    menace.reward(outcome);
-    drawBoard();
-    renderMatchbox();
-    renderStats();
-    renderLearningCurve();
 
     var msg = outcome === 'win'  ? 'MENACE wins!'
             : outcome === 'draw' ? 'Draw!'
             : 'You win! MENACE loses.';
-    setText('menace-status', msg + ' Click "New Game" to play again.');
+    var amount = outcome === 'win' ? menace.settings.winReward
+               : outcome === 'draw' ? menace.settings.drawReward
+               : menace.settings.lossPenalty;
+    var outcomeLabel = outcome === 'win' ? 'WIN'
+                     : outcome === 'draw' ? 'DRAW'
+                     : 'LOSS';
+    var action = outcome === 'loss' ? 'remove' : 'add';
+    reinforcementNotice = outcomeLabel + ' - going to ' + action + ' ' + amount +
+      ' bead' + (amount === 1 ? '' : 's');
+    reinforcementPending = true;
+    drawBoard();
+    renderMatchbox();
+    setText('menace-status', msg + ' Applying reinforcement...');
+
+    setTimeout(function () {
+      menace.reward(outcome);
+      reinforcementPending = false;
+      reinforcementNotice = null;
+      renderMatchbox();
+      renderStats();
+      renderLearningCurve();
+      setText('menace-status', msg + ' Reinforcement applied. Click "New Game" to play again.');
+    }, REINFORCEMENT_DELAY_MS);
   }
 
   // ---- Training -------------------------------------------------
 
   function trainN(n) {
-    if (autoTraining) return;
+    if (autoTraining || reinforcementPending) return;
     autoTraining = true;
     gameActive = false;
     humanTurn  = false;
-    setText('menace-status', 'Training ' + n + ' games...');
+    var opponentSelect = el('menace-opponent');
+    var opponentName = opponentSelect.options[opponentSelect.selectedIndex].text;
+    var opponentMove = trainingOpponent;
+    setText('menace-status', 'Training ' + n + ' games against ' + opponentName + '...');
 
     var batchSize = 50;
     var done = 0;
 
     function runBatch() {
       var toRun = Math.min(batchSize, n - done);
-      M.trainBatch(menace, toRun);
+      M.trainBatch(menace, toRun, opponentMove);
       done += toRun;
       renderStats();
       renderLearningCurve();
@@ -474,6 +518,7 @@
   }
 
   function resetMenace() {
+    if (reinforcementPending) return;
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
     var settings = {
       initialBeads: Number(el('menace-param-initial').value),
@@ -483,6 +528,7 @@
       minimumBeads: Number(el('menace-param-minimum').value)
     };
     menace.configure(settings);
+    trainingOpponent = M.createOpponent(el('menace-opponent').value);
     var applied = menace.settings;
     el('menace-param-initial').value = applied.initialBeads;
     el('menace-param-win').value = applied.winReward;
@@ -755,12 +801,18 @@
     var btn50    = el('menace-btn-train50');
     var btn200   = el('menace-btn-train200');
     var btn500   = el('menace-btn-train500');
+    var btn2000  = el('menace-btn-train2000');
+    var opponent = el('menace-opponent');
 
     if (btnNew)   btnNew.addEventListener('click', newGame);
     if (btnReset) btnReset.addEventListener('click', resetMenace);
     if (btn50)    btn50.addEventListener('click', function () { trainN(50); });
     if (btn200)   btn200.addEventListener('click', function () { trainN(200); });
     if (btn500)   btn500.addEventListener('click', function () { trainN(500); });
+    if (btn2000)  btn2000.addEventListener('click', function () { trainN(2000); });
+    if (opponent) opponent.addEventListener('change', function () {
+      trainingOpponent = M.createOpponent(opponent.value);
+    });
 
     drawBoard();
     renderMatchbox();
