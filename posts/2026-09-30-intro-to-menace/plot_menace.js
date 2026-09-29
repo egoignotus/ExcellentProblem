@@ -501,49 +501,156 @@
     setText('menace-status', 'Parameters applied. MENACE learning and matchboxes reset.');
   }
 
-  // ---- Move 2 zoom view (5 canonical boards) --------------------
+  // ---- Move 2 symmetry reduction: 72 positions -> 12 boards -----
 
-  function enumerateMove2States() {
-    var canonical = {};
-    var board = [0,0,0,0,0,0,0,0,0];
+  function enumerateMove2Families() {
+    var families = {};
 
-    function recurse(xCount, oCount) {
-      if (M.checkWinner(board) !== M.EMPTY) return;
-      var isXTurn = (xCount === oCount);
-      if (isXTurn && xCount === 1) {
+    for (var xCell = 0; xCell < 9; xCell++) {
+      for (var oCell = 0; oCell < 9; oCell++) {
+        if (oCell === xCell) continue;
+        var board = [0,0,0,0,0,0,0,0,0];
+        board[xCell] = M.X;
+        board[oCell] = M.O;
         var key = M.canonicalKey(board);
-        if (!canonical[key]) canonical[key] = board.slice();
-        return;
-      }
-      if (xCount + oCount >= 2) return;
-      var player = isXTurn ? M.X : M.O;
-      for (var i = 0; i < 9; i++) {
-        if (board[i] !== M.EMPTY) continue;
-        board[i] = player;
-        recurse(isXTurn ? xCount + 1 : xCount, isXTurn ? oCount : oCount + 1);
-        board[i] = M.EMPTY;
+        if (!families[key]) families[key] = [];
+        families[key].push(board);
       }
     }
-    recurse(0, 0);
 
-    var keys = Object.keys(canonical).sort();
-    var states = [];
-    for (var i = 0; i < keys.length; i++) states.push(canonical[keys[i]]);
-    return states;
+    var keys = Object.keys(families).sort();
+    var result = [];
+    for (var i = 0; i < keys.length; i++) {
+      result.push({ representative: families[keys[i]][0], members: families[keys[i]] });
+    }
+    return result;
+  }
+
+  function createMove2MiniBoard(board, size, label) {
+    var boardEl = document.createElement('div');
+    var cellSize = size / 3;
+    boardEl.setAttribute('role', 'img');
+    boardEl.setAttribute('aria-label', label);
+    boardEl.style.cssText = 'display:grid;grid-template-columns:repeat(3,' + cellSize + 'px);' +
+      'grid-template-rows:repeat(3,' + cellSize + 'px);border:1px solid #420a68;' +
+      'border-radius:2px;overflow:hidden;background:#fff;flex:0 0 auto;';
+
+    for (var i = 0; i < 9; i++) {
+      var cell = document.createElement('span');
+      var borderRight = i % 3 < 2 ? 'border-right:1px solid #b9a8c2;' : '';
+      var borderBottom = i < 6 ? 'border-bottom:1px solid #b9a8c2;' : '';
+      cell.style.cssText = 'display:flex;align-items:center;justify-content:center;' +
+        borderRight + borderBottom + 'font-size:' + Math.max(8, size * 0.2) + 'px;' +
+        'font-weight:700;line-height:1;';
+      if (board[i] === M.X) {
+        cell.textContent = '\u00d7';
+        cell.style.color = R.lineA;
+      } else if (board[i] === M.O) {
+        cell.textContent = '\u25cb';
+        cell.style.color = R.lineB;
+      }
+      boardEl.appendChild(cell);
+    }
+    return boardEl;
+  }
+
+  function setMove2Collapsed(container, collapsed) {
+    var grid = container.querySelector('[data-move2-grid]');
+    var panels = container.querySelectorAll('[data-move2-panel]');
+    var memberSets = container.querySelectorAll('[data-move2-members]');
+    var arrows = container.querySelectorAll('[data-move2-arrow]');
+    var representatives = container.querySelectorAll('[data-move2-representative]');
+    grid.style.gridTemplateColumns = collapsed
+      ? 'repeat(auto-fit,minmax(86px,112px))'
+      : 'repeat(auto-fit,minmax(min(100%,320px),1fr))';
+    grid.style.justifyContent = collapsed ? 'center' : 'normal';
+    for (var i = 0; i < memberSets.length; i++) {
+      memberSets[i].style.display = collapsed ? 'none' : 'flex';
+      arrows[i].style.display = collapsed ? 'none' : 'block';
+      panels[i].style.display = collapsed ? 'flex' : 'grid';
+      panels[i].style.gridTemplateColumns = collapsed ? '' : '1fr auto 62px';
+      panels[i].style.justifyContent = collapsed ? 'center' : 'normal';
+      panels[i].style.aspectRatio = collapsed ? '1' : 'auto';
+      representatives[i].style.transform = collapsed ? 'scale(1.08)' : 'none';
+    }
+    setText('menace-move2-summary', collapsed
+      ? '12 representatives - one board retained from each symmetry family'
+      : '72 positions - grouped into 12 symmetry families');
+    setText('menace-move2-toggle', collapsed ? 'Show all 72' : 'Collapse to 12');
+    container.setAttribute('data-collapsed', collapsed ? 'true' : 'false');
   }
 
   function renderMove2Boards() {
     var container = el('menace-move2');
     if (!container) return;
+    container.replaceChildren();
 
-    var states = enumerateMove2States();
-    var html = '<div style="display:grid;grid-template-columns:repeat(3,minmax(0,84px));' +
-           'gap:12px;justify-content:center;padding:8px 0;">';
-    for (var i = 0; i < states.length; i++) {
-      html += renderMiniBoardCard(states[i], i + 1);
+    var toolbar = document.createElement('div');
+    toolbar.style.cssText = 'display:flex;align-items:center;justify-content:space-between;' +
+      'gap:12px;flex-wrap:wrap;margin-bottom:14px;';
+    var summary = document.createElement('strong');
+    summary.id = 'menace-move2-summary';
+    summary.style.cssText = 'font-size:13px;color:#555;';
+    var toggle = document.createElement('button');
+    toggle.id = 'menace-move2-toggle';
+    toggle.type = 'button';
+    toggle.style.cssText = 'padding:7px 12px;border:1px solid #932667;border-radius:5px;' +
+      'background:#fff;color:#932667;font-size:12px;font-weight:700;cursor:pointer;';
+    toolbar.appendChild(summary);
+    toolbar.appendChild(toggle);
+    container.appendChild(toolbar);
+
+    var grid = document.createElement('div');
+    grid.setAttribute('data-move2-grid', '');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));' +
+      'gap:10px;align-items:stretch;';
+    var families = enumerateMove2Families();
+
+    for (var familyIndex = 0; familyIndex < families.length; familyIndex++) {
+      var family = families[familyIndex];
+      var panel = document.createElement('div');
+      panel.setAttribute('data-move2-panel', '');
+      panel.style.cssText = 'display:grid;grid-template-columns:1fr auto 62px;align-items:center;' +
+        'gap:8px;padding:9px;border:1px solid #d8cbdc;border-radius:6px;background:#fff;';
+
+      var members = document.createElement('div');
+      members.setAttribute('data-move2-members', '');
+      members.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;align-content:center;';
+      for (var memberIndex = 0; memberIndex < family.members.length; memberIndex++) {
+        members.appendChild(createMove2MiniBoard(
+          family.members[memberIndex], 32,
+          'Symmetry family ' + (familyIndex + 1) + ', position ' + (memberIndex + 1)
+        ));
+      }
+
+      var arrow = document.createElement('span');
+      arrow.setAttribute('data-move2-arrow', '');
+      arrow.textContent = '\u2192';
+      arrow.style.cssText = 'color:#932667;font-size:20px;font-weight:700;';
+
+      var representativeWrap = document.createElement('div');
+      representativeWrap.setAttribute('data-move2-representative', '');
+      representativeWrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;' +
+        'gap:3px;transition:transform 180ms ease;';
+      representativeWrap.appendChild(createMove2MiniBoard(
+        family.representative, 56, 'Representative of symmetry family ' + (familyIndex + 1)
+      ));
+      var familyLabel = document.createElement('span');
+      familyLabel.textContent = '#' + (familyIndex + 1) + ' (' + family.members.length + ')';
+      familyLabel.style.cssText = 'font-size:10px;color:#777;';
+      representativeWrap.appendChild(familyLabel);
+
+      panel.appendChild(members);
+      panel.appendChild(arrow);
+      panel.appendChild(representativeWrap);
+      grid.appendChild(panel);
     }
-    html += '</div>';
-    container.innerHTML = html;
+    container.appendChild(grid);
+
+    toggle.addEventListener('click', function () {
+      setMove2Collapsed(container, container.getAttribute('data-collapsed') !== 'true');
+    });
+    setMove2Collapsed(container, false);
   }
 
   // ---- Move 3 zoom view (12 canonical boards) -------------------

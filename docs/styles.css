@@ -43,6 +43,14 @@ div[id^="fig"] > p:last-child {
   font-family: "Roboto Condensed", "Arial Narrow", sans-serif;
 }
 
+/* Highlighted figures */
+.figure-highlight {
+  background-color: #fff;
+  border: 1px solid #e8e6e0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
 /* Horizontal rules */
 hr {
   background-color: #e8e6e0 !important;
