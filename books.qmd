@@ -30,5 +30,6 @@ An index of books and blogs mentioned — directly or indirectly — across the 
 
 | Blog | Author | Post |
 |------|--------|------|
+| *[FoR&AI] Machine Learning Explained* | Rodney Brooks | [Introduction to MENACE](posts/2026-09-30-intro-to-menace/index.qmd) |
 | *Best Interest* | Jesse Cramer | [A Delicious Contradiction](posts/2026-01-30-delicious-contradiction/index.qmd) |
 | *The Tail End* | Tim Urban | [Countable Events](posts/2026-04-18-countable-events/index.qmd) |

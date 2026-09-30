@@ -1,0 +1,2774 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Aleksandra">
+<meta name="dcterms.date" content="2026-09-30">
+<meta name="description" content="The hardest part is to understand fundamentals.">
+
+<title>Introduction to MENACE – Excellent Problem</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+
+// =============================================================
+
+// Viridis Inferno Palette — Global Color System
+
+// Available on every page via window.INFERNO
+
+// =============================================================
+
+window.INFERNO = {
+
+  // 11 discrete stops sampled from viridis inferno (0.0 → 1.0)
+
+  palette: [
+
+    '#000004', '#1b0c41', '#420a68', '#6a176e', '#932667',
+
+    '#bb3754', '#dd513a', '#f37819', '#fca50a', '#f6d746', '#fcffa4'
+
+  ],
+
+
+
+  // Role-based colors — identical across every plot for consistency
+
+  // "trace A" = the function line + shaded area
+
+  // "trace B" = the integral bar (right panel)
+
+  roles: {
+
+    lineA:       '#932667',                    // function curve
+
+    fillA:       'rgba(147, 38, 103, 0.25)',   // shaded area under curve
+
+    fillBorderA: 'rgba(147, 38, 103, 0.70)',   // border of shaded area
+
+    lineB:       '#dd513a',                    // second trace / bar
+
+    fillB:       'rgba(221, 81, 58, 0.50)',    // bar fill
+
+    markerLower: '#fca50a',                    // lower-limit marker (amber)
+
+    markerUpper: '#420a68',                    // upper-limit marker (deep purple)
+
+    annotation:  '#2c3e50',                    // flatly banner blue — dashed lines, labels
+
+    panelBg:     'rgba(147, 38, 103, 0.04)'    // subtle control-panel tint
+
+  },
+
+
+
+  // Utility: get hex color at position t ∈ [0, 1] (for continuous scales)
+
+  at: function(t) {
+
+    var idx = Math.max(0, Math.min(1, t)) * (this.palette.length - 1);
+
+    return this.palette[Math.round(idx)];
+
+  },
+
+
+
+  // Utility: hex → rgba string
+
+  rgba: function(hex, alpha) {
+
+    var r = parseInt(hex.slice(1, 3), 16);
+
+    var g = parseInt(hex.slice(3, 5), 16);
+
+    var b = parseInt(hex.slice(5, 7), 16);
+
+    return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
+
+  },
+
+
+
+  // Plotly-compatible colorscale for continuous variables
+
+  colorscale: [
+
+    [0.0, '#000004'], [0.1, '#1b0c41'], [0.2, '#420a68'],
+
+    [0.3, '#6a176e'], [0.4, '#932667'], [0.5, '#bb3754'],
+
+    [0.6, '#dd513a'], [0.7, '#f37819'], [0.8, '#fca50a'],
+
+    [0.9, '#f6d746'], [1.0, '#fcffa4']
+
+  ]
+
+};
+
+</script>
+
+
+
+<style>
+
+/* noUiSlider inferno theming — single solid color */
+
+.noUi-connect {
+
+  background: #932667 !important;
+
+}
+
+.noUi-handle {
+
+  border-color: #6a176e !important;
+
+  box-shadow: 0 0 4px rgba(0, 0, 4, 0.25) !important;
+
+}
+
+</style>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Excellent Problem</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../anchors.html"> 
+<span class="menu-text">Anchors</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../books.html"> 
+<span class="menu-text">Books</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Introduction to MENACE</h1>
+                  <div>
+        <div class="description">
+          The hardest part is to understand fundamentals.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">AI</div>
+                <div class="quarto-category">interactive</div>
+                <div class="quarto-category">symmetry</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Aleksandra </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 30, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intermezzo-symmetry" id="toc-intermezzo-symmetry" class="nav-link active" data-scroll-target="#intermezzo-symmetry">Intermezzo: symmetry</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>Donald Michie received a scholarship to study classics at the University of Oxford. Normally, it would have been a great opportunity for a 20-year-old, but the timing was against him: these were early 1940s and World War II was raging. Instead of studying classics, Donald decided to follow his father’s advice and do “something unspecified but romantic” to aid the war effort. His chose to sign up for a Japanese-language course at the Government Code and Cypher School in Bedford. However, upon arrival, he was informed that the class was full. What was still available was training in cryptography, in which Michie - specifically and romantically - enrolled<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Soon he was recruited to Bletchley Park, the secret code breaking center. Michie was assigned to the “Testery”, a section working to break the German cipher internally called Tunny. It was at Bletchley Park that he met and befriended Alan Turing<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. What bonded them was their shared inability to play chess, and their willingness to play it anyway. In Michie’s own words:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<blockquote class="blockquote">
+<p><em>[with Alan] We didn’t work in the same section. It came about because in Bletchley Park, everybody was either a chess master or they didn’t play the game at all, with two exceptions. And Alan Turing and I were the only two people in Bletchley Park who were bad enough to give each other a level game. And nobody else would play with us, of course. So we got into the habit of having a weekly evening in a pub in Wolverton, near where he had digs. And we played chess, but we also talked about other things, which in those days we called thinking machines.</em></p>
+</blockquote>
+<p>This post introduces a thinking machine, or rather a machine capable of learning, the one Michie built in early 1960s. Built out of absolute scarcity and absolute ingenuity. With no budget whatsoever. Built to win a bet. But we will get there soon.</p>
+<p>Bletchley Park’s codebreakers were credited by Churchill with shortening the war by years. Yet in post-war Britain, the computers were beyond the codebreakers’ reach. And even if they had been available, the consensus was that computers were useful for calculations, and little else. Michie was interested in computing, but not in cracking numbers - he had been bred on cracking codes. It comes as no surprise to me that he chose as close as possible, to work on the uncracked-then code: the genetic <a href="https://excellentproblem.com/posts/2026-09-13-biology-is-it/">code</a>. He eventually earned a PhD in genetics. During his doctoral studies, Michie stayed in touch with Turing, still fantasizing about a chess playing machine. Their paths crossed again in Cambridge, in 1948:</p>
+<blockquote class="blockquote">
+<p><em>I should have mentioned that Turing and Champernowne, and I found in Cambridge, had devised a chess machine. Of course, there was no machine in the usual sense. We would call it a program [Turochamp]. And the individuals themselves had to pour through the sheets and sheets of paper, look up tables, and so forth, and make the moves for the machine. And Shaun Wylie, also Cambridge, who was a wartime, literally, colleague of mine, I decided, well, they better have a challenger. So that gave rise to the Machiavelli, [another set of instructions written on paper] for Michie-Wylie. And the idea was to play these two paper machines off against each other, which Turing attempted to do on the Manchester Baby, the very first stored program electronic machine. But Tom Kilburn didn’t think that was a very good use of scarce time, and somehow the project never got finished.</em></p>
+</blockquote>
+<p>The drought of funding for non-numerical computing lasted for almost two more decades. Since Michie “had to do something”, he took up a position in the Department of Surgical Science at the University of Edinburgh, where he worked on reducing the graft rejection in human patients. So that was the environment in which the ideas about intelligent machines continued to brew. One day, challenged by a medical colleague, Michie put these ideas into practice by building an ingenious mechanical learning machine, later known as MENACE:</p>
+<blockquote class="blockquote">
+<p><em>(…) And in the staff club bar one day, Hugh Begbie, one of my medical colleagues, insisted that it was intrinsically impossible for a machine to learn. (…) So anyway, rather than argue, I thought, well, let’s see if we can do something about it. And having time to spare in the evenings and an indefinite supply of Swan Vestas, the nice big ones, Swan Vestas match boxes, I was able to assemble a, which I think is possibly the first trial and error learning machine.</em></p>
+</blockquote>
+<p>MENACE stands for Matchbox Educable Noughts and Crosses Engine. It is a set of matchboxes filled with colored beads. After playing a few hundred games against a human, it learned to play noughts and crosses:</p>
+<blockquote class="blockquote">
+<p><em>But by about, I think, something like 500 successive plays against me, which gruelling work for at least one of us, it was move perfect. So I claimed my money.</em></p>
+</blockquote>
+<p>How on earth can a set of matchboxes learn anything?</p>
+<div id="fig-menace-engine" class="figure-highlight quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="menace-engine.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: MENACE engine and the hands of its human operator. Picture from the 1963 Michie’s paper, reprinted <a href="https://opendatascience.com/wp-content/uploads/2018/05/Screen-Shot-2018-05-22-at-3.50.51-PM.png">here</a>.
+</figcaption>
+</figure>
+</div>
+<p>You know noughts and crosses, the two-player game played on 3x3 board. MENACE is Player 1, so it has the privilege of making the opening move. Because that move is made on an empty board, only one matchbox is needed to represent this board position. The box has 24 beads: eight beads in three different colors. Its human operator<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> mindlessly draws a bead, and its color dictates where MENACE places its nought. The operator repeats this procedure for every MENACE move, drawing beads from the correct matchboxes. Once the game is over, he also updates the number of beads in the matchboxes used, based on the outcome. If MENACE wins, the operator adds three more beads of the same color to each matchbox used during the game; for draw he adds just one bead to each matchbox. If MENACE loses, the beads drawn during the game are removed from their respective matchboxes (Figure 1). Repeat this process hundreds of times and the proportions of beads will drift far from the equal weights with which the game started. Carrot and stick, this is learning. Slovaks say “sugar and whip”, Cantonese speakers say “a mouthful of sugar, a mouthful of shit” and AI researchers say reinforcement learning<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<section id="intermezzo-symmetry" class="level3 symmetry-intermezzo">
+<h3 class="anchored" data-anchor-id="intermezzo-symmetry">Intermezzo: symmetry</h3>
+<p>Wait, you might say, why are there only three colors when the empty board has nine squares? The reason is symmetry. Rotating the board by 90<sup>o</sup> reduces the number of effective moves from nine to three: edge, corner and irreducible center. Click through the images in Figure 2 and see how all four corners are equivalent moves on an empty board. Here, symmetry reduces the number of possible moves. And that is only the first gain we get from symmetry.</p>
+<div id="fig-menace-move-one" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-move1" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
+<div style="text-align: center;">
+<canvas id="fig-move1-empty" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">Empty board</div>
+</div>
+<div style="font-size: 28px; color: #932667; font-weight: bold; padding: 0 4px;">→</div>
+<div id="fig-move1-options" style="display: grid; grid-template-columns: repeat(3, minmax(0, 120px)); justify-content: center; gap: 8px; width: min(100%, 376px);">
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-corner" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%; height: auto; aspect-ratio: 1;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Corner 
+<span style="color:#932667;">(4 equivalent)</span>
+</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-edge" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%; height: auto; aspect-ratio: 1;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Edge 
+<span style="color:#932667;">(4 equivalent)</span>
+</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-center" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%; height: auto; aspect-ratio: 1;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Center 
+<span style="color:#932667;">(1 unique)</span>
+</div>
+</div>
+</div>
+<div style="flex-basis: 100%; text-align: center; font-size: 28px; color: #932667; font-weight: bold; height: 28px; line-height: 28px;">↓</div>
+<div role="img" aria-label="First matchbox with 24 beads: 8 in each of 3 colors" style="min-width: 214px; padding: 12px 14px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; text-align: center;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 7px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #5B1A78;">Corner</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #E69F00;">Edge</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #008C83;">Centre</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+</div>
+</div>
+</div>
+<div style="font-size: 11px; color: #888; margin-top: 8px;">
+First matchbox 
+<span style="color:#932667;">(24 beads)</span>
+</div>
+</div>
+</div>
+<script>// =============================================================
+// Move 1 Symmetry Figure — Empty board + 3 distinct first moves.
+// Corner and edge boards rotate on click to show equivalence.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  var R = window.INFERNO.roles;
+  var SIZE = 120;
+  var CELL = SIZE / 3;
+
+  // The 4 corner cells, in 90° rotation order
+  var CORNERS = [0, 2, 8, 6]; // top-left → top-right → bottom-right → bottom-left
+  // The 4 edge cells, in 90° rotation order
+  var EDGES = [1, 5, 7, 3];   // top-mid → mid-right → bottom-mid → mid-left
+
+  // Match the orbit and bead colors used throughout the MENACE figures.
+  var ORBIT_FILLS = [
+    'rgba(91, 26, 120, 0.22)',
+    'rgba(230, 159, 0, 0.25)',
+    'rgba(0, 140, 131, 0.25)'
+  ];
+  var ORBIT_SOLIDS = ['#5B1A78', '#E69F00', '#008C83'];
+
+  // High-DPI setup: scale canvas buffer while keeping CSS size
+  function setupHiDPI(canvas, w, h) {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return ctx;
+  }
+
+  function getCanvas(id) { return document.getElementById(id); }
+  function getCtx(id) {
+    var canvas = getCanvas(id);
+    if (!canvas) return null;
+    return canvas.getContext('2d');
+  }
+
+  function drawGrid(ctx) {
+    ctx.strokeStyle = '#420a68';
+    ctx.lineWidth = 2;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
+    }
+  }
+
+  function fillCell(ctx, cellIdx, color) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    ctx.fillStyle = color;
+    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
+  }
+
+  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(orbitIdx + 1), cx, cy);
+  }
+
+  function drawX(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var off = CELL * 0.28;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+  }
+
+  function drawBoard(canvasId, xCell, equivalentCells, orbitIdx) {
+    var ctx = getCtx(canvasId);
+    if (!ctx) return;
+    ctx.clearRect(0, 0, SIZE, SIZE);
+    for (var i = 0; i < equivalentCells.length; i++) {
+      fillCell(ctx, equivalentCells[i], ORBIT_FILLS[orbitIdx]);
+    }
+    drawGrid(ctx);
+    if (xCell >= 0) drawX(ctx, xCell);
+  }
+
+  function makeClickable(canvas) {
+    canvas.style.cursor = 'pointer';
+  }
+
+  function renderRotating(canvasId, cells, idxRef) {
+    var current = cells[idxRef.v];
+    var orbitIdx = canvasId === 'fig-move1-corner' ? 0 : 1;
+    drawBoard(canvasId, current, cells, orbitIdx);
+  }
+
+  function initMove1Figure() {
+    // Scale all canvases for high-DPI
+    var ids = ['fig-move1-empty', 'fig-move1-corner', 'fig-move1-edge', 'fig-move1-center'];
+    var optionSize = window.matchMedia('(max-width: 576px)').matches ? 88 : SIZE;
+    for (var k = 0; k < ids.length; k++) {
+      var c = getCanvas(ids[k]);
+      if (c) {
+        setupHiDPI(c, SIZE, SIZE);
+        if (ids[k] !== 'fig-move1-empty') {
+          c.style.width = optionSize + 'px';
+          c.style.height = optionSize + 'px';
+        }
+      }
+    }
+
+    // Empty board
+    var ctxEmpty = getCtx('fig-move1-empty');
+    if (ctxEmpty) {
+      ctxEmpty.clearRect(0, 0, SIZE, SIZE);
+      for (var corner = 0; corner < CORNERS.length; corner++) {
+        fillCell(ctxEmpty, CORNERS[corner], ORBIT_FILLS[0]);
+      }
+      for (var edge = 0; edge < EDGES.length; edge++) {
+        fillCell(ctxEmpty, EDGES[edge], ORBIT_FILLS[1]);
+      }
+      fillCell(ctxEmpty, 4, ORBIT_FILLS[2]);
+      drawGrid(ctxEmpty);
+      for (var cell = 0; cell < 9; cell++) {
+        var orbitIdx = cell === 4 ? 2 : (cell % 2 === 0 ? 0 : 1);
+        drawOrbitLabel(ctxEmpty, cell, orbitIdx);
+      }
+    }
+
+    // Center (static)
+    drawBoard('fig-move1-center', 4, [4], 2);
+
+    // Corner — click to rotate
+    var cornerIdx = { v: 0 };
+    renderRotating('fig-move1-corner', CORNERS, cornerIdx);
+    var cornerCanvas = getCanvas('fig-move1-corner');
+    if (cornerCanvas) {
+      makeClickable(cornerCanvas);
+      cornerCanvas.addEventListener('click', function () {
+        cornerIdx.v = (cornerIdx.v + 1) % 4;
+        renderRotating('fig-move1-corner', CORNERS, cornerIdx);
+      });
+    }
+
+    // Edge — click to rotate
+    var edgeIdx = { v: 0 };
+    renderRotating('fig-move1-edge', EDGES, edgeIdx);
+    var edgeCanvas = getCanvas('fig-move1-edge');
+    if (edgeCanvas) {
+      makeClickable(edgeCanvas);
+      edgeCanvas.addEventListener('click', function () {
+        edgeIdx.v = (edgeIdx.v + 1) % 4;
+        renderRotating('fig-move1-edge', EDGES, edgeIdx);
+      });
+    }
+  }
+
+  window.initMove1Figure = initMove1Figure;
+
+})();
+document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); });</script>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Move 1: on an empty board, rotations reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the center.
+</figcaption>
+</figure>
+</div>
+<p>The second benefit of symmetry becomes apparent on MENACE’s second move. After the human opponent makes his first move, MENACE faces a board with seven empty squares. Although a nought and a cross can be arranged on the board is 72 ways, symmetry reduces these to just 12 distinct board positions. MENACE therefore needs only 12 matchboxes to represent its second move. Figure 3 illustrates the reduction.</p>
+<div id="fig-menace-move-two-options" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div id="menace-move2" style="margin: 24px 0;"></div>
+<script>// =============================================================
+// MENACE Engine — Machine Educable Noughts and Crosses Engine
+// Implements Michie's matchbox reinforcement learning system
+// for Tic-Tac-Toe (Noughts and Crosses).
+//
+// MENACE plays as X (first mover). Each board state that MENACE
+// encounters maps to a "matchbox" containing colored beads.
+// Drawing a bead = choosing a move. After a game the beads are
+// adjusted: wins add beads, draws add fewer, losses remove beads.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  // ---- Constants ------------------------------------------------
+  var EMPTY = 0, X = 1, O = 2;
+  var WIN_LINES = [
+    [0,1,2],[3,4,5],[6,7,8],  // rows
+    [0,3,6],[1,4,7],[2,5,8],  // cols
+    [0,4,8],[2,4,6]            // diags
+  ];
+
+  // Michie's original bead settings. Each agent keeps its own editable copy.
+  var DEFAULT_SETTINGS = {
+    initialBeads: 8,
+    winReward: 3,
+    drawReward: 1,
+    lossPenalty: 1,
+    minimumBeads: 1
+  };
+
+  function normaliseSettings(settings) {
+    settings = settings || {};
+    function integer(name, fallback, minimum) {
+      var value = Number(settings[name]);
+      return Number.isInteger(value) && value >= minimum ? value : fallback;
+    }
+    var minimumBeads = integer('minimumBeads', DEFAULT_SETTINGS.minimumBeads, 0);
+    return {
+      initialBeads: Math.max(minimumBeads,
+        integer('initialBeads', DEFAULT_SETTINGS.initialBeads, 0)),
+      winReward: integer('winReward', DEFAULT_SETTINGS.winReward, 0),
+      drawReward: integer('drawReward', DEFAULT_SETTINGS.drawReward, 0),
+      lossPenalty: integer('lossPenalty', DEFAULT_SETTINGS.lossPenalty, 0),
+      minimumBeads: minimumBeads
+    };
+  }
+
+  // ---- Board utilities ------------------------------------------
+
+  function checkWinner(board) {
+    for (var i = 0; i < WIN_LINES.length; i++) {
+      var a = WIN_LINES[i][0], b = WIN_LINES[i][1], c = WIN_LINES[i][2];
+      if (board[a] !== EMPTY && board[a] === board[b] && board[b] === board[c]) {
+        return board[a]; // X or O
+      }
+    }
+    return EMPTY;
+  }
+
+  function isDraw(board) {
+    if (checkWinner(board) !== EMPTY) return false;
+    for (var i = 0; i < 9; i++) {
+      if (board[i] === EMPTY) return false;
+    }
+    return true;
+  }
+
+  function legalMoves(board) {
+    var moves = [];
+    for (var i = 0; i < 9; i++) {
+      if (board[i] === EMPTY) moves.push(i);
+    }
+    return moves;
+  }
+
+  function boardKey(board) {
+    return board.join('');
+  }
+
+  function copyBoard(board) {
+    return board.slice();
+  }
+
+  // ---- Canonical rotation/reflection (state compression) --------
+  // We map equivalent board positions to a single canonical key
+  // so MENACE only needs ~304 matchboxes instead of ~5000+.
+
+  var TRANSFORMS = [
+    [0,1,2,3,4,5,6,7,8], // identity
+    [2,5,8,1,4,7,0,3,6], // 90° CW
+    [8,7,6,5,4,3,2,1,0], // 180°
+    [6,3,0,7,4,1,8,5,2], // 270° CW
+    [2,1,0,5,4,3,8,7,6], // horizontal flip
+    [6,7,8,3,4,5,0,1,2], // vertical flip
+    [0,3,6,1,4,7,2,5,8], // main diagonal
+    [8,5,2,7,4,1,6,3,0]  // anti-diagonal
+  ];
+
+  function canonicalKey(board) {
+    var best = boardKey(board);
+    for (var t = 1; t < TRANSFORMS.length; t++) {
+      var perm = TRANSFORMS[t];
+      var key = '';
+      for (var i = 0; i < 9; i++) key += board[perm[i]];
+      if (key < best) best = key;
+    }
+    return best;
+  }
+
+  // Find the transform that maps canonical -> current orientation
+  function findTransform(board) {
+    var canon = canonicalKey(board);
+    for (var t = 0; t < TRANSFORMS.length; t++) {
+      var perm = TRANSFORMS[t];
+      var key = '';
+      for (var i = 0; i < 9; i++) key += board[perm[i]];
+      if (key === canon) return perm;
+    }
+    return TRANSFORMS[0];
+  }
+
+  // Map a canonical-space cell index back to actual board index
+  function invertTransform(perm, canonIdx) {
+    for (var i = 0; i < 9; i++) {
+      if (perm[i] === canonIdx) return i;
+    }
+    return canonIdx;
+  }
+
+  // ---- Move-orbit detection (symmetry within a single state) ----
+  // Two legal moves are equivalent if a symmetry that *preserves*
+  // the current board maps one to the other.  We group them into
+  // orbits so that each orbit stores a single bead count.
+
+  // Return the subset of TRANSFORMS that leave `board` unchanged.
+  function getStabilizer(board) {
+    var key = boardKey(board);
+    var stab = [];
+    for (var t = 0; t < TRANSFORMS.length; t++) {
+      var perm = TRANSFORMS[t];
+      var tKey = '';
+      for (var i = 0; i < 9; i++) tKey += board[perm[i]];
+      if (tKey === key) stab.push(perm);
+    }
+    return stab;
+  }
+
+  // Group the legal moves of `board` into equivalence classes
+  // (orbits) under its stabilizer.  Returns an array of
+  // { rep: <smallest index>, members: [idx, …] }.
+  function getMoveOrbits(board) {
+    var stabilizer = getStabilizer(board);
+    var legal = legalMoves(board);
+    var visited = {};
+    var orbits = [];
+
+    for (var i = 0; i < legal.length; i++) {
+      var move = legal[i];
+      if (visited[move]) continue;
+      var orbitSet = {};
+      for (var s = 0; s < stabilizer.length; s++) {
+        var mapped = invertTransform(stabilizer[s], move);
+        if (board[mapped] === EMPTY) orbitSet[mapped] = true;
+      }
+      var members = Object.keys(orbitSet).map(Number)
+                          .sort(function (a, b) { return a - b; });
+      for (var j = 0; j < members.length; j++) visited[members[j]] = true;
+      orbits.push({ rep: members[0], members: members });
+    }
+    return orbits;
+  }
+
+  // ---- MENACE Agent ---------------------------------------------
+
+  function MenaceAgent(settings) {
+    this.settings = normaliseSettings(settings);
+    this.boxes = {};          // canonicalKey -> { _orbits, rep: beadCount }
+    this.history = [];        // moves made this game: [{key, move}]
+    this.stats = { wins: 0, draws: 0, losses: 0, games: 0 };
+    this.gameLog = [];        // per-game outcomes for learning curve
+  }
+
+  MenaceAgent.prototype.getBox = function (board) {
+    var key = canonicalKey(board);
+    if (!this.boxes[key]) {
+      // Compute canonical board and its move orbits
+      var perm = findTransform(board);
+      var canonBoard = [];
+      for (var i = 0; i < 9; i++) canonBoard.push(board[perm[i]]);
+      var orbits = getMoveOrbits(canonBoard);
+      var box = { _orbits: orbits };
+      for (var m = 0; m < orbits.length; m++) {
+        box[orbits[m].rep] = this.settings.initialBeads;
+      }
+      this.boxes[key] = box;
+    }
+    return this.boxes[key];
+  };
+
+  MenaceAgent.prototype.chooseMove = function (board) {
+    var key = canonicalKey(board);
+    var box = this.getBox(board);
+    var perm = findTransform(board);
+    var orbits = box._orbits;
+
+    // Total beads = Σ(beads_per_orbit) — orbits are equally weighted
+    var total = 0;
+    for (var i = 0; i < orbits.length; i++) {
+      total += (box[orbits[i].rep] || 0);
+    }
+
+    if (total === 0) {
+      var legal = legalMoves(board);
+      var actualMove = legal[Math.floor(Math.random() * legal.length)];
+      this.history.push({ key: key, move: null });
+      return actualMove;
+    }
+
+    // Random selection of orbit proportional to bead count
+    var r = Math.random() * total;
+    var cumul = 0;
+    var chosenOrbit = orbits[0];
+    for (var i = 0; i < orbits.length; i++) {
+      cumul += (box[orbits[i].rep] || 0);
+      if (r < cumul) { chosenOrbit = orbits[i]; break; }
+    }
+
+    // Pick a random member of the chosen orbit
+    var canonMove = chosenOrbit.members[
+      Math.floor(Math.random() * chosenOrbit.members.length)
+    ];
+    var actualMove = perm[canonMove];
+
+    // Record the orbit representative for reward
+    this.history.push({ key: key, move: chosenOrbit.rep });
+    return actualMove;
+  };
+
+  MenaceAgent.prototype.reward = function (outcome) {
+    // outcome: 'win', 'draw', 'loss'
+    var delta = outcome === 'win' ? this.settings.winReward
+              : outcome === 'draw' ? this.settings.drawReward
+              : -this.settings.lossPenalty;
+
+    for (var i = 0; i < this.history.length; i++) {
+      var h = this.history[i];
+      if (h.move === null) continue;
+      var box = this.boxes[h.key];
+      if (!box) continue;
+      box[h.move] = Math.max(this.settings.minimumBeads, (box[h.move] || 0) + delta);
+    }
+
+    this.stats.games++;
+    if (outcome === 'win')  this.stats.wins++;
+    if (outcome === 'draw') this.stats.draws++;
+    if (outcome === 'loss') this.stats.losses++;
+    this.gameLog.push(outcome);
+
+    this.history = [];
+  };
+
+  MenaceAgent.prototype.reset = function () {
+    this.boxes = {};
+    this.history = [];
+    this.stats = { wins: 0, draws: 0, losses: 0, games: 0 };
+    this.gameLog = [];
+  };
+
+  MenaceAgent.prototype.configure = function (settings) {
+    this.settings = normaliseSettings(settings);
+    this.reset();
+  };
+
+  MenaceAgent.prototype.getBeadSnapshot = function (board) {
+    // Return bead counts mapped to actual board positions.
+    // All cells in the same orbit get the same bead count.
+    var box = this.getBox(board);
+    var perm = findTransform(board);
+    var orbits = box._orbits;
+    var result = [];
+    for (var i = 0; i < 9; i++) result.push(0);
+
+    for (var o = 0; o < orbits.length; o++) {
+      var beads = box[orbits[o].rep] || 0;
+      var members = orbits[o].members;
+      for (var m = 0; m < members.length; m++) {
+        var actualIdx = perm[members[m]];
+        result[actualIdx] = beads;
+      }
+    }
+    return result;
+  };
+
+  MenaceAgent.prototype.totalBeads = function (board) {
+    var snap = this.getBeadSnapshot(board);
+    var sum = 0;
+    for (var i = 0; i < 9; i++) sum += snap[i];
+    return sum;
+  };
+
+  // Return orbit-level data mapped to actual board positions.
+  // Each orbit: { beads, size, weight, actualMembers[] }
+  MenaceAgent.prototype.getOrbitSnapshot = function (board) {
+    var box = this.getBox(board);
+    var perm = findTransform(board);
+    var orbits = box._orbits;
+    var result = [];
+
+    for (var o = 0; o < orbits.length; o++) {
+      var beads = box[orbits[o].rep] || 0;
+      var members = orbits[o].members;
+      var actualMembers = [];
+      for (var m = 0; m < members.length; m++) {
+        actualMembers.push(perm[members[m]]);
+      }
+      actualMembers.sort(function (a, b) { return a - b; });
+      result.push({
+        beads: beads,
+        size: members.length,
+        weight: beads * members.length,
+        actualMembers: actualMembers
+      });
+    }
+    return result;
+  };
+
+  // ---- Random opponent ------------------------------------------
+
+  function randomMove(board) {
+    var legal = legalMoves(board);
+    return legal[Math.floor(Math.random() * legal.length)];
+  }
+
+  // ---- Play one full game (MENACE = X vs random/human O) --------
+
+  function playGame(menace, opponentMoveFn) {
+    var board = [0,0,0,0,0,0,0,0,0];
+    var moveRecord = [];
+
+    while (true) {
+      // MENACE (X) moves
+      var xMove = menace.chooseMove(board);
+      board[xMove] = X;
+      moveRecord.push({ player: X, cell: xMove, board: copyBoard(board) });
+      if (checkWinner(board) === X) {
+        menace.reward('win');
+        return { outcome: 'win', moves: moveRecord };
+      }
+      if (isDraw(board)) {
+        menace.reward('draw');
+        return { outcome: 'draw', moves: moveRecord };
+      }
+
+      // Opponent (O) moves
+      var oMove = opponentMoveFn(board);
+      board[oMove] = O;
+      moveRecord.push({ player: O, cell: oMove, board: copyBoard(board) });
+      if (checkWinner(board) === O) {
+        menace.reward('loss');
+        return { outcome: 'loss', moves: moveRecord };
+      }
+      if (isDraw(board)) {
+        menace.reward('draw');
+        return { outcome: 'draw', moves: moveRecord };
+      }
+    }
+  }
+
+  // ---- Batch training -------------------------------------------
+
+  function trainBatch(menace, numGames) {
+    var results = [];
+    for (var i = 0; i < numGames; i++) {
+      var r = playGame(menace, randomMove);
+      results.push(r.outcome);
+    }
+    return results;
+  }
+
+  // ---- Rolling statistics for learning curve --------------------
+
+  function rollingStats(gameLog, windowSize) {
+    windowSize = windowSize || 20;
+    var wins = [], draws = [], losses = [], x = [];
+    var wCount = 0, dCount = 0, lCount = 0;
+
+    for (var i = 0; i < gameLog.length; i++) {
+      if (gameLog[i] === 'win')  wCount++;
+      if (gameLog[i] === 'draw') dCount++;
+      if (gameLog[i] === 'loss') lCount++;
+
+      if (i >= windowSize) {
+        if (gameLog[i - windowSize] === 'win')  wCount--;
+        if (gameLog[i - windowSize] === 'draw') dCount--;
+        if (gameLog[i - windowSize] === 'loss') lCount--;
+      }
+
+      var n = Math.min(i + 1, windowSize);
+      x.push(i + 1);
+      wins.push((wCount / n) * 100);
+      draws.push((dCount / n) * 100);
+      losses.push((lCount / n) * 100);
+    }
+    return { x: x, wins: wins, draws: draws, losses: losses };
+  }
+
+  // ---- Export to window -----------------------------------------
+
+  window.MENACE = {
+    EMPTY: EMPTY, X: X, O: O,
+    WIN_LINES: WIN_LINES,
+    checkWinner: checkWinner,
+    isDraw: isDraw,
+    legalMoves: legalMoves,
+    copyBoard: copyBoard,
+    canonicalKey: canonicalKey,
+    MenaceAgent: MenaceAgent,
+    randomMove: randomMove,
+    playGame: playGame,
+    trainBatch: trainBatch,
+    rollingStats: rollingStats,
+    DEFAULT_SETTINGS: DEFAULT_SETTINGS
+  };
+
+})();</script>
+<script>// =============================================================
+// MENACE Visualisation — Interactive tic-tac-toe board,
+// matchbox bead display, and Plotly learning curve.
+// Uses window.INFERNO for colors and window.MENACE for engine.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  var M = window.MENACE;
+  var R = window.INFERNO.roles;
+
+  // ---- Distinct bead colors for move orbits ---------------------
+  var BEAD_COLORS = [
+    '#5B1A78', '#E69F00', '#008C83', '#D94F3D',
+    '#3F7FBF', '#C04A87', '#6A9F38'
+  ];
+
+  // ---- Shared state ---------------------------------------------
+  var menace = new M.MenaceAgent();
+  var currentBoard  = [0,0,0,0,0,0,0,0,0];
+  var gameActive    = false;
+  var humanTurn     = false;
+  var autoTraining  = false;
+  var pendingTimeout = null;   // track scheduled menaceMoves to prevent races
+
+  // The board MENACE was looking at when it last made a decision.
+  // This is what the matchbox display shows — NOT currentBoard,
+  // because currentBoard is usually a state where it's the human's
+  // turn and MENACE has no matchbox for it.
+  var menaceViewBoard = null;
+  var menaceChosenCell = -1;   // actual cell MENACE placed X on
+
+  // ---- DOM helpers ----------------------------------------------
+
+  function el(id) { return document.getElementById(id); }
+
+  function setText(id, text) {
+    var e = el(id);
+    if (e) e.textContent = text;
+  }
+
+  // ---- Board rendering (canvas based) ---------------------------
+  var CELL_SIZE  = 80;
+  var BOARD_SIZE = CELL_SIZE * 3;
+
+  function getCanvas() { return el('menace-board'); }
+  function getCtx()    { var c = getCanvas(); return c ? c.getContext('2d') : null; }
+
+  function drawBoard() {
+    var ctx = getCtx();
+    if (!ctx) return;
+    var cs = CELL_SIZE;
+    ctx.clearRect(0, 0, BOARD_SIZE, BOARD_SIZE);
+
+    // Grid lines
+    ctx.strokeStyle = '#420a68';
+    ctx.lineWidth = 3;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * cs, 0); ctx.lineTo(i * cs, BOARD_SIZE); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * cs); ctx.lineTo(BOARD_SIZE, i * cs); ctx.stroke();
+    }
+
+    // Pieces
+    for (var r = 0; r < 3; r++) {
+      for (var c = 0; c < 3; c++) {
+        var idx = r * 3 + c;
+        var cx = c * cs + cs / 2;
+        var cy = r * cs + cs / 2;
+        if (currentBoard[idx] === M.X) drawX(ctx, cx, cy, cs);
+        else if (currentBoard[idx] === M.O) drawO(ctx, cx, cy, cs);
+      }
+    }
+
+    // Winning line
+    var winner = M.checkWinner(currentBoard);
+    if (winner !== M.EMPTY) {
+      for (var w = 0; w < M.WIN_LINES.length; w++) {
+        var line = M.WIN_LINES[w];
+        if (currentBoard[line[0]] === winner &&
+            currentBoard[line[1]] === winner &&
+            currentBoard[line[2]] === winner) {
+          drawWinLine(ctx, line, cs);
+          break;
+        }
+      }
+    }
+  }
+
+  function drawX(ctx, cx, cy, cs) {
+    var off = cs * 0.28;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 4; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+  }
+
+  function drawO(ctx, cx, cy, cs) {
+    var rad = cs * 0.28;
+    ctx.strokeStyle = R.lineB;
+    ctx.lineWidth = 4; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.arc(cx, cy, rad, 0, 2 * Math.PI); ctx.stroke();
+  }
+
+  function drawWinLine(ctx, line, cs) {
+    var r0 = Math.floor(line[0] / 3), c0 = line[0] % 3;
+    var r2 = Math.floor(line[2] / 3), c2 = line[2] % 3;
+    ctx.strokeStyle = '#fca50a';
+    ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.globalAlpha = 0.7;
+    ctx.beginPath();
+    ctx.moveTo(c0 * cs + cs / 2, r0 * cs + cs / 2);
+    ctx.lineTo(c2 * cs + cs / 2, r2 * cs + cs / 2);
+    ctx.stroke();
+    ctx.globalAlpha = 1.0;
+  }
+
+  // ---- Bead dot rendering ---------------------------------------
+  // Render `count` small colored circles inside a flex container.
+  // Above MAX_DOTS we show dots + "+N" overflow label.
+  var MAX_DOTS = 16;
+  var DOT_SIZE = 10;   // px
+
+  function renderBeadDots(count, color) {
+    var show = Math.min(count, MAX_DOTS);
+    var html = '<div style="display:flex; flex-wrap:wrap; gap:2px; justify-content:center; padding:2px;">';
+    for (var i = 0; i < show; i++) {
+      html += '<span style="display:inline-block; width:' + DOT_SIZE + 'px; height:' + DOT_SIZE + 'px; ' +
+              'border-radius:50%; background:' + color + ';"></span>';
+    }
+    if (count > MAX_DOTS) {
+      html += '<span style="font-size:9px; color:' + color + '; align-self:center;">+' + (count - MAX_DOTS) + '</span>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  // ---- Matchbox bead visualisation ------------------------------
+  // Shows the matchbox for `menaceViewBoard` (the state MENACE
+  // was evaluating), NOT currentBoard.
+
+  function renderMatchbox() {
+    var container = el('menace-matchbox');
+    if (!container) return;
+
+    if (!menaceViewBoard) {
+      container.innerHTML = '<div style="color:#888; text-align:center; padding:30px;">' +
+        'Start a game to see MENACE\'s matchbox</div>';
+      renderProbabilitySurface();
+      return;
+    }
+
+    container.innerHTML = renderMatchboxOrbits();
+    renderProbabilitySurface();
+  }
+
+  function renderProbabilitySurface() {
+    var div = el('menace-probability');
+    if (!div) return;
+
+    div.replaceChildren();
+    if (!menaceViewBoard) {
+      return;
+    }
+
+    var orbits = menace.getOrbitSnapshot(menaceViewBoard);
+    var totalBeads = 0;
+    for (var o = 0; o < orbits.length; o++) totalBeads += orbits[o].beads;
+
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Move probability shown as exact area on a 10 by 10 grid');
+    svg.style.cssText = 'display:block;width:100%;height:100%;background:#fff;';
+
+    var cursor = 0;
+    for (var o = 0; o < orbits.length; o++) {
+      var probability = totalBeads > 0 ? orbits[o].beads * 100 / totalBeads : 0;
+      var end = cursor + probability;
+      for (var row = 0; row < 10; row++) {
+        var rowStart = row * 10;
+        var segmentStart = Math.max(cursor, rowStart);
+        var segmentEnd = Math.min(end, rowStart + 10);
+        if (segmentEnd <= segmentStart) continue;
+
+        var fill = document.createElementNS(svgNS, 'rect');
+        fill.setAttribute('x', String((segmentStart - rowStart) * 10));
+        fill.setAttribute('y', String(row * 10));
+        fill.setAttribute('width', String((segmentEnd - segmentStart) * 10));
+        fill.setAttribute('height', '10');
+        fill.setAttribute('fill', BEAD_COLORS[o % BEAD_COLORS.length]);
+        var title = document.createElementNS(svgNS, 'title');
+        title.textContent = 'Choice ' + (o + 1) + ': ' + probability.toFixed(1) + '%';
+        fill.appendChild(title);
+        svg.appendChild(fill);
+      }
+      cursor = end;
+    }
+
+    for (var line = 0; line <= 10; line++) {
+      var vertical = document.createElementNS(svgNS, 'line');
+      vertical.setAttribute('x1', String(line * 10));
+      vertical.setAttribute('y1', '0');
+      vertical.setAttribute('x2', String(line * 10));
+      vertical.setAttribute('y2', '100');
+      vertical.setAttribute('stroke', '#ffffff');
+      vertical.setAttribute('stroke-width', '0.8');
+      svg.appendChild(vertical);
+
+      var horizontal = document.createElementNS(svgNS, 'line');
+      horizontal.setAttribute('x1', '0');
+      horizontal.setAttribute('y1', String(line * 10));
+      horizontal.setAttribute('x2', '100');
+      horizontal.setAttribute('y2', String(line * 10));
+      horizontal.setAttribute('stroke', '#ffffff');
+      horizontal.setAttribute('stroke-width', '0.8');
+      svg.appendChild(horizontal);
+    }
+
+    var border = document.createElementNS(svgNS, 'rect');
+    border.setAttribute('x', '0.4');
+    border.setAttribute('y', '0.4');
+    border.setAttribute('width', '99.2');
+    border.setAttribute('height', '99.2');
+    border.setAttribute('fill', 'none');
+    border.setAttribute('stroke', '#cccccc');
+    border.setAttribute('stroke-width', '0.8');
+    svg.appendChild(border);
+    div.appendChild(svg);
+  }
+
+  function renderMatchboxOrbits() {
+    var viewBoard = menaceViewBoard;
+    var orbits = menace.getOrbitSnapshot(viewBoard);
+    var totalBeads = 0;
+    for (var o = 0; o < orbits.length; o++) totalBeads += orbits[o].beads;
+
+    var html = '<div style="display:flex; flex-direction:column; gap:8px; max-width:300px; margin:0 auto;">';
+
+    for (var o = 0; o < orbits.length; o++) {
+      var orb = orbits[o];
+      var pct = totalBeads > 0 ? ((orb.beads / totalBeads) * 100).toFixed(1) : '0.0';
+      var isChosen = false;
+      for (var m = 0; m < orb.actualMembers.length; m++) {
+        if (orb.actualMembers[m] === menaceChosenCell) isChosen = true;
+      }
+      var color = BEAD_COLORS[o % BEAD_COLORS.length];
+      var borderStyle = isChosen ? '3px solid #fca50a' : '2px solid ' + window.INFERNO.rgba(color, 0.4);
+      var bgStyle = isChosen ? 'rgba(252, 165, 10, 0.10)' : 'rgba(255,255,255,0.6)';
+
+      html += '<div style="display:flex; align-items:center; gap:10px; padding:8px 10px; ' +
+              'border:' + borderStyle + '; border-radius:8px; background:' + bgStyle + ';">';
+
+      // Mini board showing which cells belong to this orbit
+      var cs = 16;
+      html += '<div style="flex-shrink:0; display:inline-grid; grid-template-columns:repeat(3,' + cs + 'px); ' +
+              'grid-template-rows:repeat(3,' + cs + 'px); border:1px solid #aaa; border-radius:2px; background:white;">';
+      for (var i = 0; i < 9; i++) {
+        var br = (i % 3 < 2) ? 'border-right:1px solid #ccc;' : '';
+        var bb = (i < 6) ? 'border-bottom:1px solid #ccc;' : '';
+        var cellContent = '';
+        if (viewBoard[i] === M.X) {
+          cellContent = '<span style="color:' + R.lineA + ';font-size:9px;">✕</span>';
+        } else if (viewBoard[i] === M.O) {
+          cellContent = '<span style="color:' + R.lineB + ';font-size:9px;">○</span>';
+        } else {
+          var inOrbit = false;
+          for (var m = 0; m < orb.actualMembers.length; m++) {
+            if (orb.actualMembers[m] === i) inOrbit = true;
+          }
+          if (inOrbit) {
+            cellContent = '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:' + color + ';"></span>';
+          }
+        }
+        html += '<div style="display:flex;align-items:center;justify-content:center;' + br + bb + '">' + cellContent + '</div>';
+      }
+      html += '</div>';
+
+      // Bead info
+      html += '<div style="flex:1; min-width:0;">';
+      html += renderBeadDots(orb.beads, color);
+      html += '<div style="font-size:10px; color:#888; margin-top:2px;">' +
+              orb.beads + ' bead' + (orb.beads !== 1 ? 's' : '') +
+              ' (' + orb.size + ' cell' + (orb.size > 1 ? 's' : '') + ')</div>';
+      html += '</div>';
+
+      // Percentage
+      html += '<div style="font-size:16px; font-weight:600; color:' + color + '; min-width:40px; text-align:right;">' +
+              pct + '%</div>';
+
+      html += '</div>';
+    }
+
+    html += '</div>';
+    if (totalBeads > 0) {
+      html += '<div style="text-align:center; margin-top:8px; font-size:12px; color:#666;">Total beads: ' + totalBeads + '</div>';
+    }
+    return html;
+  }
+
+  // ---- Learning curve (Plotly) ----------------------------------
+
+  function renderLearningCurve() {
+    var div = el('menace-curve');
+    if (!div) return;
+
+    if (menace.gameLog.length < 2) {
+      Plotly.purge(div);
+      return;
+    }
+
+    var windowSize = Math.min(50, Math.max(5, Math.floor(menace.gameLog.length / 4)));
+    var s = M.rollingStats(menace.gameLog, windowSize);
+
+    var traces = [
+      { x: s.x, y: s.wins, mode: 'lines', name: 'Win %',
+        line: { color: R.lineA, width: 2 },
+        hovertemplate: 'Game %{x}<br>Win: %{y:.1f}%<extra></extra>' },
+      { x: s.x, y: s.draws, mode: 'lines', name: 'Draw %',
+        line: { color: '#fca50a', width: 2 },
+        hovertemplate: 'Game %{x}<br>Draw: %{y:.1f}%<extra></extra>' },
+      { x: s.x, y: s.losses, mode: 'lines', name: 'Loss %',
+        line: { color: R.lineB, width: 2 },
+        hovertemplate: 'Game %{x}<br>Loss: %{y:.1f}%<extra></extra>' }
+    ];
+
+    var layout = {
+      xaxis: {
+        title: 'Game #',
+        tick0: 1,
+        dtick: Math.max(1, Math.ceil(menace.gameLog.length / 10)),
+        tickformat: 'd'
+      },
+      yaxis: { title: 'Rate (%)', range: [0, 105] },
+      plot_bgcolor: 'white', paper_bgcolor: 'white',
+      margin: { l: 50, r: 20, t: 10, b: 45 },
+      legend: { x: 0.01, y: 0.99, bgcolor: 'rgba(255,255,255,0.8)' },
+      showlegend: true,
+      annotations: [{
+        x: 0.5, y: 1.05, xref: 'paper', yref: 'paper',
+        text: 'Rolling ' + windowSize + '-game average',
+        showarrow: false, font: { size: 11, color: '#888' }
+      }]
+    };
+
+    Plotly.react(div, traces, layout, { responsive: true, displayModeBar: false });
+  }
+
+  // ---- Stats display --------------------------------------------
+
+  function renderStats() {
+    var s = menace.stats;
+    if (s.games === 0) {
+      setText('menace-stats', 'No games played yet.');
+      return;
+    }
+    var wPct = ((s.wins / s.games) * 100).toFixed(1);
+    var dPct = ((s.draws / s.games) * 100).toFixed(1);
+    var lPct = ((s.losses / s.games) * 100).toFixed(1);
+    var boxes = Object.keys(menace.boxes).length;
+
+    setText('menace-stats',
+      'Games: ' + s.games +
+      ' | W: ' + s.wins + ' (' + wPct + '%)' +
+      ' | D: ' + s.draws + ' (' + dPct + '%)' +
+      ' | L: ' + s.losses + ' (' + lPct + '%)' +
+      ' | Matchboxes: ' + boxes
+    );
+  }
+
+  // ---- Game logic -----------------------------------------------
+
+  function newGame() {
+    if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
+    currentBoard = [0,0,0,0,0,0,0,0,0];
+    gameActive   = true;
+    humanTurn    = false;
+    menaceChosenCell = -1;
+
+    // Show the empty-board matchbox — this is where learning is visible
+    menaceViewBoard = M.copyBoard(currentBoard);
+    setText('menace-status', 'MENACE is thinking...');
+    drawBoard();
+    renderMatchbox();
+
+    // MENACE moves first (X) after a brief pause so user can see the matchbox
+    pendingTimeout = setTimeout(function () { pendingTimeout = null; menaceMoves(); }, 600);
+  }
+
+  function menaceMoves() {
+    if (!gameActive) return;
+
+    // Snapshot the board BEFORE MENACE's move — this is the matchbox state
+    menaceViewBoard = M.copyBoard(currentBoard);
+
+    var move = menace.chooseMove(currentBoard);
+    currentBoard[move] = M.X;
+    menaceChosenCell = move;
+
+    drawBoard();
+    renderMatchbox();   // shows menaceViewBoard + highlights chosen cell
+
+    var winner = M.checkWinner(currentBoard);
+    if (winner === M.X) { endGame('win'); return; }
+    if (M.isDraw(currentBoard)) { endGame('draw'); return; }
+
+    humanTurn = true;
+    setText('menace-status', 'Your turn (O). Click a cell.');
+  }
+
+  function humanMoves(cell) {
+    if (!gameActive || !humanTurn) return;
+    if (currentBoard[cell] !== M.EMPTY) return;
+
+    currentBoard[cell] = M.O;
+    humanTurn = false;
+    drawBoard();
+
+    var winner = M.checkWinner(currentBoard);
+    if (winner === M.O) { endGame('loss'); return; }
+    if (M.isDraw(currentBoard)) { endGame('draw'); return; }
+
+    setText('menace-status', 'MENACE is thinking...');
+    pendingTimeout = setTimeout(function () { pendingTimeout = null; menaceMoves(); }, 300);
+  }
+
+  function endGame(outcome) {
+    gameActive = false;
+    humanTurn  = false;
+    menace.reward(outcome);
+    drawBoard();
+    renderMatchbox();
+    renderStats();
+    renderLearningCurve();
+
+    var msg = outcome === 'win'  ? 'MENACE wins!'
+            : outcome === 'draw' ? 'Draw!'
+            : 'You win! MENACE loses.';
+    setText('menace-status', msg + ' Click "New Game" to play again.');
+  }
+
+  // ---- Training -------------------------------------------------
+
+  function trainN(n) {
+    if (autoTraining) return;
+    autoTraining = true;
+    gameActive = false;
+    humanTurn  = false;
+    setText('menace-status', 'Training ' + n + ' games...');
+
+    var batchSize = 50;
+    var done = 0;
+
+    function runBatch() {
+      var toRun = Math.min(batchSize, n - done);
+      M.trainBatch(menace, toRun);
+      done += toRun;
+      renderStats();
+      renderLearningCurve();
+
+      if (done < n) {
+        setText('menace-status', 'Training... ' + done + '/' + n);
+        setTimeout(runBatch, 10);
+      } else {
+        autoTraining = false;
+        // After training, show empty-board matchbox so user sees the learned weights
+        menaceViewBoard  = [0,0,0,0,0,0,0,0,0];
+        menaceChosenCell = -1;
+        renderMatchbox();
+        setText('menace-status', 'Training complete! ' + n + ' games played. Click "New Game" to test MENACE.');
+      }
+    }
+    runBatch();
+  }
+
+  function resetMenace() {
+    if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
+    var settings = {
+      initialBeads: Number(el('menace-param-initial').value),
+      winReward: Number(el('menace-param-win').value),
+      drawReward: Number(el('menace-param-draw').value),
+      lossPenalty: Number(el('menace-param-loss').value),
+      minimumBeads: Number(el('menace-param-minimum').value)
+    };
+    menace.configure(settings);
+    var applied = menace.settings;
+    el('menace-param-initial').value = applied.initialBeads;
+    el('menace-param-win').value = applied.winReward;
+    el('menace-param-draw').value = applied.drawReward;
+    el('menace-param-loss').value = applied.lossPenalty;
+    el('menace-param-minimum').value = applied.minimumBeads;
+    currentBoard    = [0,0,0,0,0,0,0,0,0];
+    menaceViewBoard = null;
+    menaceChosenCell = -1;
+    gameActive = false;
+    humanTurn  = false;
+    drawBoard();
+    renderMatchbox();
+    renderStats();
+    renderLearningCurve();
+    setText('menace-status', 'Parameters applied. MENACE learning and matchboxes reset.');
+  }
+
+  // ---- Move 2 symmetry reduction: 72 positions -> 12 boards -----
+
+  function enumerateMove2Families() {
+    var families = {};
+
+    for (var xCell = 0; xCell < 9; xCell++) {
+      for (var oCell = 0; oCell < 9; oCell++) {
+        if (oCell === xCell) continue;
+        var board = [0,0,0,0,0,0,0,0,0];
+        board[xCell] = M.X;
+        board[oCell] = M.O;
+        var key = M.canonicalKey(board);
+        if (!families[key]) families[key] = [];
+        families[key].push(board);
+      }
+    }
+
+    var keys = Object.keys(families).sort();
+    var result = [];
+    for (var i = 0; i < keys.length; i++) {
+      result.push({ representative: families[keys[i]][0], members: families[keys[i]] });
+    }
+    return result;
+  }
+
+  function createMove2MiniBoard(board, size, label) {
+    var boardEl = document.createElement('div');
+    var cellSize = size / 3;
+    boardEl.setAttribute('role', 'img');
+    boardEl.setAttribute('aria-label', label);
+    boardEl.style.cssText = 'display:grid;grid-template-columns:repeat(3,' + cellSize + 'px);' +
+      'grid-template-rows:repeat(3,' + cellSize + 'px);border:1px solid #420a68;' +
+      'border-radius:2px;overflow:hidden;background:#fff;flex:0 0 auto;';
+
+    for (var i = 0; i < 9; i++) {
+      var cell = document.createElement('span');
+      var borderRight = i % 3 < 2 ? 'border-right:1px solid #b9a8c2;' : '';
+      var borderBottom = i < 6 ? 'border-bottom:1px solid #b9a8c2;' : '';
+      cell.style.cssText = 'display:flex;align-items:center;justify-content:center;' +
+        borderRight + borderBottom + 'font-size:' + Math.max(8, size * 0.2) + 'px;' +
+        'font-weight:700;line-height:1;';
+      if (board[i] === M.X) {
+        cell.textContent = '\u00d7';
+        cell.style.color = R.lineA;
+      } else if (board[i] === M.O) {
+        cell.textContent = '\u25cb';
+        cell.style.color = R.lineB;
+      }
+      boardEl.appendChild(cell);
+    }
+    return boardEl;
+  }
+
+  function setMove2Collapsed(container, collapsed) {
+    var grid = container.querySelector('[data-move2-grid]');
+    var panels = container.querySelectorAll('[data-move2-panel]');
+    var memberSets = container.querySelectorAll('[data-move2-members]');
+    var arrows = container.querySelectorAll('[data-move2-arrow]');
+    var representatives = container.querySelectorAll('[data-move2-representative]');
+    grid.style.gridTemplateColumns = collapsed
+      ? 'repeat(auto-fit,minmax(86px,112px))'
+      : 'repeat(auto-fit,minmax(min(100%,320px),1fr))';
+    grid.style.justifyContent = collapsed ? 'center' : 'normal';
+    for (var i = 0; i < memberSets.length; i++) {
+      memberSets[i].style.display = collapsed ? 'none' : 'flex';
+      arrows[i].style.display = collapsed ? 'none' : 'block';
+      panels[i].style.display = collapsed ? 'flex' : 'grid';
+      panels[i].style.gridTemplateColumns = collapsed ? '' : '1fr auto 62px';
+      panels[i].style.justifyContent = collapsed ? 'center' : 'normal';
+      panels[i].style.aspectRatio = collapsed ? '1' : 'auto';
+      representatives[i].style.transform = collapsed ? 'scale(1.08)' : 'none';
+    }
+    setText('menace-move2-summary', collapsed
+      ? '12 representatives - one board retained from each symmetry family'
+      : '72 positions - grouped into 12 symmetry families');
+    setText('menace-move2-toggle', collapsed ? 'Show all 72' : 'Collapse to 12');
+    container.setAttribute('data-collapsed', collapsed ? 'true' : 'false');
+  }
+
+  function renderMove2Boards() {
+    var container = el('menace-move2');
+    if (!container) return;
+    container.replaceChildren();
+
+    var toolbar = document.createElement('div');
+    toolbar.style.cssText = 'display:flex;align-items:center;justify-content:space-between;' +
+      'gap:12px;flex-wrap:wrap;margin-bottom:14px;';
+    var summary = document.createElement('strong');
+    summary.id = 'menace-move2-summary';
+    summary.style.cssText = 'font-size:13px;color:#555;';
+    var toggle = document.createElement('button');
+    toggle.id = 'menace-move2-toggle';
+    toggle.type = 'button';
+    toggle.style.cssText = 'padding:7px 12px;border:1px solid #932667;border-radius:5px;' +
+      'background:#fff;color:#932667;font-size:12px;font-weight:700;cursor:pointer;';
+    toolbar.appendChild(summary);
+    toolbar.appendChild(toggle);
+    container.appendChild(toolbar);
+
+    var grid = document.createElement('div');
+    grid.setAttribute('data-move2-grid', '');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));' +
+      'gap:10px;align-items:stretch;';
+    var families = enumerateMove2Families();
+
+    for (var familyIndex = 0; familyIndex < families.length; familyIndex++) {
+      var family = families[familyIndex];
+      var panel = document.createElement('div');
+      panel.setAttribute('data-move2-panel', '');
+      panel.style.cssText = 'display:grid;grid-template-columns:1fr auto 62px;align-items:center;' +
+        'gap:8px;padding:9px;border:1px solid #d8cbdc;border-radius:6px;background:#fff;';
+
+      var members = document.createElement('div');
+      members.setAttribute('data-move2-members', '');
+      members.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;align-content:center;';
+      for (var memberIndex = 0; memberIndex < family.members.length; memberIndex++) {
+        members.appendChild(createMove2MiniBoard(
+          family.members[memberIndex], 32,
+          'Symmetry family ' + (familyIndex + 1) + ', position ' + (memberIndex + 1)
+        ));
+      }
+
+      var arrow = document.createElement('span');
+      arrow.setAttribute('data-move2-arrow', '');
+      arrow.textContent = '\u2192';
+      arrow.style.cssText = 'color:#932667;font-size:20px;font-weight:700;';
+
+      var representativeWrap = document.createElement('div');
+      representativeWrap.setAttribute('data-move2-representative', '');
+      representativeWrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;' +
+        'gap:3px;transition:transform 180ms ease;';
+      representativeWrap.appendChild(createMove2MiniBoard(
+        family.representative, 56, 'Representative of symmetry family ' + (familyIndex + 1)
+      ));
+      var familyLabel = document.createElement('span');
+      familyLabel.textContent = '#' + (familyIndex + 1) + ' (' + family.members.length + ')';
+      familyLabel.style.cssText = 'font-size:10px;color:#777;';
+      representativeWrap.appendChild(familyLabel);
+
+      panel.appendChild(members);
+      panel.appendChild(arrow);
+      panel.appendChild(representativeWrap);
+      grid.appendChild(panel);
+    }
+    container.appendChild(grid);
+
+    toggle.addEventListener('click', function () {
+      setMove2Collapsed(container, container.getAttribute('data-collapsed') !== 'true');
+    });
+    setMove2Collapsed(container, false);
+  }
+
+  // ---- Move 3 zoom view (12 canonical boards) -------------------
+
+  function enumerateMove3States() {
+    var canonical = {};
+    var board = [0,0,0,0,0,0,0,0,0];
+
+    function recurse(xCount, oCount) {
+      if (M.checkWinner(board) !== M.EMPTY) return;
+      var isXTurn = (xCount === oCount);
+      if (isXTurn && xCount === 2) {
+        var key = M.canonicalKey(board);
+        if (!canonical[key]) canonical[key] = board.slice();
+        return;
+      }
+      if (xCount + oCount >= 4) return;
+      var player = isXTurn ? M.X : M.O;
+      for (var i = 0; i < 9; i++) {
+        if (board[i] !== M.EMPTY) continue;
+        board[i] = player;
+        recurse(isXTurn ? xCount + 1 : xCount, isXTurn ? oCount : oCount + 1);
+        board[i] = M.EMPTY;
+      }
+    }
+    recurse(0, 0);
+
+    var keys = Object.keys(canonical).sort();
+    var states = [];
+    for (var i = 0; i < keys.length; i++) states.push(canonical[keys[i]]);
+    return states;
+  }
+
+  function renderMiniBoardCard(board, num) {
+    var cs = 28;
+    var html = '<div style="text-align:center;">';
+    html += '<div style="display:inline-grid; grid-template-columns:repeat(3,' + cs + 'px); ' +
+            'grid-template-rows:repeat(3,' + cs + 'px); ' +
+            'border:2px solid #420a68; border-radius:4px; overflow:hidden; background:white;">';
+
+    for (var i = 0; i < 9; i++) {
+      var br = (i % 3 < 2)  ? 'border-right:1px solid #420a68;'  : '';
+      var bb = (i < 6)       ? 'border-bottom:1px solid #420a68;' : '';
+      var content = '';
+      if (board[i] === M.X) {
+        content = '<span style="color:' + R.lineA + ';font-size:16px;font-weight:bold;">✕</span>';
+      } else if (board[i] === M.O) {
+        content = '<span style="color:' + R.lineB + ';font-size:16px;font-weight:bold;">○</span>';
+      } else {
+        content = '<span style="color:#ddd;font-size:10px;">·</span>';
+      }
+      html += '<div style="display:flex;align-items:center;justify-content:center;' +
+              br + bb + '">' + content + '</div>';
+    }
+
+    html += '</div>';
+    html += '<div style="font-size:10px;color:#999;margin-top:4px;">#' + num + '</div>';
+    html += '</div>';
+    return html;
+  }
+
+  function renderMove3Boards() {
+    var container = el('menace-move3');
+    if (!container) return;
+
+    var states = enumerateMove3States();
+    var html = '<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;padding:8px 0;">';
+    for (var i = 0; i < states.length; i++) {
+      html += renderMiniBoardCard(states[i], i + 1);
+    }
+    html += '</div>';
+    container.innerHTML = html;
+  }
+
+  // ---- Matchbox Collection (Wikipedia-style visual) -------------
+  // Enumerates ALL canonical board states where it's MENACE's turn,
+  // groups them by move number, and renders colored blocks.
+
+  var COLLECTION_COLORS = [
+    { bg: '#c8e6c9', border: '#66bb6a' },   // green  — move 1
+    { bg: '#bbdefb', border: '#42a5f5' },   // blue   — move 2
+    { bg: '#f5f5f5', border: '#9e9e9e' },   // white  — move 3
+    { bg: '#f8bbd0', border: '#ec407a' },   // pink   — move 4
+    { bg: '#ef9a9a', border: '#ef5350' }    // red    — move 5
+  ];
+
+  function enumerateMatchboxStates() {
+    var groups = {};
+    for (var m = 1; m <= 5; m++) groups[m] = {};
+
+    var board = [0,0,0,0,0,0,0,0,0];
+
+    function recurse(xCount, oCount) {
+      if (M.checkWinner(board) !== M.EMPTY) return;
+
+      var isXTurn = (xCount === oCount);
+
+      if (isXTurn && M.legalMoves(board).length > 1) {
+        var move = xCount + 1;
+        if (move <= 5) groups[move][M.canonicalKey(board)] = true;
+      }
+
+      if (xCount + oCount >= 9) return;
+
+      var player = isXTurn ? M.X : M.O;
+      for (var i = 0; i < 9; i++) {
+        if (board[i] !== M.EMPTY) continue;
+        board[i] = player;
+        recurse(isXTurn ? xCount + 1 : xCount, isXTurn ? oCount : oCount + 1);
+        board[i] = M.EMPTY;
+      }
+    }
+
+    recurse(0, 0);
+    return groups;
+  }
+
+  function renderMatchboxCollection() {
+    var container = el('menace-collection');
+    if (!container) return;
+
+    var groups = enumerateMatchboxStates();
+    var total = 0;
+
+    // Faint tic-tac-toe grid pattern drawn on each matchbox via CSS gradients
+    var gridCSS =
+      'linear-gradient(to right, ' +
+        'transparent 30%, rgba(0,0,0,0.13) 30%, rgba(0,0,0,0.13) 34%, transparent 34%, ' +
+        'transparent 64%, rgba(0,0,0,0.13) 64%, rgba(0,0,0,0.13) 68%, transparent 68%), ' +
+      'linear-gradient(to bottom, ' +
+        'transparent 28%, rgba(0,0,0,0.13) 28%, rgba(0,0,0,0.13) 34%, transparent 34%, ' +
+        'transparent 63%, rgba(0,0,0,0.13) 63%, rgba(0,0,0,0.13) 69%, transparent 69%)';
+
+    var html = '<div style="display:flex; gap:24px; align-items:flex-end; ' +
+               'flex-wrap:wrap; justify-content:center; padding:8px 0;">';
+
+    for (var m = 1; m <= 5; m++) {
+      var keys = Object.keys(groups[m]);
+      var count = keys.length;
+      if (count === 0) continue;
+      total += count;
+
+      var col = COLLECTION_COLORS[m - 1];
+      var boxesPerRow = Math.max(4, Math.min(14, Math.ceil(Math.sqrt(count * 2))));
+      var maxW = boxesPerRow * 25;
+      var boxesStyle = m === 2
+        ? 'display:grid; grid-template-columns:repeat(3,22px); gap:2px; justify-content:center;'
+        : 'display:flex; flex-wrap:wrap; gap:2px; max-width:' + maxW + 'px; justify-content:center;';
+
+      html += '<div style="text-align:center;">';
+      html += '<div style="' + boxesStyle + '">';
+
+      for (var i = 0; i < count; i++) {
+        html += '<div style="' +
+          'width:22px; height:15px;' +
+          'background-image:' + gridCSS + ';' +
+          'background-color:' + col.bg + ';' +
+          'border:1px solid ' + col.border + ';' +
+          'border-radius:2px;' +
+          'box-shadow:1px 1px 2px rgba(0,0,0,0.08);' +
+        '"></div>';
+      }
+
+      html += '</div>';
+      var gameTurn = (m - 1) * 2 + 1;
+      html += '<div style="font-size:11px; color:#555; margin-top:8px; font-weight:600;">' +
+              'Move ' + m + '</div>';
+      html += '<div style="font-size:10px; color:#999;">' +
+              count + ' matchbox' + (count > 1 ? 'es' : '') + '</div>';
+      html += '<div style="font-size:9px; color:#bbb;">(turn ' + gameTurn + ')</div>';
+      html += '</div>';
+    }
+
+    html += '</div>';
+    html += '<div style="text-align:center; font-size:12px; color:#888; margin-top:10px;">' +
+            'Total: ' + total + ' matchboxes</div>';
+
+    container.innerHTML = html;
+  }
+
+  // ---- Canvas click handler -------------------------------------
+
+  function onBoardClick(e) {
+    var canvas = getCanvas();
+    if (!canvas) return;
+    var rect = canvas.getBoundingClientRect();
+    var x = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var y = (e.clientY - rect.top)  * (canvas.height / rect.height);
+    var col = Math.floor(x / CELL_SIZE);
+    var row = Math.floor(y / CELL_SIZE);
+    if (col >= 0 && col < 3 && row >= 0 && row < 3) {
+      humanMoves(row * 3 + col);
+    }
+  }
+
+  // ---- Initialisation -------------------------------------------
+
+  function initMenace() {
+    var canvas = getCanvas();
+    if (canvas) {
+      canvas.width  = BOARD_SIZE;
+      canvas.height = BOARD_SIZE;
+      canvas.addEventListener('click', onBoardClick);
+      canvas.style.cursor = 'pointer';
+    }
+
+    var btnNew   = el('menace-btn-new');
+    var btnReset = el('menace-btn-reset');
+    var btn50    = el('menace-btn-train50');
+    var btn200   = el('menace-btn-train200');
+    var btn500   = el('menace-btn-train500');
+
+    if (btnNew)   btnNew.addEventListener('click', newGame);
+    if (btnReset) btnReset.addEventListener('click', resetMenace);
+    if (btn50)    btn50.addEventListener('click', function () { trainN(50); });
+    if (btn200)   btn200.addEventListener('click', function () { trainN(200); });
+    if (btn500)   btn500.addEventListener('click', function () { trainN(500); });
+
+    drawBoard();
+    renderMatchbox();
+    renderStats();
+    renderMove2Boards();
+    renderMove3Boards();
+    renderMatchboxCollection();
+    setText('menace-status', 'Click "New Game" to play against MENACE, or train it first.');
+  }
+
+  window.initMenacePlot = initMenace;
+  window.initMenaceMove2 = renderMove2Boards;
+
+})();
+document.addEventListener('DOMContentLoaded', function() { initMenaceMove2(); });</script>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: After MENACE places a cross, the trainer can place a nought in any of the eight remaining squares, giving <span class="math inline">\(9 \times 8 = 72\)</span> positions. Rotations and reflections sort them into twelve symmetry families. Collapsing each family to one representative leaves the twelve board positions MENACE can encounter on its second turn.
+</figcaption>
+</figure>
+</div>
+<p>And Figure 4 combines the symmetry of board positions with the symmetry of MENACE’s possible responses: rotations and reflections reduce both the number of distinct board positions and the number of different bead colors, to represent the available moves. The same principle applies to MENACE’s later turns, just the number of combinations is bigger.</p>
+<div id="fig-menace-move-two" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-move2" style="display: grid; grid-template-columns: repeat(3, minmax(0, 140px)); align-items: start; justify-content: center; gap: 12px; margin: 24px 0; padding: 20px 0;">
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move2-a" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>7</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">no symmetry left (#6)</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move2-b" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>4</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">mirror symmetry (#10)</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move2-c" width="140" height="140" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
+<div style="font-size: 12px; color: #888; margin-top: 6px;">
+<b>4</b>
+ distinct moves
+</div>
+<div style="font-size: 11px; color: #aaa;">mirror symmetry (#12)</div>
+</div>
+</div>
+<script>// =============================================================
+// Move 2 Symmetry Figure — Three board states after X and O each
+// played once. Empty cells colored by symmetry orbit to show
+// how many distinct 3rd-move options MENACE sees.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  var R = window.INFERNO.roles;
+  var SIZE = 140;
+  var CELL = SIZE / 3;
+
+  // High-DPI setup: scale canvas buffer while keeping CSS size
+  function setupHiDPI(canvas, w, h) {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return ctx;
+  }
+
+  // Orbit colors match the engine's bead palette.
+  var ORBIT_FILLS = [
+    'rgba(91, 26, 120, 0.22)',
+    'rgba(230, 159, 0, 0.25)',
+    'rgba(0, 140, 131, 0.25)',
+    'rgba(217, 79, 61, 0.22)',
+    'rgba(63, 127, 191, 0.25)',
+    'rgba(192, 74, 135, 0.22)',
+    'rgba(106, 159, 56, 0.25)'
+  ];
+  var ORBIT_SOLIDS = [
+    '#5B1A78',
+    '#E69F00',
+    '#008C83',
+    '#D94F3D',
+    '#3F7FBF',
+    '#C04A87',
+    '#6A9F38'
+  ];
+
+  // Scenario A: X=0 (corner), O=5 (edge)
+  // Stabiliser = {identity} → 7 distinct orbits
+  var SCENARIO_A = {
+    x: 0, o: 5,
+    orbits: [-1, 0, 1, 2, 3, -1, 4, 5, 6],
+    nOrbits: 7
+  };
+
+  // Scenario B: X=1 (edge), O=4 (center)
+  // Stabiliser = {identity, h-flip} → 4 orbits: {0,2}, {3,5}, {6,8}, {7}
+  var SCENARIO_B = {
+    x: 1, o: 4,
+    orbits: [0, -1, 0, 1, -1, 1, 2, 3, 2],
+    nOrbits: 4
+  };
+
+  // Scenario C (collection position #12): X and O in opposite corners
+  // Mirror symmetry → 4 orbits: {1,3}, {2,6}, {4}, {5,7}
+  var SCENARIO_C = {
+    x: 0, o: 8,
+    orbits: [-1, 0, 1, 0, 2, 3, 1, 3, -1],
+    nOrbits: 4
+  };
+
+  function getCtx(id) {
+    var c = document.getElementById(id);
+    return c ? c.getContext('2d') : null;
+  }
+
+  function fillCell(ctx, cellIdx, color) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    ctx.fillStyle = color;
+    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
+  }
+
+  function drawGrid(ctx) {
+    ctx.strokeStyle = '#420a68';
+    ctx.lineWidth = 2;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
+    }
+  }
+
+  function drawX(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var off = CELL * 0.28;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+  }
+
+  function drawO(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var radius = CELL * 0.26;
+    ctx.strokeStyle = R.lineB;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+    ctx.stroke();
+  }
+
+  // Draw small orbit-index label inside each empty cell
+  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(orbitIdx + 1), cx, cy);
+  }
+
+  function drawScenario(canvasId, scenario) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    setupHiDPI(canvas, SIZE, SIZE);
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, SIZE, SIZE);
+
+    // Fill orbit cells
+    for (var i = 0; i < 9; i++) {
+      var oi = scenario.orbits[i];
+      if (oi >= 0) fillCell(ctx, i, ORBIT_FILLS[oi]);
+    }
+
+    drawGrid(ctx);
+    drawX(ctx, scenario.x);
+    drawO(ctx, scenario.o);
+
+    // Draw orbit labels in empty cells
+    for (var j = 0; j < 9; j++) {
+      var oj = scenario.orbits[j];
+      if (oj >= 0) drawOrbitLabel(ctx, j, oj);
+    }
+  }
+
+  function initMove2Figure() {
+    drawScenario('fig-move2-a', SCENARIO_A);
+    drawScenario('fig-move2-b', SCENARIO_B);
+    drawScenario('fig-move2-c', SCENARIO_C);
+
+    var ids = ['fig-move2-a', 'fig-move2-b', 'fig-move2-c'];
+    for (var i = 0; i < ids.length; i++) {
+      var canvas = document.getElementById(ids[i]);
+      if (canvas) {
+        canvas.style.width = 'min(140px, 100%)';
+        canvas.style.height = 'auto';
+      }
+    }
+  }
+
+  window.initMove2Figure = initMove2Figure;
+
+})();
+document.addEventListener('DOMContentLoaded', function() { initMove2Figure(); });</script>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure 3. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
+</figcaption>
+</figure>
+</div>
+</section>
+<p>Now that we have seen how MENACE plays and learns – and how symmetry keeps the system manageable – we can properly appreciate the ingenuity of its design. Let’s start with the obvious: Michie chose a game played on a 3 x 3 board. Building a mechanical computer for nine squares was still feasible; doing the same for checkers, with 100 squares, would not have been.</p>
+<p>Furthermore, MENACE was granted the privilege of moving first, giving it a greater chance to win rather than merely draw<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. Notice, too, that MENACE makes up to five moves in a game, but there are no matchboxes to represent the 5th move. The reason is, with only one square left empty, MENACE has no decision to make. Colored beads represent probabilistic choices. When only one move is possible there is no probability to model. The human being building the engine, just simply did not make a box for it.</p>
+<p>We have already had a glimpse of how much symmetry simplifies the machine. Without symmetry, MENACE’s four decisions would require 1, 72, 756 and 1372 matchboxes, 2201 in total. Symmetry reduces the total number to just 304. Still, 304 is not nothing to operate: especially to update the number of beads after every game. I was pleased to learn that Michie marked the boxes used in a game simply by leaving them open. Practical beauty.</p>
+<p>Last but not least, there is the most striking feature of MENACE: namely, it is built from matchboxes<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. Once you see how it works, the ingenuity of the design is obvious. But would you ever look at a pile of matchboxes and thought “this could learn”? I certainly would not. My guess is that if you lack funding for something you would love to do for almost twenty years, and the field remains in its infancy, you get thorough understanding of the basics. Personally I have enormous appreciation for people who understand the fundamentals so deeply that they can explain them to anyone, with barely any resources.</p>
+<div class="section-break" aria-hidden="true">
+<p>* * *</p>
+</div>
+<p>If you think Michie’s MENACE is one of the best explanations of reinforcement learning, welcome to the club. Take a moment to appreciate what a cool thing you just encountered. Or you can start explaining to anyone who wants to listen how you can train the set of matchboxes. In the next post you will be able to train and play against the MENACE yourself. No matchboxes required. Thank you for reading.</p>
+
+
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>All biographical facts I use in this post are coming either from <a href="https://en.wikipedia.org/wiki/Donald_Michie">here</a> or from <a href="https://www.theguardian.com/science/2007/jul/10/uk.obituaries1">here</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Yes, that Alan Turing—the one who devised the Turing test and made a number of other foundational contributions to computer science.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>All Michie quotations <a href="https://media.aiai.ed.ac.uk/Video/Michie/2007-06-28-michie.mp4">come from</a>, a talk entitled “Mechanisations of Thought. Early Edinburgh Adventures” he gave on the 28th of June 2007 at the University of Edinburgh. Ten days later he and his ex-wife were killed in a car accident, travelling from Cambridge to London.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>A helper needs to identify the correct box, draw a bead, match the color of the bead with position on the board, and make a move. It is the executioner, it does not donate any cognitive capacities nor makes any decision.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>It is amazing to see how virtually every language has an idiom for a combination of reward and punishment. European languages are dominated by carrot and stick/whip, with the exception of Spanish. As a chemist I just cannot be indifferent to this one: they say “silver or lead”. I will let you google why.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>it depends against which player it was trained, and who he is playing against – see the first table in <a href="https://rodneybrooks.com/forai-machine-learning-explained/">Rodney Brooks’s essay on machine learning</a>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Not from NVIDIA chips.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<div class="share-buttons">
+
+  <h4>Share this post:</h4>
+
+  <div class="share-links">
+
+    <a href="#" class="share-btn twitter" onclick="shareOnTwitter(); return false;" title="Share on Twitter">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+
+      </svg>
+
+      Twitter
+
+    </a>
+
+    <a href="#" class="share-btn linkedin" onclick="shareOnLinkedIn(); return false;" title="Share on LinkedIn">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+
+      </svg>
+
+      LinkedIn
+
+    </a>
+
+    <a href="#" class="share-btn facebook" onclick="shareOnFacebook(); return false;" title="Share on Facebook">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+
+      </svg>
+
+      Facebook
+
+    </a>
+
+    <a href="#" class="share-btn email" onclick="shareViaEmail(); return false;" title="Share via Email">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+
+        <polyline points="22,6 12,13 2,6"></polyline>
+
+      </svg>
+
+      Email
+
+    </a>
+
+    <a href="#" class="share-btn copy-link" onclick="copyLink(this); return false;" title="Copy link to clipboard">
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+
+      </svg>
+
+      <span class="copy-text">Copy Link</span>
+
+    </a>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+  function shareOnTwitter() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    const title = encodeURIComponent(document.title);
+
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
+
+  }
+
+  
+
+  function shareOnLinkedIn() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=600');
+
+  }
+
+  
+
+  function shareOnFacebook() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+
+  }
+
+  
+
+  function shareViaEmail() {
+
+    const url = encodeURIComponent(window.location.href);
+
+    const title = encodeURIComponent(document.title);
+
+    const body = encodeURIComponent(`I thought you might find this interesting: ${window.location.href}`);
+
+    window.location.href = `mailto:?subject=${title}&body=${body}`;
+
+  }
+
+  
+
+  function copyLink(button) {
+
+    navigator.clipboard.writeText(window.location.href).then(function() {
+
+      // Change button text to show success
+
+      const textSpan = button.querySelector('.copy-text');
+
+      const originalText = textSpan.textContent;
+
+      textSpan.textContent = 'Copied!';
+
+      button.classList.add('copied');
+
+      
+
+      // Reset after 2 seconds
+
+      setTimeout(function() {
+
+        textSpan.textContent = originalText;
+
+        button.classList.remove('copied');
+
+      }, 2000);
+
+    }).catch(function(err) {
+
+      console.error('Failed to copy link: ', err);
+
+      alert('Failed to copy link. Please copy it manually from the address bar.');
+
+    });
+
+  }
+
+</script>
+
+<div class="comments-section">
+
+  <h4>Comments</h4>
+
+  <p class="comments-note"><em>Comments require a GitHub account. This keeps things simple — no passwords, no data stored on my end, and GitHub handles authentication entirely. Don't have one? <a href="https://github.com/join" target="_blank" rel="noopener noreferrer">GitHub is free to join.</a></em></p>
+
+  <script src="https://giscus.app/client.js" data-repo="egoignotus/ExcellentProblem" data-repo-id="R_kgDOQsYtWA" data-category="Announcements" data-category-id="DIC_kwDOQsYtWM4DAZ1a" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+
+  </script>
+
+</div>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2025 Aleksandra. All rights reserved. &nbsp;·&nbsp; Built with <a href="https://quarto.org">Quarto</a> and hosted on <a href="https://pages.github.com">GitHub Pages</a>.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
