@@ -51,6 +51,51 @@ div[id^="fig"] > p:last-child {
   padding: 1rem;
 }
 
+/* Long-form editorial asides */
+.symmetry-intermezzo {
+  margin: 2.5rem 0;
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid #9b998f;
+  background-color: #f5f4ef;
+}
+
+.symmetry-intermezzo > :first-child {
+  margin-top: 0;
+}
+
+.symmetry-intermezzo > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .symmetry-intermezzo {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  #fig-move1 {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  #fig-move1-options {
+    gap: 4px !important;
+  }
+}
+
+/* Editorial section break */
+.section-break {
+  margin: 2.5rem 0;
+  color: #9b998f;
+  font-size: 1.1rem;
+  letter-spacing: 0.5em;
+  text-align: center;
+}
+
+.section-break p {
+  margin: 0;
+}
+
 /* Horizontal rules */
 hr {
   background-color: #e8e6e0 !important;

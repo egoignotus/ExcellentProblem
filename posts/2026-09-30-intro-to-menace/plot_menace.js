@@ -879,5 +879,6 @@
   }
 
   window.initMenacePlot = initMenace;
+  window.initMenaceMove2 = renderMove2Boards;
 
 })();
