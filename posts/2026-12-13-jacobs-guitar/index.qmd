@@ -1,0 +1,24 @@
+---
+title: "Jacob's Guitar"
+author: "Aleksandra"
+date: "2026-12-13"
+categories: [music, interactive]
+description: "The same chords, redistributed across six strings and five."
+title-block-banner: true
+---
+
+A regular classical guitar has six strings, usually tuned E–A–D–G–B–E from lowest to highest. Jacob's guitar has five: D–A–E–A–D. The two instruments cover a similar tonal range, but they distribute the notes differently.
+
+Choose a major or minor chord below to compare one playable voicing on each instrument. Then select any played note to trace the same pitch across both fretboards.
+
+::: {#fig-guitar-comparison .figure-highlight}
+```{r}
+#| echo: false
+#| warning: false
+
+source("guitar_helpers.R")
+
+render_guitar_comparison()
+```
+The same chords on a standard six-string guitar and a five-string guitar tuned D–A–E–A–D.
+:::
