@@ -8,7 +8,7 @@ description: "Train MENACE with your own reinforcement parameters."
 title-block-banner: true
 include-in-header: libs.html
 ---
-The matchboxes, symmetry classes, and reinforcement mechanism are introduced in [Introduction to MENACE](../2026-09-27-intro-to-menace/).
+The matchboxes, symmetry classes, and reinforcement mechanism are introduced in [Introduction to MENACE](../2026-09-30-intro-to-menace/).
 
 ## Adjustable parameters
 

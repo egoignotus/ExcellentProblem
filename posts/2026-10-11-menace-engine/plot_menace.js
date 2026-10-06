@@ -44,6 +44,19 @@
     if (e) e.textContent = text;
   }
 
+  function updateGameCounter(gameNumber) {
+    setText('menace-game-counter', 'GAME ' + gameNumber);
+  }
+
+  function updateOpponentHelp(opponentType) {
+    var descriptions = {
+      random: 'Chooses randomly from all currently legal moves.',
+      'mixed-optimal': 'Chooses a strongest move half the time and a random legal move otherwise.',
+      'optimal-coverage': 'Always chooses a strongest move, rotating among equally strong choices to expose MENACE to more positions.'
+    };
+    setText('menace-opponent-help', descriptions[opponentType]);
+  }
+
   function addReinforcementNotice(container) {
     if (!reinforcementNotice) return;
 
@@ -165,8 +178,7 @@
     if (!container) return;
 
     if (!menaceViewBoard) {
-      container.innerHTML = '<div style="color:#888; text-align:center; padding:30px;">' +
-        'Start a game to see MENACE\'s matchbox</div>';
+      container.innerHTML = '';
       renderProbabilitySurface();
       return;
     }
@@ -400,6 +412,7 @@
     gameActive   = true;
     humanTurn    = false;
     menaceChosenCell = -1;
+    updateGameCounter(menace.stats.games + 1);
 
     // Show the empty-board matchbox — this is where learning is visible
     menaceViewBoard = M.copyBoard(currentBoard);
@@ -499,6 +512,7 @@
       var toRun = Math.min(batchSize, n - done);
       M.trainBatch(menace, toRun, opponentMove);
       done += toRun;
+      updateGameCounter(menace.stats.games);
       renderStats();
       renderLearningCurve();
 
@@ -540,6 +554,7 @@
     menaceChosenCell = -1;
     gameActive = false;
     humanTurn  = false;
+    updateGameCounter(0);
     drawBoard();
     renderMatchbox();
     renderStats();
@@ -812,6 +827,7 @@
     if (btn2000)  btn2000.addEventListener('click', function () { trainN(2000); });
     if (opponent) opponent.addEventListener('change', function () {
       trainingOpponent = M.createOpponent(opponent.value);
+      updateOpponentHelp(opponent.value);
     });
 
     drawBoard();
@@ -820,6 +836,8 @@
     renderMove2Boards();
     renderMove3Boards();
     renderMatchboxCollection();
+    if (opponent) updateOpponentHelp(opponent.value);
+    updateGameCounter(0);
     setText('menace-status', 'Click "New Game" to play against MENACE, or train it first.');
   }
 

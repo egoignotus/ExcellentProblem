@@ -296,7 +296,7 @@ window.INFERNO = {
 
 
 
-<p>The matchboxes, symmetry classes, and reinforcement mechanism are introduced in <a href="../2026-09-27-intro-to-menace/">Introduction to MENACE</a>.</p>
+<p>The matchboxes, symmetry classes, and reinforcement mechanism are introduced in <a href="../2026-09-30-intro-to-menace/">Introduction to MENACE</a>.</p>
 <section id="adjustable-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="adjustable-parameters">Adjustable parameters</h2>
 <p>The engine exposes all five numerical constraints. Their defaults reproduce the rules in the introduction:</p>
@@ -842,22 +842,25 @@ window.INFERNO = {
 
 })();</script>
 <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(147, 38, 103, 0.04); border-radius: 8px;">
-<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-<button id="menace-btn-new" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;padding: 11px 24px; font-size: 16px; background: #932667; color: white;">New Game</button>
-<button id="menace-btn-train50" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 50</button>
-<button id="menace-btn-train200" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 200</button>
-<button id="menace-btn-train500" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 500</button>
-<button id="menace-btn-train2000" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #420a68; color: white;">Train 2000</button>
-<button id="menace-btn-reset" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;background: #dd513a; color: white;">Reset</button>
+<div style="width: 100%; margin-bottom: 8px;">
+<button id="menace-btn-new" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;width: 100%; padding: 11px 24px; font-size: 16px; background: #932667; color: white;">New Game</button>
+</div>
+<div style="display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+<button id="menace-btn-train50" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;flex: 1 1 100px; background: #420a68; color: white;">Train 50</button>
+<button id="menace-btn-train200" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;flex: 1 1 100px; background: #420a68; color: white;">Train 200</button>
+<button id="menace-btn-train500" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;flex: 1 1 100px; background: #420a68; color: white;">Train 500</button>
+<button id="menace-btn-train2000" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;flex: 1 1 100px; background: #420a68; color: white;">Train 2000</button>
+<button id="menace-btn-reset" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity 0.2s;flex: 1 1 100px; background: #dd513a; color: white;">Reset</button>
 </div>
 <label style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px; font-size: 13px; color: #555;">
 <span>Training opponent</span>
 <select id="menace-opponent" style="min-width: 190px; padding: 6px 8px; border: 1px solid #bbb; border-radius: 4px; background: white; font-size: 13px;">
-<option value="random">Random</option>
-<option value="mixed-optimal">50% optimal / 50% random</option>
-<option value="optimal-coverage">Optimal coverage</option>
+<option value="random">Random — any legal move</option>
+<option value="mixed-optimal">Mixed — 50% best move, 50% random</option>
+<option value="optimal-coverage">Optimal coverage — always a best move</option>
 </select>
 </label>
+<div id="menace-opponent-help" style="margin: -6px 0 12px; padding-left: 1px; font-size: 12px; line-height: 1.4; color: #666;">Chooses randomly from all currently legal moves.</div>
 <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;">
 <label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
 Initial
@@ -883,6 +886,7 @@ Minimum
 </div>
 <div id="menace-status" style="font-weight: bold; margin-bottom: 8px; min-height: 1.5em;"></div>
 <div id="menace-stats" style="font-size: 13px; color: #666;"></div>
+<div id="menace-game-counter" role="status" aria-live="polite" style="margin-top: 12px; padding: 7px 16px; border: 1px solid rgba(147, 38, 103, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.65); color: #6f2856; text-align: center; font-size: 20px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.2;">GAME 0</div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 24px; align-items: center; margin: 20px 0;">
 <div style="flex-shrink: 0;">
@@ -947,6 +951,19 @@ Minimum
   function setText(id, text) {
     var e = el(id);
     if (e) e.textContent = text;
+  }
+
+  function updateGameCounter(gameNumber) {
+    setText('menace-game-counter', 'GAME ' + gameNumber);
+  }
+
+  function updateOpponentHelp(opponentType) {
+    var descriptions = {
+      random: 'Chooses randomly from all currently legal moves.',
+      'mixed-optimal': 'Chooses a strongest move half the time and a random legal move otherwise.',
+      'optimal-coverage': 'Always chooses a strongest move, rotating among equally strong choices to expose MENACE to more positions.'
+    };
+    setText('menace-opponent-help', descriptions[opponentType]);
   }
 
   function addReinforcementNotice(container) {
@@ -1070,8 +1087,7 @@ Minimum
     if (!container) return;
 
     if (!menaceViewBoard) {
-      container.innerHTML = '<div style="color:#888; text-align:center; padding:30px;">' +
-        'Start a game to see MENACE\'s matchbox</div>';
+      container.innerHTML = '';
       renderProbabilitySurface();
       return;
     }
@@ -1305,6 +1321,7 @@ Minimum
     gameActive   = true;
     humanTurn    = false;
     menaceChosenCell = -1;
+    updateGameCounter(menace.stats.games + 1);
 
     // Show the empty-board matchbox — this is where learning is visible
     menaceViewBoard = M.copyBoard(currentBoard);
@@ -1404,6 +1421,7 @@ Minimum
       var toRun = Math.min(batchSize, n - done);
       M.trainBatch(menace, toRun, opponentMove);
       done += toRun;
+      updateGameCounter(menace.stats.games);
       renderStats();
       renderLearningCurve();
 
@@ -1445,6 +1463,7 @@ Minimum
     menaceChosenCell = -1;
     gameActive = false;
     humanTurn  = false;
+    updateGameCounter(0);
     drawBoard();
     renderMatchbox();
     renderStats();
@@ -1717,6 +1736,7 @@ Minimum
     if (btn2000)  btn2000.addEventListener('click', function () { trainN(2000); });
     if (opponent) opponent.addEventListener('change', function () {
       trainingOpponent = M.createOpponent(opponent.value);
+      updateOpponentHelp(opponent.value);
     });
 
     drawBoard();
@@ -1725,6 +1745,8 @@ Minimum
     renderMove2Boards();
     renderMove3Boards();
     renderMatchboxCollection();
+    if (opponent) updateOpponentHelp(opponent.value);
+    updateGameCounter(0);
     setText('menace-status', 'Click "New Game" to play against MENACE, or train it first.');
   }
 

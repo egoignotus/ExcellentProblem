@@ -204,10 +204,17 @@ create_menace_controls <- function() {
   )
   primary_btn <- paste0(
     btn_style,
-    "padding: 11px 24px; font-size: 16px; background: #932667; color: white;"
+    "width: 100%; padding: 11px 24px; font-size: 16px; ",
+    "background: #932667; color: white;"
   )
-  secondary_btn <- paste0(btn_style, "background: #420a68; color: white;")
-  danger_btn <- paste0(btn_style, "background: #dd513a; color: white;")
+  secondary_btn <- paste0(
+    btn_style,
+    "flex: 1 1 100px; background: #420a68; color: white;"
+  )
+  danger_btn <- paste0(
+    btn_style,
+    "flex: 1 1 100px; background: #dd513a; color: white;"
+  )
   parameter_input <- function(id, label, value) {
     htmltools::tags$label(
       style = "display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;",
@@ -227,13 +234,17 @@ create_menace_controls <- function() {
       "margin-bottom: 20px; padding: 15px; ",
       "background-color: ", bg, "; border-radius: 8px;"
     ),
-    # Button row
+    # New game row
+    htmltools::tags$div(
+      style = "width: 100%; margin-bottom: 8px;",
+      htmltools::tags$button(id = "menace-btn-new", style = primary_btn, "New Game")
+    ),
+    # Training and reset row
     htmltools::tags$div(
       style = paste0(
-        "display: flex; align-items: center; gap: 8px; flex-wrap: wrap; ",
+        "display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; ",
         "margin-bottom: 12px;"
       ),
-      htmltools::tags$button(id = "menace-btn-new", style = primary_btn, "New Game"),
       htmltools::tags$button(id = "menace-btn-train50", style = secondary_btn, "Train 50"),
       htmltools::tags$button(id = "menace-btn-train200", style = secondary_btn, "Train 200"),
       htmltools::tags$button(id = "menace-btn-train500", style = secondary_btn, "Train 500"),
@@ -249,10 +260,24 @@ create_menace_controls <- function() {
           "min-width: 190px; padding: 6px 8px; border: 1px solid #bbb; ",
           "border-radius: 4px; background: white; font-size: 13px;"
         ),
-        htmltools::tags$option(value = "random", "Random"),
-        htmltools::tags$option(value = "mixed-optimal", "50% optimal / 50% random"),
-        htmltools::tags$option(value = "optimal-coverage", "Optimal coverage")
+        htmltools::tags$option(value = "random", "Random \u2014 any legal move"),
+        htmltools::tags$option(
+          value = "mixed-optimal",
+          "Mixed \u2014 50% best move, 50% random"
+        ),
+        htmltools::tags$option(
+          value = "optimal-coverage",
+          "Optimal coverage \u2014 always a best move"
+        )
       )
+    ),
+    htmltools::tags$div(
+      id = "menace-opponent-help",
+      style = paste0(
+        "margin: -6px 0 12px; padding-left: 1px; ",
+        "font-size: 12px; line-height: 1.4; color: #666;"
+      ),
+      "Chooses randomly from all currently legal moves."
     ),
     htmltools::tags$div(
       style = paste0(
@@ -278,6 +303,19 @@ create_menace_controls <- function() {
     htmltools::tags$div(
       id = "menace-stats",
       style = "font-size: 13px; color: #666;"
+    ),
+    htmltools::tags$div(
+      id = "menace-game-counter",
+      role = "status",
+      `aria-live` = "polite",
+      style = paste0(
+        "margin-top: 12px; padding: 7px 16px; ",
+        "border: 1px solid rgba(147, 38, 103, 0.3); border-radius: 6px; ",
+        "background: rgba(255, 255, 255, 0.65); color: #6f2856; ",
+        "text-align: center; font-size: 20px; font-weight: 700; ",
+        "letter-spacing: 0.04em; line-height: 1.2;"
+      ),
+      "GAME 0"
     )
   )
 }
