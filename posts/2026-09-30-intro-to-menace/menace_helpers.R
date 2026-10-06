@@ -60,7 +60,10 @@ create_move1_figure <- function() {
       htmltools::tags$div(
         style = "text-align: center; min-width: 0;",
         htmltools::tags$canvas(id = "fig-move1-corner", width = "120", height = "120",
-          style = "border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"),
+          style = paste0(
+            "border: 2px solid #420a68; border-radius: 6px; background: white; ",
+            "max-width: 100%; height: auto; aspect-ratio: 1;"
+          )),
         htmltools::tags$div(style = "font-size: 11px; color: #888; margin-top: 4px;",
           "Corner ", htmltools::tags$span(style = "color:#932667;", "(4 equivalent)"))
       ),
@@ -68,7 +71,10 @@ create_move1_figure <- function() {
       htmltools::tags$div(
         style = "text-align: center; min-width: 0;",
         htmltools::tags$canvas(id = "fig-move1-edge", width = "120", height = "120",
-          style = "border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"),
+          style = paste0(
+            "border: 2px solid #420a68; border-radius: 6px; background: white; ",
+            "max-width: 100%; height: auto; aspect-ratio: 1;"
+          )),
         htmltools::tags$div(style = "font-size: 11px; color: #888; margin-top: 4px;",
           "Edge ", htmltools::tags$span(style = "color:#932667;", "(4 equivalent)"))
       ),
@@ -76,7 +82,10 @@ create_move1_figure <- function() {
       htmltools::tags$div(
         style = "text-align: center; min-width: 0;",
         htmltools::tags$canvas(id = "fig-move1-center", width = "120", height = "120",
-          style = "border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"),
+          style = paste0(
+            "border: 2px solid #420a68; border-radius: 6px; background: white; ",
+            "max-width: 100%; height: auto; aspect-ratio: 1;"
+          )),
         htmltools::tags$div(style = "font-size: 11px; color: #888; margin-top: 4px;",
           "Center ", htmltools::tags$span(style = "color:#932667;", "(1 unique)"))
       )
@@ -325,6 +334,22 @@ create_menace_board <- function() {
 #' @return HTML div showing all 12 canonical board positions for MENACE's 2nd move
 create_menace_move2 <- function() {
   htmltools::tags$div(id = "menace-move2", style = "margin: 24px 0;")
+}
+
+#' Render the Move 2 symmetry-family view with its JS
+#'
+#' @return htmltools::tagList
+render_menace_move2 <- function() {
+  engine_code <- paste(readLines("menace_engine.js", warn = FALSE), collapse = "\n")
+  plot_code <- paste(readLines("plot_menace.js", warn = FALSE), collapse = "\n")
+  htmltools::tagList(
+    create_menace_move2(),
+    htmltools::tags$script(htmltools::HTML(engine_code)),
+    htmltools::tags$script(htmltools::HTML(paste0(
+      plot_code,
+      "\ndocument.addEventListener('DOMContentLoaded', function() { initMenaceMove2(); });"
+    )))
+  )
 }
 
 #' Create the Move 3 zoomed matchbox view (12 boards)

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Aleksandra">
-<meta name="dcterms.date" content="2026-09-27">
+<meta name="dcterms.date" content="2026-09-30">
 <meta name="description" content="The hardest part is to understand fundamentals.">
 
 <title>Introduction to MENACE – Excellent Problem</title>
@@ -194,6 +194,35 @@ window.INFERNO = {
 </style>
 
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -245,8 +274,9 @@ window.INFERNO = {
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">math</div>
+                <div class="quarto-category">AI</div>
                 <div class="quarto-category">interactive</div>
+                <div class="quarto-category">symmetry</div>
               </div>
                   </div>
   </div>
@@ -264,7 +294,7 @@ window.INFERNO = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">September 27, 2026</p>
+        <p class="date">September 30, 2026</p>
       </div>
     </div>
     
@@ -275,8 +305,14 @@ window.INFERNO = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intermezzo-symmetry" id="toc-intermezzo-symmetry" class="nav-link active" data-scroll-target="#intermezzo-symmetry">Intermezzo: symmetry</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -285,11 +321,308 @@ window.INFERNO = {
 
 
 
-<div id="fig-menace-boxes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>Donald Michie received a scholarship to study classics at the University of Oxford. Normally, it would have been a great opportunity for a 20-year-old, but the timing was against him: these were the early 1940s and World War II was raging. Instead of studying classics, Donald decided to follow his father’s advice and do “something unspecified but romantic” to aid the war effort. He chose to sign up for a Japanese-language course at the Government Code and Cypher School in Bedford. However, upon arrival, he was informed that the class was full. What was still available was training in cryptography, in which Michie - specifically and romantically - enrolled<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Soon he was recruited to Bletchley Park, the secret code breaking center. Michie was assigned to the “Testery”, a section working to break the German cipher internally called Tunny. It was at Bletchley Park that he met and befriended Alan Turing<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. What bonded them was their shared inability to play chess, and their willingness to play it anyway. In Michie’s own words:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<blockquote class="blockquote">
+<p><em>[with Alan] We didn’t work in the same section. It came about because in Bletchley Park, everybody was either a chess master or they didn’t play the game at all, with two exceptions. And Alan Turing and I were the only two people in Bletchley Park who were bad enough to give each other a level game. And nobody else would play with us, of course. So we got into the habit of having a weekly evening in a pub in Wolverton, near where he had digs. And we played chess, but we also talked about other things, which in those days we called thinking machines.</em></p>
+</blockquote>
+<p>This post introduces a thinking machine, or rather a machine capable of learning, the one Michie built in the early 1960s. Built out of absolute scarcity and absolute ingenuity. With no budget whatsoever. Built to win a bet. But we will get there soon.</p>
+<p>Bletchley Park’s codebreakers were credited by Churchill with shortening the war by years. Yet in post-war Britain, the computers were beyond the codebreakers’ reach. And even if they had been available, the consensus was that computers were useful for calculations, and little else. Michie was interested in computing, but not in cracking numbers - he had been bred on cracking codes. It comes as no surprise to me that he chose as close as possible, to work on the uncracked-then code: the genetic <a href="https://excellentproblem.com/posts/2026-09-13-biology-is-it/">code</a>. He eventually earned a PhD in genetics. During his doctoral studies, Michie stayed in touch with Turing, still fantasizing about a chess playing machine. Their paths crossed again in Cambridge, in 1948:</p>
+<blockquote class="blockquote">
+<p><em>I should have mentioned that Turing and Champernowne, and I found in Cambridge, had devised a chess machine. Of course, there was no machine in the usual sense. We would call it a program [Turochamp]. And the individuals themselves had to pour through the sheets and sheets of paper, look up tables, and so forth, and make the moves for the machine. And Shaun Wylie, also Cambridge, who was a wartime, literally, colleague of mine, I decided, well, they better have a challenger. So that gave rise to the Machiavelli, [another set of instructions written on paper] for Michie-Wylie. And the idea was to play these two paper machines off against each other, which Turing attempted to do on the Manchester Baby, the very first stored program electronic machine. But Tom Kilburn didn’t think that was a very good use of scarce time, and somehow the project never got finished.</em></p>
+</blockquote>
+<p>The drought of funding for non-numerical computing lasted for almost two more decades. Since Michie “had to do something”, he took up a position in the Department of Surgical Science at the University of Edinburgh, where he worked on reducing graft rejection in human patients. So that was the environment in which the ideas about intelligent machines continued to brew. One day, challenged by a medical colleague, Michie put these ideas into practice by building an ingenious mechanical learning machine, later known as MENACE:</p>
+<blockquote class="blockquote">
+<p><em>(…) And in the staff club bar one day, Hugh Begbie, one of my medical colleagues, insisted that it was intrinsically impossible for a machine to learn. (…) So anyway, rather than argue, I thought, well, let’s see if we can do something about it. And having time to spare in the evenings and an indefinite supply of Swan Vestas, the nice big ones, Swan Vestas match boxes, I was able to assemble a, which I think is possibly the first trial and error learning machine.</em></p>
+</blockquote>
+<p>MENACE stands for Matchbox Educable Noughts and Crosses Engine. It is a set of matchboxes filled with colored beads. After playing a few hundred games against a human, it learned to play noughts and crosses:</p>
+<blockquote class="blockquote">
+<p><em>But by about, I think, something like 500 successive plays against me, which gruelling work for at least one of us, it was move perfect. So I claimed my money.</em></p>
+</blockquote>
+<p>How on earth can a set of matchboxes learn anything?</p>
+<div id="fig-menace-engine" class="figure-highlight quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-boxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="menace-engine.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: MENACE engine and the hands of its human operator. Picture from Michie’s 1963 paper, reprinted <a href="https://opendatascience.com/wp-content/uploads/2018/05/Screen-Shot-2018-05-22-at-3.50.51-PM.png">here</a>.
+</figcaption>
+</figure>
+</div>
+<p>You know noughts and crosses, the two-player game played on a 3 x 3 board. MENACE is Player 1, so it has the privilege of making the opening move. Because that move is made on an empty board, only one matchbox is needed to represent this board position. The box has 24 beads: eight beads in three different colors. Its human operator<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> mindlessly draws a bead, and its color dictates where MENACE places its cross. The operator repeats this procedure for every MENACE move, drawing beads from the correct matchboxes. Once the game is over, he also updates the number of beads in the matchboxes used, based on the outcome. If MENACE wins, the operator adds three more beads of the same color to each matchbox used during the game; for a draw he adds just one bead to each matchbox. If MENACE loses, the beads drawn during the game are removed from their respective matchboxes (Figure 1). Repeat this process hundreds of times and the proportions of beads will drift far from the equal weights with which the game started. Carrot and stick, this is learning. Slovaks say “sugar and whip”, Cantonese speakers say “a mouthful of sugar, a mouthful of shit” and AI researchers say reinforcement learning<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<section id="intermezzo-symmetry" class="level3 symmetry-intermezzo">
+<h3 class="anchored" data-anchor-id="intermezzo-symmetry">Intermezzo: symmetry</h3>
+<p>Wait, you might say, why are there only three colors when the empty board has nine squares? The reason is symmetry. Rotating the board by 90° reduces the number of effective moves from nine to three: edge, corner and irreducible center. Click through the images in Figure 2 and see how all four corners are equivalent moves on an empty board. Here, symmetry reduces the number of possible moves. And that is only the first gain we get from symmetry.</p>
+<div id="fig-menace-move-one" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell">
 <div class="cell-output-display">
+<div id="fig-move1" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
+<div style="text-align: center;">
+<canvas id="fig-move1-empty" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">Empty board</div>
+</div>
+<div style="font-size: 28px; color: #932667; font-weight: bold; padding: 0 4px;">→</div>
+<div id="fig-move1-options" style="display: grid; grid-template-columns: repeat(3, minmax(0, 120px)); justify-content: center; gap: 8px; width: min(100%, 376px);">
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-corner" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%; height: auto; aspect-ratio: 1;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Corner 
+<span style="color:#932667;">(4 equivalent)</span>
+</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-edge" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%; height: auto; aspect-ratio: 1;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Edge 
+<span style="color:#932667;">(4 equivalent)</span>
+</div>
+</div>
+<div style="text-align: center; min-width: 0;">
+<canvas id="fig-move1-center" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%; height: auto; aspect-ratio: 1;"></canvas>
+<div style="font-size: 11px; color: #888; margin-top: 4px;">
+Center 
+<span style="color:#932667;">(1 unique)</span>
+</div>
+</div>
+</div>
+<div style="flex-basis: 100%; text-align: center; font-size: 28px; color: #932667; font-weight: bold; height: 28px; line-height: 28px;">↓</div>
+<div role="img" aria-label="First matchbox with 24 beads: 8 in each of 3 colors" style="min-width: 214px; padding: 12px 14px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; text-align: center;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 7px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #5B1A78;">Corner</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #E69F00;">Edge</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #008C83;">Centre</span>
+<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
+</div>
+</div>
+</div>
+<div style="font-size: 11px; color: #888; margin-top: 8px;">
+First matchbox 
+<span style="color:#932667;">(24 beads)</span>
+</div>
+</div>
+</div>
+<script>// =============================================================
+// Move 1 Symmetry Figure — Empty board + 3 distinct first moves.
+// Corner and edge boards rotate on click to show equivalence.
+// =============================================================
+
+(function () {
+  'use strict';
+
+  var R = window.INFERNO.roles;
+  var SIZE = 120;
+  var CELL = SIZE / 3;
+
+  // The 4 corner cells, in 90° rotation order
+  var CORNERS = [0, 2, 8, 6]; // top-left → top-right → bottom-right → bottom-left
+  // The 4 edge cells, in 90° rotation order
+  var EDGES = [1, 5, 7, 3];   // top-mid → mid-right → bottom-mid → mid-left
+
+  // Match the orbit and bead colors used throughout the MENACE figures.
+  var ORBIT_FILLS = [
+    'rgba(91, 26, 120, 0.22)',
+    'rgba(230, 159, 0, 0.25)',
+    'rgba(0, 140, 131, 0.25)'
+  ];
+  var ORBIT_SOLIDS = ['#5B1A78', '#E69F00', '#008C83'];
+
+  // High-DPI setup: scale canvas buffer while keeping CSS size
+  function setupHiDPI(canvas, w, h) {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return ctx;
+  }
+
+  function getCanvas(id) { return document.getElementById(id); }
+  function getCtx(id) {
+    var canvas = getCanvas(id);
+    if (!canvas) return null;
+    return canvas.getContext('2d');
+  }
+
+  function drawGrid(ctx) {
+    ctx.strokeStyle = '#420a68';
+    ctx.lineWidth = 2;
+    for (var i = 1; i < 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
+    }
+  }
+
+  function fillCell(ctx, cellIdx, color) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    ctx.fillStyle = color;
+    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
+  }
+
+  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(orbitIdx + 1), cx, cy);
+  }
+
+  function drawX(ctx, cellIdx) {
+    var row = Math.floor(cellIdx / 3);
+    var col = cellIdx % 3;
+    var cx = col * CELL + CELL / 2;
+    var cy = row * CELL + CELL / 2;
+    var off = CELL * 0.28;
+    ctx.strokeStyle = R.lineA;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
+  }
+
+  function drawBoard(canvasId, xCell, equivalentCells, orbitIdx) {
+    var ctx = getCtx(canvasId);
+    if (!ctx) return;
+    ctx.clearRect(0, 0, SIZE, SIZE);
+    for (var i = 0; i < equivalentCells.length; i++) {
+      fillCell(ctx, equivalentCells[i], ORBIT_FILLS[orbitIdx]);
+    }
+    drawGrid(ctx);
+    if (xCell >= 0) drawX(ctx, xCell);
+  }
+
+  function makeClickable(canvas) {
+    canvas.style.cursor = 'pointer';
+  }
+
+  function renderRotating(canvasId, cells, idxRef) {
+    var current = cells[idxRef.v];
+    var orbitIdx = canvasId === 'fig-move1-corner' ? 0 : 1;
+    drawBoard(canvasId, current, cells, orbitIdx);
+  }
+
+  function initMove1Figure() {
+    // Scale all canvases for high-DPI
+    var ids = ['fig-move1-empty', 'fig-move1-corner', 'fig-move1-edge', 'fig-move1-center'];
+    var optionSize = window.matchMedia('(max-width: 576px)').matches ? 88 : SIZE;
+    for (var k = 0; k < ids.length; k++) {
+      var c = getCanvas(ids[k]);
+      if (c) {
+        setupHiDPI(c, SIZE, SIZE);
+        if (ids[k] !== 'fig-move1-empty') {
+          c.style.width = optionSize + 'px';
+          c.style.height = optionSize + 'px';
+        }
+      }
+    }
+
+    // Empty board
+    var ctxEmpty = getCtx('fig-move1-empty');
+    if (ctxEmpty) {
+      ctxEmpty.clearRect(0, 0, SIZE, SIZE);
+      for (var corner = 0; corner < CORNERS.length; corner++) {
+        fillCell(ctxEmpty, CORNERS[corner], ORBIT_FILLS[0]);
+      }
+      for (var edge = 0; edge < EDGES.length; edge++) {
+        fillCell(ctxEmpty, EDGES[edge], ORBIT_FILLS[1]);
+      }
+      fillCell(ctxEmpty, 4, ORBIT_FILLS[2]);
+      drawGrid(ctxEmpty);
+      for (var cell = 0; cell < 9; cell++) {
+        var orbitIdx = cell === 4 ? 2 : (cell % 2 === 0 ? 0 : 1);
+        drawOrbitLabel(ctxEmpty, cell, orbitIdx);
+      }
+    }
+
+    // Center (static)
+    drawBoard('fig-move1-center', 4, [4], 2);
+
+    // Corner — click to rotate
+    var cornerIdx = { v: 0 };
+    renderRotating('fig-move1-corner', CORNERS, cornerIdx);
+    var cornerCanvas = getCanvas('fig-move1-corner');
+    if (cornerCanvas) {
+      makeClickable(cornerCanvas);
+      cornerCanvas.addEventListener('click', function () {
+        cornerIdx.v = (cornerIdx.v + 1) % 4;
+        renderRotating('fig-move1-corner', CORNERS, cornerIdx);
+      });
+    }
+
+    // Edge — click to rotate
+    var edgeIdx = { v: 0 };
+    renderRotating('fig-move1-edge', EDGES, edgeIdx);
+    var edgeCanvas = getCanvas('fig-move1-edge');
+    if (edgeCanvas) {
+      makeClickable(edgeCanvas);
+      edgeCanvas.addEventListener('click', function () {
+        edgeIdx.v = (edgeIdx.v + 1) % 4;
+        renderRotating('fig-move1-edge', EDGES, edgeIdx);
+      });
+    }
+  }
+
+  window.initMove1Figure = initMove1Figure;
+
+})();
+document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); });</script>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Move 1: on an empty board, rotations reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the center.
+</figcaption>
+</figure>
+</div>
+<p>The second benefit of symmetry becomes apparent on MENACE’s second move. After the human opponent makes his first move, MENACE faces a board with seven empty squares. Although a nought and a cross can be arranged on the board in 72 ways, symmetry reduces these to just 12 distinct board positions. MENACE therefore needs only 12 matchboxes to represent its second move. Figure 3 illustrates the reduction.</p>
+<div id="fig-menace-move-two-options" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<div id="menace-move2" style="margin: 24px 0;"></div>
 <script>// =============================================================
 // MENACE Engine — Machine Educable Noughts and Crosses Engine
 // Implements Michie's matchbox reinforcement learning system
@@ -716,10 +1049,6 @@ window.INFERNO = {
   };
 
 })();</script>
-<div style="margin: 24px 0;">
-<div style="text-align: center; font-size: 14px; color: #555; margin-bottom: 14px; font-weight: 600;">MENACE’s Matchbox Collection</div>
-<div id="menace-collection"></div>
-</div>
 <script>// =============================================================
 // MENACE Visualisation — Interactive tic-tac-toe board,
 // matchbox bead display, and Plotly learning curve.
@@ -1223,49 +1552,156 @@ window.INFERNO = {
     setText('menace-status', 'Parameters applied. MENACE learning and matchboxes reset.');
   }
 
-  // ---- Move 2 zoom view (5 canonical boards) --------------------
+  // ---- Move 2 symmetry reduction: 72 positions -> 12 boards -----
 
-  function enumerateMove2States() {
-    var canonical = {};
-    var board = [0,0,0,0,0,0,0,0,0];
+  function enumerateMove2Families() {
+    var families = {};
 
-    function recurse(xCount, oCount) {
-      if (M.checkWinner(board) !== M.EMPTY) return;
-      var isXTurn = (xCount === oCount);
-      if (isXTurn && xCount === 1) {
+    for (var xCell = 0; xCell < 9; xCell++) {
+      for (var oCell = 0; oCell < 9; oCell++) {
+        if (oCell === xCell) continue;
+        var board = [0,0,0,0,0,0,0,0,0];
+        board[xCell] = M.X;
+        board[oCell] = M.O;
         var key = M.canonicalKey(board);
-        if (!canonical[key]) canonical[key] = board.slice();
-        return;
-      }
-      if (xCount + oCount >= 2) return;
-      var player = isXTurn ? M.X : M.O;
-      for (var i = 0; i < 9; i++) {
-        if (board[i] !== M.EMPTY) continue;
-        board[i] = player;
-        recurse(isXTurn ? xCount + 1 : xCount, isXTurn ? oCount : oCount + 1);
-        board[i] = M.EMPTY;
+        if (!families[key]) families[key] = [];
+        families[key].push(board);
       }
     }
-    recurse(0, 0);
 
-    var keys = Object.keys(canonical).sort();
-    var states = [];
-    for (var i = 0; i < keys.length; i++) states.push(canonical[keys[i]]);
-    return states;
+    var keys = Object.keys(families).sort();
+    var result = [];
+    for (var i = 0; i < keys.length; i++) {
+      result.push({ representative: families[keys[i]][0], members: families[keys[i]] });
+    }
+    return result;
+  }
+
+  function createMove2MiniBoard(board, size, label) {
+    var boardEl = document.createElement('div');
+    var cellSize = size / 3;
+    boardEl.setAttribute('role', 'img');
+    boardEl.setAttribute('aria-label', label);
+    boardEl.style.cssText = 'display:grid;grid-template-columns:repeat(3,' + cellSize + 'px);' +
+      'grid-template-rows:repeat(3,' + cellSize + 'px);border:1px solid #420a68;' +
+      'border-radius:2px;overflow:hidden;background:#fff;flex:0 0 auto;';
+
+    for (var i = 0; i < 9; i++) {
+      var cell = document.createElement('span');
+      var borderRight = i % 3 < 2 ? 'border-right:1px solid #b9a8c2;' : '';
+      var borderBottom = i < 6 ? 'border-bottom:1px solid #b9a8c2;' : '';
+      cell.style.cssText = 'display:flex;align-items:center;justify-content:center;' +
+        borderRight + borderBottom + 'font-size:' + Math.max(8, size * 0.2) + 'px;' +
+        'font-weight:700;line-height:1;';
+      if (board[i] === M.X) {
+        cell.textContent = '\u00d7';
+        cell.style.color = R.lineA;
+      } else if (board[i] === M.O) {
+        cell.textContent = '\u25cb';
+        cell.style.color = R.lineB;
+      }
+      boardEl.appendChild(cell);
+    }
+    return boardEl;
+  }
+
+  function setMove2Collapsed(container, collapsed) {
+    var grid = container.querySelector('[data-move2-grid]');
+    var panels = container.querySelectorAll('[data-move2-panel]');
+    var memberSets = container.querySelectorAll('[data-move2-members]');
+    var arrows = container.querySelectorAll('[data-move2-arrow]');
+    var representatives = container.querySelectorAll('[data-move2-representative]');
+    grid.style.gridTemplateColumns = collapsed
+      ? 'repeat(auto-fit,minmax(86px,112px))'
+      : 'repeat(auto-fit,minmax(min(100%,320px),1fr))';
+    grid.style.justifyContent = collapsed ? 'center' : 'normal';
+    for (var i = 0; i < memberSets.length; i++) {
+      memberSets[i].style.display = collapsed ? 'none' : 'flex';
+      arrows[i].style.display = collapsed ? 'none' : 'block';
+      panels[i].style.display = collapsed ? 'flex' : 'grid';
+      panels[i].style.gridTemplateColumns = collapsed ? '' : '1fr auto 62px';
+      panels[i].style.justifyContent = collapsed ? 'center' : 'normal';
+      panels[i].style.aspectRatio = collapsed ? '1' : 'auto';
+      representatives[i].style.transform = collapsed ? 'scale(1.08)' : 'none';
+    }
+    setText('menace-move2-summary', collapsed
+      ? '12 representatives - one board retained from each symmetry family'
+      : '72 positions - grouped into 12 symmetry families');
+    setText('menace-move2-toggle', collapsed ? 'Show all 72' : 'Collapse to 12');
+    container.setAttribute('data-collapsed', collapsed ? 'true' : 'false');
   }
 
   function renderMove2Boards() {
     var container = el('menace-move2');
     if (!container) return;
+    container.replaceChildren();
 
-    var states = enumerateMove2States();
-    var html = '<div style="display:grid;grid-template-columns:repeat(3,minmax(0,84px));' +
-           'gap:12px;justify-content:center;padding:8px 0;">';
-    for (var i = 0; i < states.length; i++) {
-      html += renderMiniBoardCard(states[i], i + 1);
+    var toolbar = document.createElement('div');
+    toolbar.style.cssText = 'display:flex;align-items:center;justify-content:space-between;' +
+      'gap:12px;flex-wrap:wrap;margin-bottom:14px;';
+    var summary = document.createElement('strong');
+    summary.id = 'menace-move2-summary';
+    summary.style.cssText = 'font-size:13px;color:#555;';
+    var toggle = document.createElement('button');
+    toggle.id = 'menace-move2-toggle';
+    toggle.type = 'button';
+    toggle.style.cssText = 'padding:7px 12px;border:1px solid #932667;border-radius:5px;' +
+      'background:#fff;color:#932667;font-size:12px;font-weight:700;cursor:pointer;';
+    toolbar.appendChild(summary);
+    toolbar.appendChild(toggle);
+    container.appendChild(toolbar);
+
+    var grid = document.createElement('div');
+    grid.setAttribute('data-move2-grid', '');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));' +
+      'gap:10px;align-items:stretch;';
+    var families = enumerateMove2Families();
+
+    for (var familyIndex = 0; familyIndex < families.length; familyIndex++) {
+      var family = families[familyIndex];
+      var panel = document.createElement('div');
+      panel.setAttribute('data-move2-panel', '');
+      panel.style.cssText = 'display:grid;grid-template-columns:1fr auto 62px;align-items:center;' +
+        'gap:8px;padding:9px;border:1px solid #d8cbdc;border-radius:6px;background:#fff;';
+
+      var members = document.createElement('div');
+      members.setAttribute('data-move2-members', '');
+      members.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;align-content:center;';
+      for (var memberIndex = 0; memberIndex < family.members.length; memberIndex++) {
+        members.appendChild(createMove2MiniBoard(
+          family.members[memberIndex], 32,
+          'Symmetry family ' + (familyIndex + 1) + ', position ' + (memberIndex + 1)
+        ));
+      }
+
+      var arrow = document.createElement('span');
+      arrow.setAttribute('data-move2-arrow', '');
+      arrow.textContent = '\u2192';
+      arrow.style.cssText = 'color:#932667;font-size:20px;font-weight:700;';
+
+      var representativeWrap = document.createElement('div');
+      representativeWrap.setAttribute('data-move2-representative', '');
+      representativeWrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;' +
+        'gap:3px;transition:transform 180ms ease;';
+      representativeWrap.appendChild(createMove2MiniBoard(
+        family.representative, 56, 'Representative of symmetry family ' + (familyIndex + 1)
+      ));
+      var familyLabel = document.createElement('span');
+      familyLabel.textContent = '#' + (familyIndex + 1) + ' (' + family.members.length + ')';
+      familyLabel.style.cssText = 'font-size:10px;color:#777;';
+      representativeWrap.appendChild(familyLabel);
+
+      panel.appendChild(members);
+      panel.appendChild(arrow);
+      panel.appendChild(representativeWrap);
+      grid.appendChild(panel);
     }
-    html += '</div>';
-    container.innerHTML = html;
+    container.appendChild(grid);
+
+    toggle.addEventListener('click', function () {
+      setMove2Collapsed(container, container.getAttribute('data-collapsed') !== 'true');
+    });
+    setMove2Collapsed(container, false);
   }
 
   // ---- Move 3 zoom view (12 canonical boards) -------------------
@@ -1494,293 +1930,19 @@ window.INFERNO = {
   }
 
   window.initMenacePlot = initMenace;
+  window.initMenaceMove2 = renderMove2Boards;
 
 })();
-document.addEventListener('DOMContentLoaded', function() { initMenacePlot(); });</script>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-boxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: The entire collection of MENACE matchboxes, grouped by turn. Beads in the boxes are used to determine the computer’s moves during the game. MENACE plays with crosses and starts the game. Each matchbox represents one board position, with rotated or reflected copies stored only once. [FOOTNOTE: There are no matchboxes for move5, eventhough MENACE does that move, because in the last move only one empty square remains, so no choice needs to be made]
-</figcaption>
-</figure>
-</div>
-<div id="fig-menace-move-one" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-move1" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 24px 0; padding: 20px;">
-<div style="text-align: center;">
-<canvas id="fig-move1-empty" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white;"></canvas>
-<div style="font-size: 11px; color: #888; margin-top: 4px;">Empty board</div>
-</div>
-<div style="font-size: 28px; color: #932667; font-weight: bold; padding: 0 4px;">→</div>
-<div id="fig-move1-options" style="display: grid; grid-template-columns: repeat(3, minmax(0, 120px)); justify-content: center; gap: 8px; width: min(100%, 376px);">
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move1-corner" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 11px; color: #888; margin-top: 4px;">
-Corner 
-<span style="color:#932667;">(4 equivalent)</span>
-</div>
-</div>
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move1-edge" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 11px; color: #888; margin-top: 4px;">
-Edge 
-<span style="color:#932667;">(4 equivalent)</span>
-</div>
-</div>
-<div style="text-align: center; min-width: 0;">
-<canvas id="fig-move1-center" width="120" height="120" style="border: 2px solid #420a68; border-radius: 6px; background: white; max-width: 100%;"></canvas>
-<div style="font-size: 11px; color: #888; margin-top: 4px;">
-Center 
-<span style="color:#932667;">(1 unique)</span>
-</div>
-</div>
-</div>
-<div style="flex-basis: 100%; text-align: center; font-size: 28px; color: #932667; font-weight: bold; height: 28px; line-height: 28px;">↓</div>
-<div role="img" aria-label="First matchbox with 24 beads: 8 in each of 3 colors" style="min-width: 214px; padding: 12px 14px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; text-align: center;">
-<div style="display: flex; flex-direction: column; align-items: center; gap: 7px;">
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #5B1A78;">Corner</span>
-<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #E69F00;">Edge</span>
-<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #E69F00;"></span>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="width: 42px; text-align: right; font-size: 10px; font-weight: 600; color: #008C83;">Centre</span>
-<div style="display: grid; grid-template-columns: repeat(8, 12px); gap: 4px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #008C83;"></span>
-</div>
-</div>
-</div>
-<div style="font-size: 11px; color: #888; margin-top: 8px;">
-First matchbox 
-<span style="color:#932667;">(24 beads)</span>
-</div>
-</div>
-</div>
-<script>// =============================================================
-// Move 1 Symmetry Figure — Empty board + 3 distinct first moves.
-// Corner and edge boards rotate on click to show equivalence.
-// =============================================================
-
-(function () {
-  'use strict';
-
-  var R = window.INFERNO.roles;
-  var SIZE = 120;
-  var CELL = SIZE / 3;
-
-  // The 4 corner cells, in 90° rotation order
-  var CORNERS = [0, 2, 8, 6]; // top-left → top-right → bottom-right → bottom-left
-  // The 4 edge cells, in 90° rotation order
-  var EDGES = [1, 5, 7, 3];   // top-mid → mid-right → bottom-mid → mid-left
-
-  // Match the orbit and bead colors used throughout the MENACE figures.
-  var ORBIT_FILLS = [
-    'rgba(91, 26, 120, 0.22)',
-    'rgba(230, 159, 0, 0.25)',
-    'rgba(0, 140, 131, 0.25)'
-  ];
-  var ORBIT_SOLIDS = ['#5B1A78', '#E69F00', '#008C83'];
-
-  // High-DPI setup: scale canvas buffer while keeping CSS size
-  function setupHiDPI(canvas, w, h) {
-    var dpr = window.devicePixelRatio || 1;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    var ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
-    return ctx;
-  }
-
-  function getCanvas(id) { return document.getElementById(id); }
-  function getCtx(id) {
-    var canvas = getCanvas(id);
-    if (!canvas) return null;
-    return canvas.getContext('2d');
-  }
-
-  function drawGrid(ctx) {
-    ctx.strokeStyle = '#420a68';
-    ctx.lineWidth = 2;
-    for (var i = 1; i < 3; i++) {
-      ctx.beginPath(); ctx.moveTo(i * CELL, 0); ctx.lineTo(i * CELL, SIZE); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0, i * CELL); ctx.lineTo(SIZE, i * CELL); ctx.stroke();
-    }
-  }
-
-  function fillCell(ctx, cellIdx, color) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    ctx.fillStyle = color;
-    ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
-  }
-
-  function drawOrbitLabel(ctx, cellIdx, orbitIdx) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    var cx = col * CELL + CELL / 2;
-    var cy = row * CELL + CELL / 2;
-    ctx.fillStyle = ORBIT_SOLIDS[orbitIdx];
-    ctx.font = 'bold 13px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(String(orbitIdx + 1), cx, cy);
-  }
-
-  function drawX(ctx, cellIdx) {
-    var row = Math.floor(cellIdx / 3);
-    var col = cellIdx % 3;
-    var cx = col * CELL + CELL / 2;
-    var cy = row * CELL + CELL / 2;
-    var off = CELL * 0.28;
-    ctx.strokeStyle = R.lineA;
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.beginPath(); ctx.moveTo(cx - off, cy - off); ctx.lineTo(cx + off, cy + off); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx + off, cy - off); ctx.lineTo(cx - off, cy + off); ctx.stroke();
-  }
-
-  function drawBoard(canvasId, xCell, equivalentCells, orbitIdx) {
-    var ctx = getCtx(canvasId);
-    if (!ctx) return;
-    ctx.clearRect(0, 0, SIZE, SIZE);
-    for (var i = 0; i < equivalentCells.length; i++) {
-      fillCell(ctx, equivalentCells[i], ORBIT_FILLS[orbitIdx]);
-    }
-    drawGrid(ctx);
-    if (xCell >= 0) drawX(ctx, xCell);
-  }
-
-  function makeClickable(canvas) {
-    canvas.style.cursor = 'pointer';
-  }
-
-  function renderRotating(canvasId, cells, idxRef) {
-    var current = cells[idxRef.v];
-    var orbitIdx = canvasId === 'fig-move1-corner' ? 0 : 1;
-    drawBoard(canvasId, current, cells, orbitIdx);
-  }
-
-  function initMove1Figure() {
-    // Scale all canvases for high-DPI
-    var ids = ['fig-move1-empty', 'fig-move1-corner', 'fig-move1-edge', 'fig-move1-center'];
-    var optionSize = window.matchMedia('(max-width: 576px)').matches ? 88 : SIZE;
-    for (var k = 0; k < ids.length; k++) {
-      var c = getCanvas(ids[k]);
-      if (c) {
-        setupHiDPI(c, SIZE, SIZE);
-        if (ids[k] !== 'fig-move1-empty') {
-          c.style.width = optionSize + 'px';
-          c.style.height = optionSize + 'px';
-        }
-      }
-    }
-
-    // Empty board
-    var ctxEmpty = getCtx('fig-move1-empty');
-    if (ctxEmpty) {
-      ctxEmpty.clearRect(0, 0, SIZE, SIZE);
-      for (var corner = 0; corner < CORNERS.length; corner++) {
-        fillCell(ctxEmpty, CORNERS[corner], ORBIT_FILLS[0]);
-      }
-      for (var edge = 0; edge < EDGES.length; edge++) {
-        fillCell(ctxEmpty, EDGES[edge], ORBIT_FILLS[1]);
-      }
-      fillCell(ctxEmpty, 4, ORBIT_FILLS[2]);
-      drawGrid(ctxEmpty);
-      for (var cell = 0; cell < 9; cell++) {
-        var orbitIdx = cell === 4 ? 2 : (cell % 2 === 0 ? 0 : 1);
-        drawOrbitLabel(ctxEmpty, cell, orbitIdx);
-      }
-    }
-
-    // Center (static)
-    drawBoard('fig-move1-center', 4, [4], 2);
-
-    // Corner — click to rotate
-    var cornerIdx = { v: 0 };
-    renderRotating('fig-move1-corner', CORNERS, cornerIdx);
-    var cornerCanvas = getCanvas('fig-move1-corner');
-    if (cornerCanvas) {
-      makeClickable(cornerCanvas);
-      cornerCanvas.addEventListener('click', function () {
-        cornerIdx.v = (cornerIdx.v + 1) % 4;
-        renderRotating('fig-move1-corner', CORNERS, cornerIdx);
-      });
-    }
-
-    // Edge — click to rotate
-    var edgeIdx = { v: 0 };
-    renderRotating('fig-move1-edge', EDGES, edgeIdx);
-    var edgeCanvas = getCanvas('fig-move1-edge');
-    if (edgeCanvas) {
-      makeClickable(edgeCanvas);
-      edgeCanvas.addEventListener('click', function () {
-        edgeIdx.v = (edgeIdx.v + 1) % 4;
-        renderRotating('fig-move1-edge', EDGES, edgeIdx);
-      });
-    }
-  }
-
-  window.initMove1Figure = initMove1Figure;
-
-})();
-document.addEventListener('DOMContentLoaded', function() { initMove1Figure(); });</script>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-one-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Move 1: on an empty board, rotations reduce the nine possible opening squares to three distinct choices: a corner, an edge, or the centre. Therefore, at the beginning of the game, the first matchbox has eight beads in each of three colors, 24 beads in total, with each color representing one of these choices. A single bead is drawn and its color determines MENACE’s move.
-</figcaption>
-</figure>
-</div>
-<div id="fig-menace-move-two-options" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div id="menace-move2" style="margin: 24px 0;"></div>
+document.addEventListener('DOMContentLoaded', function() { initMenaceMove2(); });</script>
 </div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-options-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: The twelve numbered boxes show every position MENACE can encounter on its second turn.
+Figure&nbsp;3: After MENACE places a cross, the trainer can place a nought in any of the eight remaining squares, giving <span class="math inline">\(9 \times 8 = 72\)</span> positions. Rotations and reflections sort them into twelve symmetry families. Collapsing each family to one representative leaves the twelve board positions MENACE can encounter on its second turn.
 </figcaption>
 </figure>
 </div>
+<p>And Figure 4 combines the symmetry of board positions with the symmetry of MENACE’s possible responses: rotations and reflections reduce both the number of distinct board positions and the number of different bead colors needed to represent the available moves. The same principle applies to MENACE’s later turns; only the number of combinations is bigger.</p>
 <div id="fig-menace-move-two" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1988,109 +2150,35 @@ document.addEventListener('DOMContentLoaded', function() { initMove2Figure(); })
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-move-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure <a href="#fig-menace-boxes" class="quarto-xref">Figure&nbsp;1</a>. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
+Figure&nbsp;4: After each player has moved once, the number of distinct next moves depends on which symmetries remain. The three boards correspond to positions #6, #10, and #12 in Figure 3. Position #6 has seven distinct choices; positions #10 and #12 each have four because they preserve mirror symmetry.
 </figcaption>
 </figure>
 </div>
-<div id="fig-menace-reinforcement" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div role="img" aria-label="An initial matchbox with 8 beads branches to 11 beads after a win, 9 after a draw, and 7 after a loss" style="max-width: 420px; margin: 24px auto; padding: 0 4px;">
-<div style="display: flex; flex-direction: column; align-items: center;">
-<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
+</section>
+<p>Now that we have seen how MENACE plays and learns – and how symmetry keeps the system manageable – we can properly appreciate the ingenuity of its design. Let’s start with the obvious: Michie chose a game played on a 3 x 3 board. Building a mechanical computer for nine squares was still feasible; doing the same for checkers, with 100 squares, would not have been.</p>
+<p>Furthermore, MENACE was granted the privilege of moving first, giving it a greater chance to win rather than merely draw<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. Notice, too, that MENACE makes up to five moves in a game, but there are no matchboxes to represent the fifth move. The reason is that, with only one square left empty, MENACE has no decision to make. Colored beads represent probabilistic choices. When only one move is possible there is no probability to model. The human being building the engine simply did not make a box for it.</p>
+<p>We have already had a glimpse of how much symmetry simplifies the machine. Without symmetry, MENACE’s four decisions would require 1, 72, 756 and 1372 matchboxes, 2201 in total. Symmetry reduces the total number to just 304. Still, 304 is not nothing to operate, especially when updating the number of beads after every game. I was pleased to learn that Michie marked the boxes used in a game simply by leaving them open. Practical beauty.</p>
+<p>Last but not least, there is the most striking feature of MENACE: namely, it is built from matchboxes<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. Once you see how it works, the ingenuity of the design is obvious. But would you ever look at a pile of matchboxes and think “this could learn”? I certainly would not. My guess is that if you lack funding for something you would love to do for almost twenty years, and the field remains in its infancy, you gain a thorough understanding of the basics. Personally, I have enormous appreciation for people who understand the fundamentals so deeply that they can explain them to anyone, with barely any resources.</p>
+<div class="section-break" aria-hidden="true">
+<p>* * *</p>
 </div>
-<span style="font-size: 11px; color: #777; margin-top: 5px;">Initial: 8 beads</span>
-</div>
-</div>
-<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 4px;">
-<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
-<div style="text-align: center; color: #932667; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
-<div style="font-size: 25px; line-height: 24px;">↓</div>
-<div>WIN</div>
-<div style="font-size: 11px;">+3</div>
-</div>
-<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-<span style="font-size: 11px; color: #777; margin-top: 5px;">11 beads</span>
-</div>
-</div>
-<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
-<div style="text-align: center; color: #E69F00; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
-<div style="font-size: 25px; line-height: 24px;">↓</div>
-<div>DRAW</div>
-<div style="font-size: 11px;">+1</div>
-</div>
-<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-<span style="font-size: 11px; color: #777; margin-top: 5px;">9 beads</span>
-</div>
-</div>
-<div style="display: flex; flex-direction: column; align-items: center; min-width: 0;">
-<div style="text-align: center; color: #D94F3D; font-size: 12px; font-weight: 700; line-height: 1.15; margin-bottom: 7px;">
-<div style="font-size: 25px; line-height: 24px;">↓</div>
-<div>LOSS</div>
-<div style="font-size: 11px;">-1</div>
-</div>
-<div style="width: 88px; min-height: 82px; padding: 9px 6px 7px; border: 2px solid #420a68; border-radius: 6px; background: #fffaf2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<div style="display: grid; grid-template-columns: repeat(4, 12px); gap: 4px; justify-content: center; align-content: center; min-height: 44px;">
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-<span style="display: block; width: 12px; height: 12px; border-radius: 50%; background: #5B1A78;"></span>
-</div>
-<span style="font-size: 11px; color: #777; margin-top: 5px;">7 beads</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-reinforcement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: After a game, MENACE updates the bead color it selected in every matchbox used during that game: three beads are added after a win, one after a draw, and one is removed after a loss. The diagram starts from a fresh count of eight beads; other choices in each box are unchanged, and a losing choice never falls below one bead.
-</figcaption>
-</figure>
-</div>
+<p>If you think Michie’s MENACE is one of the best explanations of reinforcement learning, welcome to the club. Take a moment to appreciate what a cool thing you just encountered. Or you can start explaining to anyone who wants to listen how you can train a set of matchboxes. In the next post you will be able to train and play against MENACE yourself. No matchboxes required. Thank you for reading.</p>
 
 
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>All biographical facts I use in this post come either from <a href="https://en.wikipedia.org/wiki/Donald_Michie">here</a> or from <a href="https://www.theguardian.com/science/2007/jul/10/uk.obituaries1">here</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Yes, that Alan Turing—the one who devised the Turing test and made a number of other foundational contributions to computer science.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>All Michie quotations <a href="https://media.aiai.ed.ac.uk/Video/Michie/2007-06-28-michie.mp4">come from</a>, a talk entitled “Mechanisations of Thought. Early Edinburgh Adventures” he gave on the 28th of June 2007 at the University of Edinburgh. Ten days later he and his ex-wife were killed in a car accident, travelling from Cambridge to London.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>A helper needs to identify the correct box, draw a bead, match the color of the bead with a position on the board, and make a move. The helper is the executor; they do not contribute any cognitive capacity or make any decision.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>It is amazing to see how virtually every language has an idiom for a combination of reward and punishment. European languages are dominated by carrot and stick/whip, with the exception of Spanish. As a chemist I just cannot be indifferent to this one: they say “silver or lead”. I will let you google why.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>It depends on which player it was trained against and which player it is playing against – see the first table in <a href="https://rodneybrooks.com/forai-machine-learning-explained/">Rodney Brooks’s essay on machine learning</a>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Not from NVIDIA chips.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <div class="share-buttons">
 
   <h4>Share this post:</h4>
