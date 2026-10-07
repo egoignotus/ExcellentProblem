@@ -8,7 +8,7 @@
 
 <meta name="author" content="Aleksandra">
 <meta name="dcterms.date" content="2026-10-11">
-<meta name="description" content="Train MENACE with your own reinforcement parameters.">
+<meta name="description" content="See reinforcement learning in action">
 
 <title>MENACE Engine – Excellent Problem</title>
 <style>
@@ -195,7 +195,7 @@ window.INFERNO = {
 
 <!-- Plotly.js (for the learning curve chart) -->
 
-<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.27.0/plotly.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.27.0/plotly.min.js" integrity="sha384-Hl48Kq2HifOWdXEjMsKo6qxqvRLTYqIGbvlENBmkHAxZKIGCXv43H6W1jA671RzC" crossorigin="anonymous"></script>
 
 
 
@@ -245,12 +245,13 @@ window.INFERNO = {
       <h1 class="title">MENACE Engine</h1>
                   <div>
         <div class="description">
-          Train MENACE with your own reinforcement parameters.
+          See reinforcement learning in action
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">math</div>
+                <div class="quarto-category">AI</div>
                 <div class="quarto-category">interactive</div>
+                <div class="quarto-category">symmetry</div>
               </div>
                   </div>
   </div>
@@ -279,15 +280,8 @@ window.INFERNO = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#adjustable-parameters" id="toc-adjustable-parameters" class="nav-link active" data-scroll-target="#adjustable-parameters">Adjustable parameters</a></li>
-  <li><a href="#engine-rules" id="toc-engine-rules" class="nav-link" data-scroll-target="#engine-rules">Engine rules</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -296,34 +290,8 @@ window.INFERNO = {
 
 
 
-<p>The matchboxes, symmetry classes, and reinforcement mechanism are introduced in <a href="../2026-09-30-intro-to-menace/">Introduction to MENACE</a>.</p>
-<section id="adjustable-parameters" class="level2">
-<h2 class="anchored" data-anchor-id="adjustable-parameters">Adjustable parameters</h2>
-<p>The engine exposes all five numerical constraints. Their defaults reproduce the rules in the introduction:</p>
-<ol type="1">
-<li><strong>Initial beads:</strong> 8 beads for every new move option.</li>
-<li><strong>Win reward:</strong> add 3 beads to each selected option.</li>
-<li><strong>Draw reward:</strong> add 1 bead to each selected option.</li>
-<li><strong>Loss penalty:</strong> remove 1 bead from each selected option.</li>
-<li><strong>Minimum beads:</strong> do not let an option fall below 1 bead.</li>
-</ol>
-<p>Parameters must be non-negative integers. The initial count cannot be lower than the minimum. Pressing <strong>Reset</strong> applies the current values and clears earlier learning, statistics, and matchboxes.</p>
-</section>
-<section id="engine-rules" class="level2">
-<h2 class="anchored" data-anchor-id="engine-rules">Engine rules</h2>
-<ul>
-<li>MENACE always plays X and moves first.</li>
-<li>Moves are selected randomly in proportion to their bead counts.</li>
-<li>Symmetrically equivalent boards share one matchbox.</li>
-<li>Symmetrically equivalent squares share one bead color; a square within the selected class is chosen randomly.</li>
-<li>The final outcome updates every option selected by MENACE during that game.</li>
-<li>Batch training can use a random opponent, a player that chooses an optimal move 50% of the time and a random move otherwise, or an optimal coverage player.</li>
-<li>The optimal coverage player chooses the least-used move among equally optimal moves for each position, exposing MENACE to alternatives without deliberately making an inferior move.</li>
-<li>A win or draw ends the game immediately, and occupied squares cannot be selected.</li>
-</ul>
-<div id="fig-menace-engine" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Last time we covered the fascinating life and creations of <a href="https://excellentproblem.com/posts/2026-09-30-intro-to-menace/">Donald Michie</a>. Now it’s time for some interaction: train MENACE yourself! You can start with the defaults or experiment with your own reinforcement parameters. To speed up the process and see how much better MENACE plays after training, use the training buttons, in combination with an opponent type. Below the board, you’ll see the matchbox corresponding to MENACE’s current move and the available options, represented by differently colored beads. Once the game is over, you can watch the reinforcement signal being applied to box that represents the last MENACE’s move. Have fun!</p>
+<div class="{fig-menace-engine}">
 <div class="cell">
 <div class="cell-output-display no-overflow-x">
 <script>// =============================================================
@@ -356,12 +324,15 @@ window.INFERNO = {
     lossPenalty: 1,
     minimumBeads: 1
   };
+  var MAX_SETTING_VALUE = 100;
 
   function normaliseSettings(settings) {
     settings = settings || {};
     function integer(name, fallback, minimum) {
       var value = Number(settings[name]);
-      return Number.isInteger(value) && value >= minimum ? value : fallback;
+      return Number.isSafeInteger(value) &&
+        value >= minimum &&
+        value <= MAX_SETTING_VALUE ? value : fallback;
     }
     var minimumBeads = integer('minimumBeads', DEFAULT_SETTINGS.minimumBeads, 0);
     return {
@@ -576,7 +547,10 @@ window.INFERNO = {
       if (h.move === null) continue;
       var box = this.boxes[h.key];
       if (!box) continue;
-      box[h.move] = Math.max(this.settings.minimumBeads, (box[h.move] || 0) + delta);
+      box[h.move] = Math.min(
+        MAX_SETTING_VALUE,
+        Math.max(this.settings.minimumBeads, (box[h.move] || 0) + delta)
+      );
     }
 
     this.stats.games++;
@@ -837,7 +811,8 @@ window.INFERNO = {
     playGame: playGame,
     trainBatch: trainBatch,
     rollingStats: rollingStats,
-    DEFAULT_SETTINGS: DEFAULT_SETTINGS
+    DEFAULT_SETTINGS: DEFAULT_SETTINGS,
+    MAX_SETTING_VALUE: MAX_SETTING_VALUE
   };
 
 })();</script>
@@ -864,27 +839,27 @@ window.INFERNO = {
 <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;">
 <label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
 Initial
-<input id="menace-param-initial" type="number" min="0" step="1" value="8" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+<input id="menace-param-initial" type="number" min="0" max="100" step="1" value="8" inputmode="numeric" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
 </label>
 <label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
 Win +
-<input id="menace-param-win" type="number" min="0" step="1" value="3" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+<input id="menace-param-win" type="number" min="0" max="100" step="1" value="3" inputmode="numeric" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
 </label>
 <label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
 Draw +
-<input id="menace-param-draw" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+<input id="menace-param-draw" type="number" min="0" max="100" step="1" value="1" inputmode="numeric" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
 </label>
 <label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
 Loss -
-<input id="menace-param-loss" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+<input id="menace-param-loss" type="number" min="0" max="100" step="1" value="1" inputmode="numeric" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
 </label>
 <label style="display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;">
 Minimum
-<input id="menace-param-minimum" type="number" min="0" step="1" value="1" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
+<input id="menace-param-minimum" type="number" min="0" max="100" step="1" value="1" inputmode="numeric" style="width: 64px; padding: 5px 6px; border: 1px solid #bbb; border-radius: 4px; font-size: 13px;">
 </label>
-<span style="font-size: 11px; color: #777; padding-bottom: 6px;">Applied when Reset is pressed</span>
+<span style="font-size: 11px; color: #777; padding-bottom: 6px;">Whole numbers from 0 to 100; applied when Reset is pressed</span>
 </div>
-<div id="menace-status" style="font-weight: bold; margin-bottom: 8px; min-height: 1.5em;"></div>
+<div id="menace-status" role="status" aria-live="polite" style="font-weight: bold; margin-bottom: 8px; min-height: 1.5em;"></div>
 <div id="menace-stats" style="font-size: 13px; color: #666;"></div>
 <div id="menace-game-counter" role="status" aria-live="polite" style="margin-top: 12px; padding: 7px 16px; border: 1px solid rgba(147, 38, 103, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.65); color: #6f2856; text-align: center; font-size: 20px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.2;">GAME 0</div>
 </div>
@@ -932,6 +907,8 @@ Minimum
   var humanTurn     = false;
   var autoTraining  = false;
   var pendingTimeout = null;   // track scheduled menaceMoves to prevent races
+  var trainingTimeout = null;
+  var trainingGeneration = 0;
   var reinforcementPending = false;
   var reinforcementNotice = null;
   var REINFORCEMENT_DELAY_MS = 1500;
@@ -951,6 +928,17 @@ Minimum
   function setText(id, text) {
     var e = el(id);
     if (e) e.textContent = text;
+  }
+
+  function getPlotly() {
+    var plotly = window.Plotly;
+    return plotly &&
+      typeof plotly.purge === 'function' &&
+      typeof plotly.react === 'function' ? plotly : null;
+  }
+
+  function plotlyErrorMessage() {
+    return 'The learning chart could not load. Check your connection or content blocker, then reload the page.';
   }
 
   function updateGameCounter(gameNumber) {
@@ -1246,11 +1234,13 @@ Minimum
 
   function renderLearningCurve() {
     var div = el('menace-curve');
-    if (!div) return;
+    if (!div) return true;
+    var plotly = getPlotly();
+    if (!plotly) return false;
 
     if (menace.gameLog.length < 2) {
-      Plotly.purge(div);
-      return;
+      plotly.purge(div);
+      return true;
     }
 
     var windowSize = Math.min(50, Math.max(5, Math.floor(menace.gameLog.length / 4)));
@@ -1287,7 +1277,8 @@ Minimum
       }]
     };
 
-    Plotly.react(div, traces, layout, { responsive: true, displayModeBar: false });
+    plotly.react(div, traces, layout, { responsive: true, displayModeBar: false });
+    return true;
   }
 
   // ---- Stats display --------------------------------------------
@@ -1316,6 +1307,7 @@ Minimum
 
   function newGame() {
     if (reinforcementPending) return;
+    cancelTraining();
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
     currentBoard = [0,0,0,0,0,0,0,0,0];
     gameActive   = true;
@@ -1404,9 +1396,24 @@ Minimum
 
   // ---- Training -------------------------------------------------
 
+  function cancelTraining() {
+    trainingGeneration++;
+    if (trainingTimeout) {
+      clearTimeout(trainingTimeout);
+      trainingTimeout = null;
+    }
+    autoTraining = false;
+  }
+
   function trainN(n) {
     if (autoTraining || reinforcementPending) return;
+    if (!getPlotly()) {
+      setText('menace-status', plotlyErrorMessage());
+      return;
+    }
+    cancelTraining();
     autoTraining = true;
+    var generation = trainingGeneration;
     gameActive = false;
     humanTurn  = false;
     var opponentSelect = el('menace-opponent');
@@ -1418,39 +1425,84 @@ Minimum
     var done = 0;
 
     function runBatch() {
-      var toRun = Math.min(batchSize, n - done);
-      M.trainBatch(menace, toRun, opponentMove);
-      done += toRun;
-      updateGameCounter(menace.stats.games);
-      renderStats();
-      renderLearningCurve();
+      if (generation !== trainingGeneration) return;
+      trainingTimeout = null;
+      try {
+        var toRun = Math.min(batchSize, n - done);
+        M.trainBatch(menace, toRun, opponentMove);
+        done += toRun;
+        updateGameCounter(menace.stats.games);
+        renderStats();
+        if (!renderLearningCurve()) throw new Error(plotlyErrorMessage());
 
-      if (done < n) {
-        setText('menace-status', 'Training... ' + done + '/' + n);
-        setTimeout(runBatch, 10);
-      } else {
-        autoTraining = false;
-        // After training, show empty-board matchbox so user sees the learned weights
-        menaceViewBoard  = [0,0,0,0,0,0,0,0,0];
-        menaceChosenCell = -1;
-        renderMatchbox();
-        setText('menace-status', 'Training complete! ' + n + ' games played. Click "New Game" to test MENACE.');
+        if (done < n) {
+          setText('menace-status', 'Training... ' + done + '/' + n);
+          trainingTimeout = setTimeout(runBatch, 10);
+        } else {
+          autoTraining = false;
+          // After training, show empty-board matchbox so user sees the learned weights
+          menaceViewBoard  = [0,0,0,0,0,0,0,0,0];
+          menaceChosenCell = -1;
+          renderMatchbox();
+          setText('menace-status', 'Training complete! ' + n + ' games played. Click "New Game" to test MENACE.');
+        }
+      } catch (error) {
+        cancelTraining();
+        setText('menace-status',
+          error && error.message ? 'Training stopped: ' + error.message : 'Training stopped because an unexpected error occurred.');
       }
     }
     runBatch();
   }
 
+  function readSettings() {
+    var fields = [
+      { id: 'menace-param-initial', key: 'initialBeads', label: 'Initial beads' },
+      { id: 'menace-param-win', key: 'winReward', label: 'Win reward' },
+      { id: 'menace-param-draw', key: 'drawReward', label: 'Draw reward' },
+      { id: 'menace-param-loss', key: 'lossPenalty', label: 'Loss penalty' },
+      { id: 'menace-param-minimum', key: 'minimumBeads', label: 'Minimum beads' }
+    ];
+    var settings = {};
+    var invalid = [];
+
+    for (var i = 0; i < fields.length; i++) {
+      var field = fields[i];
+      var input = el(field.id);
+      var raw = input.value;
+      var value = Number(raw);
+      var valid = /^(0|[1-9]\d*)$/.test(raw) &&
+        Number.isSafeInteger(value) &&
+        value <= M.MAX_SETTING_VALUE;
+      input.setAttribute('aria-invalid', valid ? 'false' : 'true');
+      if (valid) settings[field.key] = value;
+      else invalid.push(field.label);
+    }
+
+    if (invalid.length > 0) {
+      return {
+        error: invalid.join(', ') + ' must be whole numbers from 0 to ' +
+          M.MAX_SETTING_VALUE.toLocaleString() + '.'
+      };
+    }
+    if (settings.initialBeads < settings.minimumBeads) {
+      el('menace-param-initial').setAttribute('aria-invalid', 'true');
+      el('menace-param-minimum').setAttribute('aria-invalid', 'true');
+      return { error: 'Initial beads must be greater than or equal to minimum beads.' };
+    }
+    return { settings: settings };
+  }
+
   function resetMenace() {
     if (reinforcementPending) return;
+    var parsed = readSettings();
+    if (parsed.error) {
+      setText('menace-status', 'Parameters not applied: ' + parsed.error);
+      return;
+    }
+    cancelTraining();
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
-    var settings = {
-      initialBeads: Number(el('menace-param-initial').value),
-      winReward: Number(el('menace-param-win').value),
-      drawReward: Number(el('menace-param-draw').value),
-      lossPenalty: Number(el('menace-param-loss').value),
-      minimumBeads: Number(el('menace-param-minimum').value)
-    };
-    menace.configure(settings);
+    menace.configure(parsed.settings);
     trainingOpponent = M.createOpponent(el('menace-opponent').value);
     var applied = menace.settings;
     el('menace-param-initial').value = applied.initialBeads;
@@ -1467,8 +1519,10 @@ Minimum
     drawBoard();
     renderMatchbox();
     renderStats();
-    renderLearningCurve();
-    setText('menace-status', 'Parameters applied. MENACE learning and matchboxes reset.');
+    var chartAvailable = renderLearningCurve();
+    setText('menace-status', chartAvailable
+      ? 'Parameters applied. MENACE learning and matchboxes reset.'
+      : 'Parameters applied and MENACE reset. ' + plotlyErrorMessage());
   }
 
   // ---- Move 2 zoom view (5 canonical boards) --------------------
@@ -1735,8 +1789,13 @@ Minimum
     if (btn500)   btn500.addEventListener('click', function () { trainN(500); });
     if (btn2000)  btn2000.addEventListener('click', function () { trainN(2000); });
     if (opponent) opponent.addEventListener('change', function () {
+      var wasTraining = autoTraining;
+      cancelTraining();
       trainingOpponent = M.createOpponent(opponent.value);
       updateOpponentHelp(opponent.value);
+      if (wasTraining) {
+        setText('menace-status', 'Training stopped because the opponent changed.');
+      }
     });
 
     drawBoard();
@@ -1747,7 +1806,9 @@ Minimum
     renderMatchboxCollection();
     if (opponent) updateOpponentHelp(opponent.value);
     updateGameCounter(0);
-    setText('menace-status', 'Click "New Game" to play against MENACE, or train it first.');
+    setText('menace-status', getPlotly()
+      ? 'Click "New Game" to play against MENACE, or train it first.'
+      : plotlyErrorMessage());
   }
 
   window.initMenacePlot = initMenace;
@@ -1757,14 +1818,8 @@ document.addEventListener('DOMContentLoaded', function() { initMenacePlot(); });
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menace-engine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Adjust the five parameters, press <strong>Reset</strong>, choose a training opponent, and train or play against MENACE. The 10 x 10 area display shows the current move probabilities, while the learning curve records how its results change during training. Even 2,000 training games are inexpensive because tic-tac-toe has a small state space and optimal positions are cached.
-</figcaption>
-</figure>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <div class="share-buttons">

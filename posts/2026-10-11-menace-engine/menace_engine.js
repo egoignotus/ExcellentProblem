@@ -28,12 +28,15 @@
     lossPenalty: 1,
     minimumBeads: 1
   };
+  var MAX_SETTING_VALUE = 100;
 
   function normaliseSettings(settings) {
     settings = settings || {};
     function integer(name, fallback, minimum) {
       var value = Number(settings[name]);
-      return Number.isInteger(value) && value >= minimum ? value : fallback;
+      return Number.isSafeInteger(value) &&
+        value >= minimum &&
+        value <= MAX_SETTING_VALUE ? value : fallback;
     }
     var minimumBeads = integer('minimumBeads', DEFAULT_SETTINGS.minimumBeads, 0);
     return {
@@ -248,7 +251,10 @@
       if (h.move === null) continue;
       var box = this.boxes[h.key];
       if (!box) continue;
-      box[h.move] = Math.max(this.settings.minimumBeads, (box[h.move] || 0) + delta);
+      box[h.move] = Math.min(
+        MAX_SETTING_VALUE,
+        Math.max(this.settings.minimumBeads, (box[h.move] || 0) + delta)
+      );
     }
 
     this.stats.games++;
@@ -509,7 +515,8 @@
     playGame: playGame,
     trainBatch: trainBatch,
     rollingStats: rollingStats,
-    DEFAULT_SETTINGS: DEFAULT_SETTINGS
+    DEFAULT_SETTINGS: DEFAULT_SETTINGS,
+    MAX_SETTING_VALUE: MAX_SETTING_VALUE
   };
 
 })();

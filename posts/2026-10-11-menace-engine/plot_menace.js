@@ -23,6 +23,8 @@
   var humanTurn     = false;
   var autoTraining  = false;
   var pendingTimeout = null;   // track scheduled menaceMoves to prevent races
+  var trainingTimeout = null;
+  var trainingGeneration = 0;
   var reinforcementPending = false;
   var reinforcementNotice = null;
   var REINFORCEMENT_DELAY_MS = 1500;
@@ -42,6 +44,17 @@
   function setText(id, text) {
     var e = el(id);
     if (e) e.textContent = text;
+  }
+
+  function getPlotly() {
+    var plotly = window.Plotly;
+    return plotly &&
+      typeof plotly.purge === 'function' &&
+      typeof plotly.react === 'function' ? plotly : null;
+  }
+
+  function plotlyErrorMessage() {
+    return 'The learning chart could not load. Check your connection or content blocker, then reload the page.';
   }
 
   function updateGameCounter(gameNumber) {
@@ -337,11 +350,13 @@
 
   function renderLearningCurve() {
     var div = el('menace-curve');
-    if (!div) return;
+    if (!div) return true;
+    var plotly = getPlotly();
+    if (!plotly) return false;
 
     if (menace.gameLog.length < 2) {
-      Plotly.purge(div);
-      return;
+      plotly.purge(div);
+      return true;
     }
 
     var windowSize = Math.min(50, Math.max(5, Math.floor(menace.gameLog.length / 4)));
@@ -378,7 +393,8 @@
       }]
     };
 
-    Plotly.react(div, traces, layout, { responsive: true, displayModeBar: false });
+    plotly.react(div, traces, layout, { responsive: true, displayModeBar: false });
+    return true;
   }
 
   // ---- Stats display --------------------------------------------
@@ -407,6 +423,7 @@
 
   function newGame() {
     if (reinforcementPending) return;
+    cancelTraining();
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
     currentBoard = [0,0,0,0,0,0,0,0,0];
     gameActive   = true;
@@ -495,9 +512,24 @@
 
   // ---- Training -------------------------------------------------
 
+  function cancelTraining() {
+    trainingGeneration++;
+    if (trainingTimeout) {
+      clearTimeout(trainingTimeout);
+      trainingTimeout = null;
+    }
+    autoTraining = false;
+  }
+
   function trainN(n) {
     if (autoTraining || reinforcementPending) return;
+    if (!getPlotly()) {
+      setText('menace-status', plotlyErrorMessage());
+      return;
+    }
+    cancelTraining();
     autoTraining = true;
+    var generation = trainingGeneration;
     gameActive = false;
     humanTurn  = false;
     var opponentSelect = el('menace-opponent');
@@ -509,39 +541,84 @@
     var done = 0;
 
     function runBatch() {
-      var toRun = Math.min(batchSize, n - done);
-      M.trainBatch(menace, toRun, opponentMove);
-      done += toRun;
-      updateGameCounter(menace.stats.games);
-      renderStats();
-      renderLearningCurve();
+      if (generation !== trainingGeneration) return;
+      trainingTimeout = null;
+      try {
+        var toRun = Math.min(batchSize, n - done);
+        M.trainBatch(menace, toRun, opponentMove);
+        done += toRun;
+        updateGameCounter(menace.stats.games);
+        renderStats();
+        if (!renderLearningCurve()) throw new Error(plotlyErrorMessage());
 
-      if (done < n) {
-        setText('menace-status', 'Training... ' + done + '/' + n);
-        setTimeout(runBatch, 10);
-      } else {
-        autoTraining = false;
-        // After training, show empty-board matchbox so user sees the learned weights
-        menaceViewBoard  = [0,0,0,0,0,0,0,0,0];
-        menaceChosenCell = -1;
-        renderMatchbox();
-        setText('menace-status', 'Training complete! ' + n + ' games played. Click "New Game" to test MENACE.');
+        if (done < n) {
+          setText('menace-status', 'Training... ' + done + '/' + n);
+          trainingTimeout = setTimeout(runBatch, 10);
+        } else {
+          autoTraining = false;
+          // After training, show empty-board matchbox so user sees the learned weights
+          menaceViewBoard  = [0,0,0,0,0,0,0,0,0];
+          menaceChosenCell = -1;
+          renderMatchbox();
+          setText('menace-status', 'Training complete! ' + n + ' games played. Click "New Game" to test MENACE.');
+        }
+      } catch (error) {
+        cancelTraining();
+        setText('menace-status',
+          error && error.message ? 'Training stopped: ' + error.message : 'Training stopped because an unexpected error occurred.');
       }
     }
     runBatch();
   }
 
+  function readSettings() {
+    var fields = [
+      { id: 'menace-param-initial', key: 'initialBeads', label: 'Initial beads' },
+      { id: 'menace-param-win', key: 'winReward', label: 'Win reward' },
+      { id: 'menace-param-draw', key: 'drawReward', label: 'Draw reward' },
+      { id: 'menace-param-loss', key: 'lossPenalty', label: 'Loss penalty' },
+      { id: 'menace-param-minimum', key: 'minimumBeads', label: 'Minimum beads' }
+    ];
+    var settings = {};
+    var invalid = [];
+
+    for (var i = 0; i < fields.length; i++) {
+      var field = fields[i];
+      var input = el(field.id);
+      var raw = input.value;
+      var value = Number(raw);
+      var valid = /^(0|[1-9]\d*)$/.test(raw) &&
+        Number.isSafeInteger(value) &&
+        value <= M.MAX_SETTING_VALUE;
+      input.setAttribute('aria-invalid', valid ? 'false' : 'true');
+      if (valid) settings[field.key] = value;
+      else invalid.push(field.label);
+    }
+
+    if (invalid.length > 0) {
+      return {
+        error: invalid.join(', ') + ' must be whole numbers from 0 to ' +
+          M.MAX_SETTING_VALUE.toLocaleString() + '.'
+      };
+    }
+    if (settings.initialBeads < settings.minimumBeads) {
+      el('menace-param-initial').setAttribute('aria-invalid', 'true');
+      el('menace-param-minimum').setAttribute('aria-invalid', 'true');
+      return { error: 'Initial beads must be greater than or equal to minimum beads.' };
+    }
+    return { settings: settings };
+  }
+
   function resetMenace() {
     if (reinforcementPending) return;
+    var parsed = readSettings();
+    if (parsed.error) {
+      setText('menace-status', 'Parameters not applied: ' + parsed.error);
+      return;
+    }
+    cancelTraining();
     if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
-    var settings = {
-      initialBeads: Number(el('menace-param-initial').value),
-      winReward: Number(el('menace-param-win').value),
-      drawReward: Number(el('menace-param-draw').value),
-      lossPenalty: Number(el('menace-param-loss').value),
-      minimumBeads: Number(el('menace-param-minimum').value)
-    };
-    menace.configure(settings);
+    menace.configure(parsed.settings);
     trainingOpponent = M.createOpponent(el('menace-opponent').value);
     var applied = menace.settings;
     el('menace-param-initial').value = applied.initialBeads;
@@ -558,8 +635,10 @@
     drawBoard();
     renderMatchbox();
     renderStats();
-    renderLearningCurve();
-    setText('menace-status', 'Parameters applied. MENACE learning and matchboxes reset.');
+    var chartAvailable = renderLearningCurve();
+    setText('menace-status', chartAvailable
+      ? 'Parameters applied. MENACE learning and matchboxes reset.'
+      : 'Parameters applied and MENACE reset. ' + plotlyErrorMessage());
   }
 
   // ---- Move 2 zoom view (5 canonical boards) --------------------
@@ -826,8 +905,13 @@
     if (btn500)   btn500.addEventListener('click', function () { trainN(500); });
     if (btn2000)  btn2000.addEventListener('click', function () { trainN(2000); });
     if (opponent) opponent.addEventListener('change', function () {
+      var wasTraining = autoTraining;
+      cancelTraining();
       trainingOpponent = M.createOpponent(opponent.value);
       updateOpponentHelp(opponent.value);
+      if (wasTraining) {
+        setText('menace-status', 'Training stopped because the opponent changed.');
+      }
     });
 
     drawBoard();
@@ -838,7 +922,9 @@
     renderMatchboxCollection();
     if (opponent) updateOpponentHelp(opponent.value);
     updateGameCounter(0);
-    setText('menace-status', 'Click "New Game" to play against MENACE, or train it first.');
+    setText('menace-status', getPlotly()
+      ? 'Click "New Game" to play against MENACE, or train it first.'
+      : plotlyErrorMessage());
   }
 
   window.initMenacePlot = initMenace;

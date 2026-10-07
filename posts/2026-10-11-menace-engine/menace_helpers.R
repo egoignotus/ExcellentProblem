@@ -220,7 +220,8 @@ create_menace_controls <- function() {
       style = "display: grid; gap: 3px; font-size: 11px; color: #666; min-width: 64px;",
       label,
       htmltools::tags$input(
-        id = id, type = "number", min = "0", step = "1", value = value,
+        id = id, type = "number", min = "0", max = "100",
+        step = "1", value = value, inputmode = "numeric",
         style = paste0(
           "width: 64px; padding: 5px 6px; border: 1px solid #bbb; ",
           "border-radius: 4px; font-size: 13px;"
@@ -291,12 +292,14 @@ create_menace_controls <- function() {
       parameter_input("menace-param-minimum", "Minimum", 1),
       htmltools::tags$span(
         style = "font-size: 11px; color: #777; padding-bottom: 6px;",
-        "Applied when Reset is pressed"
+        "Whole numbers from 0 to 100; applied when Reset is pressed"
       )
     ),
     # Status line
     htmltools::tags$div(
       id = "menace-status",
+      role = "status",
+      `aria-live` = "polite",
       style = "font-weight: bold; margin-bottom: 8px; min-height: 1.5em;"
     ),
     # Stats line
