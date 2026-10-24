@@ -2,14 +2,14 @@
 title: "Jacob's Guitar"
 author: "Aleksandra"
 date: "2026-12-13"
-categories: [music, interactive]
+categories: [music]
 description: "The same chords, redistributed across six strings and five."
 title-block-banner: true
 ---
 
 A regular classical guitar has six strings, usually tuned E–A–D–G–B–E from lowest to highest. Jacob's guitar has five: D–A–E–A–D. The two instruments cover a similar tonal range, but they distribute the notes differently.
 
-Choose a major or minor chord below to compare one playable voicing on each instrument. Then select any played note to trace the same pitch across both fretboards.
+Here are D major (D–F♯–A) and E major (E–G♯–B) on both instruments. Each diagram shows one fixed voicing, with strings ordered from lowest to highest, left to right.
 
 ::: {#fig-guitar-comparison .figure-highlight}
 ```{r}
@@ -18,19 +18,9 @@ Choose a major or minor chord below to compare one playable voicing on each inst
 
 source("guitar_helpers.R")
 
-render_guitar_comparison()
+render_static_guitar_chords()
 ```
-The same chords on a standard six-string guitar and a five-string guitar tuned D–A–E–A–D.
+D major and E major on both guitars. O means an open string; X means a muted string. Dots mark fretted notes, and the pitches below each diagram include their octaves.
 :::
 
-::: {#fig-guitar-progression .figure-highlight}
-```{r}
-#| echo: false
-#| warning: false
-
-source("guitar_progression_helpers.R")
-
-render_guitar_progression()
-```
-The G–A–F progression across sus2, minor, major, sus5, and seventh chords.
-:::
+On the five-string guitar, these two voicings use the same shape two frets apart: **0–0–2–0–0** becomes **2–2–4–2–2**. For E major, a barre at the second fret takes the place of the open strings in D major.

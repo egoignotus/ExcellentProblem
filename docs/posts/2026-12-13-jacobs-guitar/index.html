@@ -246,7 +246,6 @@ window.INFERNO = {
       </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">music</div>
-                <div class="quarto-category">interactive</div>
               </div>
                   </div>
   </div>
@@ -286,958 +285,219 @@ window.INFERNO = {
 
 
 <p>A regular classical guitar has six strings, usually tuned E–A–D–G–B–E from lowest to highest. Jacob’s guitar has five: D–A–E–A–D. The two instruments cover a similar tonal range, but they distribute the notes differently.</p>
-<p>Choose a major or minor chord below to compare one playable voicing on each instrument. Then select any played note to trace the same pitch across both fretboards.</p>
+<p>Here are D major (D–F♯–A) and E major (E–G♯–B) on both instruments. Each diagram shows one fixed voicing, with strings ordered from lowest to highest, left to right.</p>
 <div id="fig-guitar-comparison" class="figure-highlight quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-guitar-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell">
 <div class="cell-output-display">
 <style>
-      .guitar-comparison {
-        margin: 1.5rem 0;
-        padding: 1rem;
-        border-radius: 8px;
+      .guitar-static-grid {
+        display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem; margin: 1rem 0;
       }
-      .guitar-chord-controls {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.4rem;
-        margin-bottom: 1rem;
+      .guitar-static-panel {
+        min-width: 0; padding: 1rem 0.5rem; border: 1px solid rgba(147, 38, 103, 0.70);
+        border-radius: 8px; background: rgba(147, 38, 103, 0.04); text-align: center; color: #2c3e50;
       }
-      .guitar-mode-controls {
-        display: flex;
-        justify-content: center;
-        gap: 0.4rem;
-        margin-bottom: 0.75rem;
-      }
-      .guitar-control-group {
-        display: flex;
-        flex-basis: 100%;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 0.4rem;
-      }
-      .guitar-control-label {
-        min-width: 3.2rem;
-        font-size: 0.78rem;
-        font-weight: 700;
-        text-align: right;
-        text-transform: uppercase;
-      }
-      .guitar-mode-button,
-      .guitar-chord-button {
-        min-width: 2.7rem;
-        padding: 0.35rem 0.6rem;
-        border: 1px solid;
-        border-radius: 999px;
-        background: transparent;
-        font: inherit;
-        cursor: pointer;
-      }
-      .guitar-mode-button {
-        padding-right: 1rem;
-        padding-left: 1rem;
-        font-weight: 700;
-      }
-      .guitar-mode-button:hover,
-      .guitar-mode-button:focus-visible,
-      .guitar-mode-button[aria-pressed='true'],
-      .guitar-chord-button:hover,
-      .guitar-chord-button:focus-visible,
-      .guitar-chord-button[aria-pressed='true'] {
-        color: white !important;
-        outline: none;
-      }
-      .guitar-fretboards {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-      .guitar-fretboard-panel {
-        min-width: 0;
-        padding: 0.75rem;
-        border: 1px solid;
-        border-radius: 8px;
-        background: white;
-      }
-      .guitar-fretboard-panel h4 {
-        margin: 0 0 0.1rem;
-        font-size: 1rem;
-        text-align: center;
-      }
-      .guitar-tuning {
-        margin-bottom: 0.45rem;
-        font-size: 1rem;
-        font-weight: 600;
-        text-align: center;
-      }
-      .guitar-fretboard {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
-      .guitar-note {
-        cursor: pointer;
-      }
-      .guitar-note:focus {
-        outline: none;
-      }
-      .guitar-note:focus .guitar-note-ring {
-        stroke-width: 4;
-      }
-      .guitar-comparison-status {
-        min-height: 1.5rem;
-        margin: 0.8rem 0 0;
-        font-size: 0.85rem;
-        text-align: center;
-      }
-      .guitar-comparison-hint {
-        margin: 0.2rem 0 0;
-        font-size: 0.72rem;
-        text-align: center;
-      }
-      @media (min-width: 900px) {
-        .guitar-fretboards {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-      @media (max-width: 480px) {
-        .guitar-comparison {
-          padding: 0.65rem;
-        }
-        .guitar-fretboard-panel {
-          padding: 0.4rem;
-        }
+      .guitar-static-panel h4 { margin: 0; font-size: 1.3rem; }
+      .guitar-static-panel p { margin: 0.3rem 0 0; }
+      .guitar-static-instrument { font-weight: 600; font-size: 0.9rem; }
+      .guitar-static-tones, .guitar-static-frets { font-size: 0.8rem; }
+      .guitar-static-panel svg { display: block; width: 100%; height: auto; }
+      .guitar-static-guide { text-align: center; font-size: 0.8rem; }
+      @media (max-width: 560px) {
+        .guitar-static-grid { grid-template-columns: 1fr; }
       }
     </style>
-<div id="guitar-comparison" class="guitar-comparison">
-<div class="guitar-mode-controls" role="group" aria-label="Choose chord collection"></div>
-<div class="guitar-chord-controls" role="group" aria-label="Choose a chord"></div>
-<div class="guitar-fretboards">
-<section class="guitar-fretboard-panel" aria-labelledby="classical-guitar-heading">
-<h4 id="classical-guitar-heading" class="anchored">Classical guitar</h4>
-<div class="guitar-tuning">6 strings · E2–A2–D3–G3–B3–E4</div>
-<svg id="classical-guitar-fretboard" class="guitar-fretboard" role="img" aria-label="Six-string classical guitar fretboard"></svg>
+<div class="guitar-static-grid">
+<section class="guitar-static-panel">
+<h4 class="anchored">D major</h4>
+<p class="guitar-static-instrument">Standard six-string</p>
+<p class="guitar-static-tones">D - F# - A</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 320 320" role="img" aria-label="D major on Standard six-string. E2: muted; A2: muted; D3: fret 0, D3; G3: fret 2, A3; B3: fret 3, D4; E4: fret 2, F#4" fill="#2c3e50" font-family="sans-serif">
+<title>D major on Standard six-string</title>
+<desc>E2: muted; A2: muted; D3: fret 0, D3; G3: fret 2, A3; B3: fret 3, D4; E4: fret 2, F#4</desc>
+<line x1="52" x2="268" y1="64" y2="64" stroke="#2c3e50" stroke-width="5"></line>
+<line x1="52" x2="268" y1="107" y2="107" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="90.5" text-anchor="middle" font-size="13">1</text>
+<line x1="52" x2="268" y1="150" y2="150" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="133.5" text-anchor="middle" font-size="13">2</text>
+<line x1="52" x2="268" y1="193" y2="193" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="176.5" text-anchor="middle" font-size="13">3</text>
+<line x1="52" x2="268" y1="236" y2="236" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="219.5" text-anchor="middle" font-size="13">4</text>
+<line x1="52" x2="52" y1="64" y2="236" stroke="#2c3e50" stroke-width="2"></line>
+<text x="52" y="280" text-anchor="middle" font-size="15" font-weight="600">-</text>
+<text x="52" y="304" text-anchor="middle" font-size="12">E2</text>
+<text x="52" y="46" text-anchor="middle" font-size="18" font-weight="600">X</text>
+<line x1="95.2" x2="95.2" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.8"></line>
+<text x="95.2" y="280" text-anchor="middle" font-size="15" font-weight="600">-</text>
+<text x="95.2" y="304" text-anchor="middle" font-size="12">A2</text>
+<text x="95.2" y="46" text-anchor="middle" font-size="18" font-weight="600">X</text>
+<line x1="138.4" x2="138.4" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.6"></line>
+<text x="138.4" y="280" text-anchor="middle" font-size="15" font-weight="600">D3</text>
+<text x="138.4" y="304" text-anchor="middle" font-size="12">D3</text>
+<text x="138.4" y="46" text-anchor="middle" font-size="18" font-weight="600">O</text>
+<line x1="181.6" x2="181.6" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.4"></line>
+<text x="181.6" y="280" text-anchor="middle" font-size="15" font-weight="600">A3</text>
+<text x="181.6" y="304" text-anchor="middle" font-size="12">G3</text>
+<circle cx="181.6" cy="128.5" r="15" fill="#420a68"></circle>
+<text x="181.6" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">A</text>
+<line x1="224.8" x2="224.8" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.2"></line>
+<text x="224.8" y="280" text-anchor="middle" font-size="15" font-weight="600">D4</text>
+<text x="224.8" y="304" text-anchor="middle" font-size="12">B3</text>
+<circle cx="224.8" cy="171.5" r="15" fill="#932667"></circle>
+<text x="224.8" y="175.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">D</text>
+<line x1="268" x2="268" y1="64" y2="236" stroke="#2c3e50" stroke-width="1"></line>
+<text x="268" y="280" text-anchor="middle" font-size="15" font-weight="600">F#4</text>
+<text x="268" y="304" text-anchor="middle" font-size="12">E4</text>
+<circle cx="268" cy="128.5" r="15" fill="#dd513a"></circle>
+<text x="268" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">F#</text>
+</svg>
+<p class="guitar-static-frets">Frets (low to high): X - X - 0 - 2 - 3 - 2</p>
 </section>
-<section class="guitar-fretboard-panel" aria-labelledby="five-string-guitar-heading">
-<h4 id="five-string-guitar-heading" class="anchored">Five-string guitar</h4>
-<div class="guitar-tuning">5 strings · D2–A2–E3–A3–D4</div>
-<svg id="five-string-guitar-fretboard" class="guitar-fretboard" role="img" aria-label="Five-string guitar fretboard"></svg>
+<section class="guitar-static-panel">
+<h4 class="anchored">D major</h4>
+<p class="guitar-static-instrument">Jacob's five-string</p>
+<p class="guitar-static-tones">D - F# - A</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 320 320" role="img" aria-label="D major on Jacob's five-string. D2: fret 0, D2; A2: fret 0, A2; E3: fret 2, F#3; A3: fret 0, A3; D4: fret 0, D4" fill="#2c3e50" font-family="sans-serif">
+<title>D major on Jacob's five-string</title>
+<desc>D2: fret 0, D2; A2: fret 0, A2; E3: fret 2, F#3; A3: fret 0, A3; D4: fret 0, D4</desc>
+<line x1="52" x2="268" y1="64" y2="64" stroke="#2c3e50" stroke-width="5"></line>
+<line x1="52" x2="268" y1="107" y2="107" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="90.5" text-anchor="middle" font-size="13">1</text>
+<line x1="52" x2="268" y1="150" y2="150" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="133.5" text-anchor="middle" font-size="13">2</text>
+<line x1="52" x2="268" y1="193" y2="193" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="176.5" text-anchor="middle" font-size="13">3</text>
+<line x1="52" x2="268" y1="236" y2="236" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="219.5" text-anchor="middle" font-size="13">4</text>
+<line x1="52" x2="52" y1="64" y2="236" stroke="#2c3e50" stroke-width="2"></line>
+<text x="52" y="280" text-anchor="middle" font-size="15" font-weight="600">D2</text>
+<text x="52" y="304" text-anchor="middle" font-size="12">D2</text>
+<text x="52" y="46" text-anchor="middle" font-size="18" font-weight="600">O</text>
+<line x1="106" x2="106" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.8"></line>
+<text x="106" y="280" text-anchor="middle" font-size="15" font-weight="600">A2</text>
+<text x="106" y="304" text-anchor="middle" font-size="12">A2</text>
+<text x="106" y="46" text-anchor="middle" font-size="18" font-weight="600">O</text>
+<line x1="160" x2="160" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.6"></line>
+<text x="160" y="280" text-anchor="middle" font-size="15" font-weight="600">F#3</text>
+<text x="160" y="304" text-anchor="middle" font-size="12">E3</text>
+<circle cx="160" cy="128.5" r="15" fill="#dd513a"></circle>
+<text x="160" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">F#</text>
+<line x1="214" x2="214" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.4"></line>
+<text x="214" y="280" text-anchor="middle" font-size="15" font-weight="600">A3</text>
+<text x="214" y="304" text-anchor="middle" font-size="12">A3</text>
+<text x="214" y="46" text-anchor="middle" font-size="18" font-weight="600">O</text>
+<line x1="268" x2="268" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.2"></line>
+<text x="268" y="280" text-anchor="middle" font-size="15" font-weight="600">D4</text>
+<text x="268" y="304" text-anchor="middle" font-size="12">D4</text>
+<text x="268" y="46" text-anchor="middle" font-size="18" font-weight="600">O</text>
+</svg>
+<p class="guitar-static-frets">Frets (low to high): 0 - 0 - 2 - 0 - 0</p>
+</section>
+<section class="guitar-static-panel">
+<h4 class="anchored">E major</h4>
+<p class="guitar-static-instrument">Standard six-string</p>
+<p class="guitar-static-tones">E - G# - B</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 320 320" role="img" aria-label="E major on Standard six-string. E2: fret 0, E2; A2: fret 2, B2; D3: fret 2, E3; G3: fret 1, G#3; B3: fret 0, B3; E4: fret 0, E4" fill="#2c3e50" font-family="sans-serif">
+<title>E major on Standard six-string</title>
+<desc>E2: fret 0, E2; A2: fret 2, B2; D3: fret 2, E3; G3: fret 1, G#3; B3: fret 0, B3; E4: fret 0, E4</desc>
+<line x1="52" x2="268" y1="64" y2="64" stroke="#2c3e50" stroke-width="5"></line>
+<line x1="52" x2="268" y1="107" y2="107" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="90.5" text-anchor="middle" font-size="13">1</text>
+<line x1="52" x2="268" y1="150" y2="150" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="133.5" text-anchor="middle" font-size="13">2</text>
+<line x1="52" x2="268" y1="193" y2="193" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="176.5" text-anchor="middle" font-size="13">3</text>
+<line x1="52" x2="268" y1="236" y2="236" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="219.5" text-anchor="middle" font-size="13">4</text>
+<line x1="52" x2="52" y1="64" y2="236" stroke="#2c3e50" stroke-width="2"></line>
+<text x="52" y="280" text-anchor="middle" font-size="15" font-weight="600">E2</text>
+<text x="52" y="304" text-anchor="middle" font-size="12">E2</text>
+<text x="52" y="46" text-anchor="middle" font-size="18" font-weight="600">O</text>
+<line x1="95.2" x2="95.2" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.8"></line>
+<text x="95.2" y="280" text-anchor="middle" font-size="15" font-weight="600">B2</text>
+<text x="95.2" y="304" text-anchor="middle" font-size="12">A2</text>
+<circle cx="95.2" cy="128.5" r="15" fill="#420a68"></circle>
+<text x="95.2" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">B</text>
+<line x1="138.4" x2="138.4" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.6"></line>
+<text x="138.4" y="280" text-anchor="middle" font-size="15" font-weight="600">E3</text>
+<text x="138.4" y="304" text-anchor="middle" font-size="12">D3</text>
+<circle cx="138.4" cy="128.5" r="15" fill="#932667"></circle>
+<text x="138.4" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">E</text>
+<line x1="181.6" x2="181.6" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.4"></line>
+<text x="181.6" y="280" text-anchor="middle" font-size="15" font-weight="600">G#3</text>
+<text x="181.6" y="304" text-anchor="middle" font-size="12">G3</text>
+<circle cx="181.6" cy="85.5" r="15" fill="#dd513a"></circle>
+<text x="181.6" y="89.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">G#</text>
+<line x1="224.8" x2="224.8" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.2"></line>
+<text x="224.8" y="280" text-anchor="middle" font-size="15" font-weight="600">B3</text>
+<text x="224.8" y="304" text-anchor="middle" font-size="12">B3</text>
+<text x="224.8" y="46" text-anchor="middle" font-size="18" font-weight="600">O</text>
+<line x1="268" x2="268" y1="64" y2="236" stroke="#2c3e50" stroke-width="1"></line>
+<text x="268" y="280" text-anchor="middle" font-size="15" font-weight="600">E4</text>
+<text x="268" y="304" text-anchor="middle" font-size="12">E4</text>
+<text x="268" y="46" text-anchor="middle" font-size="18" font-weight="600">O</text>
+</svg>
+<p class="guitar-static-frets">Frets (low to high): 0 - 2 - 2 - 1 - 0 - 0</p>
+</section>
+<section class="guitar-static-panel">
+<h4 class="anchored">E major</h4>
+<p class="guitar-static-instrument">Jacob's five-string</p>
+<p class="guitar-static-tones">E - G# - B</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 320 320" role="img" aria-label="E major on Jacob's five-string. D2: fret 2, E2; A2: fret 2, B2; E3: fret 4, G#3; A3: fret 2, B3; D4: fret 2, E4" fill="#2c3e50" font-family="sans-serif">
+<title>E major on Jacob's five-string</title>
+<desc>D2: fret 2, E2; A2: fret 2, B2; E3: fret 4, G#3; A3: fret 2, B3; D4: fret 2, E4</desc>
+<line x1="52" x2="268" y1="64" y2="64" stroke="#2c3e50" stroke-width="5"></line>
+<line x1="52" x2="268" y1="107" y2="107" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="90.5" text-anchor="middle" font-size="13">1</text>
+<line x1="52" x2="268" y1="150" y2="150" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="133.5" text-anchor="middle" font-size="13">2</text>
+<line x1="52" x2="268" y1="193" y2="193" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="176.5" text-anchor="middle" font-size="13">3</text>
+<line x1="52" x2="268" y1="236" y2="236" stroke="#2c3e50" stroke-width="1"></line>
+<text x="25" y="219.5" text-anchor="middle" font-size="13">4</text>
+<line x1="52" x2="52" y1="64" y2="236" stroke="#2c3e50" stroke-width="2"></line>
+<text x="52" y="280" text-anchor="middle" font-size="15" font-weight="600">E2</text>
+<text x="52" y="304" text-anchor="middle" font-size="12">D2</text>
+<circle cx="52" cy="128.5" r="15" fill="#932667"></circle>
+<text x="52" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">E</text>
+<line x1="106" x2="106" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.8"></line>
+<text x="106" y="280" text-anchor="middle" font-size="15" font-weight="600">B2</text>
+<text x="106" y="304" text-anchor="middle" font-size="12">A2</text>
+<circle cx="106" cy="128.5" r="15" fill="#420a68"></circle>
+<text x="106" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">B</text>
+<line x1="160" x2="160" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.6"></line>
+<text x="160" y="280" text-anchor="middle" font-size="15" font-weight="600">G#3</text>
+<text x="160" y="304" text-anchor="middle" font-size="12">E3</text>
+<circle cx="160" cy="214.5" r="15" fill="#dd513a"></circle>
+<text x="160" y="218.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">G#</text>
+<line x1="214" x2="214" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.4"></line>
+<text x="214" y="280" text-anchor="middle" font-size="15" font-weight="600">B3</text>
+<text x="214" y="304" text-anchor="middle" font-size="12">A3</text>
+<circle cx="214" cy="128.5" r="15" fill="#420a68"></circle>
+<text x="214" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">B</text>
+<line x1="268" x2="268" y1="64" y2="236" stroke="#2c3e50" stroke-width="1.2"></line>
+<text x="268" y="280" text-anchor="middle" font-size="15" font-weight="600">E4</text>
+<text x="268" y="304" text-anchor="middle" font-size="12">D4</text>
+<circle cx="268" cy="128.5" r="15" fill="#932667"></circle>
+<text x="268" y="132.5" text-anchor="middle" fill="white" font-size="12" font-weight="700">E</text>
+</svg>
+<p class="guitar-static-frets">Frets (low to high): 2 - 2 - 4 - 2 - 2</p>
 </section>
 </div>
-<p class="guitar-comparison-status" aria-live="polite"></p>
-<p class="guitar-comparison-hint">Choose a chord, then select a played note to find the same pitch on both necks.</p>
-</div>
-<script>(function () {
-  "use strict";
-
-  var NS = "http://www.w3.org/2000/svg";
-  var NOTE_NAMES = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "A♭", "A", "B♭", "B"];
-  var ROOTS = [
-    { name: "C", pitch: 0 },
-    { name: "D", pitch: 2 },
-    { name: "E", pitch: 4 },
-    { name: "F", pitch: 5 },
-    { name: "G", pitch: 7 },
-    { name: "A", pitch: 9 },
-    { name: "B", pitch: 11 }
-  ];
-  var EXPANDED_ROOTS = [ROOTS[1], ROOTS[2], ROOTS[4], ROOTS[0]];
-  var QUALITIES = [
-    { id: "major", label: "major", suffix: "", intervals: [0, 4, 7] },
-    { id: "minor", label: "minor", suffix: "m", intervals: [0, 3, 7] },
-    { id: "7", label: "7", suffix: "7", intervals: [0, 4, 7, 10] },
-    { id: "maj7", label: "maj7", suffix: "maj7", intervals: [0, 4, 7, 11] },
-    { id: "m7", label: "m7", suffix: "m7", intervals: [0, 3, 7, 10] },
-    { id: "9", label: "9", suffix: "9", intervals: [0, 4, 7, 10, 14] },
-    { id: "7sharp9", label: "7♯9", suffix: "7♯9", intervals: [0, 4, 7, 10, 15] },
-    { id: "add9", label: "add9", suffix: "add9", intervals: [0, 4, 7, 14] },
-    { id: "sus2", label: "sus2", suffix: "sus2", intervals: [0, 2, 7] },
-    { id: "sus4", label: "sus4", suffix: "sus4", intervals: [0, 5, 7] },
-    { id: "dim", label: "dim", suffix: "dim", intervals: [0, 3, 6] },
-    { id: "aug", label: "aug", suffix: "aug", intervals: [0, 4, 8] }
-  ];
-  var MAX_FRET = 7;
-  var BASIC_CHORDS = [
-    { name: "C", root: 0, intervals: [0, 4, 7] },
-    { name: "Cm", root: 0, intervals: [0, 3, 7] },
-    { name: "D", root: 2, intervals: [0, 4, 7] },
-    { name: "Dm", root: 2, intervals: [0, 3, 7] },
-    { name: "E", root: 4, intervals: [0, 4, 7] },
-    { name: "Em", root: 4, intervals: [0, 3, 7] },
-    { name: "F", root: 5, intervals: [0, 4, 7] },
-    { name: "Fm", root: 5, intervals: [0, 3, 7] },
-    { name: "G", root: 7, intervals: [0, 4, 7] },
-    { name: "Gm", root: 7, intervals: [0, 3, 7] },
-    { name: "A", root: 9, intervals: [0, 4, 7] },
-    { name: "Am", root: 9, intervals: [0, 3, 7] },
-    { name: "B", root: 11, intervals: [0, 4, 7] },
-    { name: "Bm", root: 11, intervals: [0, 3, 7] }
-  ];
-  var CLASSICAL_SHAPES = {
-    C: [-1, 3, 2, 0, 1, 0],
-    Cm: [-1, 3, 5, 5, 4, 3],
-    D: [-1, -1, 0, 2, 3, 2],
-    Dm: [-1, -1, 0, 2, 3, 1],
-    E: [0, 2, 2, 1, 0, 0],
-    Em: [0, 2, 2, 0, 0, 0],
-    F: [1, 3, 3, 2, 1, 1],
-    Fm: [1, 3, 3, 1, 1, 1],
-    G: [3, 2, 0, 0, 0, 3],
-    Gm: [3, 5, 5, 3, 3, 3],
-    A: [-1, 0, 2, 2, 2, 0],
-    Am: [-1, 0, 2, 2, 1, 0],
-    B: [-1, 2, 4, 4, 4, 2],
-    Bm: [-1, 2, 4, 4, 3, 2]
-  };
-  var INSTRUMENTS = [
-    {
-      id: "classical-guitar-fretboard",
-      tuning: [40, 45, 50, 55, 59, 64],
-      shapeFor: function (chord) {
-        return CLASSICAL_SHAPES[chord.name] || findVoicing(chord, this);
-      }
-    },
-    {
-      id: "five-string-guitar-fretboard",
-      tuning: [38, 45, 52, 57, 62],
-      shapeFor: function (chord) { return findVoicing(chord, this); }
-    }
-  ];
-
-  var activeChord = BASIC_CHORDS[0];
-  var activeMode = "basic";
-  var activeRoot = ROOTS[0];
-  var activeQuality = QUALITIES[0];
-  var activePitch = null;
-  var colors;
-
-  function svgElement(name, attributes, text) {
-    var node = document.createElementNS(NS, name);
-    Object.keys(attributes || {}).forEach(function (key) {
-      node.setAttribute(key, attributes[key]);
-    });
-    if (text !== undefined) node.textContent = text;
-    return node;
-  }
-
-  function pitchClass(midi) {
-    return ((midi % 12) + 12) % 12;
-  }
-
-  function scientificPitch(midi) {
-    return NOTE_NAMES[pitchClass(midi)] + (Math.floor(midi / 12) - 1);
-  }
-
-  function chordPitchClasses(chord) {
-    return chord.intervals.map(function (interval) {
-      return pitchClass(chord.root + interval);
-    });
-  }
-
-  function findVoicing(chord, instrument) {
-    var chordNotes = chordPitchClasses(chord);
-    var choices = instrument.tuning.map(function (openNote) {
-      var frets = [-1];
-      for (var fret = 0; fret <= MAX_FRET; fret += 1) {
-        if (chordNotes.indexOf(pitchClass(openNote + fret)) !== -1) frets.push(fret);
-      }
-      return frets;
-    });
-    var best = null;
-
-    function visit(stringIndex, shape) {
-      if (stringIndex === choices.length) {
-        var sounded = shape.filter(function (fret) { return fret >= 0; });
-        if (sounded.length < 3) return;
-
-        var present = {};
-        var bassPitch = null;
-        shape.forEach(function (fret, index) {
-          if (fret < 0) return;
-          var pc = pitchClass(instrument.tuning[index] + fret);
-          present[pc] = true;
-          if (bassPitch === null) bassPitch = pc;
-        });
-        if (!chordNotes.every(function (pc) { return present[pc]; })) return;
-
-        var fingered = sounded.filter(function (fret) { return fret > 0; });
-        var minFret = fingered.length ? Math.min.apply(null, fingered) : 0;
-        var maxFret = fingered.length ? Math.max.apply(null, fingered) : 0;
-        var span = maxFret - minFret;
-        if (span > 4) return;
-
-        var muted = shape.length - sounded.length;
-        var open = sounded.filter(function (fret) { return fret === 0; }).length;
-        var score = muted * 3 + span * 2 + maxFret * 0.35 -
-          open * 1.25 + (bassPitch === chord.root ? 0 : 4);
-        if (!best || score < best.score) {
-          best = { shape: shape.slice(), score: score };
-        }
-        return;
-      }
-
-      choices[stringIndex].forEach(function (fret) {
-        shape.push(fret);
-        visit(stringIndex + 1, shape);
-        shape.pop();
-      });
-    }
-
-    visit(0, []);
-    return best ? best.shape : choices.map(function (frets) { return frets[0]; });
-  }
-
-  function setTheme(root) {
-    root.style.background = colors.panelBg;
-    root.querySelectorAll(".guitar-fretboard-panel").forEach(function (panel) {
-      panel.style.borderColor = colors.fillBorderA;
-    });
-    root.querySelectorAll(".guitar-tuning, .guitar-comparison-hint").forEach(function (node) {
-      node.style.color = colors.annotation;
-    });
-  }
-
-  function styleToggle(button, selected) {
-    button.setAttribute("aria-pressed", selected ? "true" : "false");
-    button.style.color = selected ? "white" : colors.lineA;
-    button.style.background = selected ? colors.lineA : "transparent";
-  }
-
-  function makeControlButton(label, selected, onClick) {
-    var button = document.createElement("button");
-    button.type = "button";
-    button.className = "guitar-chord-button";
-    button.textContent = label;
-    button.style.borderColor = colors.lineA;
-    styleToggle(button, selected);
-    button.addEventListener("click", onClick);
-    return button;
-  }
-
-  function buildExpandedChord() {
-    return {
-      name: activeRoot.name + activeQuality.suffix,
-      root: activeRoot.pitch,
-      intervals: activeQuality.intervals
-    };
-  }
-
-  function renderChordControls(root) {
-    var controls = root.querySelector(".guitar-chord-controls");
-    controls.replaceChildren();
-
-    if (activeMode === "basic") {
-      [
-        { label: "Major", qualityIndex: 0 },
-        { label: "Minor", qualityIndex: 1 }
-      ].forEach(function (row) {
-        var group = document.createElement("div");
-        group.className = "guitar-control-group";
-        var label = document.createElement("span");
-        label.className = "guitar-control-label";
-        label.textContent = row.label;
-        group.appendChild(label);
-        BASIC_CHORDS.filter(function (chord) {
-          return chord.intervals[1] === QUALITIES[row.qualityIndex].intervals[1];
-        }).forEach(function (chord) {
-          group.appendChild(makeControlButton(chord.name, chord.name === activeChord.name, function () {
-            activeChord = chord;
-            activeRoot = ROOTS.find(function (root) { return root.pitch === chord.root; });
-            activeQuality = QUALITIES[row.qualityIndex];
-            activePitch = null;
-            renderChordControls(root);
-            drawAll(root);
-          }));
-        });
-        controls.appendChild(group);
-      });
-      return;
-    }
-
-    [
-      { label: "Root", values: EXPANDED_ROOTS, active: function (value) { return value === activeRoot; } },
-      { label: "Type", values: QUALITIES, active: function (value) { return value === activeQuality; } }
-    ].forEach(function (groupConfig, groupIndex) {
-      var group = document.createElement("div");
-      group.className = "guitar-control-group";
-      var label = document.createElement("span");
-      label.className = "guitar-control-label";
-      label.textContent = groupConfig.label;
-      group.appendChild(label);
-      groupConfig.values.forEach(function (value) {
-        group.appendChild(makeControlButton(value.label || value.name, groupConfig.active(value), function () {
-          if (groupIndex === 0) {
-            activeRoot = value;
-          } else {
-            activeQuality = value;
-          }
-          activeChord = buildExpandedChord();
-          activePitch = null;
-          renderChordControls(root);
-          drawAll(root);
-        }));
-      });
-      controls.appendChild(group);
-    });
-  }
-
-  function createModeControls(root) {
-    var controls = root.querySelector(".guitar-mode-controls");
-    [
-      { id: "basic", label: "Basic" },
-      { id: "expanded", label: "Expanded" }
-    ].forEach(function (mode) {
-      var button = document.createElement("button");
-      button.type = "button";
-      button.className = "guitar-mode-button";
-      button.textContent = mode.label;
-      button.style.borderColor = colors.lineA;
-      styleToggle(button, mode.id === activeMode);
-      button.addEventListener("click", function () {
-        activeMode = mode.id;
-        if (activeMode === "expanded" && EXPANDED_ROOTS.indexOf(activeRoot) === -1) {
-          activeRoot = EXPANDED_ROOTS[0];
-        }
-        activeChord = activeMode === "basic" ?
-          BASIC_CHORDS.find(function (chord) {
-            return chord.root === activeRoot.pitch &&
-              chord.intervals[1] === activeQuality.intervals[1];
-          }) || BASIC_CHORDS[0] :
-          buildExpandedChord();
-        activePitch = null;
-        controls.querySelectorAll("button").forEach(function (candidate) {
-          styleToggle(candidate, candidate === button);
-        });
-        renderChordControls(root);
-        drawAll(root);
-      });
-      controls.appendChild(button);
-    });
-  }
-
-  function drawFretboard(instrument) {
-    var svg = document.getElementById(instrument.id);
-    var stringCount = instrument.tuning.length;
-    var shape = instrument.shapeFor(activeChord);
-    var width = 720;
-    var left = 118;
-    var right = 16;
-    var top = 35;
-    var boardHeight = 220;
-    var rowGap = boardHeight / (stringCount - 1);
-    var height = top + boardHeight + 44;
-    var fretWidth = (width - left - right) / (MAX_FRET + 0.55);
-    var openX = left - 42;
-
-    svg.replaceChildren();
-    svg.setAttribute("viewBox", "0 0 " + width + " " + height);
-
-    for (var fret = 0; fret <= MAX_FRET; fret += 1) {
-      var x = fret === 0 ? left : left + (fret - 0.45) * fretWidth;
-      svg.appendChild(svgElement("line", {
-        x1: x,
-        y1: top,
-        x2: x,
-        y2: top + boardHeight,
-        stroke: colors.annotation,
-        "stroke-width": fret === 0 ? 7 : 1.5,
-        opacity: fret === 0 ? 1 : 0.55
-      }));
-      svg.appendChild(svgElement("text", {
-        x: fret === 0 ? openX : left + (fret - 0.95) * fretWidth,
-        y: 20,
-        fill: colors.annotation,
-        "font-size": 19,
-        "font-weight": 700,
-        "text-anchor": "middle"
-      }, fret === 0 ? "open" : String(fret)));
-    }
-
-    instrument.tuning.forEach(function (openNote, stringIndex) {
-      var y = top + stringIndex * rowGap;
-      svg.appendChild(svgElement("line", {
-        x1: left,
-        y1: y,
-        x2: width - right,
-        y2: y,
-        stroke: colors.annotation,
-        "stroke-width": 1 + (stringCount - stringIndex) * 0.35,
-        opacity: 0.72
-      }));
-      svg.appendChild(svgElement("text", {
-        x: 29,
-        y: y + 7,
-        fill: colors.annotation,
-        "font-size": 22,
-        "font-weight": 700,
-        "text-anchor": "middle"
-      }, scientificPitch(openNote)));
-
-      for (var fret = 0; fret <= MAX_FRET; fret += 1) {
-        var pc = pitchClass(openNote + fret);
-        if (activePitch !== pc) continue;
-        var highlightX = fret === 0 ? openX : left + (fret - 0.95) * fretWidth;
-        svg.appendChild(svgElement("circle", {
-          cx: highlightX,
-          cy: y,
-          r: 17,
-          fill: colors.fillB,
-          stroke: colors.lineB,
-          "stroke-width": 2
-        }));
-      }
-
-      if (shape[stringIndex] < 0) {
-        svg.appendChild(svgElement("text", {
-          x: openX,
-          y: y + 8,
-          fill: colors.lineB,
-          "font-size": 26,
-          "font-weight": 700,
-          "text-anchor": "middle"
-        }, "×"));
-        return;
-      }
-
-      var playedFret = shape[stringIndex];
-      var playedPitch = pitchClass(openNote + playedFret);
-      var markerX = playedFret === 0 ? openX : left + (playedFret - 0.95) * fretWidth;
-      var group = svgElement("g", {
-        class: "guitar-note",
-        role: "button",
-        tabindex: "0",
-        "aria-label": NOTE_NAMES[playedPitch] + " on string " + (stringIndex + 1)
-      });
-      group.appendChild(svgElement("circle", {
-        class: "guitar-note-ring",
-        cx: markerX,
-        cy: y,
-        r: 19,
-        fill: playedPitch === activePitch ? colors.lineB : colors.lineA,
-        stroke: playedPitch === activePitch ? colors.markerLower : colors.markerUpper,
-        "stroke-width": 2
-      }));
-      group.appendChild(svgElement("text", {
-        x: markerX,
-        y: y + 6,
-        fill: "white",
-        "font-size": 17,
-        "font-weight": 700,
-        "text-anchor": "middle",
-        "pointer-events": "none"
-      }, NOTE_NAMES[playedPitch]));
-      group.addEventListener("click", function () {
-        activePitch = activePitch === playedPitch ? null : playedPitch;
-        drawAll(document.getElementById("guitar-comparison"));
-      });
-      group.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          group.dispatchEvent(new MouseEvent("click"));
-        }
-      });
-      svg.appendChild(group);
-    });
-  }
-
-  function drawAll(root) {
-    INSTRUMENTS.forEach(drawFretboard);
-    var status = root.querySelector(".guitar-comparison-status");
-    if (activePitch === null) {
-      status.textContent = activeChord.name + " chord · colored circles show one playable voicing";
-    } else {
-      status.textContent = NOTE_NAMES[activePitch] + " highlighted across both " + activeChord.name + " voicings";
-    }
-  }
-
-  window.initGuitarComparison = function () {
-    var root = document.getElementById("guitar-comparison");
-    if (!root || !window.INFERNO) return;
-    colors = window.INFERNO.roles;
-    setTheme(root);
-    createModeControls(root);
-    renderChordControls(root);
-    drawAll(root);
-  };
-})();
-document.addEventListener('DOMContentLoaded', initGuitarComparison);</script>
+<p class="guitar-static-guide">Below each neck: sounding pitches, then open-string tuning. Numbers at left are frets.</p>
 </div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-guitar-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: The same chords on a standard six-string guitar and a five-string guitar tuned D–A–E–A–D.
+Figure&nbsp;1: D major and E major on both guitars. O means an open string; X means a muted string. Dots mark fretted notes, and the pitches below each diagram include their octaves.
 </figcaption>
 </figure>
 </div>
-<div id="fig-guitar-progression" class="figure-highlight quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-guitar-progression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell">
-<div class="cell-output-display">
-<div id="guitar-progression" class="guitar-comparison">
-<div class="guitar-chord-controls" role="group" aria-label="Choose a root and chord type"></div>
-<div class="guitar-fretboards">
-<section class="guitar-fretboard-panel" aria-labelledby="progression-classical-guitar-heading">
-<h4 id="progression-classical-guitar-heading" class="anchored">Classical guitar</h4>
-<div class="guitar-tuning">6 strings · E2–A2–D3–G3–B3–E4</div>
-<svg id="progression-classical-guitar-fretboard" class="guitar-fretboard" role="img" aria-label="Six-string classical guitar fretboard"></svg>
-</section>
-<section class="guitar-fretboard-panel" aria-labelledby="progression-five-string-guitar-heading">
-<h4 id="progression-five-string-guitar-heading" class="anchored">Five-string guitar</h4>
-<div class="guitar-tuning">5 strings · D2–A2–E3–A3–D4</div>
-<svg id="progression-five-string-guitar-fretboard" class="guitar-fretboard" role="img" aria-label="Five-string guitar fretboard"></svg>
-</section>
-</div>
-<p class="guitar-comparison-status" aria-live="polite"></p>
-<p class="guitar-comparison-hint">Move through G–A–F, choose a chord type, then select a played note.</p>
-</div>
-<script>(function () {
-  "use strict";
-
-  var NS = "http://www.w3.org/2000/svg";
-  var NOTE_NAMES = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "A♭", "A", "B♭", "B"];
-  var ROOTS = [
-    { name: "G", pitch: 7 },
-    { name: "A", pitch: 9 },
-    { name: "F", pitch: 5 }
-  ];
-  var QUALITIES = [
-    { id: "sus2", label: "sus2", suffix: "sus2", intervals: [0, 2, 7] },
-    { id: "minor", label: "minor", suffix: "m", intervals: [0, 3, 7] },
-    { id: "major", label: "major", suffix: "", intervals: [0, 4, 7] },
-    { id: "sus5", label: "sus5", suffix: "sus5", intervals: [0, 5, 7] },
-    { id: "sept", label: "sept", suffix: "7", intervals: [0, 4, 7, 10] }
-  ];
-  var MAX_FRET = 7;
-  var INSTRUMENTS = [
-    {
-      id: "progression-classical-guitar-fretboard",
-      tuning: [40, 45, 50, 55, 59, 64]
-    },
-    {
-      id: "progression-five-string-guitar-fretboard",
-      tuning: [38, 45, 52, 57, 62]
-    }
-  ];
-
-  var activeRoot = ROOTS[0];
-  var activeQuality = QUALITIES[0];
-  var activePitch = null;
-  var colors;
-
-  function svgElement(name, attributes, text) {
-    var node = document.createElementNS(NS, name);
-    Object.keys(attributes || {}).forEach(function (key) {
-      node.setAttribute(key, attributes[key]);
-    });
-    if (text !== undefined) node.textContent = text;
-    return node;
-  }
-
-  function pitchClass(midi) {
-    return ((midi % 12) + 12) % 12;
-  }
-
-  function scientificPitch(midi) {
-    return NOTE_NAMES[pitchClass(midi)] + (Math.floor(midi / 12) - 1);
-  }
-
-  function activeChord() {
-    return {
-      name: activeRoot.name + activeQuality.suffix,
-      root: activeRoot.pitch,
-      intervals: activeQuality.intervals
-    };
-  }
-
-  function chordPitchClasses(chord) {
-    return chord.intervals.map(function (interval) {
-      return pitchClass(chord.root + interval);
-    });
-  }
-
-  function findVoicing(chord, instrument) {
-    var chordNotes = chordPitchClasses(chord);
-    var choices = instrument.tuning.map(function (openNote) {
-      var frets = [-1];
-      for (var fret = 0; fret <= MAX_FRET; fret += 1) {
-        if (chordNotes.indexOf(pitchClass(openNote + fret)) !== -1) frets.push(fret);
-      }
-      return frets;
-    });
-    var best = null;
-
-    function visit(stringIndex, shape) {
-      if (stringIndex === choices.length) {
-        var sounded = shape.filter(function (fret) { return fret >= 0; });
-        if (sounded.length < 3) return;
-
-        var present = {};
-        var bassPitch = null;
-        shape.forEach(function (fret, index) {
-          if (fret < 0) return;
-          var pc = pitchClass(instrument.tuning[index] + fret);
-          present[pc] = true;
-          if (bassPitch === null) bassPitch = pc;
-        });
-        if (!chordNotes.every(function (pc) { return present[pc]; })) return;
-
-        var fingered = sounded.filter(function (fret) { return fret > 0; });
-        var minFret = fingered.length ? Math.min.apply(null, fingered) : 0;
-        var maxFret = fingered.length ? Math.max.apply(null, fingered) : 0;
-        var span = maxFret - minFret;
-        if (span > 4) return;
-
-        var muted = shape.length - sounded.length;
-        var open = sounded.filter(function (fret) { return fret === 0; }).length;
-        var score = muted * 3 + span * 2 + maxFret * 0.35 -
-          open * 1.25 + (bassPitch === chord.root ? 0 : 4);
-        if (!best || score < best.score) {
-          best = { shape: shape.slice(), score: score };
-        }
-        return;
-      }
-
-      choices[stringIndex].forEach(function (fret) {
-        shape.push(fret);
-        visit(stringIndex + 1, shape);
-        shape.pop();
-      });
-    }
-
-    visit(0, []);
-    return best ? best.shape : choices.map(function (frets) { return frets[0]; });
-  }
-
-  function setTheme(root) {
-    root.style.background = colors.panelBg;
-    root.querySelectorAll(".guitar-fretboard-panel").forEach(function (panel) {
-      panel.style.borderColor = colors.fillBorderA;
-    });
-    root.querySelectorAll(".guitar-tuning, .guitar-comparison-hint").forEach(function (node) {
-      node.style.color = colors.annotation;
-    });
-  }
-
-  function styleToggle(button, selected) {
-    button.setAttribute("aria-pressed", selected ? "true" : "false");
-    button.style.color = selected ? "white" : colors.lineA;
-    button.style.background = selected ? colors.lineA : "transparent";
-  }
-
-  function makeControlButton(label, selected, onClick) {
-    var button = document.createElement("button");
-    button.type = "button";
-    button.className = "guitar-chord-button";
-    button.textContent = label;
-    button.style.borderColor = colors.lineA;
-    styleToggle(button, selected);
-    button.addEventListener("click", onClick);
-    return button;
-  }
-
-  function renderControls(root) {
-    var controls = root.querySelector(".guitar-chord-controls");
-    controls.replaceChildren();
-
-    [
-      {
-        label: "Progression",
-        values: ROOTS,
-        active: function (value) { return value === activeRoot; },
-        select: function (value) { activeRoot = value; }
-      },
-      {
-        label: "Chord",
-        values: QUALITIES,
-        active: function (value) { return value === activeQuality; },
-        select: function (value) { activeQuality = value; }
-      }
-    ].forEach(function (groupConfig) {
-      var group = document.createElement("div");
-      group.className = "guitar-control-group";
-      var label = document.createElement("span");
-      label.className = "guitar-control-label";
-      label.textContent = groupConfig.label;
-      group.appendChild(label);
-
-      groupConfig.values.forEach(function (value) {
-        group.appendChild(makeControlButton(
-          value.label || value.name,
-          groupConfig.active(value),
-          function () {
-            groupConfig.select(value);
-            activePitch = null;
-            renderControls(root);
-            drawAll(root);
-          }
-        ));
-      });
-      controls.appendChild(group);
-    });
-  }
-
-  function drawFretboard(instrument, chord) {
-    var svg = document.getElementById(instrument.id);
-    var stringCount = instrument.tuning.length;
-    var shape = findVoicing(chord, instrument);
-    var width = 720;
-    var left = 118;
-    var right = 16;
-    var top = 35;
-    var boardHeight = 220;
-    var rowGap = boardHeight / (stringCount - 1);
-    var height = top + boardHeight + 44;
-    var fretWidth = (width - left - right) / (MAX_FRET + 0.55);
-    var openX = left - 42;
-
-    svg.replaceChildren();
-    svg.setAttribute("viewBox", "0 0 " + width + " " + height);
-
-    for (var fret = 0; fret <= MAX_FRET; fret += 1) {
-      var x = fret === 0 ? left : left + (fret - 0.45) * fretWidth;
-      svg.appendChild(svgElement("line", {
-        x1: x,
-        y1: top,
-        x2: x,
-        y2: top + boardHeight,
-        stroke: colors.annotation,
-        "stroke-width": fret === 0 ? 7 : 1.5,
-        opacity: fret === 0 ? 1 : 0.55
-      }));
-      svg.appendChild(svgElement("text", {
-        x: fret === 0 ? openX : left + (fret - 0.95) * fretWidth,
-        y: 20,
-        fill: colors.annotation,
-        "font-size": 19,
-        "font-weight": 700,
-        "text-anchor": "middle"
-      }, fret === 0 ? "open" : String(fret)));
-    }
-
-    instrument.tuning.forEach(function (openNote, stringIndex) {
-      var y = top + stringIndex * rowGap;
-      svg.appendChild(svgElement("line", {
-        x1: left,
-        y1: y,
-        x2: width - right,
-        y2: y,
-        stroke: colors.annotation,
-        "stroke-width": 1 + (stringCount - stringIndex) * 0.35,
-        opacity: 0.72
-      }));
-      svg.appendChild(svgElement("text", {
-        x: 29,
-        y: y + 7,
-        fill: colors.annotation,
-        "font-size": 22,
-        "font-weight": 700,
-        "text-anchor": "middle"
-      }, scientificPitch(openNote)));
-
-      for (var fret = 0; fret <= MAX_FRET; fret += 1) {
-        var pc = pitchClass(openNote + fret);
-        if (activePitch !== pc) continue;
-        var highlightX = fret === 0 ? openX : left + (fret - 0.95) * fretWidth;
-        svg.appendChild(svgElement("circle", {
-          cx: highlightX,
-          cy: y,
-          r: 17,
-          fill: colors.fillB,
-          stroke: colors.lineB,
-          "stroke-width": 2
-        }));
-      }
-
-      if (shape[stringIndex] < 0) {
-        svg.appendChild(svgElement("text", {
-          x: openX,
-          y: y + 8,
-          fill: colors.lineB,
-          "font-size": 26,
-          "font-weight": 700,
-          "text-anchor": "middle"
-        }, "×"));
-        return;
-      }
-
-      var playedFret = shape[stringIndex];
-      var playedPitch = pitchClass(openNote + playedFret);
-      var markerX = playedFret === 0 ? openX : left + (playedFret - 0.95) * fretWidth;
-      var group = svgElement("g", {
-        class: "guitar-note",
-        role: "button",
-        tabindex: "0",
-        "aria-label": NOTE_NAMES[playedPitch] + " on string " + (stringIndex + 1)
-      });
-      group.appendChild(svgElement("circle", {
-        class: "guitar-note-ring",
-        cx: markerX,
-        cy: y,
-        r: 19,
-        fill: playedPitch === activePitch ? colors.lineB : colors.lineA,
-        stroke: playedPitch === activePitch ? colors.markerLower : colors.markerUpper,
-        "stroke-width": 2
-      }));
-      group.appendChild(svgElement("text", {
-        x: markerX,
-        y: y + 6,
-        fill: "white",
-        "font-size": 17,
-        "font-weight": 700,
-        "text-anchor": "middle",
-        "pointer-events": "none"
-      }, NOTE_NAMES[playedPitch]));
-      group.addEventListener("click", function () {
-        activePitch = activePitch === playedPitch ? null : playedPitch;
-        drawAll(document.getElementById("guitar-progression"));
-      });
-      group.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          group.dispatchEvent(new MouseEvent("click"));
-        }
-      });
-      svg.appendChild(group);
-    });
-  }
-
-  function drawAll(root) {
-    var chord = activeChord();
-    INSTRUMENTS.forEach(function (instrument) {
-      drawFretboard(instrument, chord);
-    });
-    var status = root.querySelector(".guitar-comparison-status");
-    if (activePitch === null) {
-      status.textContent = "G → A → F progression · " + chord.name +
-        " selected · colored circles show one playable voicing";
-    } else {
-      status.textContent = NOTE_NAMES[activePitch] + " highlighted across both " +
-        chord.name + " voicings";
-    }
-  }
-
-  window.initGuitarProgression = function () {
-    var root = document.getElementById("guitar-progression");
-    if (!root || !window.INFERNO) return;
-    colors = window.INFERNO.roles;
-    setTheme(root);
-    renderControls(root);
-    drawAll(root);
-  };
-})();
-document.addEventListener('DOMContentLoaded', initGuitarProgression);</script>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-guitar-progression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: The G–A–F progression across sus2, minor, major, sus5, and seventh chords.
-</figcaption>
-</figure>
-</div>
+<p>On the five-string guitar, these two voicings use the same shape two frets apart: <strong>0–0–2–0–0</strong> becomes <strong>2–2–4–2–2</strong>. For E major, a barre at the second fret takes the place of the open strings in D major.</p>
 
 
 
