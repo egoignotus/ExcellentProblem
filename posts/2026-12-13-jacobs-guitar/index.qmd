@@ -22,3 +22,15 @@ render_guitar_comparison()
 ```
 The same chords on a standard six-string guitar and a five-string guitar tuned D–A–E–A–D.
 :::
+
+::: {#fig-guitar-progression .figure-highlight}
+```{r}
+#| echo: false
+#| warning: false
+
+source("guitar_progression_helpers.R")
+
+render_guitar_progression()
+```
+The G–A–F progression across sus2, minor, major, sus5, and seventh chords.
+:::
