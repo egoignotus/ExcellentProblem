@@ -1,0 +1,28 @@
+
+---
+title: "MENACE Engine"
+author: "Aleksandra"
+date: "2026-10-11"
+categories: [AI, interactive, symmetry]
+description: "See reinforcement learning in action"
+image: "thumb.png"
+title-block-banner: true
+include-in-header: libs.html
+---
+Last time we covered the fascinating life and creations of [Donald Michie](https://excellentproblem.com/posts/2026-09-30-intro-to-menace/). Now it’s time for some interaction: train MENACE yourself! You can start with the defaults or experiment with your own reinforcement parameters. To speed up the process and see how much better MENACE plays after training, use the training buttons, in combination with an opponent type. Below the board, you’ll see the matchbox corresponding to MENACE’s current move and the available options, represented by differently colored beads. Once the game is over, you can watch the reinforcement signal being applied to box that represents the last MENACE’s move. Have fun!
+
+::: {fig-menace-engine}
+```{r}
+#| echo: false
+#| warning: false
+
+source("menace_helpers.R")
+
+render_menace_plot(
+  controls_html    = create_menace_controls(),
+  board_html       = create_menace_board(),
+  curve_html       = create_menace_curve()
+)
+```
+
+:::
