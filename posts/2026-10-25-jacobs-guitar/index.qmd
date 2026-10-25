@@ -3,7 +3,7 @@ title: "Fluent in the Language of Music"
 author: "Aleksandra"
 date: "2026-10-25"
 categories: [music]
-description: ""
+description: "Imagine acquiring music as a language."
 image: "thumb.jpg"
 title-block-banner: true
 ---
@@ -29,9 +29,7 @@ I am not going to describe the concert experience. There is a saying that a pict
 
 Firstly, I had been mourning the orchestra. Completely unnecessarily. Jacob is a one-man orchestra. He played multiple instruments, sang Bach, harmonized “Yesterday” as if it were Gregorian chant, he conjured rain from the audience. All by himself, all within two hours. He epitomizes diversity. 
 
-::: {.d-flex .justify-content-center}
 {{< video https://www.youtube.com/embed/_ZKTRMPhsGI title="Short from Brussels" width="360" aspect-ratio="9x16" >}}
-:::
 
 In fact, the tickets should carry a warning: “there is a high risk that this concert will leave a mark on you”. It was just contagious to watch and hear someone who loves what does so much and can express it so deeply. Even in the short time since the concert, I can see its positive effect on me: I practice my own instrument more. 
 
@@ -41,7 +39,7 @@ Given this wealth of musical experience and tangible impact – and after a mont
 
 If you would like a glimpse of a curious, self-aware human being, watch this interview with Hank Green. Hank is a biochemist by training who became a comedian and much more. His interviews with artists follow an interesting format: it is the guest who asks questions to the host. So you can learn about the guests from the quality of the questions they ask. And, in Jacob’s own words[^4]:
 
-> _Questions are hugely underrated, as we are in the answers obsessed culture. (…) Good creative work poses more questions than it answers._
+_Questions are hugely underrated, as we are in the answers obsessed culture. (…) Good creative work poses more questions than it answers._
  
  Could any message resonate better with the Excellent Problem blog?
 
