@@ -83,6 +83,7 @@ line: { color: R.lineA, width: 2 }
 
 ## 5. Quarto / Rendering Notes
 
+- The pre-render hook runs `_build/generate-books.R` using Quarto's R discovery. Do not hardcode a version-specific `Rscript.exe` path. After upgrading R, run `quarto check knitr` and install missing packages into the R installation it reports. Rendering requires `yaml`, `knitr`, `rmarkdown`, and `htmltools`.
 - `freeze: auto` caches R output based on `.qmd` file changes. It does **not** detect changes in `source()`-ed `.R` files or external `.js` files. After editing helpers or JS, **delete the freeze cache** for that post before re-rendering:
   ```
   Remove-Item -Recurse -Force _freeze/posts/<post-slug>

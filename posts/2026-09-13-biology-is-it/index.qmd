@@ -32,6 +32,7 @@ Imagine you can trace information back to its source, see how it changed over ti
 -	__political views:__ trace world view of any politician, see how it was changing, and then overlap it with the election cycle;
 
 -	__gossip:__ discover who started it and how its content changed as it spread;
+
 -	__canonical texts:__ trace who authored the Bible, how its canon was established, and how it changed over time;
 
 -	__language:__ follow changes across time, subcultures and communities, and locate the earliest recorded uses of particular words;

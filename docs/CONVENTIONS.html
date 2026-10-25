@@ -471,6 +471,7 @@ window.INFERNO = {
 <section id="quarto-rendering-notes" class="level2">
 <h2 class="anchored" data-anchor-id="quarto-rendering-notes">5. Quarto / Rendering Notes</h2>
 <ul>
+<li><p>The pre-render hook runs <code>_build/generate-books.R</code> using Quarto’s R discovery. Do not hardcode a version-specific <code>Rscript.exe</code> path. After upgrading R, run <code>quarto check knitr</code> and install missing packages into the R installation it reports. Rendering requires <code>yaml</code>, <code>knitr</code>, <code>rmarkdown</code>, and <code>htmltools</code>.</p></li>
 <li><p><code>freeze: auto</code> caches R output based on <code>.qmd</code> file changes. It does <strong>not</strong> detect changes in <code>source()</code>-ed <code>.R</code> files or external <code>.js</code> files. After editing helpers or JS, <strong>delete the freeze cache</strong> for that post before re-rendering:</p>
 <pre><code>Remove-Item -Recurse -Force _freeze/posts/&lt;post-slug&gt;
 Remove-Item -Recurse -Force .quarto/_freeze/posts/&lt;post-slug&gt;</code></pre></li>
