@@ -3,10 +3,11 @@ title: "Fluent in the Language of Music"
 author: "Aleksandra"
 date: "2026-10-25"
 categories: [music]
-description: "TBD"
+description: ""
+image: "thumb.jpg"
 title-block-banner: true
 ---
-For most people, including the person writing these words, language is the main form of expression. Luckily, language is not the only form of expression possible, and luckily we have artists who are fluent in these other forms[^1]. Still, far fewer people learn to express themselves through music, dance or sculpture than acquire language. Artists often master their form of artistry until it becomes their primary form of expression. That said, calling art one’s primary form of expression is not quite the same as placing it on the same fundamental level as language. It was therefore striking to hear that a musician Jacob Collier say that his primary language is not a natural language, but music. 
+For most people, including the person writing these words, language is the main form of expression. Luckily, language is not the only form of expression possible, and luckily we have artists who are fluent in these other forms[^1]. Still, far fewer people learn to express themselves through music, dance or sculpture than acquire language. Artists often master their form of artistry until it becomes their primary form of expression. That said, calling art one’s primary form of expression is not quite the same as placing it on the same fundamental level as language. It was therefore striking to hear that a musician Jacob Collier say that he acquired music as a language. 
 
 I have heard musicians say that the sound of their instrument is their voice, or that from early childhood they were surrounded by music, or that they have played an instrument from such an early age that they don’t even remember being non-players. Fair enough, all strong statements. But only equating music with something as fundamental as language made me think what a profound experience it must be and how unparalleled it is as a mean of expression. 
 
@@ -28,7 +29,9 @@ I am not going to describe the concert experience. There is a saying that a pict
 
 Firstly, I had been mourning the orchestra. Completely unnecessarily. Jacob is a one-man orchestra. He played multiple instruments, sang Bach, harmonized “Yesterday” as if it were Gregorian chant, he conjured rain from the audience. All by himself, all within two hours. He epitomizes diversity. 
 
-__Short from Brussels__
+::: {.d-flex .justify-content-center}
+{{< video https://www.youtube.com/embed/_ZKTRMPhsGI title="Short from Brussels" width="360" aspect-ratio="9x16" >}}
+:::
 
 In fact, the tickets should carry a warning: “there is a high risk that this concert will leave a mark on you”. It was just contagious to watch and hear someone who loves what does so much and can express it so deeply. Even in the short time since the concert, I can see its positive effect on me: I practice my own instrument more. 
 
@@ -36,19 +39,15 @@ Jacob’s concert sparked my son’s musical curiosity; my 9yo has referred to i
 
 Given this wealth of musical experience and tangible impact – and after a month of watching his earlier performances and interviews – I find it striking that what I value most is not Jacob Collier the musician. It is Jacob Collier the human being[^4]. From those hours of interviews emerges the image of an extremely accomplished professional who blends a toddler’s curiosity with the self-awareness of someone with a PhD in psychology. His authenticity and willingness to try the unknown harmonize exceptionally well with a lack of ego and lack of agenda. Even individually, these qualities are remarkable; in an adult, any one of them is relatively rare and deserves praise. But the combination of so many of them in a single person is just mathematically impossible to realize on the planet Earth. And here he is, against the statistics. It is great to walk on this planet at the same time as you, Jacob Collier.
 
-If you would like a glimpse of a curious, self-aware human being, watch this interview with Hank Green. Hank is a biochemist by training who became a comedian and much more. His interviews with artists follow an interesting format: it is the guest who asks questions to the host. So you can learn about the guests from the quality of the questions they ask. And, in Jacob’s own words: “Questions are highly underrated, as we are so focused on answers.” Could any message resonate better with the Excellent Problem blog?
+If you would like a glimpse of a curious, self-aware human being, watch this interview with Hank Green. Hank is a biochemist by training who became a comedian and much more. His interviews with artists follow an interesting format: it is the guest who asks questions to the host. So you can learn about the guests from the quality of the questions they ask. And, in Jacob’s own words[^4]:
 
-__[video with Hank]__  
+> _Questions are hugely underrated, as we are in the answers obsessed culture. (…) Good creative work poses more questions than it answers._
+ 
+ Could any message resonate better with the Excellent Problem blog?
+
+{{< video https://www.youtube.com/embed/Q0_W4SWHeWY title="Ask Hank Anything" >}}
 
 And guess what – they did not print the warning in the concert description, but they were right about Jacob reinventing the guitar. He transposed the six-string instrument into a five-string one, covering the same tonal range but changing the intervals between the strings. The tuning makes the guitar tonally symmetrical. I do not play the guitar myself, but I can fully appreciate that different intervals between the strings make some combinations of notes easily accessible that are otherwise not playable on a classical guitar. Also, classical guitarist who have built all the muscle memory over the years of training, would have it difficult, least to say, to play anything on Jacob’s guitar.
-
-__[picture of a single chord transposition??]__
-
-At the end of the day a mere mortal has only five fingers, so how on earth is he supposed to play a six-string instrument? Thank you for reading.
-
-__A regular classical guitar has six strings, usually tuned E–A–D–G–B–E from lowest to highest. Jacob's guitar has five: D–A–E–A–D. The two instruments cover a similar tonal range, but they distribute the notes differently.__
-
-__Here are D major (D–F♯–A) and E major (E–G♯–B) on both instruments. Each diagram shows one fixed voicing, with strings ordered from lowest to highest, left to right.__
 
 ::: {#fig-guitar-comparison .figure-highlight}
 ```{r}
@@ -62,12 +61,12 @@ render_static_guitar_chords()
 D major and E major on both guitars. O means an open string; X means a muted string. Dots mark fretted notes, and the pitches below each diagram include their octaves.
 :::
 
-__On the five-string guitar, these two voicings use the same shape two frets apart: **0–0–2–0–0** becomes **2–2–4–2–2**. For E major, a barre at the second fret takes the place of the open strings in D major.__
+At the end of the day a mere mortal has only five fingers, so how on earth is he supposed to play a six-string instrument? Thank you for reading.
 
 [^1]: Surely there are also artist of the word, like writers, poets, screenwriters, but this post is not about them. Next time.
 
 [^2]: This is a paraphrase of one of Polish linguists that I sadly cannot trace back. I saw it in a newspaper interview, ages ago. As possible authors GPT identified Andrzej Markowski, Jerzy Bralczyk and Mirosław Bańko, which all sound plausible to me. I will be deeply obliged if someone can unambiguously attribute this saying.
 
-[^3]: Lalaland song link
+[^3]:[From La La Land:](https://www.youtube.com/watch?v=_8w9rOpV3gc)
 
-[^4]: __“[Casals] said in this book that I am a human being first, I'm a musician second, and I'm a cellist third.” - do I really need it?__
+[^4]: Jacob Collier in the linked conversation with Hank Green.
